@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: danmanners-dot-com
+  namespace: danmanners-dot-com
+spec:
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    run: danmanners-dot-com
+  sessionAffinity: None
+  type: ClusterIP

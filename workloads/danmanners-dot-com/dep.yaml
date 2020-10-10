@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    run: danmanners-dot-com
+  name: danmanners-dot-com
+  namespace: danmanners-dot-com
+spec:
+  progressDeadlineSeconds: 30
+  replicas: 1
+  selector:
+    matchLabels:
+      run: danmanners-dot-com
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        run: danmanners-dot-com
+    spec:
+      containers:
+      - image: nexus-docker.goodmannershosting.com:5001/repository/homelab/danmanners-dot-com:latest
+        imagePullPolicy: Always
+        name: danmanners-dot-com
+        ports:
+        - containerPort: 80
+          protocol: TCP
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      imagePullSecrets:
+      - name: regcred
+      nodeSelector:
+        beta.kubernetes.io/arch: arm
+      restartPolicy: Always
+      securityContext: {}
+      terminationGracePeriodSeconds: 3
