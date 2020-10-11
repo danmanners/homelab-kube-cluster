@@ -26,7 +26,7 @@ spec:
       containers:
       - image: danielmanners/danmanners-dot-com:flux
         imagePullPolicy: Always
-        name: danmanners-dot-com
+        name: website
         ports:
         - containerPort: 80
           protocol: TCP
