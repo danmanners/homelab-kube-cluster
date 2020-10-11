@@ -1,15 +1,15 @@
 apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
-  name: danmanners-dot-com
-  namespace: danmanners-dot-com
+  name: resume-dot-danmanners-dot-com
+  namespace: resume-dot-danmanners-dot-com
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: danmanners-dot-com
-  minReplicas: 2
-  maxReplicas: 4
+    name: resume-dot-danmanners-dot-com
+  minReplicas: 1
+  maxReplicas: 2
   metrics:
   - type: Resource
     resource:
