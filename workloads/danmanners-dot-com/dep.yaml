@@ -35,9 +35,9 @@ spec:
       dnsPolicy: ClusterFirst
       imagePullSecrets:
       - name: regcred
-      nodeSelector:
-        # beta.kubernetes.io/arch: amd64
-        beta.kubernetes.io/arch: arm
+      # nodeSelector:
+      #   beta.kubernetes.io/arch: amd64
+      #   beta.kubernetes.io/arch: arm
       restartPolicy: Always
       securityContext: {}
       terminationGracePeriodSeconds: 3

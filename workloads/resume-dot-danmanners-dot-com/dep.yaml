@@ -26,7 +26,7 @@ spec:
       containers:
       - image: danielmanners/resume-dot-danmanners-dot-com:flux
         imagePullPolicy: Always
-        name: resume-dot-danmanners-dot-com
+        name: resume-dot-danmanners-dot-com:flux
         ports:
         - containerPort: 80
           protocol: TCP
@@ -35,9 +35,9 @@ spec:
       dnsPolicy: ClusterFirst
       imagePullSecrets:
       - name: regcred
-      nodeSelector:
-        # beta.kubernetes.io/arch: amd64
-        beta.kubernetes.io/arch: arm
+      # nodeSelector:
+      #   beta.kubernetes.io/arch: amd64
+      #   beta.kubernetes.io/arch: arm
       restartPolicy: Always
       securityContext: {}
       terminationGracePeriodSeconds: 3
