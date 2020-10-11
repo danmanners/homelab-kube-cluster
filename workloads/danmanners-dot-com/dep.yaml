@@ -5,6 +5,8 @@ metadata:
     run: danmanners-dot-com
   name: danmanners-dot-com
   namespace: danmanners-dot-com
+  annotations:
+    fluxcd.io/automated: "true"
 spec:
   progressDeadlineSeconds: 30
   replicas: 1
@@ -22,7 +24,7 @@ spec:
         run: danmanners-dot-com
     spec:
       containers:
-      - image: nexus-docker.goodmannershosting.com:5001/repository/homelab/danmanners-dot-com:latest
+      - image: danielmanners/danmanners-dot-com:flux
         imagePullPolicy: Always
         name: danmanners-dot-com
         ports:
