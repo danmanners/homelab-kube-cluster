@@ -14,3 +14,10 @@ spec:
             backend:
               serviceName: danmanners-dot-com
               servicePort: http
+    - host: www.danmanners.com
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: danmanners-dot-com
+              servicePort: http
