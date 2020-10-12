@@ -27,6 +27,13 @@ spec:
       - image: danielmanners/resume-dot-danmanners-dot-com:flux
         imagePullPolicy: Always
         name: resume
+        resources:
+          limits:
+            cpu: "1"
+            memory: 160Mi
+          requests:
+            cpu: 500m
+            memory: 96Mi
         ports:
         - containerPort: 80
           protocol: TCP
