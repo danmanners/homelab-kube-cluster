@@ -1,3 +1,4 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -24,7 +25,7 @@ spec:
         run: danmanners-dot-com
     spec:
       containers:
-      - image: danielmanners/danmanners-dot-com:flux
+      - image: danielmanners/danmanners-dot-com:f462a3b
         imagePullPolicy: Always
         name: website
         resources:
