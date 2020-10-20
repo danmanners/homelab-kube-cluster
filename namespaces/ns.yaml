@@ -11,3 +11,10 @@ metadata:
   labels:
     name: resume-dot-danmanners-dot-com
   name: resume-dot-danmanners-dot-com
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  labels:
+    name: nda
+  name: nda
