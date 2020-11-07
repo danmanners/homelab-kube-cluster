@@ -10,7 +10,7 @@ metadata:
     fluxcd.io/automated: "true"
 spec:
   progressDeadlineSeconds: 30
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       run: danmanners-dot-com
