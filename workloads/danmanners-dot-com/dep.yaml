@@ -25,7 +25,7 @@ spec:
         run: danmanners-dot-com
     spec:
       containers:
-      - image: danielmanners/danmanners-dot-com:83812ab
+      - image: danielmanners/danmanners-dot-com:cdd0569
         imagePullPolicy: Always
         name: website
         resources:
