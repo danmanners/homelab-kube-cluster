@@ -3,8 +3,5 @@ k3s_version: v1.20.6+k3s1
 ansible_user: ubuntu
 systemd_dir: /etc/systemd/system
 cluster_control_plane_hostname: homelab-k3s.danmanners.io
-extra_control_plane_args: >
-  "--tls-san 'homelab-k3s.danmanners.io --node-label "control-plane=True"
-extra_etcd_args: >
-  "--tls-san 'homelab-k3s.danmanners.io --node-label "control-plane=True"
-extra_agent_args: ""
+extra_control_plane_args: "--tls-san 'homelab-k3s.danmanners.io --node-label 'master=True' --datastore-endpoint postgres://$PSQL_USER:$PSQL_PASS@$PSQL_HOST:5432/kubernetes"
+extra_agent_args: "--node-label 'worker=True'"
