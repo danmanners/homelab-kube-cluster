@@ -1,0 +1,7 @@
+# Directories
+keys
+
+# Files
+*.pem
+*.key
+*.crt
