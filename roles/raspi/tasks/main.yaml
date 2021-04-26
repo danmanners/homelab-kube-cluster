@@ -17,34 +17,13 @@
   when:
     grep_cpuinfo_raspberrypi.rc == 0 or grep_device_tree_model_raspberrypi.rc == 0
 
-- name: Set detected_distribution to Raspbian
-  set_fact:
-    detected_distribution: Raspbian
-  when: >
-    raspberry_pi|default(false) and
-    ( ansible_facts.lsb.id|default("") == "Raspbian" or
-      ansible_facts.lsb.description|default("") is match("[Rr]aspbian.*") )
-- name: Set detected_distribution to Raspbian (ARM64 on Debian Buster)
-  set_fact:
-    detected_distribution: Raspbian
-  when:
-    - ansible_facts.architecture is search("aarch64")
-    - raspberry_pi|default(false)
-    - ansible_facts.lsb.description|default("") is match("Debian.*buster")
-
-- name: Set detected_distribution_major_version
-  set_fact:
-    detected_distribution_major_version: "{{ ansible_facts.lsb.major_release }}"
-  when:
-    - detected_distribution | default("") == "Raspbian"
-
 - name: execute OS related tasks on the Raspberry Pi
-  include_tasks: "{{ item }}"
-  with_first_found:
-    - "prereq/{{ detected_distribution }}-{{ detected_distribution_major_version }}.yml"
-    - "prereq/{{ detected_distribution }}.yml"
-    - "prereq/{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
-    - "prereq/{{ ansible_distribution }}.yml"
-    - "prereq/default.yml"
+  copy:
+    src: usercfg.txt
+    dest: /boot/firmware/usercfg.txt
+    owner: root
+    group: root
+    mode: '0755'
   when:
     - raspberry_pi|default(false)
+  notify: reboot

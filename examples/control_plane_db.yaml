@@ -1,0 +1,19 @@
+---
+postgresql_user: postgres
+postgresql_group: postgres
+
+postgres_settings:
+  listening_addr: "0.0.0.0/0"
+  listening_port: 5432
+  version: "10"
+
+postgresql_hba_entries:
+  - { type: local, database: all, user: all, auth_method: peer }
+  - { type: host,database: all,user: all,address: '0.0.0.0/0',auth_method: "md5" }
+
+postgresql_database:
+  - name: kubernetes
+
+postgresql_users:
+  - name: turingpi-k3s
+    password: DefinitelyAVerySecurePostgresPassword
