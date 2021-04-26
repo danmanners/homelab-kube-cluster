@@ -1,0 +1,20 @@
+---
+- name: Get the directory for the postgres config
+  shell: find /etc -name 'postgresql.conf'
+  register: postgres_file_location
+
+- name: Overwrite the postgres.conf file with the template
+  template:
+    src: "postgres.conf.j2"
+    dest: '{{ postgres_file_location.stdout }}'
+    owner: postgres
+    group: postgres
+    mode: 0644
+
+- name: Enable and restart the postgresql service
+  systemd:
+    name: postgresql
+    daemon_reload: yes
+    state: restarted
+    enabled: yes
+

@@ -9,12 +9,12 @@ Follow these steps in order to set up your local environment.
 ### Install
 
 ```bash
-ansible-galaxy collection install community.postgresql
+ansible-galaxy collection install -r requirements.yaml
 ```
 
 ### Creating your Postgres X509 Certs
 
-Run the following commands from a Linux, MacOS, or Windows 10 WSL2 environment to generate all of everything necessary:
+Run the following commands from a Linux, MacOS, or Windows 10 WSL2 environment to generate all of the necessary certificates:
 
 ```bash
 # Create a Keys Directory
@@ -40,7 +40,7 @@ openssl x509 -req -days 1827 \
   -set_serial $(openssl rand -base64 128 | sed 's/[^0-9]*//g' | paste -sd+ - | bc)
 ```
 
-### Deploying Everything
+## Deploying Everything
 
 You can simply deploy all your infrastructure with the following commmand
 
