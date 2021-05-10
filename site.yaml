@@ -26,7 +26,7 @@
   roles:
     - role: k3s/control-plane
 
-- hosts: k3s_worker_nodes
+- hosts: k3s_workers
   become: yes
   roles:
     - role: k3s/worker
