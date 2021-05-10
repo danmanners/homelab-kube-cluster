@@ -45,5 +45,5 @@ openssl x509 -req -days 1827 \
 You can simply deploy all your infrastructure with the following commmand
 
 ```bash
-ansible-playbook site.yml -i inventory/my-cluster/hosts.ini --ask-vault-pass
+ansible-playbook site.yaml -i inventory/my-cluster/hosts.ini --ask-vault-pass
 ```

@@ -3,7 +3,7 @@
 ansible_user: ubuntu
 ansible_private_key_file: ~/.ssh/id_rsa
 # K3s Settings
-k3s_version: v1.20.6+k3s1
+k3s_version: v1.21.0+k3s1
 systemd_dir: /etc/systemd/system
 control_plane_node_hostname: homelab-k3s.danmanners.io
 extra_control_plane_args: >

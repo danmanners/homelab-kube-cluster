@@ -13,3 +13,25 @@
     daemon_reload: yes
     state: restarted
     enabled: yes
+  ignore_errors: yes
+
+# Taken from here: https://stackoverflow.com/a/61974725
+- name: Enable container features
+  replace:
+    path: /boot/firmware/cmdline.txt
+    regexp: '^([\w](?!.*\b{{ item }}\b).*)$'
+    replace: '\1 {{ item }}'
+  with_items:
+  - "cgroup_enable=cpuset"
+  - "cgroup_memory=1"
+  - "cgroup_enable=memory"
+  when: ansible_architecture == "aarch64"
+
+- name: Check if k3s is actually running
+  shell: systemctl status k3s-node
+  register: k3s-node-status
+
+- name: Reboot k3s-nodes if the k3s service is not running
+  when: k3s-node-status.stdout != "active"
+  reboot:
+    reboot_timeout: 300
