@@ -28,10 +28,11 @@
   when: ansible_architecture == "aarch64"
 
 - name: Check if k3s is actually running
-  shell: systemctl status k3s-node
-  register: k3s-node-status
+  shell: systemctl is-failed k3s-node
+  register: k3s_node_status
+  ignore_errors: yes
 
 - name: Reboot k3s-nodes if the k3s service is not running
-  when: k3s-node-status.stdout != "active"
+  when: k3s_node_status.stdout != "active"
   reboot:
     reboot_timeout: 300

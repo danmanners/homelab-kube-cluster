@@ -6,6 +6,14 @@
     - role: geerlingguy.postgresql
     - role: postgres_db_setup
 
+- hosts: k3s_cluster
+  gather_facts: yes
+  become: yes
+  tasks:
+    - name: Ensure hostname set
+      hostname:
+        name: "{{ inventory_hostname }}"
+
 - hosts: k3s_aarch64
   gather_facts: yes
   become: yes
