@@ -1,0 +1,12 @@
+appdirs==1.4.4
+bcrypt==3.2.0
+black==21.5b1
+cffi==1.14.5
+click==7.1.2
+mypy-extensions==0.4.3
+pathspec==0.8.1
+pkg-resources==0.0.0
+pycparser==2.20
+regex==2021.4.4
+six==1.16.0
+toml==0.10.2

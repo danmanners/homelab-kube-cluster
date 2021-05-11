@@ -14,7 +14,6 @@ postgresql_hba_entries:
 postgresql_databases:
   - name: kubernetes
     owner: turingpi-k3s
-    login_host: '0.0.0.0/0'
 
 postgresql_users:
   - name: turingpi-k3s
