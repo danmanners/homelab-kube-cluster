@@ -1,7 +1,15 @@
 # Directories
-keys
+.vscode/
+keys/
+inventory/turing-pi
 
 # Files
 *.pem
 *.key
 *.crt
+
+# Python Directory
+.env/
+
+# Python Files
+*.pyc
