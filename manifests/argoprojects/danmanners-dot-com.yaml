@@ -1,0 +1,21 @@
+---
+## Nexus
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: "danmanners-dot-com"
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: "https://github.com/danmanners/homelab-k3s-cluster.git"
+    path: manifests/workloads/danmanners-dot-com
+    targetRevision: HEAD
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: danmanners-dot-com
+  syncPolicy:
+    automated:
+      prune: true
+    syncOptions:
+      - CreateNamespace=true
