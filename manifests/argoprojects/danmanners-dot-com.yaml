@@ -8,7 +8,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: "https://github.com/danmanners/homelab-k3s-cluster.git"
+    repoURL: "git@github.com:danmanners/homelab-k3s-cluster.git"
     path: manifests/workloads/danmanners-dot-com
     targetRevision: HEAD
   destination:
