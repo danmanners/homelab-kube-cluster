@@ -8,5 +8,6 @@ systemd_dir: /etc/systemd/system
 control_plane_node_hostname: your.domain.here.example.io
 extra_control_plane_args: >
   --tls-san your.domain.here.example.io --node-label 'master=True' --datastore-endpoint postgres://${PSQL_USER}:${PSQL_PASS}@${PSQL_HOST}:${PSQL_PORT}/kubernetes
+# If you will be using MetalLB, also add: '--no-deploy servicelb'
 extra_agent_args: >
   --node-label 'worker=True'

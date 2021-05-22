@@ -7,6 +7,6 @@ k3s_version: v1.21.0+k3s1
 systemd_dir: /etc/systemd/system
 control_plane_node_hostname: homelab-k3s.danmanners.io
 extra_control_plane_args: >
-  --tls-san homelab-k3s.danmanners.io --node-label 'master=True' --datastore-endpoint postgres://${PSQL_USER}:${PSQL_PASS}@${PSQL_HOST}:${PSQL_PORT}/kubernetes
+  --tls-san homelab-k3s.danmanners.io --node-label 'master=True' --datastore-endpoint postgres://${PSQL_USER}:${PSQL_PASS}@${PSQL_HOST}:${PSQL_PORT}/kubernetes --no-deploy servicelb
 extra_agent_args: >
   --node-label 'worker=True'
