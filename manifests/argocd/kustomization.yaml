@@ -4,5 +4,7 @@ kind: Kustomization
 namespace: argocd
 bases:
   - ../../apps/argocd
+resources:
+  - ingress.yaml
 patchesStrategicMerge:
   - dep.yaml
