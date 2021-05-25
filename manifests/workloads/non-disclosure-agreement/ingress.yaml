@@ -1,6 +1,6 @@
 ---
-kind: Ingress
 apiVersion: extensions/v1beta1
+kind: Ingress
 metadata:
   name: nda
   namespace: nda
