@@ -1,17 +1,30 @@
 ---
-apiVersion: extensions/v1beta1
-kind: Ingress
+apiVersion: cert-manager.io/v1alpha2
+kind: Certificate
 metadata:
-  name: nda
-  namespace: nda
-  annotations:
-    kubernetes.io/ingress.class: traefik
+  name: nda-k3s
 spec:
-  rules:
-    - host: nda.danmanners.com
-      http:
-        paths:
-          - path: /
-            backend:
-              serviceName: nda
-              servicePort: http
+  commonName: nda.k3s.danmanners.io
+  secretName: nda-k3s
+  dnsNames:
+    - nda.k3s.danmanners.io
+  issuerRef:
+    name: acme-prod
+    kind: ClusterIssuer
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: nda-k3s
+  namespace: nda
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`nda.k3s.danmanners.io`)
+      kind: Rule
+      services:
+        - name: nda
+          port: 3000
+  tls:
+    secretName: nda-k3s
