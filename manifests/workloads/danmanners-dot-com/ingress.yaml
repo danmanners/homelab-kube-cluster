@@ -1,0 +1,38 @@
+---
+apiVersion: cert-manager.io/v1alpha2
+kind: Certificate
+metadata:
+  name: danmanners-dot-com
+  namespace: danmanners-dot-com
+spec:
+  commonName: www.danmanners.com
+  secretName: danmanners-dot-com
+  dnsNames:
+    - www.danmanners.com
+    - danmanners.com
+  issuerRef:
+    name: acme-prod
+    kind: ClusterIssuer
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: danmanners-dot-com
+  namespace: danmanners-dot-com
+spec:
+  entryPoints:
+    - web
+    - websecure
+  routes:
+    - match: Host(`www.danmanners.com`)
+      kind: Rule
+      services:
+        - name: danmanners-dot-com
+          port: 80
+    - match: Host(`danmanners.com`)
+      kind: Rule
+      services:
+        - name: danmanners-dot-com
+          port: 80
+  tls:
+    secretName: danmanners-dot-com

@@ -1,0 +1,10 @@
+---
+node-name: "{{ node_name }}"
+server: "https://rke2.k8s.danmanners.io:9345"
+node-label:
+  - "nodetype=worker"
+tls-san:
+  - homelab-k3s.danmanners.io
+datastore-endpoint: postgres://{{psql_user}}:{{psql_pass}}@{{psql_host}}:{{psql_port}}/kubernetes
+no-deploy:
+  - servicelb

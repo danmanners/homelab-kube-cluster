@@ -2,14 +2,20 @@
 .vscode/
 keys/
 inventory/turing-pi
+.terraform/
 
 # Files
 *.pem
 *.key
 *.crt
+*.state
+*.tfstate
+*.lock.hcl
+*.info
+*.backup
 
 # Python Directory
 .env/
 
 # Python Files
-*.pyc
+*.py[cod]

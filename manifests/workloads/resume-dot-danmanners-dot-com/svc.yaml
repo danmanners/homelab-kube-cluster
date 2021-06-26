@@ -2,15 +2,28 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: resume-dot-danmanners-dot-com
-  namespace: resume-dot-danmanners-dot-com
+  name: resume
 spec:
+  type: ClusterIP
   ports:
   - name: http
     port: 80
     protocol: TCP
     targetPort: 80
   selector:
-    run: resume-dot-danmanners-dot-com
+    run: resume-danmanners-com
   sessionAffinity: None
-  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: resume-danmanners-com-extname
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: resume.danmanners.com
+    external-dns.alpha.kubernetes.io/ttl: "300"
+spec:
+  type: ExternalName
+  externalName: danmanners.com
+  selector:
+    run: resume-danmanners-com
+  sessionAffinity: None
