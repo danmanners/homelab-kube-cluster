@@ -17,4 +17,6 @@ spec:
             key: access-token
       selector:
         dnsZones:
+        - 'danmanners.com'
+        - 'danmanners.io'
         - 'k3s.danmanners.io'

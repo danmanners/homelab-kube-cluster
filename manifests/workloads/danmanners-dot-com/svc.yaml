@@ -4,7 +4,10 @@ kind: Service
 metadata:
   name: danmanners-dot-com
   namespace: danmanners-dot-com
+  labels:
+    app.kubernetes.io/instance: danmanners-dot-com
 spec:
+  type: ClusterIP
   ports:
   - name: http
     port: 80
@@ -13,4 +16,20 @@ spec:
   selector:
     run: danmanners-dot-com
   sessionAffinity: None
-  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: www-danmanners-com-extname
+  namespace: danmanners-dot-com
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: www.danmanners.com
+    external-dns.alpha.kubernetes.io/ttl: "300"
+  labels:
+    app.kubernetes.io/instance: danmanners-dot-com
+spec:
+  type: ExternalName
+  externalName: danmanners.com
+  selector:
+    run: danmanners-dot-com
+  sessionAffinity: None
