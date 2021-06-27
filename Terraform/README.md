@@ -62,7 +62,7 @@ for resource in $(tf output | grep "tpi" | awk '{gsub(/"/, ""); print $1","$3}'|
   CLOUD_IP="$(echo "$resource" | awk -F, '{print $2}')"
 
   # Enable and start the k3s service
-  ssh $SSH_USER@$CLOUD_IP -t "sudo systemctl enable --now k3s-service"
+  ssh $SSH_USER@$CLOUD_IP -t "sudo systemctl enable --now k3s-node"
 done
 ```
 
