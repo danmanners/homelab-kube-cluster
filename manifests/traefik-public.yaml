@@ -24,4 +24,5 @@ spec:
     app.kubernetes.io/instance: traefik
     app.kubernetes.io/name: traefik
   externalIPs:
-    - 134.209.45.126  # DigitalOcean - Host 1 $20/month
+    - 134.209.45.126  # DigitalOcean - Host 1 ~$20/month
+    - 35.212.113.40   # Google Cloud - Host 2 ~$11/month
