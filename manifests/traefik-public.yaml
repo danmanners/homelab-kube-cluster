@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: traefik-mod
+  namespace: kube-system
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: danmanners.com
+spec:
+  type: LoadBalancer
+  externalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - name: web
+    port: 80
+    protocol: TCP
+    targetPort: web
+  - name: websecure
+    port: 443
+    protocol: TCP
+    targetPort: websecure
+  selector:
+    app.kubernetes.io/instance: traefik
+    app.kubernetes.io/name: traefik
+  externalIPs:
+    - 134.209.45.126  # DigitalOcean - Host 1 $20/month

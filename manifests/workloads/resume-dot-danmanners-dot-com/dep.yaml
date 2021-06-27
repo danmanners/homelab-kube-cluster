@@ -2,18 +2,15 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: resume
   labels:
-    run: resume-dot-danmanners-dot-com
-  name: resume-dot-danmanners-dot-com
-  namespace: resume-dot-danmanners-dot-com
-  annotations:
-    fluxcd.io/automated: "true"
+    run: resume-danmanners-com
 spec:
   progressDeadlineSeconds: 30
   replicas: 1
   selector:
     matchLabels:
-      run: resume-dot-danmanners-dot-com
+      run: resume-danmanners-com
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -22,10 +19,10 @@ spec:
   template:
     metadata:
       labels:
-        run: resume-dot-danmanners-dot-com
+        run: resume-danmanners-com
     spec:
       containers:
-      - image: danielmanners/resume-dot-danmanners-dot-com:flux
+      - image: danielmanners/resume-dot-danmanners-dot-com:latest
         imagePullPolicy: Always
         name: resume
         resources:
@@ -41,9 +38,9 @@ spec:
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
       dnsPolicy: ClusterFirst
-      # nodeSelector:
-      #   beta.kubernetes.io/arch: amd64
-      #   beta.kubernetes.io/arch: arm
+      nodeSelector:
+        # beta.kubernetes.io/arch: amd64
+        beta.kubernetes.io/arch: arm64
       restartPolicy: Always
       securityContext: {}
       terminationGracePeriodSeconds: 3

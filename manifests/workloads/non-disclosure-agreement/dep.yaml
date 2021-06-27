@@ -6,8 +6,6 @@ metadata:
     run: nda
   name: nda
   namespace: nda
-  annotations:
-    fluxcd.io/automated: "true"
 spec:
   progressDeadlineSeconds: 30
   replicas: 1
