@@ -76,3 +76,5 @@ tpi-k3s-do-edge-1   Ready    <none>                 10m     v1.21.0+k3s1
 tpi-k3s-do-edge-2   Ready    <none>                 3m49s   v1.21.0+k3s1
 ...
 ```
+
+Once Traefik is up and going, get the HTTP/HTTPS ports, install NGINX, copy over the config with the appropriate variables, and run `sudo systemctl enable --now nginx`. This will ensure that the hosts are actually listening on ports 80 and 443 as regular web traffic expects.
