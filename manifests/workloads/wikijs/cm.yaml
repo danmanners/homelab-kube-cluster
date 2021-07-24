@@ -1,0 +1,11 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: wikijs-db-values
+data:
+  postgresql-host: "10.45.0.33"
+  postgresql-port: 5432
+  postgresql-dbname: wikijs
+  postgresql-dbuser: wikijs
+  
