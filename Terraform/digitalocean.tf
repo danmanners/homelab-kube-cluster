@@ -7,7 +7,6 @@ module "ssh_pubkey" {
   ssh_pubkey = var.ssh_auth.pubkey
 }
 
-
 #########################################################################
 ### Virtual Machines
 
