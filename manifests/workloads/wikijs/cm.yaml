@@ -5,7 +5,7 @@ metadata:
   name: wikijs-db-values
 data:
   postgresql-host: "10.45.0.33"
-  postgresql-port: 5432
-  postgresql-dbname: wikijs
-  postgresql-dbuser: wikijs
+  postgresql-port: "5432"
+  postgresql-dbname: "wikijs"
+  postgresql-dbuser: "wikijs"
   

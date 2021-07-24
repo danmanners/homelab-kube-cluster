@@ -6,6 +6,5 @@ resources:
   - ns.yaml
   - cm.yaml
   - dep.yaml
-  - hpa.yaml
   - ingress.yaml
   - svc.yaml
