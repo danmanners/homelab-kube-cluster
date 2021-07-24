@@ -1,0 +1,148 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: ServersTransport
+metadata:
+  name: skip-insecure
+  namespace: kube-system
+spec:
+  insecureSkipVerify: true
+---
+# Referencing code from this blog post:
+# https://blog.eleven-labs.com/en/using-traefik-as-a-reverse-proxy/
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: traefik-reverseproxy
+  namespace: kube-system
+  labels:
+    app.kubernetes.io/instance: traefik
+data:
+  reverseproxy.conf: |
+    [http]
+      [http.services]
+        [http.services.proxmox]
+          [http.services.proxmox.loadBalancer]
+            [[http.services.proxmox.loadBalancer.servers]]
+              url = "https://10.45.0.10:8006/"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: traefik
+  namespace: kube-system
+  labels:
+    app.kubernetes.io/instance: traefik
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: traefik
+    helm.sh/chart: traefik-9.19.1
+  annotations:
+    deployment.kubernetes.io/revision: '1'
+    meta.helm.sh/release-name: traefik
+    meta.helm.sh/release-namespace: kube-system
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: traefik
+      app.kubernetes.io/name: traefik
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app.kubernetes.io/instance: traefik
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: traefik
+        helm.sh/chart: traefik-9.19.1
+    spec:
+      volumes:
+        - name: data
+          emptyDir: {}
+        - name: tmp
+          emptyDir: {}
+        - name: reverseproxy
+          configMap:
+            name: traefik-reverseproxy
+      containers:
+        - name: traefik
+          image: 'traefik:2.4.8'
+          args:
+            - '--global.checknewversion'
+            - '--global.sendanonymoususage'
+            - '--entryPoints.traefik.address=:9000/tcp'
+            - '--entryPoints.web.address=:8000/tcp'
+            - '--entryPoints.websecure.address=:8443/tcp'
+            - '--serverstransport.insecureskipverify=true'
+            - '--api.dashboard=true'
+            - '--ping=true'
+            - '--providers.kubernetescrd'
+            - '--providers.kubernetesingress'
+            # NEW THINGS HERE
+            - '--providers.file.directory=/traefik-reverseproxy'
+            # NEW THINGS HERE
+          ports:
+            - name: traefik
+              containerPort: 9000
+              protocol: TCP
+            - name: web
+              containerPort: 8000
+              protocol: TCP
+            - name: websecure
+              containerPort: 8443
+              protocol: TCP
+          resources: {}
+          volumeMounts:
+            - name: data
+              mountPath: /data
+            - name: tmp
+              mountPath: /tmp
+            # NEW THINGS HERE
+            - name: reverseproxy
+              mountPath: /traefik-reverseproxy/reverseproxy.toml
+              subPath: reverseproxy.conf
+            # NEW THINGS HERE
+          livenessProbe:
+            httpGet:
+              path: /ping
+              port: 9000
+              scheme: HTTP
+            initialDelaySeconds: 10
+            timeoutSeconds: 2
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /ping
+              port: 9000
+              scheme: HTTP
+            initialDelaySeconds: 10
+            timeoutSeconds: 2
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 1
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            capabilities:
+              drop:
+                - ALL
+            runAsUser: 65532
+            runAsGroup: 65532
+            runAsNonRoot: true
+            readOnlyRootFilesystem: true
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 60
+      dnsPolicy: ClusterFirst
+      serviceAccountName: traefik
+      serviceAccount: traefik
+      securityContext:
+        fsGroup: 65532
+      schedulerName: default-scheduler
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  revisionHistoryLimit: 10
+  progressDeadlineSeconds: 600
