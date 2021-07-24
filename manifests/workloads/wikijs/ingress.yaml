@@ -1,0 +1,30 @@
+---
+apiVersion: cert-manager.io/v1alpha2
+kind: Certificate
+metadata:
+  name: wikijs
+spec:
+  commonName: wiki.danmanners.com
+  secretName: wikijs
+  dnsNames:
+    - wiki.danmanners.com
+  issuerRef:
+    name: acme-prod
+    kind: ClusterIssuer
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: wikijs
+spec:
+  entryPoints:
+    - web
+    - websecure
+  routes:
+    - match: Host(`wiki.danmanners.com`)
+      kind: Rule
+      services:
+        - name: wikijs
+          port: 80
+  tls:
+    secretName: wikijs
