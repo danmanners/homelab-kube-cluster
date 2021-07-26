@@ -9,8 +9,8 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: danmanners-dot-com
-  minReplicas: 1
-  maxReplicas: 3
+  minReplicas: 2
+  maxReplicas: 4
   metrics:
   - type: Resource
     resource:
