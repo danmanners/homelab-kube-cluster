@@ -20,9 +20,11 @@ metadata:
   namespace: kube-system
   annotations:
     external-dns.alpha.kubernetes.io/hostname: danmanners.com
+  labels:
+    provider: AWS
 spec:
   type: ExternalName
-  externalName: 35.212.94.125
+  externalName: 54.158.27.71
 ---
 kind: Service
 apiVersion: v1
@@ -31,6 +33,8 @@ metadata:
   namespace: kube-system
   annotations:
     external-dns.alpha.kubernetes.io/hostname: danmanners.com
+  labels:
+    provider: DigitalOcean
 spec:
   type: ExternalName
   externalName: 134.209.45.126
