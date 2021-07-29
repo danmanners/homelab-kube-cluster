@@ -3,7 +3,6 @@ output "digitalocean_droplet_ips" {
   value = module.droplets.ipv4
 }
 
-// Print the Google Cloud Compute Public IPs
-output "google_cloud_ips" {
-  value = module.google_cloud_compute.ipv4
+output "aws_cloud_ips" {
+  value = module.aws_compute.ipv4
 }
