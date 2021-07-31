@@ -7,24 +7,6 @@ metadata:
 spec:
   insecureSkipVerify: true
 ---
-# Referencing code from this blog post:
-# https://blog.eleven-labs.com/en/using-traefik-as-a-reverse-proxy/
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: traefik-reverseproxy
-  namespace: kube-system
-  labels:
-    app.kubernetes.io/instance: traefik
-data:
-  reverseproxy.conf: |
-    [http]
-      [http.services]
-        [http.services.proxmox]
-          [http.services.proxmox.loadBalancer]
-            [[http.services.proxmox.loadBalancer.servers]]
-              url = "https://10.45.0.10:8006/"
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
