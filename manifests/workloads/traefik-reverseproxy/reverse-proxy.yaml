@@ -1,0 +1,22 @@
+---
+# Referencing code from this blog post:
+# https://blog.eleven-labs.com/en/using-traefik-as-a-reverse-proxy/
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: traefik-reverseproxy
+  namespace: kube-system
+  labels:
+    app.kubernetes.io/instance: traefik
+data:
+  reverseproxy.conf: |
+    [http]
+      [http.services]
+        [http.services.proxmox]
+          [http.services.proxmox.loadBalancer]
+            [[http.services.proxmox.loadBalancer.servers]]
+              url = "https://10.45.0.10:8006/"
+        [http.services.wikijs]
+          [http.services.wikijs.loadBalancer]
+            [[http.services.wikijs.loadBalancer.servers]]
+              url = "http://10.45.0.32:80/"

@@ -1,5 +1,8 @@
 # Set up the Postgres Database
 
+> THIS IS NOW BEING DEPLOYED ON A VM WITH DOCKER.
+> I'm quite over fighting with Kubernetes and WikiJS issues for this moment.
+
 This can **only** be deployed once the PSQL database is up and going.
 
 ## Setting up the Database
