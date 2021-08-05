@@ -13,27 +13,6 @@ spec:
     name: acme-prod
     kind: ClusterIssuer
 ---
-apiVersion: traefik.containo.us/v1alpha1
-kind: IngressRoute
-metadata:
-  name: kumauptime
-  namespace: kube-system
-spec:
-  entryPoints:
-    - web
-    - websecure
-  routes:
-    - match: Host(`uptime.danmanners.com`)
-      kind: Rule
-      services:
-        - name: kumauptime@file
-          kind: TraefikService
-      middlewares:
-        - name: http-https-redirectscheme
-          namespace: kube-system
-  tls:
-    secretName: kumauptime
----
 apiVersion: v1
 kind: Service
 metadata:
@@ -45,3 +24,38 @@ spec:
   type: ExternalName
   externalName: danmanners.com
   sessionAffinity: None
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: kumauptime-web
+  namespace: kube-system
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`uptime.danmanners.com`)
+      kind: Rule
+      services:
+        - name: kumauptime@file
+          kind: TraefikService
+      middlewares:
+        - name: http-https-redirectscheme
+          namespace: kube-system
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: kumauptime-websecure
+  namespace: kube-system
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`uptime.danmanners.com`)
+      kind: Rule
+      services:
+        - name: kumauptime@file
+          kind: TraefikService
+  tls:
+    secretName: kumauptime
