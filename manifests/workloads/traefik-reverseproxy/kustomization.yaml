@@ -8,3 +8,4 @@ resources:
   - uptimekuma.yaml
   - proxmox.yaml
   - traefik-mods.yaml
+  - traefik-dashboard.yaml
