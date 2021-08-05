@@ -28,6 +28,9 @@ spec:
       services:
         - name: wikijs@file
           kind: TraefikService
+      middlewares:
+        - name: http-https-redirectscheme
+          namespace: kube-system
   tls:
     secretName: wikijs
 ---

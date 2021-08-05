@@ -29,10 +29,16 @@ spec:
       services:
         - name: danmanners-dot-com
           port: 80
+      middlewares:
+        - name: http-https-redirectscheme
+          namespace: kube-system
     - match: Host(`danmanners.com`)
       kind: Rule
       services:
         - name: danmanners-dot-com
           port: 80
+      middlewares:
+        - name: http-https-redirectscheme
+          namespace: kube-system
   tls:
     secretName: danmanners-dot-com
