@@ -17,11 +17,10 @@ spec:
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: danmanners-dot-com
+  name: danmanners-dot-com-web
   namespace: danmanners-dot-com
 spec:
   entryPoints:
-    - web
     - websecure
   routes:
     - match: Host(`www.danmanners.com`)
@@ -42,3 +41,29 @@ spec:
           namespace: kube-system
   tls:
     secretName: danmanners-dot-com
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: danmanners-dot-com-websecure
+  namespace: danmanners-dot-com
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`www.danmanners.com`)
+      kind: Rule
+      services:
+        - name: danmanners-dot-com
+          port: 80
+      middlewares:
+        - name: http-https-redirectscheme
+          namespace: kube-system
+    - match: Host(`danmanners.com`)
+      kind: Rule
+      services:
+        - name: danmanners-dot-com
+          port: 80
+      middlewares:
+        - name: http-https-redirectscheme
+          namespace: kube-system
