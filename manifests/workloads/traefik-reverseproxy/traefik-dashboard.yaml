@@ -34,10 +34,18 @@ spec:
   entryPoints:
     - web
   routes:
-    - match: Host(`traefik.danmanners.com`)
+    - match: "Host(`traefik.danmanners.com`) && PathPrefix(`/dashboard`)"
       kind: Rule
       services:
-        - name: dashboard@internal
+        - name: api@internal
+          kind: TraefikService
+      middlewares:
+        - name: http-https-redirectscheme
+          namespace: kube-system
+    - match: "Host(`traefik.danmanners.com`) && PathPrefix(`/api`)"
+      kind: Rule
+      services:
+        - name: api@internal
           kind: TraefikService
       middlewares:
         - name: http-https-redirectscheme
@@ -52,10 +60,15 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`traefik.danmanners.com`)
+    - match: "Host(`traefik.danmanners.com`) && PathPrefix(`/dashboard`)"
       kind: Rule
       services:
-        - name: dashboard@internal
+        - name: api@internal
+          kind: TraefikService
+    - match: "Host(`traefik.danmanners.com`) && PathPrefix(`/api`)"
+      kind: Rule
+      services:
+        - name: api@internal
           kind: TraefikService
   tls:
     secretName: traefik-dashboard
