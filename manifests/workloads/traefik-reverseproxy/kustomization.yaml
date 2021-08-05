@@ -4,5 +4,6 @@ kind: Kustomization
 resources:
   - reverse-proxy.yaml
   - wikijs.yaml
+  - uptimekuma.yaml
   - proxmox.yaml
   - traefik-mods.yaml

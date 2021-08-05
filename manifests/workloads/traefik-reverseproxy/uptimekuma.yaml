@@ -1,0 +1,44 @@
+---
+apiVersion: cert-manager.io/v1alpha2
+kind: Certificate
+metadata:
+  name: kumauptime
+  namespace: kube-system
+spec:
+  commonName: uptime.danmanners.com
+  secretName: kumauptime
+  dnsNames:
+    - uptime.danmanners.com
+  issuerRef:
+    name: acme-prod
+    kind: ClusterIssuer
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: kumauptime
+  namespace: kube-system
+spec:
+  entryPoints:
+    - web
+    - websecure
+  routes:
+    - match: Host(`uptime.danmanners.com`)
+      kind: Rule
+      services:
+        - name: kumauptime@file
+          kind: TraefikService
+  tls:
+    secretName: kumauptime
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kumauptime-extname
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: uptime.danmanners.com
+    external-dns.alpha.kubernetes.io/ttl: "300"
+spec:
+  type: ExternalName
+  externalName: danmanners.com
+  sessionAffinity: None
