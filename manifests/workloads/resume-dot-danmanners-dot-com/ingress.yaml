@@ -15,11 +15,10 @@ spec:
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: resume-danmanners-com
+  name: resume-danmanners-com-web
 spec:
   entryPoints:
     - web
-    - websecure
   routes:
     - match: Host(`resume.danmanners.com`)
       kind: Rule
@@ -29,5 +28,19 @@ spec:
       middlewares:
         - name: http-https-redirectscheme
           namespace: kube-system
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: resume-danmanners-com-websecure
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`resume.danmanners.com`)
+      kind: Rule
+      services:
+        - name: resume
+          port: 80
   tls:
     secretName: resume-danmanners-com

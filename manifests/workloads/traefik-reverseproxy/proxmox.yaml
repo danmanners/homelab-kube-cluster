@@ -17,14 +17,51 @@ spec:
     name: acme-prod
     kind: ClusterIssuer
 ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: proxmox-reverseproxy-extname
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: pmx.danmanners.com
+    external-dns.alpha.kubernetes.io/ttl: "300"
+spec:
+  type: ExternalName
+  externalName: danmanners.com
+  sessionAffinity: None
+---
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: proxmox-reverseproxy
+  name: proxmox-reverseproxy-web
   namespace: kube-system
 spec:
   entryPoints:
     - web
+  routes:
+    - match: Host(`virtualization.danmanners.com`)
+      kind: Rule
+      services:
+        - name: proxmox@file
+          kind: TraefikService
+      middlewares:
+        - name: http-https-redirectscheme
+          namespace: kube-system
+    - match: Host(`pmx.danmanners.com`)
+      kind: Rule
+      services:
+        - name: proxmox@file
+          kind: TraefikService
+      middlewares:
+        - name: http-https-redirectscheme
+          namespace: kube-system
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: proxmox-reverseproxy-websecure
+  namespace: kube-system
+spec:
+  entryPoints:
     - websecure
   routes:
     - match: Host(`virtualization.danmanners.com`)
@@ -37,20 +74,5 @@ spec:
       services:
         - name: proxmox@file
           kind: TraefikService
-      middlewares:
-        - name: http-https-redirectscheme
-          namespace: kube-system
   tls:
     secretName: proxmox-reverseproxy
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: proxmox-reverseproxy-extname
-  annotations:
-    external-dns.alpha.kubernetes.io/hostname: pmx.danmanners.com
-    external-dns.alpha.kubernetes.io/ttl: "300"
-spec:
-  type: ExternalName
-  externalName: danmanners.com
-  sessionAffinity: None
