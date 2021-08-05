@@ -26,5 +26,8 @@ spec:
       services:
         - name: resume
           port: 80
+      middlewares:
+        - name: http-https-redirectscheme
+          namespace: kube-system
   tls:
     secretName: resume-danmanners-com

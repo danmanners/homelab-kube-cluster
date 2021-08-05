@@ -11,6 +11,10 @@ metadata:
 data:
   reverseproxy.conf: |
     [http]
+      [http.middlewares]
+        [http.middlewares.http-https-redirectscheme.redirectScheme]
+          scheme = "https"
+          permanent = true
       [http.services]
         [http.services.proxmox]
           [http.services.proxmox.loadBalancer]
