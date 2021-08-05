@@ -20,3 +20,7 @@ data:
           [http.services.wikijs.loadBalancer]
             [[http.services.wikijs.loadBalancer.servers]]
               url = "http://10.45.0.32:80/"
+        [http.services.kumauptime]
+          [http.services.kumauptime.loadBalancer]
+            [[http.services.kumauptime.loadBalancer.servers]]
+              url = "http://10.45.0.24:80/"
