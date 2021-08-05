@@ -150,6 +150,12 @@ aws = {
       "description" = "Allows inbound traffic to the appropriate ports."
       "ingress" = [
         {
+          "description" = "ICMP Inbound"
+          "port"        = -1
+          "protocol"    = "icmp"
+          "cidr_blocks" = "0.0.0.0/0"
+        },
+        {
           "description" = "SSH Inbound"
           "port"        = 22
           "protocol"    = "tcp"
