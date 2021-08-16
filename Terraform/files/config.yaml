@@ -1,5 +1,3 @@
 ---
 server: https://homelab-k3s.danmanners.io:6443
 token: FakeToken::NotThe:RealToken
-# node-label:
-#   - "kubernetes.io/role=agent"

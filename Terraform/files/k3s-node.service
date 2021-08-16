@@ -1,7 +1,7 @@
 [Unit]
 Description=Lightweight Kubernetes
 Documentation=https://k3s.io
-After=network-online.target
+After=network-online.target zerotier-one.service
 
 [Service]
 Type=notify
