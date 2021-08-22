@@ -38,16 +38,16 @@ metadata:
 spec:
   type: ExternalName
   externalName: 40.76.165.69
----
-kind: Service
-apiVersion: v1
-metadata:
-  name: external-ip-digitalocean
-  namespace: kube-system
-  annotations:
-    external-dns.alpha.kubernetes.io/hostname: danmanners.com
-  labels:
-    provider: DigitalOcean
-spec:
-  type: ExternalName
-  externalName: 134.209.45.126
+# --- # Digital Ocean has been decomissioned due to their inability to fix my user account.
+# kind: Service
+# apiVersion: v1
+# metadata:
+#   name: external-ip-digitalocean
+#   namespace: kube-system
+#   annotations:
+#     external-dns.alpha.kubernetes.io/hostname: danmanners.com
+#   labels:
+#     provider: DigitalOcean
+# spec:
+#   type: ExternalName
+#   externalName: 134.209.45.126
