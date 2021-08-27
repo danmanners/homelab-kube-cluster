@@ -1,0 +1,15 @@
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: nfd-worker
+  namespace: node-feature-discovery
+spec:
+  selector:
+    matchLabels:
+      app: nfd-worker
+  template:
+    spec:
+      containers:
+      - name: nfd-worker
+        image: danielmanners/node-feature-discovery:v0.9.0
