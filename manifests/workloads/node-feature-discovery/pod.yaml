@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: temp-troubleshooting
+  namespace: default
+  labels:
+    run: temp-troubleshooting
+spec:
+  nodeSelector:
+    feature.node.kubernetes.io/custom-blink1: "true"
+  restartPolicy: Always
+  containers:
+    - name: temp-troubleshooting
+      image: python:3.9.6-buster
+      securityContext:
+        privileged: true
+      command:
+        - sleep
+      args:
+        - infinity
+      volumeMounts:
+        - name: blinkone
+          mountPath: /dev/bus/usb/001/004
+      resources: {}
+  volumes:
+    - name: blinkone
+      hostPath:
+        path: /dev/bus/usb/001/004
