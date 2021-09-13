@@ -1,0 +1,50 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: external-dns
+  namespace: argocd
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: kube-system
+  project: default
+  source:
+    chart: external-dns
+    repoURL: https://charts.bitnami.com/bitnami
+    targetRevision: 5.0.0
+    helm:
+      releaseName: edns
+      parameters:
+        - name: provider
+          value: aws
+        - name: domainFilters[0]
+          value: danmanners.com
+        - name: domainFilters[1]
+          value: danmanners.io
+        - name: domainFilters[2]
+          value: k3s.danmanners.io
+        - name: txtOwnerId
+          value: homelab-k3s-danmanners
+        - name: txtPrefix
+          value: txt.
+        - name: registry
+          value: txt
+        - name: policy
+          value: sync
+        - name: interval
+          value: 30s
+        - name: crd.create
+          value: 'true'
+        - name: aws.zoneType
+          value: public
+        - name: aws.credentials.secretName
+          value: aws-credentials
+        - name: aws.credentials.mountPath
+          value: /.aws
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
