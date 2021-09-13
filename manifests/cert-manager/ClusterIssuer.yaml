@@ -11,10 +11,12 @@ spec:
       name: acme-prod-account-key
     solvers:
     - dns01:
-        digitalocean:
-          tokenSecretRef:
-            name: digitalocean-dns
-            key: access-token
+        route53:
+          region: us-east-1
+          accessKeyID: AKIA6HIHA6ONQID7DMEI
+          secretAccessKeySecretRef:
+            name: prod-route53-credentials-secret
+            key: secret-access-key
       selector:
         dnsZones:
         - 'danmanners.com'
