@@ -10,7 +10,7 @@ spec:
     server: 'https://kubernetes.default.svc'
   source:
     repoURL: 'https://charts.jetstack.io'
-    targetRevision: v1.3.1
+    targetRevision: v1.5.3
     chart: cert-manager
     helm:
       valueFiles:
