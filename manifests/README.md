@@ -12,9 +12,9 @@ The following services should be added **MANUALLY** and on a case-by-case basis.
 
 In order 
 
-### External-DNS
+### External-DNS | Digital Ocean
 
-This assumes that you're using DigitalOcean as your provdier and that you have your DigitalOcean token saved at `~/.digitalocean/token`.
+If you are using DigitalOcean as your provider and have your DigitalOcean token saved at `~/.digitalocean/token`, follow these steps.
 
 External-DNS can be installed by running the following `helm` commands:
 
@@ -23,7 +23,7 @@ External-DNS can be installed by running the following `helm` commands:
 helm repo add bitnami https://charts.bitnami.com/bitnami
 
 # Install External-DNS through Helm for danmanners.com domains.
-helm install -n kube-system "edns" bitnami/external-dns \
+helm upgrade --install -n kube-system "edns" bitnami/external-dns \
 --set digitalocean.apiToken=$(cat ~/.digitalocean/token) \
 --set provider=digitalocean \
 --set 'domainFilters[0]=danmanners.com' \
@@ -31,7 +31,7 @@ helm install -n kube-system "edns" bitnami/external-dns \
 --set 'crd.create=true'
 
 # If you need to upgrade or add a new domain or additional settings, you can run something like this:
-helm upgrade -n kube-system "edns" bitnami/external-dns \
+helm upgrade --install -n kube-system "edns" bitnami/external-dns \
 --set digitalocean.apiToken=$(cat ~/.digitalocean/token) \
 --set provider=digitalocean \
 --set 'domainFilters[0]=danmanners.com' \
@@ -40,6 +40,33 @@ helm upgrade -n kube-system "edns" bitnami/external-dns \
 --set policy=sync \
 --set interval=30s \
 --set 'crd.create=true'
+```
+
+### External-DNS | AWS
+
+If you are using AWS as your provider and have your credentials at `~/.aws/credentials`, follow these steps.
+
+External-DNS can be installed by running the following `helm` commands:
+
+```bash
+# Add the Bitnami Repo
+helm repo add bitnami https://charts.bitnami.com/bitnami
+
+# Install External-DNS through Helm for danmanners.com domains.
+helm upgrade --install -n kube-system "edns" bitnami/external-dns \
+--set 'provider=aws' \
+--set 'domainFilters[0]=danmanners.com' \
+--set 'domainFilters[1]=danmanners.io' \
+--set 'domainFilters[2]=k3s.danmanners.io' \
+--set 'txtOwnerId=homelab-k3s-danmanners' \
+--set 'txtPrefix=txt.' \
+--set 'registry=txt' \
+--set 'policy=sync' \
+--set 'interval=30s' \
+--set 'crd.create=true' \
+--set 'aws.zoneType=public' \
+--set 'aws.credentials.secretName=aws-credentials' \
+--set 'aws.credentials.mountPath=/.aws'
 ```
 
 ### ArgoCD
