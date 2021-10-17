@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Secret
+metadata:
+    name: argocd-aws-credentials
+    namespace: argocd
+type: Opaque
+stringData:
+    credentials: ENC[AES256_GCM,data:8WlpmZnqtPbYNBkul+nxn/UPOqafK4FHY2zSklX3WidjywJwVIvFxzMYyR1Q/reGT6DdnBurcXzhwH0w25v4xomd0ouGa0dUJyaAUkWFDlZZnlgE/QqVliQU9Tl1tAKySoP4btuCZ3PmfiYfJWoNPFOzwUfJihY=,iv:V2YnyjmBVCJV6rd4Kq6UATm3FzgscGfLGFbMW6jvDtQ=,tag:VG0vwmh0QIOyDJm3VCLOiA==,type:str]
+    config: ENC[AES256_GCM,data:XynXJWPTCSZ3fpTlEHtlMYYA6MUZ0jzPx3zZ2cUeEFpz6fJcKEb2kw==,iv:QglbZ9NL7RgwkA9CIHyRAKjdSo5iJnKeSHhue6+SKtU=,tag:TVvLdbH4LSH/wLGevkzUUw==,type:str]
+sops:
+    kms:
+        - arn: arn:aws:kms:us-east-1:977656673179:key/7e829b85-6fed-4598-b675-8ebeea105c4c
+          created_at: "2021-10-17T20:09:57Z"
+          enc: AQICAHi1XYvA3EFEGTwFyd0NLI4cRLiZ3o2bNcK2AmDuVl/CEwHn20ZfaVdmtjjWmGsMQn7bAAAAfjB8BgkqhkiG9w0BBwagbzBtAgEAMGgGCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQMsl6aI3OIf5hOmW2rAgEQgDuMtKlJZ/x47IZA4pENeUKXNnMpVYUEdDfALJ23uEcwZ2GFqir3cVUSP+V0MP9Zk4vBar5pfpnS7H0b3A==
+          aws_profile: ""
+    gcp_kms: []
+    azure_kv: []
+    hc_vault: []
+    age: []
+    lastmodified: "2021-10-17T20:11:15Z"
+    mac: ENC[AES256_GCM,data:oRpQhM4VDGneZgc/2PDrLYnPyLaV/Gn4Ufr6wtafYtr1B+liiitYBJtzF/dTVzzBFoCfMuCoeIYOxJhKkZgQC4L7dfTXk0F+sFlnvgBRIImjjNjePf5g/FEQcRqKU4RIApIP3tDfQQW3dfTR/zsgPZs5vCXKnxJP/ynUJ2v/1S0=,iv:FCXWvEbG7undTrV9iWUJAE6wmAQWUwKfEjgXcFtkUPY=,tag:7KPLbHKFw7823yYYX6dnSw==,type:str]
+    pgp: []
+    encrypted_regex: ^(data|stringData)$
+    version: 3.7.1
