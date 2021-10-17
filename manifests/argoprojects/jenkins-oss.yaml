@@ -1,0 +1,21 @@
+---
+## Nexus
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: "jenkins-oss"
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: "git@github.com:danmanners/homelab-k3s-cluster.git"
+    path: manifests/workloads/jenkins-oss
+    targetRevision: HEAD
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: jenkins-ce
+  syncPolicy:
+    automated:
+      prune: true
+    syncOptions:
+      - CreateNamespace=true
