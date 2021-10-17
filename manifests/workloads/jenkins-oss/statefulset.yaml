@@ -1,0 +1,54 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: jenkins-ce
+spec:
+  selector:
+    matchLabels:
+      run: jenkins-ce
+  serviceName: jenkins-ce
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        run: jenkins-ce
+    spec:
+      terminationGracePeriodSeconds: 60
+      initContainers:
+      - name: init-jenkins
+        image: busybox
+        command: ['sh', '-c', 'chown -R 1000:1000 /var/jenkins_home']
+        volumeMounts:
+        - name: jenkins-volume
+          mountPath: /var/jenkins_home
+          subPath: jenkins_home
+      containers:
+      - name: jenkins-ce
+        image: jenkins/jenkins:2.303.2-lts
+        ports:
+        - containerPort: 8080
+          name: web
+        - containerPort: 50000
+          name: jnlp-agents
+        volumeMounts:
+        - name: jenkins-volume
+          mountPath: /var/jenkins_home
+          subPath: jenkins_home
+        resources:
+          limits:
+            cpu: "2"
+          requests:
+            cpu: "1"
+        securityContext:
+          runAsUser: 1000
+          runAsGroup: 1000
+  volumeClaimTemplates:
+  - metadata:
+      name: jenkins-volume
+    spec:
+      accessModes: [ "ReadWriteMany" ]
+      storageClassName: "nfs-client"
+      resources:
+        requests:
+          storage: 16Gi
