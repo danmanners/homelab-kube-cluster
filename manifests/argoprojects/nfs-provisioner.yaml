@@ -20,6 +20,8 @@ spec:
           value: "10.45.0.3"
         - name: nfs.path
           value: "/KubeStore"
+        # - name: nfs.mountOptions
+        #   value: nfsvers='4"
   syncPolicy:
     automated:
       prune: true
