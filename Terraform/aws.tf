@@ -67,7 +67,9 @@ resource "aws_kms_key" "sops" {
   deletion_window_in_days   = 14
   is_enabled                = true
   tags                      = merge(
-    { Name = "Dan Manners Homelab - SOPS" },
+    {
+      Name = "Dan Manners Homelab - SOPS"
+    },
     var.aws.tags
   )
 }

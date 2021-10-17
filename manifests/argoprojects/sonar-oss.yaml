@@ -1,0 +1,21 @@
+---
+## Nexus
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: "sonarqube-oss"
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: "git@github.com:danmanners/homelab-k3s-cluster.git"
+    path: manifests/workloads/sonarqube-oss
+    targetRevision: HEAD
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: sonar-oss
+  syncPolicy:
+    automated:
+      prune: true
+    syncOptions:
+      - CreateNamespace=true
