@@ -1,0 +1,46 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: memegen-danmanners-com
+spec:
+  commonName: memegen.danmanners.com
+  secretName: memegen-danmanners-com
+  dnsNames:
+    - memegen.danmanners.com
+  issuerRef:
+    name: acme-prod
+    kind: ClusterIssuer
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: memegen-danmanners-com-web
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`memegen.danmanners.com`)
+      kind: Rule
+      services:
+        - name: memegen
+          port: 80
+      middlewares:
+        - name: http-https-redirectscheme
+          namespace: kube-system
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: memegen-danmanners-com-websecure
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`memegen.danmanners.com`)
+      kind: Rule
+      services:
+        - name: memegen
+          port: 80
+  tls:
+    secretName: memegen-danmanners-com
