@@ -5,8 +5,10 @@ namespace: sonar-oss
 resources:
   - ns.yaml
   # - psql-ingress.yaml
-  - psql-secrets.yaml
   # - psql-statefulset.yaml
   # - sonar-ingress.yaml
   # - sonar-secrets.yaml
   # - sonar-statefulset.yaml
+
+generators:
+  - secrets-generator.yaml
