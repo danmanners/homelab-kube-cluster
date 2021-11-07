@@ -1,0 +1,46 @@
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: argocd-server
+  labels:
+    app.kubernetes.io/component: server
+    app.kubernetes.io/name: argocd-server
+    app.kubernetes.io/part-of: argocd
+spec:
+  template:
+    spec:
+      containers:
+        - name: argocd-server
+          command:
+            - argocd-server
+            - '--insecure'
+            - '--staticassets'
+            - /shared/app
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: argocd-repo-server
+  labels:
+    app.kubernetes.io/component: repo-server
+    app.kubernetes.io/name: argocd-repo-server
+    app.kubernetes.io/part-of: argocd
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: argocd-repo-server
+  template:
+    spec:
+      containers:
+      - name: argocd-repo-server
+        image: docker.io/danielmanners/argocd:e.v2.1.1
+        resources: {}
+        volumeMounts:
+        - mountPath: /home/argocd/.aws
+          name: argocd-aws-credentials
+      volumes:
+      - name: argocd-aws-credentials
+        secret:
+          defaultMode: 420
+          secretName: argocd-aws-credentials

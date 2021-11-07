@@ -15,7 +15,24 @@ spec:
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: argocd
+  name: argocd-web
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`argocd.k3s.danmanners.io`)
+      kind: Rule
+      services:
+        - name: argocd-server
+          port: 80
+      middlewares:
+        - name: http-https-redirectscheme
+          namespace: kube-system
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: argocd-websecure
 spec:
   entryPoints:
     - websecure

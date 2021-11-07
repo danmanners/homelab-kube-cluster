@@ -3,13 +3,13 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: "argocd-projects"
+  name: "argocd"
   namespace: argocd
 spec:
   project: default
   source:
     repoURL: "git@github.com:danmanners/homelab-k3s-cluster.git"
-    path: manifests/argoprojects
+    path: manifests/argocd
     targetRevision: HEAD
   destination:
     server: "https://kubernetes.default.svc"
