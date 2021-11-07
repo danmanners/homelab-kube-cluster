@@ -1,0 +1,38 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: openfaas
+  namespace: argocd
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: openfaas
+  project: default
+  source:
+    chart: openfaas
+    repoURL: https://openfaas.github.io/faas-netes
+    targetRevision: "9.0.0"
+    helm:
+      releaseName: openfaas
+      parameters:
+        - name: serviceType
+          value: "ClusterIP"
+        - name: exposeServices
+          value: "false"
+        - name: functionNamespace
+          value: openfaas
+        - name: generateBasicAuth
+          value: "true"
+        - name: prometheus.create
+          value: "false"
+        - name: alertmanager.create
+          value: "false"
+        - name: psp
+          value: "true"
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
