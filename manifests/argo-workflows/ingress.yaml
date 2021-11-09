@@ -1,0 +1,66 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: argo-k3s-cert
+spec:
+  commonName: argo.k3s.danmanners.io
+  secretName: argo-k3s-cert
+  dnsNames:
+    - argo.k3s.danmanners.io
+  issuerRef:
+    name: acme-prod
+    kind: ClusterIssuer
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: csp-default-src-self
+spec:
+  headers:
+    contentSecurityPolicy: "default-src * 'unsafe-inline' 'unsafe-eval';"
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: argo-web
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`argo.k3s.danmanners.io`)
+      kind: Rule
+      services:
+        - name: argo-server
+          port: 2746
+      middlewares:
+        - name: csp-default-src-self
+        - name: http-https-redirectscheme
+          namespace: kube-system
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: ServersTransport
+metadata:
+  name: skip-insecure
+spec:
+  insecureSkipVerify: true
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: argo-websecure
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`argo.k3s.danmanners.io`)
+      kind: Rule
+      services:
+        - name: argo-server
+          port: 2746
+          scheme: https
+          serversTransport: skip-insecure
+      middlewares:
+        - name: csp-default-src-self
+  tls:
+    secretName: argo-k3s-cert

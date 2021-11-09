@@ -1,0 +1,14 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: argo
+bases:
+  - https://github.com/argoproj/argo-workflows/manifests/cluster-install?ref=release-3.2
+
+resources:
+  - namespace.yaml
+  - ingress.yaml
+  - service.yaml
+
+patchesStrategicMerge:
+  - deployment.yaml

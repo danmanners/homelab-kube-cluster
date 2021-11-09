@@ -1,0 +1,22 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: argo-server
+spec:
+  selector:
+    matchLabels:
+      app: argo-server
+  template:
+    spec:
+      containers:
+        - name: argo-server
+          args:
+            - server
+            - "--auth-mode"
+            - server
+          env:
+            - name: ARGO_SERVER
+              value: "argo.k3s.danmanners.io:443"
+            - name: ARGO_SECURE
+              value: "true"
