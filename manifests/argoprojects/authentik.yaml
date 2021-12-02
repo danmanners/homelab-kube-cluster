@@ -1,0 +1,38 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: authentik
+  namespace: argocd
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: authentik
+  project: default
+  source:
+    chart: authentik
+    repoURL: https://charts.goauthentik.io
+    targetRevision: "2021.10.2"
+    helm:
+      releaseName: authentik
+      parameters:
+        - name: serviceType
+          value: "ClusterIP"
+        - name: exposeServices
+          value: "false"
+        - name: functionNamespace
+          value: openfaas
+        - name: generateBasicAuth
+          value: "true"
+        - name: prometheus.create
+          value: "false"
+        - name: alertmanager.create
+          value: "false"
+        - name: psp
+          value: "true"
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
