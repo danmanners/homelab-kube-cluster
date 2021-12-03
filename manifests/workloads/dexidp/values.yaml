@@ -1,0 +1,58 @@
+replicaCount: 3
+image:
+  repository: ghcr.io/dexidp/dex
+  pullPolicy: IfNotPresent
+https:
+  enabled: false
+envFrom:
+  - secretRef:
+      name: dex-config
+configSecret:
+  create: true
+serviceAccount:
+  create: true
+rbac:
+  create: true
+podDisruptionBudget:
+  enabled: true
+  minAvailable: 70%
+service:
+  type: ClusterIP
+  ports:
+    http:
+      port: 5556
+    https:
+      port: 5554
+    grpc:
+      port: 5557
+ingress:
+  enabled: false
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+nodeSelector:
+  beta.kubernetes.io/arch: amd64
+config:
+  issuer: https://dex.danmanners..com
+  storage:
+    type: kubernetes
+    config:
+      inCluster: true
+  connectors:
+    - type: github
+      id: github
+      name: GitHub
+      config:
+        clientID: $GITHUB_CLIENT_ID
+        clientSecret: $GITHUB_CLIENT_SECRET
+        redirectURI: https://dex.danmanners.com/callback
+        orgs:
+        - name: GoodMannersHosting
+  # staticClients:
+  # - id: 7b7dbf5f450bd9da350d29107a0fb3b12ae1b4e18898699431e82da4eb0a3c89
+  #   name: Kubernetes
+  #   redirectURIs:
+  #   - http://localhost:8000
+  #   secret: f8cbc0442bca6db7b8df9b387a04ed1c726eaec09ed6be75d2bd0c57e0e9061d

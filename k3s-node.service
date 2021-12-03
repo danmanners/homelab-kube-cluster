@@ -1,13 +1,11 @@
 [Unit]
 Description=Lightweight Kubernetes
 Documentation=https://k3s.io
-After=network-online.target zerotier-one.service
 
 [Service]
 Type=notify
 ExecStartPre=-/sbin/modprobe br_netfilter
 ExecStartPre=-/sbin/modprobe overlay
-ExecStartPre=/usr/bin/systemd-resolve --set-dns=10.45.0.1
 ExecStart=/usr/local/bin/k3s agent
 KillMode=process
 Delegate=yes
@@ -22,5 +20,4 @@ Restart=always
 RestartSec=5s
 
 [Install]
-Requires=zerotier-one.service
 WantedBy=multi-user.target
