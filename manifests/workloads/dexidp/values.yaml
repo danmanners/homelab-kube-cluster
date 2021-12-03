@@ -35,7 +35,7 @@ autoscaling:
 nodeSelector:
   beta.kubernetes.io/arch: amd64
 config:
-  issuer: https://dex.danmanners..com
+  issuer: https://dex.danmanners.com
   storage:
     type: kubernetes
     config:
@@ -50,9 +50,9 @@ config:
         redirectURI: https://dex.danmanners.com/callback
         orgs:
         - name: GoodMannersHosting
-  # staticClients:
-  # - id: 7b7dbf5f450bd9da350d29107a0fb3b12ae1b4e18898699431e82da4eb0a3c89
-  #   name: Kubernetes
-  #   redirectURIs:
-  #   - http://localhost:8000
-  #   secret: f8cbc0442bca6db7b8df9b387a04ed1c726eaec09ed6be75d2bd0c57e0e9061d
+  staticClients:
+    - id: 7b7dbf5f450bd9da350d29107a0fb3b12ae1b4e18898699431e82da4eb0a3c89
+      name: Kubernetes
+      redirectURIs:
+      - http://localhost:8000
+      secret: f8cbc0442bca6db7b8df9b387a04ed1c726eaec09ed6be75d2bd0c57e0e9061d

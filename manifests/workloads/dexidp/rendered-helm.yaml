@@ -42,7 +42,7 @@ metadata:
     app.kubernetes.io/managed-by: Helm
 type: Opaque
 data:
-  config.yaml: "Y29ubmVjdG9yczoKLSBjb25maWc6CiAgICBjbGllbnRJRDogJEdJVEhVQl9DTElFTlRfSUQKICAgIGNsaWVudFNlY3JldDogJEdJVEhVQl9DTElFTlRfU0VDUkVUCiAgICBvcmdzOgogICAgLSBuYW1lOiBHb29kTWFubmVyc0hvc3RpbmcKICAgIHJlZGlyZWN0VVJJOiBodHRwczovL2RleC5kYW5tYW5uZXJzLmNvbS9jYWxsYmFjawogIGlkOiBnaXRodWIKICBuYW1lOiBHaXRIdWIKICB0eXBlOiBnaXRodWIKaXNzdWVyOiBodHRwczovL2RleC5kYW5tYW5uZXJzLi5jb20Kc3RvcmFnZToKICBjb25maWc6CiAgICBpbkNsdXN0ZXI6IHRydWUKICB0eXBlOiBrdWJlcm5ldGVz"
+  config.yaml: "Y29ubmVjdG9yczoKLSBjb25maWc6CiAgICBjbGllbnRJRDogJEdJVEhVQl9DTElFTlRfSUQKICAgIGNsaWVudFNlY3JldDogJEdJVEhVQl9DTElFTlRfU0VDUkVUCiAgICBvcmdzOgogICAgLSBuYW1lOiBHb29kTWFubmVyc0hvc3RpbmcKICAgIHJlZGlyZWN0VVJJOiBodHRwczovL2RleC5kYW5tYW5uZXJzLmNvbS9jYWxsYmFjawogIGlkOiBnaXRodWIKICBuYW1lOiBHaXRIdWIKICB0eXBlOiBnaXRodWIKaXNzdWVyOiBodHRwczovL2RleC5kYW5tYW5uZXJzLmNvbQpzdGF0aWNDbGllbnRzOgotIGlkOiA3YjdkYmY1ZjQ1MGJkOWRhMzUwZDI5MTA3YTBmYjNiMTJhZTFiNGUxODg5ODY5OTQzMWU4MmRhNGViMGEzYzg5CiAgbmFtZTogS3ViZXJuZXRlcwogIHJlZGlyZWN0VVJJczoKICAtIGh0dHA6Ly9sb2NhbGhvc3Q6ODAwMAogIHNlY3JldDogZjhjYmMwNDQyYmNhNmRiN2I4ZGY5YjM4N2EwNGVkMWM3MjZlYWVjMDllZDZiZTc1ZDJiZDBjNTdlMGU5MDYxZApzdG9yYWdlOgogIGNvbmZpZzoKICAgIGluQ2x1c3RlcjogdHJ1ZQogIHR5cGU6IGt1YmVybmV0ZXM="
 ---
 # Source: dex/templates/rbac.yaml
 apiVersion: rbac.authorization.k8s.io/v1
@@ -132,7 +132,7 @@ spec:
     metadata:
       annotations:
       
-        checksum/config: d92a80648a73348f4aef94da644d718c38c85a8c39a40b96af81f4dc9fc3eac6
+        checksum/config: 2a0cafd042ccc26caec7233bac56eba9fbfd038b8936297d7a78f7b94b44b28c
       labels:
         app.kubernetes.io/name: dex
         app.kubernetes.io/instance: dex
