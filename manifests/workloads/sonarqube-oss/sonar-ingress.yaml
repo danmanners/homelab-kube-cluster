@@ -1,0 +1,75 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sonarqube
+  labels:
+    run: sonarqube
+spec:
+  type: ClusterIP
+  ports:
+  - name: web
+    port: 9000
+    protocol: TCP
+  selector:
+    run: sonarqube
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sonarqube-extname
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: sonarqube.danmanners.com
+    external-dns.alpha.kubernetes.io/ttl: "300"
+spec:
+  type: ExternalName
+  externalName: danmanners.com
+  selector:
+    run: sonarqube
+  sessionAffinity: None
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: sonarqube-cert
+spec:
+  commonName: sonarqube.danmanners.com
+  secretName: sonarqube-cert
+  dnsNames:
+    - sonarqube.danmanners.com
+  issuerRef:
+    name: acme-prod
+    kind: ClusterIssuer
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: sonarqube-danmanners-com-web
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`sonarqube.danmanners.com`)
+      kind: Rule
+      services:
+        - name: sonarqube
+          port: 9000
+      middlewares:
+        - name: http-https-redirectscheme
+          namespace: kube-system
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: sonarqube-danmanners-com-websecure
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`sonarqube.danmanners.com`)
+      kind: Rule
+      services:
+        - name: sonarqube
+          port: 9000
+  tls:
+    secretName: sonarqube-cert
