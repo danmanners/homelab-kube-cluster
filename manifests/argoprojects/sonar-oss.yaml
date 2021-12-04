@@ -13,7 +13,7 @@ spec:
     targetRevision: HEAD
   destination:
     server: "https://kubernetes.default.svc"
-    namespace: sonar-oss
+    namespace: sonarqube
   syncPolicy:
     automated:
       prune: true
