@@ -14,7 +14,8 @@ spec:
     # targetRevision: "16.15.0"
     # targetRevision: "17.2.2"
     # targetRevision: "18.1.1"
-    targetRevision: "19.1.0"
+    # targetRevision: "19.1.0"
+    targetRevision: "21.0.3"
     chart: kube-prometheus-stack
   project: default
   syncPolicy:
