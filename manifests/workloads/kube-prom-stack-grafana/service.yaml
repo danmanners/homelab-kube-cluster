@@ -1,0 +1,14 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: grafana-extname
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: grafana.danmanners.com
+    external-dns.alpha.kubernetes.io/ttl: "300"
+spec:
+  type: ExternalName
+  externalName: danmanners.com
+  selector:
+    run: grafana
+  sessionAffinity: None
