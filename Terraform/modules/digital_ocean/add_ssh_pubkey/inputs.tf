@@ -1,1 +1,0 @@
-variable "ssh_pubkey" {}
