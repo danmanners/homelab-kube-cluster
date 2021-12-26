@@ -26,7 +26,7 @@ spec:
                 - "true"
       containers:
       - name: sonarqube
-        image: sonarqube:9.2.1-community
+        image: sonarqube:9.2.4-community
         ports:
         - containerPort: 9000
           name: web
