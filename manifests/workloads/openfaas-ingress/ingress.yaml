@@ -10,7 +10,7 @@ metadata:
     app: gateway
 spec:
   type: ExternalName
-  externalName: danmanners.com
+  externalName: kube.danmanners.com
   sessionAffinity: None
 ---
 apiVersion: v1

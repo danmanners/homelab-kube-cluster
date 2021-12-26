@@ -27,7 +27,7 @@ metadata:
     app.kubernetes.io/instance: wikijs
 spec:
   type: ExternalName
-  externalName: danmanners.com
+  externalName: kube.danmanners.com
   selector:
     run: wikijs
   sessionAffinity: None
