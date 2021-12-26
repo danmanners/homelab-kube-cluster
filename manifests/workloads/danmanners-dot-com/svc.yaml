@@ -29,7 +29,7 @@ metadata:
     app.kubernetes.io/instance: danmanners-dot-com
 spec:
   type: ExternalName
-  externalName: danmanners.com
+  externalName: kube.danmanners.com
   selector:
     run: danmanners-dot-com
   sessionAffinity: None

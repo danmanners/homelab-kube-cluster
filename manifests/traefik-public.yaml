@@ -19,7 +19,7 @@ metadata:
   name: external-ip-aws
   namespace: kube-system
   annotations:
-    external-dns.alpha.kubernetes.io/hostname: danmanners.com
+    external-dns.alpha.kubernetes.io/hostname: kube.danmanners.com
   labels:
     provider: AWS
 spec:
@@ -32,7 +32,7 @@ metadata:
   name: external-ip-azure
   namespace: kube-system
   annotations:
-    external-dns.alpha.kubernetes.io/hostname: danmanners.com
+    external-dns.alpha.kubernetes.io/hostname: kube.danmanners.com
   labels:
     provider: Azure
 spec:

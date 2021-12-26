@@ -12,7 +12,7 @@ metadata:
     app.kubernetes.io/part-of: argocd
 spec:
   type: ExternalName
-  externalName: danmanners.com
+  externalName: kube.danmanners.com
   selector:
     app.kubernetes.io/component: server
     app.kubernetes.io/name: argocd-server

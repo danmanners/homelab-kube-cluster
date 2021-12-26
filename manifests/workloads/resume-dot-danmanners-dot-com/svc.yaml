@@ -23,7 +23,7 @@ metadata:
     external-dns.alpha.kubernetes.io/ttl: "300"
 spec:
   type: ExternalName
-  externalName: danmanners.com
+  externalName: kube.danmanners.com
   selector:
     run: resume-danmanners-com
   sessionAffinity: None

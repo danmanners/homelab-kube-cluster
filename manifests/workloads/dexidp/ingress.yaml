@@ -11,7 +11,7 @@ metadata:
     app.kubernetes.io/instance: dex
 spec:
   type: ExternalName
-  externalName: danmanners.com
+  externalName: kube.danmanners.com
   sessionAffinity: None
 ---
 apiVersion: cert-manager.io/v1
