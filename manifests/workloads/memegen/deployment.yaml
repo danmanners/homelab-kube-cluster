@@ -22,7 +22,7 @@ spec:
         run: memegen
     spec:
       containers:
-      - image: docker.io/danielmanners/memegen:v9.2.6
+      - image: docker.io/danielmanners/memegen:v9.3
         imagePullPolicy: Always
         name: memegen
         resources:
