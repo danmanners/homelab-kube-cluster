@@ -41,7 +41,7 @@ spec:
     - match: Host(`virtualization.danmanners.com`)
       kind: Rule
       services:
-        - name: proxmox@file
+        - name: proxmox
           kind: TraefikService
       middlewares:
         - name: http-https-redirectscheme
@@ -49,7 +49,7 @@ spec:
     - match: Host(`pmx.danmanners.com`)
       kind: Rule
       services:
-        - name: proxmox@file
+        - name: proxmox
           kind: TraefikService
       middlewares:
         - name: http-https-redirectscheme
@@ -67,12 +67,54 @@ spec:
     - match: Host(`virtualization.danmanners.com`)
       kind: Rule
       services:
-        - name: proxmox@file
+        - name: proxmox
           kind: TraefikService
     - match: Host(`pmx.danmanners.com`)
       kind: Rule
       services:
-        - name: proxmox@file
+        - name: proxmox
           kind: TraefikService
   tls:
     secretName: proxmox-reverseproxy
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: TraefikService
+metadata:
+  name: proxmox
+  namespace: kube-system
+  labels:
+    app.kubernetes.io/instance: traefik
+spec:
+  weighted:
+    services:
+      - name: proxmox
+        passHostHeader: true
+        port: 8006
+        scheme: https
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: proxmox
+  namespace: kube-system
+spec:
+  ports:
+  - name: https
+    port: 8006
+    protocol: TCP
+    targetPort: 8006
+  clusterIP: None
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: proxmox
+  namespace: kube-system
+subsets:
+- addresses:
+  - ip: 10.45.0.10
+  ports:
+  - name: https
+    port: 8006
+    protocol: TCP

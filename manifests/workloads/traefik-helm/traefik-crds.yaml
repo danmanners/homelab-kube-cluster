@@ -8,3 +8,11 @@ spec:
   redirectScheme:
     scheme: https
     permanent: true
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: ServersTransport
+metadata:
+  name: skip-insecure
+  namespace: kube-system
+spec:
+  insecureSkipVerify: true
