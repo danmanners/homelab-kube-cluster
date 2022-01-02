@@ -11,7 +11,7 @@ metadata:
     app.kubernetes.io/version: "2.30.0"
     app.kubernetes.io/managed-by: Helm
 spec:
-  minAvailable: 70%
+  minAvailable: 50%
   selector:
     matchLabels:
       app.kubernetes.io/name: dex
@@ -123,7 +123,7 @@ metadata:
     app.kubernetes.io/version: "2.30.0"
     app.kubernetes.io/managed-by: Helm
 spec:
-  replicas: 3
+  replicas: 2
   selector:
     matchLabels:
       app.kubernetes.io/name: dex
@@ -185,3 +185,4 @@ spec:
             secretName: dex
       nodeSelector:
         beta.kubernetes.io/arch: amd64
+        node-role.kubernetes.io/cloud: "true"

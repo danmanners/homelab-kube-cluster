@@ -1,4 +1,4 @@
-replicaCount: 3
+replicaCount: 2
 image:
   repository: ghcr.io/dexidp/dex
   pullPolicy: IfNotPresent
@@ -15,7 +15,7 @@ rbac:
   create: true
 podDisruptionBudget:
   enabled: true
-  minAvailable: 70%
+  minAvailable: 50%
 service:
   type: ClusterIP
   ports:
@@ -34,6 +34,7 @@ autoscaling:
   targetCPUUtilizationPercentage: 80
 nodeSelector:
   beta.kubernetes.io/arch: amd64
+  node-role.kubernetes.io/cloud: "true"
 config:
   issuer: https://dex.danmanners.com
   storage:

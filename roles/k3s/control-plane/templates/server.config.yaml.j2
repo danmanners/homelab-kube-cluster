@@ -1,0 +1,14 @@
+---
+# /etc/rancher/k3s/config.yaml
+tls-san: {{ tls_sans }}
+node-label:
+  - 'master=True'
+datastore-endpoint: "postgres://{{psql_user}}:{{psql_pass}}@{{psql_host}}:{{psql_port}}/kubernetes"
+disable:
+  - servicelb 
+  - traefik
+{%- if oidc_issuer_url is defined  %}
+kube-apiserver-arg:
+  - oidc-issuer-url=https://{{ oidc_issuer_url }}
+  - oidc-client-id={{ oidc_client_id }}
+{%- endif %}
