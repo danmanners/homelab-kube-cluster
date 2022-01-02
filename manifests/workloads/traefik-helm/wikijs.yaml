@@ -37,7 +37,7 @@ spec:
     - match: Host(`wiki.danmanners.com`)
       kind: Rule
       services:
-        - name: wikijs@file
+        - name: wikijs
           kind: TraefikService
       middlewares:
         - name: http-https-redirectscheme
@@ -55,7 +55,49 @@ spec:
     - match: Host(`wiki.danmanners.com`)
       kind: Rule
       services:
-        - name: wikijs@file
+        - name: wikijs
           kind: TraefikService
   tls:
     secretName: wikijs
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: TraefikService
+metadata:
+  name: wikijs
+  namespace: kube-system
+  labels:
+    app.kubernetes.io/instance: traefik
+spec:
+  weighted:
+    services:
+      - name: wikijs
+        passHostHeader: true
+        port: 80
+        scheme: http
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wikijs
+  namespace: kube-system
+spec:
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  clusterIP: None
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: wikijs
+  namespace: kube-system
+subsets:
+- addresses:
+  - ip: 10.45.0.32
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
