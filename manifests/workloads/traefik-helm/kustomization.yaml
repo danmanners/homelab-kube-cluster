@@ -2,6 +2,10 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: kube-system
+
+bases:
+  - crds
+
 resources:
   - traefik-rendered.yaml
   # Reverse Service Proxies
