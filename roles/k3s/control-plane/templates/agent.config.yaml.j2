@@ -1,0 +1,8 @@
+---
+node-name: "{{ node_name }}"
+server: "https://{{ k3s_server_host }}:{{ k3s_server_port }}"
+token: {{ k3s_agent_token }}
+{%- if cloud is True %}
+flannel-iface: {{ zerotier_interface }}
+node-external-ip: {{ external_ip }}
+{%- endif %}
