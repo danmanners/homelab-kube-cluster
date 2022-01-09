@@ -19,7 +19,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: www-danmanners-com-extname
+  name: excalidraw-extname
   annotations:
     external-dns.alpha.kubernetes.io/hostname: whiteboard.danmanners.com
     external-dns.alpha.kubernetes.io/ttl: "300"
@@ -28,6 +28,4 @@ metadata:
 spec:
   type: ExternalName
   externalName: kube.danmanners.com
-  selector:
-    run: excalidraw
   sessionAffinity: None
