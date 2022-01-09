@@ -1,0 +1,57 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: excalidraw
+  namespace: excalidraw
+spec:
+  commonName: whiteboard.danmanners.com
+  secretName: excalidraw
+  dnsNames:
+    - whiteboard.danmanners.com
+  issuerRef:
+    name: acme-prod
+    kind: ClusterIssuer
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: excalidraw-web
+  namespace: excalidraw
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`whiteboard.danmanners.com`)
+      kind: Rule
+      services:
+        - name: excalidraw
+          port: 80
+      middlewares:
+        - name: http-https-redirectscheme
+          namespace: kube-system
+    - match: Host(`danmanners.com`)
+      kind: Rule
+      services:
+        - name: excalidraw
+          port: 80
+      middlewares:
+        - name: http-https-redirectscheme
+          namespace: kube-system
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: excalidraw-websecure
+  namespace: excalidraw
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`whiteboard.danmanners.com`)
+      kind: Rule
+      services:
+        - name: excalidraw
+          port: 80
+  tls:
+    secretName: excalidraw
