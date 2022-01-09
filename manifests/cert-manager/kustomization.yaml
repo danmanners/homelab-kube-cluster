@@ -5,5 +5,5 @@ resources:
   # ArgoProject
   - cert-manager.yaml
   # One-Time Deployment Resources
-  - secret.yaml
+  # - secret.yaml
   - ClusterIssuer.yaml
