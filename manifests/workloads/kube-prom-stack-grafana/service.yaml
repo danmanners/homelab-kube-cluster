@@ -10,5 +10,6 @@ spec:
   type: ExternalName
   externalName: kube.danmanners.com
   selector:
-    run: grafana
+    app.kubernetes.io/instance: monitoring
+    app.kubernetes.io/name: grafana
   sessionAffinity: None
