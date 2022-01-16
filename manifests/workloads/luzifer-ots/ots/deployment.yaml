@@ -21,8 +21,8 @@ spec:
         run: ots
     spec:
       containers:
-      - image: ghcr.io/danmanners/luzifer-ots:2022jan15
-        imagePullPolicy: Always
+      - image: ghcr.io/danmanners/luzifer-ots:2022jan16
+        imagePullPolicy: IfNotPresent
         name: ots
         resources:
           limits:
