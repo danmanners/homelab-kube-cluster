@@ -23,7 +23,7 @@ metadata:
     app.kubernetes.io/managed-by: Helm
 type: Opaque
 data:
-  redis-password: "dGhpc2lzYWJ1bGxzaGl0cGFzc3dvcmQ="
+  redis-password: "VGhpc1Bhc3N3b3JkSXNOb3RSZWFs"
 ---
 # Source: redis-cluster/templates/configmap.yaml
 apiVersion: v1
@@ -2020,13 +2020,13 @@ metadata:
 spec:
   updateStrategy:
     rollingUpdate:
-      partition: 0
+      partition: 1
     type: RollingUpdate
   selector:
     matchLabels:
       app.kubernetes.io/name: redis-cluster
       app.kubernetes.io/instance: redis
-  replicas: 2
+  replicas: 1
   serviceName: redis-redis-cluster-headless
   podManagementPolicy: Parallel
   template:
@@ -2038,7 +2038,7 @@ spec:
         app.kubernetes.io/managed-by: Helm
       annotations:
         checksum/scripts: 39ede9c7e880dab785cfc7428a9524fdd2bb1ceb91c305b755af65c8ab7cd36b
-        checksum/secret: 799a387aa86bc47bd994ff863615025b2486f8d6d0e3d13381d9b1a2eb5ddd8b
+        checksum/secret: 5f50e984128caeeeb0d7596895f0ead304876f816d0abca8f8afb7a8fceb1664
         checksum/config: 02ea23664dcca2312d0294a287cb39ebf171a7d5c11e4f3a4ea6eb5e60f81591
         prometheus.io/port: "9121"
         prometheus.io/scrape: "true"
@@ -2087,7 +2087,7 @@ spec:
               pod_index="${pod_index[-1]}"
               if [[ "$pod_index" == "0" ]]; then
                 export REDIS_CLUSTER_CREATOR="yes"
-                export REDIS_CLUSTER_REPLICAS="1"
+                export REDIS_CLUSTER_REPLICAS="2"
               fi
               /opt/bitnami/scripts/redis-cluster/entrypoint.sh /opt/bitnami/scripts/redis-cluster/run.sh
           env:
@@ -2096,7 +2096,7 @@ spec:
                 fieldRef:
                   fieldPath: metadata.name
             - name: REDIS_NODES
-              value: "redis-redis-cluster-0.redis-redis-cluster-headless redis-redis-cluster-1.redis-redis-cluster-headless "
+              value: "redis-redis-cluster-0.redis-redis-cluster-headless "
             - name: REDISCLI_AUTH
               valueFrom:
                 secretKeyRef:
@@ -2130,18 +2130,6 @@ spec:
                 - sh
                 - -c
                 - /scripts/ping_liveness_local.sh 5
-          readinessProbe:
-            initialDelaySeconds: 5
-            periodSeconds: 5
-            # One second longer than command timeout should prevent generation of zombie processes.
-            timeoutSeconds: 2
-            successThreshold: 1
-            failureThreshold: 5
-            exec:
-              command:
-                - sh
-                - -c
-                - /scripts/ping_readiness_local.sh 1
           resources:
             limits: {}
             requests: {}
@@ -2204,3 +2192,109 @@ spec:
           requests:
             storage: "8Gi"
         storageClassName: nfs-client
+---
+# Source: redis-cluster/templates/update-cluster.yaml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: redis-redis-cluster-cluster-update
+  labels:
+    app.kubernetes.io/name: redis-cluster
+    helm.sh/chart: redis-cluster-7.1.2
+    app.kubernetes.io/instance: redis
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    "helm.sh/hook": post-upgrade
+spec:
+  activeDeadlineSeconds: 600
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: redis-cluster
+        helm.sh/chart: redis-cluster-7.1.2
+        app.kubernetes.io/instance: redis
+        app.kubernetes.io/managed-by: Helm
+      annotations:
+    spec:
+      
+      affinity:
+        podAffinity:
+          
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app.kubernetes.io/name: redis-cluster
+                    app.kubernetes.io/instance: redis
+                namespaces:
+                  - "ots"
+                topologyKey: kubernetes.io/hostname
+              weight: 1
+        nodeAffinity:
+          
+      nodeSelector:
+        kubernetes.io/arch: amd64
+      securityContext:
+        fsGroup: 1001
+        runAsUser: 1001
+        sysctls: []
+      serviceAccountName: redis-redis-cluster
+      containers:
+        - name: trigger
+          image: docker.io/bitnami/redis-cluster:6.2.6-debian-10-r95
+          imagePullPolicy: "IfNotPresent"
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1001
+          command: ['/bin/bash', '-c']
+          args:
+            - |
+              . /opt/bitnami/scripts/libnet.sh
+              . /opt/bitnami/scripts/libos.sh
+              # Backwards compatibility change
+              if ! [[ -f /opt/bitnami/redis/etc/redis.conf ]]; then
+                  cp /opt/bitnami/redis/etc/redis-default.conf /opt/bitnami/redis/etc/redis.conf
+              fi
+              firstNodeIP=$(wait_for_dns_lookup redis-redis-cluster-0.redis-redis-cluster-headless 120 5)
+              for node in $(seq $((1+2)) 1); do
+                newNodeIndex="$(($node - 1))"
+                newNodeIP=$(wait_for_dns_lookup "redis-redis-cluster-${newNodeIndex}.redis-redis-cluster-headless" 120 5)
+                while [[ $(redis-cli -h "$newNodeIP" -p "$REDIS_PORT" ping) != 'PONG' ]]; do
+                  echo "Node $newNodeIP not ready, waiting for all the nodes to be ready..."
+                  newNodeIP=$(wait_for_dns_lookup "redis-redis-cluster-${newNodeIndex}.redis-redis-cluster-headless" 120 5)
+                  sleep 5
+                done
+                slave=()
+                if (( $REDIS_CLUSTER_REPLICAS >= 1 )) && (( newNodeIndex % (( $REDIS_CLUSTER_REPLICAS + 1 )) )); then
+                  slave+=("--cluster-slave")
+                fi
+                while ! redis-cli --cluster add-node "${newNodeIP}:${REDIS_PORT}" "${firstNodeIP}:${REDIS_PORT}" ${slave[@]}; do
+                  echo "Add-node ${newNodeIndex} ${newNodeIP} failed, retrying"
+                  sleep 5
+                  firstNodeIP=$(wait_for_dns_lookup "redis-redis-cluster-0.redis-redis-cluster-headless" 120 5)
+                  newNodeIP=$(wait_for_dns_lookup "redis-redis-cluster-${newNodeIndex}.redis-redis-cluster-headless" 120 5)
+                done
+              done
+              while ! redis-cli --cluster rebalance "${firstNodeIP}:${REDIS_PORT}" --cluster-use-empty-masters; do
+                echo "Rebalance failed, retrying"
+                sleep 5
+                firstNodeIP=$(wait_for_dns_lookup "redis-redis-cluster-0.redis-redis-cluster-headless" 120 5)
+                redis-cli --cluster fix "${firstNodeIP}:${REDIS_PORT}"
+              done
+          env:
+            - name: BITNAMI_DEBUG
+              value: "false"
+            - name: REDIS_PORT
+              value: "6379"
+            - name: REDIS_CLUSTER_REPLICAS
+              value: "2"
+            - name: REDISCLI_AUTH
+              valueFrom:
+                secretKeyRef:
+                  name: redis-redis-cluster
+                  key: redis-password
+          resources:
+            limits: {}
+            requests: {}
+      restartPolicy: OnFailure

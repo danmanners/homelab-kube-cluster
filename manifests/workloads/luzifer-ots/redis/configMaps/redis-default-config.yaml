@@ -62,8 +62,8 @@ data:
     aof-load-truncated yes
     aof-use-rdb-preamble yes
     lua-time-limit 5000
-    cluster-enabled yes
-    cluster-config-file /bitnami/redis/data/nodes.conf
+    ## cluster-enabled yes
+    ## cluster-config-file /bitnami/redis/data/nodes.conf
 
     slowlog-log-slower-than 10000
     slowlog-max-len 128

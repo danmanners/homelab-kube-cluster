@@ -1,6 +1,6 @@
 global:
   redis:
-    password: "thisisabullshitpassword"
+    password: "ThisPasswordIsNotReal"
 
 clusterDomain: cluster.local
 image:
@@ -20,7 +20,7 @@ podSecurityContext:
   fsGroup: 1001
   runAsUser: 1001
 
-minAvailable: "2"
+minAvailable: "1"
 
 containerSecurityContext:
   enabled: true
@@ -28,7 +28,7 @@ containerSecurityContext:
   runAsNonRoot: true
 
 usePassword: true
-password: "9edbcd8704"
+password: "10CharPass"
 usePasswordFile: false
 
 tls:
@@ -57,7 +57,7 @@ redis:
   updateStrategy:
     type: RollingUpdate
     rollingUpdate:
-      partition: 0
+      partition: 1
 
   podManagementPolicy: Parallel
   useAOFPersistence: "yes"
@@ -74,15 +74,11 @@ redis:
     failureThreshold: 5
 
   readinessProbe:
-    enabled: true
-    initialDelaySeconds: 5
-    periodSeconds: 5
-    timeoutSeconds: 1
-    successThreshold: 1
-    failureThreshold: 5
+    enabled: false
 
   startupProbe:
     enabled: false
+
   nodeSelector:
     kubernetes.io/arch: amd64
 
@@ -93,8 +89,8 @@ updateJob:
 
 cluster:
   init: true
-  nodes: 2
-  replicas: 1
+  nodes: 1
+  replicas: 2
   externalAccess:
     enabled: false
     service:
@@ -102,7 +98,7 @@ cluster:
       port: 6379
 
   update:
-    addNodes: false
+    addNodes: true
     currentNumberOfNodes: 2
 
 metrics:
@@ -112,15 +108,12 @@ metrics:
     repository: bitnami/redis-exporter
     tag: 1.33.0-debian-10-r21
     pullPolicy: IfNotPresent
-
-  serviceMonitor:
-    enabled: false
-
-  prometheusRule:
-    enabled: false
-
   service:
     type: ClusterIP
+  serviceMonitor:
+    enabled: false
+  prometheusRule:
+    enabled: false
 
 sysctlImage:
   enabled: false

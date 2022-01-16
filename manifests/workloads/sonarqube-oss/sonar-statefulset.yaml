@@ -24,6 +24,20 @@ spec:
                 operator: NotIn
                 values:
                 - "true"
+      initContainers:
+      - name: init-sysctl
+        image: busybox
+        command:
+        - /bin/sh
+        - -c
+        - |
+          sysctl -w vm.max_map_count=524288 && \
+          sysctl -w fs.file-max=131072 && \
+          ulimit -n 131072 && \
+          ulimit -u 8192
+        securityContext:
+          privileged: true
+          runAsUser: 0
       containers:
       - name: sonarqube
         image: sonarqube:9.2.4-community
