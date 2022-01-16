@@ -7,7 +7,7 @@ metadata:
   name: ots
 spec:
   progressDeadlineSeconds: 30
-  replicas: 2
+  replicas: 3
   selector:
     matchLabels:
       run: ots
@@ -21,21 +21,37 @@ spec:
         run: ots
     spec:
       containers:
-      - image: ghcr.io/danmanners/luzifer-ots:2022jan16
-        imagePullPolicy: IfNotPresent
-        name: ots
-        resources:
-          limits:
-            cpu: "1"
-            memory: 250Mi
-          requests:
-            cpu: 500m
-            memory: 96Mi
-        ports:
-        - containerPort: 3000
-          protocol: TCP
-        terminationMessagePath: /dev/termination-log
-        terminationMessagePolicy: File
+        - image: ghcr.io/danmanners/luzifer-ots:2022jan16
+          imagePullPolicy: Always
+          name: ots
+          resources:
+            limits:
+              cpu: "1"
+              memory: 250Mi
+            requests:
+              cpu: 500m
+              memory: 96Mi
+          ports:
+            - containerPort: 3000
+              protocol: TCP
+          env:
+            - name: REDIS_URL
+              valueFrom:
+                secretKeyRef:
+                  name: redis-redis-cluster
+                  key: redis_url
+            - name: REDIS_KEY
+              value: "ots"
+            - name: SECRET_EXPIRY
+              value: "0"
+          livenessProbe:
+            initialDelaySeconds: 5
+            httpGet:
+              path: /
+              port: 3000
+
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       securityContext: {}
