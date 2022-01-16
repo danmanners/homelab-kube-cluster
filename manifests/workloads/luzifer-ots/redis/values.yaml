@@ -1,0 +1,130 @@
+global:
+  redis:
+    password: "thisisabullshitpassword"
+
+clusterDomain: cluster.local
+image:
+  registry: docker.io
+  repository: bitnami/redis-cluster
+  tag: 6.2.6-debian-10-r95
+  pullPolicy: IfNotPresent
+
+serviceAccount:
+  create: true
+
+rbac:
+  create: true
+
+podSecurityContext:
+  enabled: true
+  fsGroup: 1001
+  runAsUser: 1001
+
+minAvailable: "2"
+
+containerSecurityContext:
+  enabled: true
+  runAsUser: 1001
+  runAsNonRoot: true
+
+usePassword: true
+password: "9edbcd8704"
+usePasswordFile: false
+
+tls:
+  enabled: false
+
+service:
+  type: ClusterIP
+  ports:
+    redis: 6379
+
+persistence:
+  enabled: true
+  path: /bitnami/redis/data
+  storageClass: "nfs-client"
+  accessModes:
+    - ReadWriteOnce
+  size: 8Gi
+
+volumePermissions:
+  enabled: false
+
+podSecurityPolicy:
+  create: false
+
+redis:
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      partition: 0
+
+  podManagementPolicy: Parallel
+  useAOFPersistence: "yes"
+  containerPorts:
+    redis: 6379
+    bus: 16379
+
+  livenessProbe:
+    enabled: true
+    initialDelaySeconds: 5
+    periodSeconds: 5
+    timeoutSeconds: 5
+    successThreshold: 1
+    failureThreshold: 5
+
+  readinessProbe:
+    enabled: true
+    initialDelaySeconds: 5
+    periodSeconds: 5
+    timeoutSeconds: 1
+    successThreshold: 1
+    failureThreshold: 5
+
+  startupProbe:
+    enabled: false
+  nodeSelector:
+    kubernetes.io/arch: amd64
+
+updateJob:
+  activeDeadlineSeconds: 600
+  nodeSelector:
+    kubernetes.io/arch: amd64
+
+cluster:
+  init: true
+  nodes: 2
+  replicas: 1
+  externalAccess:
+    enabled: false
+    service:
+      type: ClusterIP
+      port: 6379
+
+  update:
+    addNodes: false
+    currentNumberOfNodes: 2
+
+metrics:
+  enabled: true
+  image:
+    registry: docker.io
+    repository: bitnami/redis-exporter
+    tag: 1.33.0-debian-10-r21
+    pullPolicy: IfNotPresent
+
+  serviceMonitor:
+    enabled: false
+
+  prometheusRule:
+    enabled: false
+
+  service:
+    type: ClusterIP
+
+sysctlImage:
+  enabled: false
+  registry: docker.io
+  repository: bitnami/bitnami-shell
+  tag: 10-debian-10-r306
+  pullPolicy: IfNotPresent

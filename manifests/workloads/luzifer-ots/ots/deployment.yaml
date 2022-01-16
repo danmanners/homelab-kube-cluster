@@ -1,0 +1,42 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    run: ots
+  name: ots
+spec:
+  progressDeadlineSeconds: 30
+  replicas: 2
+  selector:
+    matchLabels:
+      run: ots
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 33%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        run: ots
+    spec:
+      containers:
+      - image: ghcr.io/danmanners/luzifer-ots:2022jan15
+        imagePullPolicy: Always
+        name: ots
+        resources:
+          limits:
+            cpu: "1"
+            memory: 250Mi
+          requests:
+            cpu: 500m
+            memory: 96Mi
+        ports:
+        - containerPort: 3000
+          protocol: TCP
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      securityContext: {}
+      terminationGracePeriodSeconds: 3
