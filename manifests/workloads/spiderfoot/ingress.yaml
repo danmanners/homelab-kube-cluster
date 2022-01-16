@@ -71,5 +71,24 @@ spec:
       services:
         - name: spiderfoot
           port: 5001
+      middlewares:
+        - name: spiderfoot-auth
   tls:
     secretName: spiderfoot-danmanners-cert
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: spiderfoot-auth
+spec:
+  basicAuth:
+    secret: spiderfoot-authsecret
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: spiderfoot-authsecret
+stringData:
+  users: |
+    danmanners:$apr1$uf.IDWvx$1zKer5vUBnH6goCRcqbSs1
+    sinc:$apr1$DP4fmx2j$Q9/FWddFQy2SFR8fOjLSX1
