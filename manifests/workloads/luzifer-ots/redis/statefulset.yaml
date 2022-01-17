@@ -1,0 +1,84 @@
+---
+# Source: redis-cluster/templates/redis-statefulset.yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: redis
+spec:
+  serviceName: redis
+  selector:
+    matchLabels:
+      run: redis-ots
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      partition: 1
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        run: redis-ots
+      annotations:
+        prometheus.io/port: "9121"
+        prometheus.io/scrape: "true"
+    spec:
+      nodeSelector:
+        kubernetes.io/arch: amd64
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: node-role.kubernetes.io/cloud
+                operator: NotIn
+                values:
+                - "true"
+      enableServiceLinks: false
+      securityContext:
+        fsGroup: 1001
+        runAsUser: 1001
+      containers:
+        - name: redis-leader
+          image: docker.io/redis:6.2.5-alpine
+          imagePullPolicy: "IfNotPresent"
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1001
+          ports:
+            - name: tcp-redis
+              containerPort: 6379
+            - name: tcp-redis-bus
+              containerPort: 16379
+          readinessProbe:
+            exec:
+              command:
+                - redis-cli
+                - ping
+          livenessProbe:
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            # One second longer than command timeout should prevent generation of zombie processes.
+            timeoutSeconds: 6
+            successThreshold: 1
+            failureThreshold: 5
+            tcpSocket:
+              port: 6379
+          resources:
+            limits: {}
+            requests: {}
+          volumeMounts:
+            - name: redis-storage
+              mountPath: /data
+      volumes:
+        - name: redis-storage
+          persistentVolumeClaim:
+            claimName: redis-data-redis-0
+  volumeClaimTemplates:
+    - metadata:
+        name: redis-data
+      spec:
+        storageClassName: nfs-client
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: "8Gi"

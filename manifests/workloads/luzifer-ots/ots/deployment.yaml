@@ -7,7 +7,7 @@ metadata:
   name: ots
 spec:
   progressDeadlineSeconds: 30
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       run: ots
@@ -36,10 +36,7 @@ spec:
               protocol: TCP
           env:
             - name: REDIS_URL
-              valueFrom:
-                secretKeyRef:
-                  name: redis-redis-cluster
-                  key: redis_url
+              value: "tcp://redis.ots.svc.cluster.local:6379"
             - name: REDIS_KEY
               value: "ots"
             - name: SECRET_EXPIRY
