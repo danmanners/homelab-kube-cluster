@@ -4,5 +4,4 @@ kind: Kustomization
 namespace: gatekeeper-system
 
 resources:
-  # - ns.yaml 
   - https://raw.githubusercontent.com/open-policy-agent/gatekeeper/v3.7.0/deploy/gatekeeper.yaml
