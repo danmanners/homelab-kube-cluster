@@ -15,3 +15,6 @@ resources:
   # Additional Values
   - traefik-crds.yaml
   - traefik-dashboard.yaml
+
+patchesStrategicMerge:
+  - service-patch.yaml
