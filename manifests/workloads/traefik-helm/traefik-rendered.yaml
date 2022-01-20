@@ -216,6 +216,8 @@ spec:
           - "--pilot.token=5832658f-1297-4945-8baf-854a4be323b9"
           - "--pilot.dashboard=true"
           - "--serverstransport.insecureskipverify=true"
+          - "--entryPoints.web.forwardedHeaders.insecure=true"
+          - "--entryPoints.websecure.forwardedHeaders.insecure=true"
       volumes:
         - name: data
           emptyDir: {}

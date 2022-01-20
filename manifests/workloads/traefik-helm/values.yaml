@@ -89,6 +89,8 @@ globalArguments:
 
 additionalArguments:
   - "--serverstransport.insecureskipverify=true"
+  - "--entryPoints.web.forwardedHeaders.insecure=true"
+  - "--entryPoints.websecure.forwardedHeaders.insecure=true"
 
 # Configure ports
 ports:
