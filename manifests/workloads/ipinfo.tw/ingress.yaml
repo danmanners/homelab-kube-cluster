@@ -20,7 +20,8 @@ metadata:
   labels:
     run: whatismyip
 spec:
-  type: ClusterIP
+  externalTrafficPolicy: Local
+  type: LoadBalancer
   ports:
   - name: web
     port: 8080

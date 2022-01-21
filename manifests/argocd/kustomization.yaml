@@ -4,7 +4,7 @@ kind: Kustomization
 namespace: argocd
 resources:
   # Increment up this version number once you have new encrypted container versions available for the repo server
-  - https://raw.githubusercontent.com/argoproj/argo-cd/v2.1.1/manifests/install.yaml
+  - https://raw.githubusercontent.com/argoproj/argo-cd/v2.2.2/manifests/install.yaml
   - ingress.yaml
   - services.yaml
 patchesStrategicMerge:
