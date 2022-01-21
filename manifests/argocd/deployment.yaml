@@ -1,4 +1,14 @@
 ---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: argocd-dex-server
+spec:
+  template:
+    spec:
+      nodeSelector:
+        kubernetes.io/arch: amd64
+---
 kind: Deployment
 apiVersion: apps/v1
 metadata:
@@ -10,6 +20,8 @@ metadata:
 spec:
   template:
     spec:
+      nodeSelector:
+        kubernetes.io/arch: amd64
       containers:
         - name: argocd-server
           command:
@@ -30,11 +42,14 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/name: argocd-repo-server
+      
   template:
     spec:
+      nodeSelector:
+        kubernetes.io/arch: amd64
       containers:
       - name: argocd-repo-server
-        image: docker.io/danielmanners/argocd:e.v2.1.1
+        image: ghcr.io/danmanners/argo-repo-server:e.v2.2.2
         resources: {}
         volumeMounts:
         - mountPath: /home/argocd/.aws
