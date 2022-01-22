@@ -5,7 +5,6 @@ Current status: **BETA** (but mostly stable)
 This project aims to utilize industry-standard tooling and practices in order to both perform it's functions and act as a repository for people to reference for their own learning and work.
 
 [![k3s](https://img.shields.io/badge/k3s-v1.22.5-brightgreen?style=for-the-badge&logo=kubernetes&logoColor=white)](https://k3s.io/)
-[![Lines of code](https://img.shields.io/tokei/lines/github/danmanners/homelab-k3s-cluster?style=for-the-badge&color=brightgreen&label=lines&logo=codefactor&logoColor=white)](https://github.com/danmanners/homelab-k3s-cluster/graphs/contributors)
 
 ## 🔍 Features
 
