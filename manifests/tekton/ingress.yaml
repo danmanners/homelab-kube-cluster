@@ -67,6 +67,7 @@ metadata:
   name: tekton-auth
 spec:
   basicAuth:
+    removeHeader: true
     secret: tekton-authsecret
 ---
 apiVersion: v1
