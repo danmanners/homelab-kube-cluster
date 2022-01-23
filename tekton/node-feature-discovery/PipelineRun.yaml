@@ -1,0 +1,51 @@
+---
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  name: node-feature-discovery-build
+  generateName: node-feature-discovery-build
+spec:
+  serviceAccountName: node-feature-discovery-build
+  workspaces:
+    - name: shared-workspace
+      volumeClaimTemplate:
+        spec:
+          storageClassName: nfs-client
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 1Gi
+  taskRunSpecs:
+    - pipelineTaskName: buildah
+      taskPodTemplate:
+        nodeSelector:
+          kubernetes.io/arch: amd64
+  pipelineSpec:
+    workspaces:
+      - name: shared-workspace
+    tasks:
+      - name: fetch-repository
+        taskRef:
+          name: git-clone
+        workspaces:
+          - name: output
+            workspace: shared-workspace
+        params:
+          - name: url
+            value: https://github.com/danmanners/argocd-sops
+      - name: buildah
+        taskRef:
+          name: buildah
+        runAfter:
+          - fetch-repository
+        workspaces:
+          - name: source
+            workspace: shared-workspace
+        params:
+          - name: BUILD_EXTRA_ARGS
+            value: |
+              --build-arg BASE_IMAGE_FULL=debian:buster-slim \
+              --build-arg BASE_IMAGE_MINIMAL=gcr.io/distroless/base
+          - name: IMAGE
+            value: ghcr.io/danmanners/node-feature-discovery:v0.10.1
