@@ -4,9 +4,14 @@ kind: Kustomization
 namespace: tekton-pipelines
 
 resources:
+  # Pipelines
   - https://storage.googleapis.com/tekton-releases/pipeline/previous/v0.32.0/release.yaml
+  # Dashboard
   - https://github.com/tektoncd/dashboard/releases/download/v0.23.0/tekton-dashboard-release.yaml
   - ingress.yaml
+  # Triggers
+  - https://storage.googleapis.com/tekton-releases/triggers/previous/v0.18.0/release.yaml
+  - https://storage.googleapis.com/tekton-releases/triggers/previous/v0.18.0/interceptors.yaml
 
 bases:
   - tasks
