@@ -1,0 +1,49 @@
+---
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  name: argocd-repo-server-encrypted
+  generateName: argocd-repo-server-build
+spec:
+  serviceAccountName: argocd-repo-server-encrypted
+  workspaces:
+    - name: shared-workspace
+      volumeClaimTemplate:
+        spec:
+          storageClassName: nfs-client
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 2Gi
+  taskRunSpecs:
+    - pipelineTaskName: buildah
+      taskPodTemplate:
+        nodeSelector:
+          kubernetes.io/arch: amd64
+  pipelineSpec:
+    workspaces:
+      - name: shared-workspace
+    tasks:
+      - name: fetch-repository
+        taskRef:
+          name: git-clone
+        workspaces:
+          - name: output
+            workspace: shared-workspace
+        params:
+          - name: url
+            value: https://github.com/danmanners/argocd-sops
+      - name: buildah
+        taskRef:
+          name: buildah
+        runAfter:
+          - fetch-repository
+        workspaces:
+          - name: source
+            workspace: shared-workspace
+        params:
+          - name: DOCKERFILE
+            value: Containerfile
+          - name: IMAGE
+            value: ghcr.io/danmanners/argo-repo-server:aws-ksops-v2.2.2
