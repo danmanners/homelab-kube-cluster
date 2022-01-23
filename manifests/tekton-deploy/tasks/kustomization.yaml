@@ -4,7 +4,9 @@ kind: Kustomization
 namespace: tekton-pipelines
 
 resources:
-  # Git Clone
+  # Git Clone - https://hub.tekton.dev/tekton/task/git-clone
   - https://raw.githubusercontent.com/tektoncd/catalog/main/task/git-clone/0.5/git-clone.yaml
-  # Buildah
+  # Buildah - https://hub.tekton.dev/tekton/task/buildah
   - https://raw.githubusercontent.com/tektoncd/catalog/main/task/buildah/0.3/buildah.yaml
+  # Kubernetes Actions https://hub.tekton.dev/tekton/task/kubernetes-actions
+  - https://raw.githubusercontent.com/tektoncd/catalog/main/task/kubernetes-actions/0.2/kubernetes-actions.yaml
