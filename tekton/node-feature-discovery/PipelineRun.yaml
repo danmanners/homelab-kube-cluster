@@ -2,10 +2,10 @@
 apiVersion: tekton.dev/v1beta1
 kind: PipelineRun
 metadata:
-  name: node-feature-discovery-build
+  name: nfd-build
   generateName: node-feature-discovery-build
 spec:
-  serviceAccountName: node-feature-discovery-build
+  serviceAccountName: argocd-repo-server-encrypted
   workspaces:
     - name: shared-workspace
       volumeClaimTemplate:
@@ -15,16 +15,21 @@ spec:
             - ReadWriteOnce
           resources:
             requests:
-              storage: 1Gi
+              storage: 2Gi
   taskRunSpecs:
-    - pipelineTaskName: buildah
+    - pipelineTaskName: build-amd64
       taskPodTemplate:
         nodeSelector:
-          kubernetes.io/arch: amd64
+          beta.kubernetes.io/arch: amd64
+    - pipelineTaskName: build-arm64
+      taskPodTemplate:
+        nodeSelector:
+          beta.kubernetes.io/arch: arm64
   pipelineSpec:
     workspaces:
       - name: shared-workspace
     tasks:
+      # Fetch the Node-Feature-Discovery
       - name: fetch-repository
         taskRef:
           name: git-clone
@@ -33,19 +38,82 @@ spec:
             workspace: shared-workspace
         params:
           - name: url
-            value: https://github.com/danmanners/argocd-sops
-      - name: buildah
+            value: https://github.com/kubernetes-sigs/node-feature-discovery
+      # Create the Buildah Manifest
+      - name: manifest-create
         taskRef:
-          name: buildah
+          name: buildah-manifest-create
         runAfter:
           - fetch-repository
         workspaces:
           - name: source
             workspace: shared-workspace
         params:
+          - name: MANIFEST
+            value: nfd
+      # Fix the Dockerfile
+      - name: replace-text
+        taskRef:
+          name: replace-text
+        runAfter:
+          - fetch-repository
+        workspaces:
+          - name: source
+            workspace: shared-workspace
+        params:
+          - name: FILENAME
+            value: Dockerfile
+          - name: SED_COMMAND
+            value: s/golang\:/docker.io\/golang\:/
+      # Build the AMD64 container image
+      - name: build-amd64
+        taskRef:
+          name: buildah-multiarch-build
+        runAfter:
+          - manifest-create
+          - replace-text
+        workspaces:
+          - name: source
+            workspace: shared-workspace
+        params:
+          - name: MANIFEST
+            value: nfd
+          - name: ARCH
+            value: amd64
+          - name: IMAGE
+            value: ghcr.io/danmanners/node-feature-discovery:v0.10.1
           - name: BUILD_EXTRA_ARGS
-            value: |
-              --build-arg BASE_IMAGE_FULL=debian:buster-slim \
-              --build-arg BASE_IMAGE_MINIMAL=gcr.io/distroless/base
+            value: --build-arg BASE_IMAGE_FULL=docker.io/library/debian:buster-slim --build-arg BASE_IMAGE_MINIMAL=gcr.io/distroless/base --build-arg HOSTMOUNT_PREFIX="/" --build-arg VERSION=v0.10.1
+      # Build the ARM64 container image
+      - name: build-arm64
+        taskRef:
+          name: buildah-multiarch-build
+        runAfter:
+          - build-amd64
+        workspaces:
+          - name: source
+            workspace: shared-workspace
+        params:
+          - name: MANIFEST
+            value: nfd
+          - name: ARCH
+            value: arm64
+          - name: IMAGE
+            value: ghcr.io/danmanners/node-feature-discovery:v0.10.1
+          - name: BUILD_EXTRA_ARGS
+            value: --build-arg BASE_IMAGE_FULL=docker.io/library/debian:buster-slim --build-arg BASE_IMAGE_MINIMAL=gcr.io/distroless/base --build-arg HOSTMOUNT_PREFIX="/" --build-arg VERSION=v0.10.1
+      # Build everything up to ghcr.io
+      - name: push
+        taskRef:
+          name: buildah-push
+        runAfter:
+          - build-arm64
+          - build-amd64
+        workspaces:
+          - name: source
+            workspace: shared-workspace
+        params:
+          - name: MANIFEST
+            value: nfd
           - name: IMAGE
             value: ghcr.io/danmanners/node-feature-discovery:v0.10.1
