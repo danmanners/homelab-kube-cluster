@@ -22,10 +22,7 @@ spec:
       description: Reference of the image buildah will produce.
     - name: BUILDER_IMAGE
       description: The location of the buildah builder image.
-      default: quay.io/buildah/stable:v1.18.0
-    - name: STORAGE_DRIVER
-      description: Set buildah storage driver
-      default: overlay
+      default: quay.io/buildah/stable:v1.23.0
     - name: TLSVERIFY
       description: Verify the TLS on the registry endpoint (for push/pull to a non-TLS registry)
       default: "true"
@@ -57,9 +54,7 @@ spec:
         CERT_DIR_FLAG="--cert-dir $(workspaces.sslcertdir.path)"
         PUSH_ALL="$( if [$(params.PUSH_ALL) = true ]; then echo '--all'; fi )"
         buildah manifest push ${CERT_DIR_FLAG} $(params.PUSH_EXTRA_ARGS) \
-          --storage-driver=$(params.STORAGE_DRIVER) \
           --tls-verify=$(params.TLSVERIFY) --format $(params.FORMAT) \
-          --digestfile $(workspaces.source.path)/image-digest $(params.IMAGE) \
           $(params.MANIFEST) docker://$(params.IMAGE)
       volumeMounts:
         - name: varlibcontainers
