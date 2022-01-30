@@ -16,6 +16,15 @@ spec:
           resources:
             requests:
               storage: 2Gi
+    - name: varlibcontainers
+      volumeClaimTemplate:
+        spec:
+          storageClassName: nfs-client
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 2Gi
   taskRunSpecs:
     - pipelineTaskName: build-amd64
       taskPodTemplate:
@@ -25,6 +34,7 @@ spec:
       taskPodTemplate:
         nodeSelector:
           beta.kubernetes.io/arch: arm64
+          storage: nvme
   pipelineSpec:
     workspaces:
       - name: shared-workspace
@@ -48,6 +58,8 @@ spec:
         workspaces:
           - name: source
             workspace: shared-workspace
+          - name: varlibcontainers
+            workspace: varlibcontainers
         params:
           - name: MANIFEST
             value: nfd
@@ -75,6 +87,8 @@ spec:
         workspaces:
           - name: source
             workspace: shared-workspace
+          - name: varlibcontainers
+            workspace: varlibcontainers
         params:
           - name: MANIFEST
             value: nfd
@@ -93,6 +107,8 @@ spec:
         workspaces:
           - name: source
             workspace: shared-workspace
+          - name: varlibcontainers
+            workspace: varlibcontainers
         params:
           - name: MANIFEST
             value: nfd
@@ -112,6 +128,8 @@ spec:
         workspaces:
           - name: source
             workspace: shared-workspace
+          - name: varlibcontainers
+            workspace: varlibcontainers
         params:
           - name: MANIFEST
             value: nfd

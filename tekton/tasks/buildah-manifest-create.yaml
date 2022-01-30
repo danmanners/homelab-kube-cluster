@@ -23,8 +23,6 @@ spec:
       default: quay.io/buildah/stable:v1.23.0
   workspaces:
     - name: source
-    - name: sslcertdir
-      optional: true
   steps:
     - name: manifest-create
       image: $(params.BUILDER_IMAGE)
