@@ -42,7 +42,6 @@ spec:
       default: ""
   workspaces:
     - name: source
-    - name: varlibcontainers
   steps:
     - name: build
       image: $(params.BUILDER_IMAGE)
@@ -63,4 +62,5 @@ spec:
 
   volumes:
     - name: varlibcontainers
-      emptyDir: {}
+      persistentVolumeClaim:
+        claimName: varlibcontainers-pvc

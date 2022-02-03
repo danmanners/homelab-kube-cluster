@@ -1,0 +1,18 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: tekton-danmanners-cert-websecure
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`tekton.danmanners.com`)
+      kind: Rule
+      services:
+        - name: tekton-dashboard
+          port: 9097
+      middlewares:
+        - name: tekton-auth
+  tls:
+    secretName: tekton-danmanners-cert
