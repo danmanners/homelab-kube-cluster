@@ -4,4 +4,6 @@ kind: Kustomization
 namespace: tekton-pipelines
 
 resources:
+  - Pipeline.yaml
   - PipelineRun.yaml
+  - storage.yaml

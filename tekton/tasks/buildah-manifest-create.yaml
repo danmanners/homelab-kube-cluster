@@ -37,4 +37,5 @@ spec:
 
   volumes:
     - name: varlibcontainers
-      emptyDir: {}
+      persistentVolumeClaim:
+        claimName: varlibcontainers-pvc

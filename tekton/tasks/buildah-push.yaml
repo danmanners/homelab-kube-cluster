@@ -43,7 +43,6 @@ spec:
     - name: IMAGE_DIGEST
       description: Digest of the image just built.
   steps:
-
     - name: list-container-images
       image: $(params.BUILDER_IMAGE)
       workingDir: $(workspaces.source.path)
@@ -74,4 +73,5 @@ spec:
 
   volumes:
     - name: varlibcontainers
-      emptyDir: {}
+      persistentVolumeClaim:
+        claimName: varlibcontainers-pvc
