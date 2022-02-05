@@ -16,7 +16,6 @@ resources:
   - traefik-crds.yaml
   - traefik-dashboard.yaml
   # Error Pages
-  - error-page-override.yaml
   - middlewares.yaml
 
 patchesStrategicMerge:
