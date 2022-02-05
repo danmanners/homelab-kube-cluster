@@ -1,0 +1,23 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: traefik-error-pages
+  namespace: argocd
+spec:
+  destination:
+    namespace: kube-system
+    server: 'https://kubernetes.default.svc'
+  source:
+    chart: error-pages
+    repoURL: 'https://k8s-at-home.com/charts/'
+    targetRevision: "1.0.0"
+    helm:
+      releaseName: traefik-error-pages
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
