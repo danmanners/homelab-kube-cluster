@@ -2,10 +2,13 @@
 apiVersion: tekton.dev/v1beta1
 kind: PipelineRun
 metadata:
-  name: argocd-repo-server-encrypted
-  generateName: argocd-repo-server-build
+  name: argocd-repo-server-encrypted-v2.2.5
+  generateName: argocd-repo-server-
 spec:
   serviceAccountName: argocd-repo-server-encrypted
+  podTemplate:
+    nodeSelector:
+      kubernetes.io/arch: amd64
   workspaces:
     - name: shared-workspace
       volumeClaimTemplate:
@@ -16,11 +19,15 @@ spec:
           resources:
             requests:
               storage: 2Gi
-  taskRunSpecs:
-    - pipelineTaskName: buildah
-      taskPodTemplate:
-        nodeSelector:
-          kubernetes.io/arch: amd64
+  # pipelineRunSpecs:
+  #   - pipelineTaskName: fetch-repository
+  #     taskPodTemplate:
+  #       nodeSelector:
+  #         kubernetes.io/arch: amd64
+  #   - pipelineTaskName: buildah
+  #     taskPodTemplate:
+  #       nodeSelector:
+  #         kubernetes.io/arch: amd64
   pipelineSpec:
     workspaces:
       - name: shared-workspace
@@ -46,4 +53,4 @@ spec:
           - name: DOCKERFILE
             value: Containerfile
           - name: IMAGE
-            value: ghcr.io/danmanners/argo-repo-server:aws-ksops-v2.2.2
+            value: ghcr.io/danmanners/argo-repo-server:aws-ksops-v2.2.5
