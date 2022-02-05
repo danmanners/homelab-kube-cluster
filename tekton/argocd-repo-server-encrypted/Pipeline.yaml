@@ -5,20 +5,9 @@ metadata:
   name: argocd-repo-server-build
   namespace: tekton-pipelines
 spec:
-  serviceAccountName: argocd-repo-server-encrypted
+  # serviceAccountName: argocd-repo-server-encrypted
   workspaces:
     - name: shared-workspace
-      volumeClaimTemplate:
-        metadata:
-          creationTimestamp: null
-        spec:
-          accessModes:
-            - ReadWriteOnce
-          resources:
-            requests:
-              storage: 2Gi
-          storageClassName: nfs-client
-  timeout: 1h0m0s
   tasks:
     - name: fetch-repository
       params:
@@ -35,7 +24,7 @@ spec:
         - name: DOCKERFILE
           value: Containerfile
         - name: IMAGE
-          value: ghcr.io/danmanners/argo-repo-server:aws-ksops-v2.2.2
+          value: ghcr.io/danmanners/argo-repo-server:aws-ksops-v2.2.5
       runAfter:
         - fetch-repository
       taskRef:
@@ -44,8 +33,8 @@ spec:
       workspaces:
         - name: source
           workspace: shared-workspace
-  taskRunSpecs:
-    - pipelineTaskName: buildah
-      taskPodTemplate:
-        nodeSelector:
-          kubernetes.io/arch: amd64
+  # taskRunSpecs:
+  #   - pipelineTaskName: buildah
+  #     taskPodTemplate:
+  #       nodeSelector:
+  #         kubernetes.io/arch: amd64
