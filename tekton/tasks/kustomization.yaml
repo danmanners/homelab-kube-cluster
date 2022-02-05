@@ -4,5 +4,7 @@ kind: Kustomization
 namespace: tekton-pipelines
 
 resources:
-  - PipelineRun.yaml
-  - Pipeline.yaml
+  - buildah-build.yaml
+  - buildah-manifest-create.yaml
+  - buildah-push.yaml
+  - replace-text.yaml

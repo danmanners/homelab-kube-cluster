@@ -1,0 +1,20 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: "tekton/node-feature-discovery"
+  namespace: argocd
+spec:
+  project: tekton-pipelines
+  source:
+    repoURL: "git@github.com:danmanners/homelab-k3s-cluster.git"
+    path: tekton/node-feature-discovery
+    targetRevision: HEAD
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: tekton-pipelines
+  syncPolicy:
+    automated:
+      prune: true
+    syncOptions:
+      - CreateNamespace=true

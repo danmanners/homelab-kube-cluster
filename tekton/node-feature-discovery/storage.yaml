@@ -1,0 +1,31 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: varlibcontainers-pvc
+  namespace: jenkins-ce
+spec:
+  storageClassName: nfs-client
+  volumeMode: Filesystem
+  volumeName: varlibcontainers-pv
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Gi
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: varlibcontainers-pv
+spec:
+  storageClassName: nfs-client
+  persistentVolumeReclaimPolicy: Delete
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteMany
+  capacity:
+    storage: 10Gi
+  nfs:
+    server: 10.45.0.3
+    path: /KubeStore/varlibcontainers

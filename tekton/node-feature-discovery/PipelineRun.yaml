@@ -1,0 +1,39 @@
+---
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  name: nfd-pipelinerun
+  generateName: nfd-pipelinerun-
+spec:
+  serviceAccountName: argocd-repo-server-encrypted
+  pipelineRef:
+    name: nfd-build
+  workspaces:
+    - name: shared-workspace
+      volumeClaimTemplate:
+        spec:
+          storageClassName: nfs-client
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 2Gi
+    - name: varlibcontainers
+      volumeClaimTemplate:
+        spec:
+          storageClassName: nfs-client
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 2Gi
+  taskRunSpecs:
+    - pipelineTaskName: build-amd64
+      taskPodTemplate:
+        nodeSelector:
+          beta.kubernetes.io/arch: amd64
+    - pipelineTaskName: build-arm64
+      taskPodTemplate:
+        nodeSelector:
+          beta.kubernetes.io/arch: arm64
+          storage: nvme
