@@ -65,6 +65,9 @@ metadata:
 spec:
   entryPoints:
     - websecure
+  middlewares:
+    - name: traefik-error-pages
+      namespace: kube-system
   routes:
     - match: Host(`sonarqube.danmanners.com`)
       kind: Rule
