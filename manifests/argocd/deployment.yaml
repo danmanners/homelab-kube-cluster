@@ -22,6 +22,7 @@ spec:
     spec:
       nodeSelector:
         kubernetes.io/arch: amd64
+
       containers:
         - name: argocd-server
           command:
@@ -42,11 +43,11 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/name: argocd-repo-server
-      
   template:
     spec:
       nodeSelector:
         kubernetes.io/arch: amd64
+        node-role.kubernetes.io/proxmox: "true"
       containers:
       - name: argocd-repo-server
         image: ghcr.io/danmanners/argo-repo-server:aws-ksops-v2.2.5

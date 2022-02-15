@@ -9,4 +9,5 @@ resources:
   - services.yaml
 patchesStrategicMerge:
   - deployment.yaml
+  - statefulset.yaml
   - configmap.yaml
