@@ -28,6 +28,7 @@ This project aims to utilize industry-standard tooling and practices in order to
 | [AWS](https://aws.amazon.com/)                                  | Cloud Provider                                              |
 | [Buildah](https://github.com/containers/buildah/)               | Container Building                                          |
 | [Cert-Manager](https://cert-manager.io/docs/)                   | Certificate Manager                                         |
+| [Cilium](https://cilium.io/)                                    | CNI utilizing eBPF for Observability and Security           |
 | [Dex](https://dexidp.io/)                                       | Federated OIDC                                              |
 | [External-DNS](https://github.com/kubernetes-sigs/external-dns) | Configure and manage External DNS servers                   |
 | [GitHub](https://github.com/)                                   | Popular Code Management through Git                         |
