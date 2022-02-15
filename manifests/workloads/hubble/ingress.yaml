@@ -1,0 +1,64 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: hubble-cert
+  namespace: kube-system
+spec:
+  commonName: hubble.danmanners.com
+  secretName: hubble-cert
+  dnsNames:
+    - hubble.danmanners.com
+  issuerRef:
+    name: acme-prod
+    kind: ClusterIssuer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hubble-danmanners-extname
+  namespace: kube-system
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: hubble.danmanners.com
+    external-dns.alpha.kubernetes.io/ttl: "300"
+  labels:
+    app.kubernetes.io/instance: hubble
+spec:
+  type: ExternalName
+  externalName: kube.danmanners.com
+  sessionAffinity: None
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: hubble-web
+  namespace: kube-system
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`hubble.danmanners.com`)
+      kind: Rule
+      services:
+        - name: hubble-ui
+          port: 80
+      middlewares:
+        - name: http-https-redirectscheme
+          namespace: kube-system
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: hubble-websecure
+  namespace: kube-system
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`hubble.danmanners.com`)
+      kind: Rule
+      services:
+        - name: hubble-ui
+          port: 80
+  tls:
+    secretName: hubble-cert
