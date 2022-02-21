@@ -7,7 +7,7 @@ metadata:
 data:
   config: |
     peers:
-    - peer-address: 10.45.0.254
+    - peer-address: 10.200.0.2
       peer-asn: 65529
       my-asn: 65528
     address-pools:
