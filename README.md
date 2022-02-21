@@ -35,7 +35,7 @@ This project aims to utilize industry-standard tooling and practices in order to
 | [Grafana](https://grafana.com/)                                 | Metrics Visualization                                       |
 | [Helm](https://helm.sh/)                                        | Kubernetes Package Management                               |
 | [Jenkins](https://www.jenkins.io/)                              | Open-Source Automation Server                               |
-| [K3s](https://k3s.io/)                                          | Lightweight Kubernetes                                      |
+| ~~[K3s](https://k3s.io/)~~                                      | ~~Lightweight Kubernetes~~                                  |
 | [Kubernetes](https://kubernetes.io/)                            | Container Orchestration                                     |
 | [Let's Encrypt](https://letsencrypt.org/)                       | Free TLS certificates                                       |
 | [MetalLB](https://metallb.universe.tf/)                         | Kubernetes bare-metal Load Balancer                         |
@@ -50,6 +50,7 @@ This project aims to utilize industry-standard tooling and practices in order to
 | [Raspberry Pi](https://www.raspberrypi.org/)                    | Baremetal ARM SoC Hardware!                                 |
 | [Rocky Linux](https://rockylinux.org/)                          | Open-Source Enterprise Linux; Spiritual successor to CentOS |
 | [SonarQube](https://www.sonarqube.org/)                         | Static code analysis                                        |
+| [Talos](https://talos.dev/)                                     | Secure, immutable, and minimal Linux OS                     |
 | [Tekton](https://tekton.dev/)                                   | Cloud-Native CI/CD                                          |
 | [Terraform](https://www.terraform.io/)                          | Open-Source Infrastructure-as-Code                          |
 | [Terragrunt](https://terragrunt.gruntwork.io/)                  | Making Terraform DRY                                        |
@@ -103,17 +104,17 @@ Below is a list of the hardware (both physical and virtual) in use on this proje
 
 #### Cluster Boards
 
-| Count | System Type  | CPU Type             | CPU Cores | Memory  |
-|-------|--------------|----------------------|-----------|---------|
-| 1     | Turing Pi v1 | 7x Raspberry Pi CM3+ | 4c4t      | 7x 1GiB |
-| 1     | Turing Pi v1 | 3x Raspberry Pi CM3+ | 4c4t      | 3x 1GiB |
-| 1     | Turing Pi v2 | 4x Raspberry Pi CM4  | 4c4t      | 4x 8GiB |
+| Count | System Type      | CPU Type                 | CPU Cores | Memory      |
+|-------|------------------|--------------------------|-----------|-------------|
+| 1     | Turing Pi v2     | 4x Raspberry Pi CM4      | 4c4t      | 4x 8GiB     |
+| ~~1~~ | ~~Turing Pi v1~~ | ~~7x Raspberry Pi CM3+~~ | ~~4c4t~~  | ~~7x 1GiB~~ |
+| ~~1~~ | ~~Turing Pi v1~~ | ~~3x Raspberry Pi CM3+~~ | ~~4c4t~~  | ~~3x 1GiB~~ |
 
 #### Additional Compute
 
 | Count | System Type    | CPU Type         | CPU Cores | Memory |
 |-------|----------------|------------------|-----------|--------|
-| 2     | Raspberry Pi 4 | Raspberry Pi CM4 | 4c4t      | 8GiB   |
+| 1     | Raspberry Pi 4 | Raspberry Pi CM4 | 4c4t      | 4GiB   |
 
 #### Storage
 
