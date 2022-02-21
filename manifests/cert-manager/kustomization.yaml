@@ -7,3 +7,6 @@ resources:
   # One-Time Deployment Resources
   # - secret.yaml
   - ClusterIssuer.yaml
+
+generators:
+  - ksops-generator.yaml
