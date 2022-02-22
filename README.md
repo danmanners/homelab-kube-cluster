@@ -137,6 +137,17 @@ Below is a list of the hardware (both physical and virtual) in use on this proje
 | tpi-k3s-aws-edge   | AWS      | 2vCPU | 4GiB   |
 | tpi-k3s-azure-edge | Azure    | 2vCPU | 4GiB   |
 
+## Deployment Order of Operations
+
+01. [Talos Linux](talos/)
+02. [MetalLB](manifests/metallb/)
+03. [Cert-Manager](manifests/cert-manager/)
+04. [ArgoCD - Part 1](manifests/argocd/)
+05. [External-DNS](manifests/argoprojects/external-dns.yaml)
+06. [Cert-Manager](manifests/cert-manager/)
+07. [ArgoCD - Part 2](manifests/argocd/)
+99. [Traefik](manifests/workloads/traefik-helm/)
+
 ## Gratitude and Thanks
 
 This README redesign was inspired by several other homelab repos, individuals, and communities.
