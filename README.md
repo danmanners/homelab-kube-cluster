@@ -4,8 +4,6 @@ Current status: **BETA** (but mostly stable)
 
 This project aims to utilize industry-standard tooling and practices in order to both perform it's functions and act as a repository for people to reference for their own learning and work.
 
-[![k3s](https://img.shields.io/badge/k3s-v1.22.5-brightgreen?style=for-the-badge&logo=kubernetes&logoColor=white)](https://k3s.io/)
-
 ## 🔍 Features
 
 - [x] Easy to replicate GitOps
@@ -13,7 +11,7 @@ This project aims to utilize industry-standard tooling and practices in order to
 - [x] Hybrid Multi-Cloud
 - [x] External DNS updates
 - [x] Automagic cert management
-- [x] Cluster SSO through GitHub
+- [x] ~~Cluster SSO through GitHub~~
 - [ ] Monitoring and alerting 🚧
 - [ ] Multiple environment support 🚧
 - [ ] Automated Backups 🚧

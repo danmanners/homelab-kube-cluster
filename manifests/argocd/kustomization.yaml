@@ -12,7 +12,6 @@ resources:
 
 patchesStrategicMerge:
   - deployment.yaml
-  # - statefulset.yaml
   - configmap.yaml
 
 generators:

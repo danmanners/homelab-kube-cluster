@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Secret
+metadata:
+    name: argocd-secret
+    namespace: argocd
+    labels:
+        app.kubernetes.io/name: argocd-secret
+        app.kubernetes.io/part-of: argocd
+type: Opaque
+stringData:
+    dex.github.clientsecret: ENC[AES256_GCM,data:+w2pu2Y9biOE778XM4f6HnUySip8l9zjUSXUkaOocR7bblySUDbw6g==,iv:BF2jVRvFSY+GaEbIvt2rAGK7zIvLhY2fqipy2dTU10I=,tag:1HEMiXfb/ZlKVMVlYTKVYA==,type:str]
+sops:
+    kms:
+        - arn: arn:aws:kms:us-east-1:977656673179:key/7e829b85-6fed-4598-b675-8ebeea105c4c
+          created_at: "2022-02-23T03:56:50Z"
+          enc: AQICAHi1XYvA3EFEGTwFyd0NLI4cRLiZ3o2bNcK2AmDuVl/CEwG8laBE+QjOwuHmIt6TH+C1AAAAfjB8BgkqhkiG9w0BBwagbzBtAgEAMGgGCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQMyQTUL5FKGzSXC+hyAgEQgDv0lOnCjvY718ZjivRf63B08CDo0DdNvPVz0MbIxUaGMp0V4GY9FLwFOORXSqwUNXE6vQTIwDgTAGEsiw==
+          aws_profile: default
+    gcp_kms: []
+    azure_kv: []
+    hc_vault: []
+    age: []
+    lastmodified: "2022-02-23T03:56:51Z"
+    mac: ENC[AES256_GCM,data:iJb7lfNQm3vs+78M+N6no1RpZ1ZUZD8e2NkWdfmkeVWwmyVbAPpsHtMb6g/bHl+vOu52B7SiKVgt8OzrHQoatvcBWNviABG7AOQc+GED9mUz28roYoiwIP+9GwXZbq1eUPmaOc0s6PgWpv8u30gyOo2DQOoAZHh/FjPyIKsvWX4=,iv:9u65kA8f9WWi9N/kPaUFo9D012uSyt4osrApr/MBvBg=,tag:RQFYnxjX5PjaXHAyfYyYqQ==,type:str]
+    pgp: []
+    encrypted_regex: ^(data|stringData)$
+    version: 3.7.1
