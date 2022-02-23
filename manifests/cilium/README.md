@@ -1,4 +1,8 @@
-# Cilium
+# Cilium CNI
+
+[Cilium](https://cilium.io/) is a CNI (or container network interface) for Kubernetes which is capable of providing networking, security, and observability. It is also what we want to run as our CNI inside of our Kubernetes cluster.
+
+## Generating the Helm Output
 
 ```bash
 # Generate the Helm Output
@@ -10,7 +14,7 @@ helm template cilium cilium/cilium \
   --values values.yaml > helm-rendered.yaml
 ```
 
-## Apply
+## Applying the Rendered Helm Template
 
 ```bash
 # From the root of the Git repo
