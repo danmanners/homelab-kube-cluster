@@ -12,6 +12,7 @@ spec:
     metadata:
       labels:
         run: sonarqube
+        app: sonarqube
     spec:
       nodeSelector:
         beta.kubernetes.io/arch: amd64
@@ -80,6 +81,8 @@ spec:
   volumeClaimTemplates:
   - metadata:
       name: snr-data-pvc
+      finalizers:
+        - kubernetes.io/pv-protection
     spec:
       storageClassName: "nfs-client"
       accessModes: [ "ReadWriteOnce" ]
@@ -88,6 +91,8 @@ spec:
           storage: 5Gi
   - metadata:
       name: snr-logs-pvc
+      finalizers:
+        - kubernetes.io/pv-protection
     spec:
       storageClassName: "nfs-client"
       accessModes: [ "ReadWriteOnce" ]
@@ -96,6 +101,8 @@ spec:
           storage: 2Gi
   - metadata:
       name: snr-ext-pvc
+      finalizers:
+        - kubernetes.io/pv-protection
     spec:
       storageClassName: "nfs-client"
       accessModes: [ "ReadWriteOnce" ]

@@ -60,16 +60,8 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: "Host(`traefik.danmanners.com`)"
-      kind: Rule
-      middlewares:
-        - name: traefik-error-pages
-          namespace: kube-system
     - match: "Host(`traefik.danmanners.com`) && PathPrefix(`/dashboard`)"
       kind: Rule
-      middlewares:
-        - name: traefik-error-pages
-          namespace: kube-system
       services:
         - name: api@internal
           kind: TraefikService
