@@ -20,6 +20,7 @@ Open the new `values-new.yaml` file, make any changes, then we can render the ou
 
 ```bash
 helm template traefik traefik/traefik \
+    --version 10.14.2 \
     -f values.yaml > traefik-rendered.yaml
 ```
 

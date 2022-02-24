@@ -1,9 +1,12 @@
 ---
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+
 resources:
-  # ArgoProject
-  - cert-manager.yaml
+  # GitHub URLs
+  - https://github.com/cert-manager/cert-manager/releases/download/v1.7.1/cert-manager.yaml
   # One-Time Deployment Resources
-  # - secret.yaml
   - ClusterIssuer.yaml
+
+generators:
+  - ksops-generator.yaml

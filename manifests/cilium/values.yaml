@@ -1,0 +1,367 @@
+debug:
+  enabled: false
+
+rbac:
+  # -- Enable creation of Resource-Based Access Control configuration.
+  create: true
+
+cluster:
+  name: default
+
+# -- Agent container name.
+name: cilium
+# -- Roll out cilium agent pods automatically when configmap is updated.
+rollOutCiliumPods: true
+
+# -- Agent container image.
+image:
+  repository: quay.io/cilium/cilium
+  tag: v1.11.1
+  pullPolicy: IfNotPresent
+  # cilium-digest
+  digest: "sha256:251ff274acf22fd2067b29a31e9fda94253d2961c061577203621583d7e85bd2"
+  useDigest: true
+
+# -- Node tolerations for agent scheduling to nodes with taints
+# ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/
+tolerations:
+- operator: Exists
+  # - key: "key"
+  #   operator: "Equal|Exists"
+  #   value: "value"
+  #   effect: "NoSchedule|PreferNoSchedule|NoExecute(1.6 only)"
+
+# -- PodDisruptionBudget settings
+# ref: https://kubernetes.io/docs/concepts/workloads/pods/disruptions/
+podDisruptionBudget:
+  enabled: true
+  maxUnavailable: 2
+
+# -- Cilium agent update strategy
+updateStrategy:
+  rollingUpdate:
+    maxUnavailable: 2
+  type: RollingUpdate
+
+bpf:
+  # -- Enable BPF clock source probing for more efficient tick retrieval.
+  clockProbe: false
+
+  # -- Enables pre-allocation of eBPF map values. This increases
+  # memory usage but can reduce latency.
+  preallocateMaps: false
+
+  # -- Configure the maximum number of service entries in the
+  # load balancer maps.
+  lbMapMax: 65536
+
+  # -- Configure the maximum number of entries in endpoint policy map (per endpoint).
+  policyMapMax: 16384
+
+  # -- Configure the level of aggregation for monitor notifications.
+  # Valid options are none, low, medium, maximum.
+  monitorAggregation: medium
+
+  # -- Configure the typical time between monitor notifications for
+  # active connections.
+  monitorInterval: "5s"
+
+  # -- Configure which TCP flags trigger notifications when seen for the
+  # first time in a connection.
+  monitorFlags: "all"
+
+  # -- Allow cluster external access to ClusterIP services.
+  lbExternalClusterIP: false
+
+# -- Clean all eBPF datapath state from the initContainer of the cilium-agent
+# DaemonSet.
+#
+# WARNING: Use with care!
+cleanBpfState: false
+
+# -- Clean all local Cilium state from the initContainer of the cilium-agent
+# DaemonSet. Implies cleanBpfState: true.
+#
+# WARNING: Use with care!
+cleanState: false
+
+cni:
+  # -- Install the CNI configuration and binary files into the filesystem.
+  install: true
+  chainingMode: none
+  exclusive: true
+  customConf: false
+  confPath: /etc/cni/net.d
+  binPath: /opt/cni/bin
+  configMapKey: cni-config
+  confFileMountPath: /tmp/cni-configuration
+  hostConfDirMountPath: /host/etc/cni/net.d
+
+containerRuntime:
+  # -- Enables specific integrations for container runtimes.
+  # Supported values:
+  # - containerd
+  # - crio
+  # - docker
+  # - none
+  # - auto (automatically detect the container runtime)
+  integration: none
+  # -- Configure the path to the container runtime control socket.
+  # socketPath: /path/to/runtime.sock
+
+# crdWaitTimeout: ""
+
+# -- Tail call hooks for custom eBPF programs.
+customCalls:
+  # -- Enable tail call hooks for custom eBPF programs.
+  enabled: false
+
+# -- Configure which datapath mode should be used for configuring container
+# connectivity. Valid options are "veth" or "ipvlan". Deprecated, to be removed
+# in v1.12.
+datapathMode: veth
+
+encryption:
+  # -- Enable transparent network encryption.
+  enabled: false
+  type: wireguard
+  wireguard:
+    # -- Enables the fallback to the user-space implementation.
+    userspaceFallback: false
+
+# -- Enable connectivity health checking.
+healthChecking: true
+
+# -- TCP port for the agent health API. This is not the port for cilium-health.
+healthPort: 9876
+
+# -- Configure the host firewall.
+hostFirewall:
+  # -- Enables the enforcement of host policies in the eBPF datapath.
+  enabled: false
+
+hostPort:
+  # -- Enable hostPort service support.
+  enabled: false
+
+# -- Configure ClusterIP service handling in the host namespace (the node).
+hostServices:
+  # -- Enable host reachable services.
+  enabled: false
+
+  # -- Supported list of protocols to apply ClusterIP translation to.
+  protocols: tcp,udp
+
+  # -- Disable socket lb for non-root ns. This is used to enable Istio routing rules.
+  # hostNamespaceOnly: false
+
+hubble:
+  enabled: true
+  ui:
+    enabled: true
+    standalone:
+      # When installed via helm, installing UI should be done via `helm upgrade` and when installed via the cilium cli, then `cilium hubble enable --ui`
+      enabled: false
+
+    # -- Roll out Hubble-ui pods automatically when configmap is updated.
+    rollOutPods: true
+    # -- The number of replicas of Hubble UI to deploy.
+    replicas: 2
+    # -- hubble-ui update strategy.
+    updateStrategy:
+      rollingUpdate:
+        maxUnavailable: 1
+      type: RollingUpdate
+
+    securityContext:
+      # -- Whether to set the security context on the Hubble UI pods.
+      enabled: true
+
+    # -- hubble-ui ingress configuration.
+    ingress:
+      enabled: false
+
+# -- Method to use for identity allocation (`crd` or `kvstore`).
+identityAllocationMode: "crd"
+
+# -- Configure whether to install iptables rules to allow for TPROXY
+# (L7 proxy injection), iptables-based masquerading and compatibility
+# with kube-proxy.
+installIptablesRules: true
+
+# -- Install Iptables rules to skip netfilter connection tracking on all pod
+# traffic. This option is only effective when Cilium is running in direct
+# routing and full KPR mode. Moreover, this option cannot be enabled when Cilium
+# is running in a managed Kubernetes environment or in a chained CNI setup.
+installNoConntrackIptablesRules: false
+
+ipam:
+  # -- Configure IP Address Management mode.
+  # ref: https://docs.cilium.io/en/stable/concepts/networking/ipam/
+  mode: "cluster-pool"
+  operator:
+    # -- Deprecated in favor of ipam.operator.clusterPoolIPv4PodCIDRList.
+    # IPv4 CIDR range to delegate to individual nodes for IPAM.
+    clusterPoolIPv4PodCIDR: "10.244.0.0/16"
+    # -- IPv4 CIDR list range to delegate to individual nodes for IPAM.
+    clusterPoolIPv4PodCIDRList: []
+    # -- IPv4 CIDR mask size to delegate to individual nodes for IPAM.
+    clusterPoolIPv4MaskSize: 24
+
+# -- Configure the eBPF-based ip-masq-agent
+ipMasqAgent:
+  enabled: false
+
+# iptablesLockTimeout defines the iptables "--wait" option when invoked from Cilium.
+# iptablesLockTimeout: "5s"
+
+ipv4:
+  # -- Enable IPv4 support.
+  enabled: true
+
+# -- Enables egress gateway (beta) to redirect and SNAT the traffic that
+# leaves the cluster.
+egressGateway:
+  enabled: false
+
+monitor:
+  # -- Enable the cilium-monitor sidecar.
+  enabled: false
+
+# -- Configure service load balancing
+# loadBalancer:
+  # -- standalone enables the standalone L4LB which does not connect to
+  # kube-apiserver.
+  # standalone: false
+
+  # -- algorithm is the name of the load balancing algorithm for backend
+  # selection e.g. random or maglev
+  # algorithm: random
+
+  # -- mode is the operation mode of load balancing for remote backends
+  # e.g. snat, dsr, hybrid
+  # mode: snat
+
+  # -- acceleration is the option to accelerate service handling via XDP
+  # e.g. native, disabled
+  # acceleration: disabled
+
+  # -- dsrDispatch configures whether IP option or IPIP encapsulation is
+  # used to pass a service IP and port to remote backend
+  # dsrDispatch: opt
+
+  # -- serviceTopology enables K8s Topology Aware Hints -based service
+  # endpoints filtering
+  # serviceTopology: false
+
+# -- Configure N-S k8s service loadbalancing
+nodePort:
+  # -- Enable the Cilium NodePort service implementation.
+  enabled: false
+
+  # -- Port range to use for NodePort services.
+  # range: "30000,32767"
+
+  # -- Set to true to prevent applications binding to service ports.
+  bindProtection: true
+
+  # -- Append NodePort range to ip_local_reserved_ports if clash with ephemeral
+  # ports is detected.
+  autoProtectPortRange: true
+
+  # -- Enable healthcheck nodePort server for NodePort services
+  enableHealthCheck: true
+
+# policyAuditMode: false
+
+# -- The agent can be put into one of the three policy enforcement modes:
+# default, always and never.
+# ref: https://docs.cilium.io/en/stable/policy/intro/#policy-enforcement-modes
+policyEnforcementMode: "default"
+
+pprof:
+  # -- Enable Go pprof debugging
+  enabled: false
+
+# -- Configure prometheus metrics on the configured port at /metrics
+prometheus:
+  enabled: false
+  port: 9090
+  serviceMonitor:
+    # -- Enable service monitors.
+    # This requires the prometheus CRDs to be available (see https://github.com/prometheus-operator/prometheus-operator/blob/master/example/prometheus-operator-crd/monitoring.coreos.com_servicemonitors.yaml)
+    enabled: false
+    # -- Labels to add to ServiceMonitor cilium-agent
+    labels: {}
+    # -- Specify the Kubernetes namespace where Prometheus expects to find
+    # service monitors configured.
+    # namespace: ""
+  # -- Metrics that should be enabled or disabled from the default metric
+  # list. (+metric_foo to enable metric_foo , -metric_bar to disable
+  # metric_bar).
+  # ref: https://docs.cilium.io/en/stable/operations/metrics/#exported-metrics
+  metrics: ~
+
+# -- Configure Istio proxy options.
+proxy:
+  prometheus:
+    enabled: true
+    port: "9095"
+  # -- Regular expression matching compatible Istio sidecar istio-proxy
+  # container image names
+  sidecarImageRegex: "cilium/istio_proxy"
+
+# -- Enable use of the remote node identity.
+# ref: https://docs.cilium.io/en/v1.7/install/upgrade/#configmap-remote-node-identity
+remoteNodeIdentity: true
+
+# -- Enable resource quotas for priority classes used in the cluster.
+resourceQuotas:
+  enabled: false
+  cilium:
+    hard:
+      # 5k nodes * 2 DaemonSets (Cilium and cilium node init)
+      pods: "10k"
+  operator:
+    hard:
+      # 15 "clusterwide" Cilium Operator pods for HA
+      pods: "15"
+
+# -- Do not run Cilium agent when running with clean mode. Useful to completely
+# uninstall Cilium as it will stop Cilium from starting and create artifacts
+# in the node.
+sleepAfterInit: false
+
+# -- Configure BPF socket operations configuration
+sockops:
+  # enabled enables installation of socket options acceleration.
+  enabled: false
+
+# TODO: Add documentation, default value
+# svcSourceRangeCheck:
+
+# synchronizeK8sNodes: true
+
+# -- Configure TLS configuration in the agent.
+tls:
+  enabled: true
+  secretsBackend: local
+
+tunnel: "vxlan"
+
+# -- Disable the usage of CiliumEndpoint CRD.
+disableEndpointCRD: "false"
+
+wellKnownIdentities:
+  # -- Enable the use of well-known identities.
+  enabled: false
+
+operator:
+  # -- Enable the cilium-operator component (required).
+  enabled: true
+  # -- Roll out cilium-operator pods automatically when configmap is updated.
+  rollOutPods: true
+  # -- Number of replicas to run for the cilium-operator deployment
+  replicas: 2
+  # -- For using with an existing serviceAccount.
+  serviceAccountName: cilium-operator
