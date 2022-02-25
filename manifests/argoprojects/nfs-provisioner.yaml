@@ -17,7 +17,7 @@ spec:
       releaseName: nfs-subdir-external-provisioner
       parameters:
         - name: nfs.server
-          value: "10.45.0.3"
+          value: "10.200.0.3"
         - name: nfs.path
           value: "/KubeStore"
         # - name: nfs.mountOptions
