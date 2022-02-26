@@ -2,12 +2,12 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: nda-k3s
+  name: nda-cert
 spec:
-  commonName: nda.k3s.danmanners.io
-  secretName: nda-k3s
+  commonName: nda.danmanners.com
+  secretName: nda-cert
   dnsNames:
-    - nda.k3s.danmanners.io
+    - nda.danmanners.com
   issuerRef:
     name: acme-prod
     kind: ClusterIssuer
@@ -15,16 +15,16 @@ spec:
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: nda-k3s
+  name: nda-cert
   namespace: nda
 spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`nda.k3s.danmanners.io`)
+    - match: Host(`nda.danmanners.com`)
       kind: Rule
       services:
         - name: nda
           port: 3000
   tls:
-    secretName: nda-k3s
+    secretName: nda-cert
