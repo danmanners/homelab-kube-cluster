@@ -11,6 +11,7 @@ resources:
   - namespace.yaml
 
 patchesStrategicMerge:
+  - statefulset.yaml
   - deployment.yaml
   - configmap.yaml
 

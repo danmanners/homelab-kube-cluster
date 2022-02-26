@@ -8,4 +8,3 @@ spec:
     spec:
       nodeSelector:
         kubernetes.io/arch: amd64
-        node-role.kubernetes.io/proxmox: "true"

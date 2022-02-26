@@ -5,8 +5,8 @@ metadata:
     namespace: argocd
 type: Opaque
 stringData:
-    credentials: ENC[AES256_GCM,data:LA8RY8tmEMa7tnLjIZUByGS6aYx42NZAOlKwVh/h4n7yBkilHIAVqDwRJ9uOgB+CYa8xKj0f7HeYHVoc1+e74EEX3674LaHPNnQ356i9UBZEJvLKbnhm5ONfAx1sKW9Dh5I6crH+6tldGMHSy/XOQyL0MTR+XFA=,iv:voTZ0kIMf9sGXHFO7Xu8db2DIxxL32M2hW5vhUHMAxY=,tag:LzfKiMEpEANmH9kdG/w1EQ==,type:str]
-    config: ENC[AES256_GCM,data:XynXJWPTCSZ3fpTlEHtlMYYA6MUZ0jzPx3zZ2cUeEFpz6fJcKEb2kw==,iv:QglbZ9NL7RgwkA9CIHyRAKjdSo5iJnKeSHhue6+SKtU=,tag:TVvLdbH4LSH/wLGevkzUUw==,type:str]
+    credentials: ENC[AES256_GCM,data:bIhUXN8sGMaw4YsMptoVquDqt4wy99A2c98z4bUhkPYQ+8dGmO3QYH4JhenS1kKCdo8PispbniyOW7pOhSOYJ5XHra2iPw1fH3f4LPpmiBm6e5UtgM2E+cVuOUhNa+iXzClcvZ87t2CHzErJmqEFaQ==,iv:M2FUMzQIBqD5IDLza3auRc0zW/k9WoXXp3O2u3cG8B0=,tag:BdmDg9HYKiKjVaEZAHawyg==,type:str]
+    config: ENC[AES256_GCM,data:wbI0mjkllxRVT7u7Q7GvmugGQ1fmDbOLWSk3,iv:HBFQuH2iJS6WCBAYBHwxBKROkkoce8WIfCsuEA6HRiU=,tag:BKO2E5LKUVQpDh8rzAX4Vw==,type:str]
 sops:
     kms:
         - arn: arn:aws:kms:us-east-1:977656673179:key/7e829b85-6fed-4598-b675-8ebeea105c4c
@@ -17,8 +17,8 @@ sops:
     azure_kv: []
     hc_vault: []
     age: []
-    lastmodified: "2022-02-25T22:14:12Z"
-    mac: ENC[AES256_GCM,data:k/pP0bBNk8UGPedm4x59BgpMSbLhpx8hXuRF/BlFD8Kw63O5ZCHJVZpTUdbJB+IDBfSwatxLt0T+qz9XrNqDZDmB6uU9b+pSa84uPPtziM+apFNU6UqctTtbYmk9qgpYWdhkREU061fXgm9ck13O8wOcpebv0ITC8UN7p5JgbAo=,iv:hcqEymHvjD+w5e84iPp3u4dZGrJGwaGCHoQTyvM2kak=,tag:WuUEFK6ug9HyGksNtEPGSA==,type:str]
+    lastmodified: "2022-02-26T17:17:13Z"
+    mac: ENC[AES256_GCM,data:VvaQznueikyFGJXzC2DsRkP31SpOYqhL+hJgDlTvrrsmfKBnpAMO7ch89dnsP4lYyi6CHRqvmRYDCZfZh6Ua5nFv05OXrdWoMlJ9W91loU/ubJIT/WmPfIu0SlMXIpFp2uNdT4ccekiQ/s4P4RTq1MSikX6kaHQGtZrgRIbUC5c=,iv:EkHOGDBQEH/0RBdSC5wxMD/pZfD9q8i9ayrbHfNx2jA=,tag:wGCEoZDyYBvIt7GCDsTAaA==,type:str]
     pgp: []
     encrypted_regex: ^(data|stringData)$
     version: 3.7.1
