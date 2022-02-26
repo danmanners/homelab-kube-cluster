@@ -1,0 +1,83 @@
+# ref: https://hub.docker.com/r/itzg/minecraft-server/
+image: itzg/minecraft-server
+imageTag: latest
+
+resources:
+  requests:
+    memory: 2048Mi
+    cpu: 2000m
+
+# upgrade strategy type (e.g. Recreate or RollingUpdate)
+strategyType: Recreate
+
+securityContext:
+  runAsUser: 1000
+  fsGroup: 2000
+# Most of these map to environment variables. See Minecraft for details:
+# https://hub.docker.com/r/itzg/minecraft-server/
+
+minecraftServer:
+  eula: "true"
+  version: "LATEST"
+  type: "VANILLA"
+  maxPlayers: 20
+  maxWorldSize: 10000
+  allowNether: true
+  announcePlayerAchievements: true
+  enableCommandBlock: true
+  forcegameMode: false
+  generateStructures: true
+  hardcore: false
+  maxBuildHeight: 256
+  maxTickTime: 60000
+  spawnAnimals: true
+  spawnMonsters: true
+  spawnNPCs: true
+  spawnProtection: 16
+  viewDistance: 10
+  levelSeed: 3af330b42da71b2c28133c604f589b76
+  gameMode: survival
+  motd: "Welcome to Minecraft on Kubernetes!"
+  pvp: false
+  levelType: DEFAULT
+  generatorSettings:
+  worldSaveName: world
+  forceReDownload: false
+  removeOldMods: false
+  onlineMode: true
+  memory: 2048M
+  jvmOpts: ""
+  jvmXXOpts: ""
+  serviceType: LoadBalancer
+  servicePort: 25565
+
+  rcon:
+    enabled: true
+    port: 25575
+    password: "CHANGEME!"
+    existingSecret:
+    secretKey: rcon-password
+    serviceType: LoadBalancer
+
+  query:
+    enabled: false
+    port: 25565
+
+persistence:
+  storageClass: "nfs-client"
+  dataDir:
+    enabled: true
+    Size: 5Gi
+
+# PLEASE NOTE! rcon must be enabled above!  It does NOT require a nodePort or loadBalancerIP
+mcbackup:
+  enabled: false
+  # resources:
+  #   requests:
+  #     memory: 512Mi
+  #     cpu: 500m
+  # persistence:
+  #   storageClass: "nfs-client"
+  #   backupDir:
+  #     enabled: true
+  #     Size: 2Gi
