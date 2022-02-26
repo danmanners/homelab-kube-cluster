@@ -1,13 +1,13 @@
-# ---
-# apiVersion: apps/v1
-# kind: Deployment
-# metadata:
-#   name: argocd-dex-server
-# spec:
-#   template:
-#     spec:
-#       nodeSelector:
-#         kubernetes.io/arch: amd64
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: argocd-dex-server
+spec:
+  template:
+    spec:
+      nodeSelector:
+        kubernetes.io/arch: amd64
 ---
 kind: Deployment
 apiVersion: apps/v1
@@ -20,8 +20,8 @@ metadata:
 spec:
   template:
     spec:
-      # nodeSelector:
-      #   kubernetes.io/arch: amd64
+      nodeSelector:
+        kubernetes.io/arch: amd64
       containers:
         - name: argocd-server
           command:
@@ -44,9 +44,8 @@ spec:
       app.kubernetes.io/name: argocd-repo-server
   template:
     spec:
-      # nodeSelector:
-      #   kubernetes.io/arch: amd64
-      #   node-role.kubernetes.io/proxmox: "true"
+      nodeSelector:
+        kubernetes.io/arch: amd64
       containers:
       - name: argocd-repo-server
         image: ghcr.io/danmanners/argo-repo-server:aws-ksops-v2.2.5
