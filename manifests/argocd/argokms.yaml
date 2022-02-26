@@ -5,7 +5,7 @@ metadata:
     namespace: argocd
 type: Opaque
 stringData:
-    credentials: ENC[AES256_GCM,data:8WlpmZnqtPbYNBkul+nxn/UPOqafK4FHY2zSklX3WidjywJwVIvFxzMYyR1Q/reGT6DdnBurcXzhwH0w25v4xomd0ouGa0dUJyaAUkWFDlZZnlgE/QqVliQU9Tl1tAKySoP4btuCZ3PmfiYfJWoNPFOzwUfJihY=,iv:V2YnyjmBVCJV6rd4Kq6UATm3FzgscGfLGFbMW6jvDtQ=,tag:VG0vwmh0QIOyDJm3VCLOiA==,type:str]
+    credentials: ENC[AES256_GCM,data:LA8RY8tmEMa7tnLjIZUByGS6aYx42NZAOlKwVh/h4n7yBkilHIAVqDwRJ9uOgB+CYa8xKj0f7HeYHVoc1+e74EEX3674LaHPNnQ356i9UBZEJvLKbnhm5ONfAx1sKW9Dh5I6crH+6tldGMHSy/XOQyL0MTR+XFA=,iv:voTZ0kIMf9sGXHFO7Xu8db2DIxxL32M2hW5vhUHMAxY=,tag:LzfKiMEpEANmH9kdG/w1EQ==,type:str]
     config: ENC[AES256_GCM,data:XynXJWPTCSZ3fpTlEHtlMYYA6MUZ0jzPx3zZ2cUeEFpz6fJcKEb2kw==,iv:QglbZ9NL7RgwkA9CIHyRAKjdSo5iJnKeSHhue6+SKtU=,tag:TVvLdbH4LSH/wLGevkzUUw==,type:str]
 sops:
     kms:
@@ -17,8 +17,8 @@ sops:
     azure_kv: []
     hc_vault: []
     age: []
-    lastmodified: "2021-10-17T20:11:15Z"
-    mac: ENC[AES256_GCM,data:oRpQhM4VDGneZgc/2PDrLYnPyLaV/Gn4Ufr6wtafYtr1B+liiitYBJtzF/dTVzzBFoCfMuCoeIYOxJhKkZgQC4L7dfTXk0F+sFlnvgBRIImjjNjePf5g/FEQcRqKU4RIApIP3tDfQQW3dfTR/zsgPZs5vCXKnxJP/ynUJ2v/1S0=,iv:FCXWvEbG7undTrV9iWUJAE6wmAQWUwKfEjgXcFtkUPY=,tag:7KPLbHKFw7823yYYX6dnSw==,type:str]
+    lastmodified: "2022-02-25T22:14:12Z"
+    mac: ENC[AES256_GCM,data:k/pP0bBNk8UGPedm4x59BgpMSbLhpx8hXuRF/BlFD8Kw63O5ZCHJVZpTUdbJB+IDBfSwatxLt0T+qz9XrNqDZDmB6uU9b+pSa84uPPtziM+apFNU6UqctTtbYmk9qgpYWdhkREU061fXgm9ck13O8wOcpebv0ITC8UN7p5JgbAo=,iv:hcqEymHvjD+w5e84iPp3u4dZGrJGwaGCHoQTyvM2kak=,tag:WuUEFK6ug9HyGksNtEPGSA==,type:str]
     pgp: []
     encrypted_regex: ^(data|stringData)$
     version: 3.7.1

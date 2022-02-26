@@ -1,0 +1,224 @@
+---
+# Source: minecraft/templates/secrets.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: minecraft-minecraft
+  labels:
+    app: minecraft-minecraft
+    chart: "minecraft-3.8.0"
+    release: "minecraft"
+    heritage: "Helm"
+type: Opaque
+data:
+  rcon-password: "Q0hBTkdFTUUh"
+---
+# Source: minecraft/templates/datadir-pvc.yaml
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: minecraft-minecraft-datadir
+  labels:
+    app: minecraft-minecraft
+    chart: "minecraft-3.8.0"
+    release: "minecraft"
+    heritage: "Helm"
+  annotations:
+    volume.beta.kubernetes.io/storage-class: "nfs-client"
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: "5Gi"
+  storageClassName: "nfs-client"
+---
+# Source: minecraft/templates/minecraft-svc.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: minecraft-minecraft
+  labels:
+    app: minecraft-minecraft
+    chart: "minecraft-3.8.0"
+    release: "minecraft"
+    heritage: "Helm"
+  annotations:
+    {}
+spec:
+  type: LoadBalancer
+  ports:
+  - name: minecraft
+    port: 25565
+    targetPort: minecraft
+    protocol: TCP
+  selector:
+    app: minecraft-minecraft
+---
+# Source: minecraft/templates/rcon-svc.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: "minecraft-minecraft-rcon"
+  annotations:
+    {}
+  labels:
+    app: minecraft-minecraft
+    chart: "minecraft-3.8.0"
+    release: "minecraft"
+    heritage: "Helm"
+spec:
+  type: LoadBalancer
+  ports:
+  - name: rcon
+    port: 25575
+    targetPort: rcon
+    protocol: TCP
+  selector:
+    app: minecraft-minecraft
+---
+# Source: minecraft/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: minecraft-minecraft
+  labels:
+    app: minecraft-minecraft
+    chart: "minecraft-3.8.0"
+    release: "minecraft"
+    heritage: "Helm"
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: minecraft-minecraft
+  template:
+    metadata:
+      labels:
+        app: minecraft-minecraft
+    spec:
+      securityContext:
+        runAsUser: 1000
+        fsGroup: 2000
+      containers:
+      - name: minecraft-minecraft
+        image: "itzg/minecraft-server:latest"
+        imagePullPolicy: Always
+        resources:
+          requests:
+            cpu: 2000m
+            memory: 2048Mi
+        readinessProbe:
+          tcpSocket:
+            port: 25565
+          initialDelaySeconds: 30
+          periodSeconds: 5
+          failureThreshold: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        livenessProbe:
+          tcpSocket:
+            port: 25565
+          initialDelaySeconds: 30
+          periodSeconds: 5
+          failureThreshold: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        env:
+        - name: EULA
+          value: "true"
+        - name: TYPE
+          value: "VANILLA"
+        - name: VERSION
+          value: "LATEST"
+        - name: DIFFICULTY
+          value: "easy"
+        - name: WHITELIST
+          value: ""
+        - name: OPS
+          value: ""
+        - name: ICON
+          value: ""
+        - name: MAX_PLAYERS
+          value: "20"
+        - name: MAX_WORLD_SIZE
+          value: "10000"
+        - name: ALLOW_NETHER
+          value: "true"
+        - name: ANNOUNCE_PLAYER_ACHIEVEMENTS
+          value: "true"
+        - name: ENABLE_COMMAND_BLOCK
+          value: "true"
+        - name: FORCE_GAMEMODE
+          value: "false"
+        - name: GENERATE_STRUCTURES
+          value: "true"
+        - name: HARDCORE
+          value: "false"
+        - name: MAX_BUILD_HEIGHT
+          value: "256"
+        - name: MAX_TICK_TIME
+          value: "60000"
+        - name: SPAWN_ANIMALS
+          value: "true"
+        - name: SPAWN_MONSTERS
+          value: "true"
+        - name: SPAWN_NPCS
+          value: "true"
+        - name: SPAWN_PROTECTION
+          value: "16"
+        - name: VIEW_DISTANCE
+          value: "10"
+        - name: SEED
+          value: "3af330b42da71b2c28133c604f589b76"
+        - name: MODE
+          value: "survival"
+        - name: MOTD
+          value: "Welcome to Minecraft on Kubernetes!"
+        - name: PVP
+          value: "false"
+        - name: LEVEL_TYPE
+          value: "DEFAULT"
+        - name: GENERATOR_SETTINGS
+          value: ""
+        - name: LEVEL
+          value: "world"
+        - name: ONLINE_MODE
+          value: "true"
+        - name: MEMORY
+          value: "2048M"
+        - name: JVM_OPTS
+          value: ""
+        - name: JVM_XX_OPTS
+          value: ""
+        - name: OVERRIDE_SERVER_PROPERTIES
+          value: "false"
+        - name: ENABLE_RCON
+          value: "true"
+        - name: RCON_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: minecraft-minecraft
+              key: rcon-password
+
+        ports:
+        - name: minecraft
+          containerPort: 25565
+          protocol: TCP
+        - name: rcon
+          containerPort: 25575
+          protocol: TCP
+        volumeMounts:
+        - name: datadir
+          mountPath: /data
+        - name: backupdir
+          mountPath: /backups
+          readOnly: true
+      volumes:
+      - name: datadir
+        persistentVolumeClaim:
+          claimName: minecraft-minecraft-datadir
+      - name: backupdir
+        emptyDir: {}
