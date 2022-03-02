@@ -12,7 +12,7 @@ spec:
   source:
     chart: openfaas
     repoURL: https://openfaas.github.io/faas-netes
-    targetRevision: "9.0.0"
+    targetRevision: "10.0.13"
     helm:
       releaseName: openfaas
       parameters:
