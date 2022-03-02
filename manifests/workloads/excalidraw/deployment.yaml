@@ -21,7 +21,7 @@ spec:
         run: excalidraw
     spec:
       containers:
-      - image: ghcr.io/danmanners/excalidraw:0a89c4b
+      - image: excalidraw-image
         imagePullPolicy: Always
         name: excalidraw
         resources:
