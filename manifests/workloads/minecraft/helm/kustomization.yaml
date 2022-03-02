@@ -18,4 +18,3 @@ patchesStrategicMerge:
     metadata:
       name: minecraft-minecraft
     $patch: delete
-

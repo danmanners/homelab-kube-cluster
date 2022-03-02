@@ -3,6 +3,7 @@
 keys/
 inventory/turing-pi
 .terraform/
+charts/
 
 # Files
 *.pem
