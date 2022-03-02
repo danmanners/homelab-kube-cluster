@@ -12,3 +12,12 @@ resources:
 
 generators:
   - secrets-generator.yaml
+
+patchesStrategicMerge:
+  # Remove the Persistent Volume; let the PVC provision it.
+  - |-
+    apiVersion: v1
+    kind: PersistentVolume
+    metadata:
+      name: minecraft-minecraft-datadir
+    $patch: delete
