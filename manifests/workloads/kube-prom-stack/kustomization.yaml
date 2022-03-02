@@ -4,10 +4,10 @@ kind: Kustomization
 namespace: kube-system
 
 HelmChartInflationGenerator:
-  - chartName: monitoring
+  - chartName: kube-prometheus-stack
     chartRepoUrl: https://prometheus-community.github.io/helm-charts
-    chartVersion: 33.1.0
-    releaseName: kube-prometheus-stack
+    chartVersion: "33.1.0"
+    releaseName: monitoring
     releaseNamespace: kube-system
     values: values.yaml
 
@@ -15,6 +15,5 @@ bases:
   - crds
 
 resources:
-  - rendered-helm.yaml
   - ingress.yaml
   - service.yaml
