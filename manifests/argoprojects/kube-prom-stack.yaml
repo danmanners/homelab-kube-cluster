@@ -9,16 +9,9 @@ spec:
     namespace: kube-system
     server: 'https://kubernetes.default.svc'
   source:
-    repoURL: 'https://prometheus-community.github.io/helm-charts'
-    # targetRevision: "15.4.4"
-    # targetRevision: "16.15.0"
-    # targetRevision: "17.2.2"
-    # targetRevision: "18.1.1"
-    # targetRevision: "19.1.0"
-    # targetRevision: "20.1.0?"
-    # targetRevision: "21.0.3"
-    targetRevision: "33.0.0"
-    chart: kube-prometheus-stack
+    repoURL: "https://github.com/danmanners/homelab-kube-cluster.git"
+    path: manifests/workloads/kube-prom-stack
+    targetRevision: HEAD
   project: default
   syncPolicy:
     automated:
