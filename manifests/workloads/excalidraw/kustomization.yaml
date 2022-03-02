@@ -8,4 +8,8 @@ resources:
   - deployment.yaml
   - ingress.yaml
   - service.yaml
-  # - horizontal-pod-autoscaler.yaml
+
+images:
+  - name: excalidraw-image
+    newName: ghcr.io/danmanners/excalidraw
+    newTag: 0a89c4b

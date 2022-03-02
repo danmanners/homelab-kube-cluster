@@ -1,6 +1,5 @@
 # ref: https://hub.docker.com/r/itzg/minecraft-server/
 image: itzg/minecraft-server
-imageTag: latest
 
 resources:
   requests:
