@@ -21,3 +21,16 @@ patchesStrategicMerge:
     metadata:
       name: minecraft-minecraft-datadir
     $patch: delete
+  - |-
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: minecraft-minecraft
+    spec:
+      template:
+        spec:
+          containers:
+            - name: minecraft-minecraft
+              env:
+                - name: OPS
+                  value: DanManners,Megglomania,stubborntexan,blobjamesblob
