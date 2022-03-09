@@ -12,4 +12,4 @@ resources:
 images:
   - name: jenkins-image
     newName: jenkins/jenkins
-    newTag: 2.319.3-lts
+    newTag: 2.332.1-lts
