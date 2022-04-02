@@ -1,5 +1,5 @@
 creation_rules:
-  - path_regex: .*/talos/.*
+  - path_regex: talos/.*
     kms: "arn:aws:kms:us-east-1:977656673179:key/7e829b85-6fed-4598-b675-8ebeea105c4c"
     aws_profile: default
   - encrypted_regex: ^(data|stringData)$
