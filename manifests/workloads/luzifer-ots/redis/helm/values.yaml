@@ -106,7 +106,7 @@ metrics:
   image:
     registry: docker.io
     repository: bitnami/redis-exporter
-    tag: 1.33.0-debian-10-r21
+    tag: 1.37.0-debian-10-r21
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP
