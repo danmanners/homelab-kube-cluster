@@ -20,9 +20,9 @@ helmCharts:
       expose:
         type: clusterIP
         tls:
-          certSource: secret
-          secret:
-            secretName: 
+          auto:
+            commonName: harbor.danmanners.com
+
       persistence:
         persistentVolumeClaim:
           registry:
