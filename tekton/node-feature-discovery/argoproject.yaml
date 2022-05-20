@@ -7,9 +7,9 @@ metadata:
 spec:
   project: tekton-pipelines
   source:
-    repoURL: "git@github.com:danmanners/homelab-k3s-cluster.git"
+    repoURL: "git@github.com:danmanners/homelab-kube-cluster.git"
     path: tekton/node-feature-discovery
-    targetRevision: HEAD
+    targetRevision: main
   destination:
     server: "https://kubernetes.default.svc"
     namespace: tekton-pipelines

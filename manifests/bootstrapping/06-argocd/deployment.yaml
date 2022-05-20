@@ -1,0 +1,56 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: argocd-dex-server
+spec:
+  template:
+    spec:
+      nodeSelector:
+        kubernetes.io/arch: amd64
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: argocd-server
+spec:
+  template:
+    spec:
+      nodeSelector:
+        kubernetes.io/arch: amd64
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: argocd-applicationset-controller
+spec:
+  template: 
+    spec:
+      nodeSelector:
+        kubernetes.io/arch: amd64
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: argocd-repo-server
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: argocd-repo-server
+  template:
+    spec:
+      nodeSelector:
+        kubernetes.io/arch: amd64
+      containers:
+      - name: argocd-repo-server
+        image: ghcr.io/danmanners/argo-repo-server:aws-ksops-v2.3.3
+        imagePullPolicy: Always
+        resources: {}
+        volumeMounts:
+        - mountPath: /home/argocd/.aws
+          name: argocd-aws-credentials
+      volumes:
+      - name: argocd-aws-credentials
+        secret:
+          defaultMode: 420
+          secretName: argocd-aws-credentials

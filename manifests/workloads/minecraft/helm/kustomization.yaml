@@ -3,13 +3,13 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: minecraft
 
-HelmChartInflationGenerator:
-  - chartName: minecraft
-    chartRepoUrl: https://itzg.github.io/minecraft-server-charts/
-    chartVersion: 3.8.0
+helmCharts:
+  - name: minecraft
     releaseName: minecraft
-    releaseNamespace: minecraft
-    values: values.yaml
+    namespace: minecraft
+    repo: https://itzg.github.io/minecraft-server-charts/
+    version: "4.0.0"
+    valuesFile: values.yaml
 
 patchesStrategicMerge:
   - |-

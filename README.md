@@ -1,6 +1,6 @@
 # Dan Manners' Homelab
 
-Current status: **BETA** (but mostly stable)
+Current status: **BETA** (but is highly stable)
 
 This project aims to utilize industry-standard tooling and practices in order to both perform it's functions and act as a repository for people to reference for their own learning and work.
 
@@ -11,10 +11,11 @@ This project aims to utilize industry-standard tooling and practices in order to
 - [x] Hybrid Multi-Cloud
 - [x] External DNS updates
 - [x] Automagic cert management
+- [x] In-Cluster Container Registry
 - [ ] Monitoring and alerting 🚧
 - [ ] Multiple environment support 🚧
 - [ ] Automated Backups 🚧
-- [x] ~~Cluster SSO through GitHub~~ - Removed from Talos
+- [x] ~~Cluster SSO through GitHub~~ - Removed when switching from K3s to Talos
 
 ## 💡 Current Tech Stack
 
@@ -29,6 +30,7 @@ This project aims to utilize industry-standard tooling and practices in order to
 | [External-DNS](https://github.com/kubernetes-sigs/external-dns) | Configure and manage External DNS servers         |
 | [GitHub](https://github.com/)                                   | Popular Code Management through Git               |
 | [Grafana](https://grafana.com/)                                 | Metrics Visualization                             |
+| [Harbor](https://goharbor.io/)                                  | Open Source Container and Helm Registry           |
 | [Helm](https://helm.sh/)                                        | Kubernetes Package Management                     |
 | [Jenkins](https://www.jenkins.io/)                              | Open-Source Automation Server                     |
 | [Kubernetes](https://kubernetes.io/)                            | Container Orchestration                           |
@@ -57,34 +59,42 @@ This project aims to utilize industry-standard tooling and practices in order to
 
 Several items have previously been in my cluster, but have been removed over time for one reason or another. Those items can be foud below.
 
-| Name                                                     | Description                                                 |
-| -------------------------------------------------------- | ----------------------------------------------------------- |
-| [Ansible](https://www.ansible.com/)                      | Ad-hoc system configuration-as-code                         |
-| [Amazon Linux 2](https://aws.amazon.com/amazon-linux-2/) | Operating System                                            |
-| [Flannel CNI](https://github.com/flannel-io/flannel)     | Network Fabric for Containers                               |
-| [K3s](https://k3s.io/)                                   | Lightweight Kubernetes                                      |
-| [KubeLogin](https://github.com/int128/kubelogin)         | kubectl plugin for Kubernetes OpenID Connect authentication |
-| [Rocky Linux](https://rockylinux.org/)                   | Open-Source Enterprise Linux; Spiritual successor to CentOS |
-| [Turing Pi 1](https://turingpi.com/v1/)                  | Raspberry Pi Compute Module Clustering                      |
+| Name                                                     | Removal Reason                                                     | Description                                                 |
+| -------------------------------------------------------- | ------------------------------------------------------------------ | ----------------------------------------------------------- |
+| [Ansible](https://www.ansible.com/)                      | I don't need host provisioning anymore                             | Ad-hoc system configuration-as-code                         |
+| [Amazon Linux 2](https://aws.amazon.com/amazon-linux-2/) | I standardized on Talos OS                                         | Operating System                                            |
+| [Flannel CNI](https://github.com/flannel-io/flannel)     | I migrated to Cilium for my CNI                                    | Network Fabric for Containers                               |
+| [K3s](https://k3s.io/)                                   | I moved to Talos for Kubernetes                                    | Lightweight Kubernetes                                      |
+| [KubeLogin](https://github.com/int128/kubelogin)         | This was more of a hassle than anything, but worked perfectly well | kubectl plugin for Kubernetes OpenID Connect authentication |
+| [Rocky Linux](https://rockylinux.org/)                   | I standardized on Talos OS                                         | Open-Source Enterprise Linux; Spiritual successor to CentOS |
+| [Turing Pi 1](https://turingpi.com/v1/)                  | I can't run Talos OS on the Turing Pi CM3+ nodes                   | Raspberry Pi Compute Module Clustering                      |
 
 
 ## Services Hosted
 
-| Name                       | Description                                                                             | Path                                                                                                                                                         | Relevant Link                                                                                                                           |
-| -------------------------- | --------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------- |
-| Excalidraw                 | Easy whiteboarding with excellent shortcuts!                                            | [manifests/workloads/excalidraw](https://github.com/danmanners/homelab-k3s-cluster/tree/main/manifests/workloads/excalidraw)                                 | [GitHub - excalidraw/excalidraw](https://github.com/excalidraw/excalidraw)                                                              |
-| Jenkins OSS                | An older tool sir, but it checks out.                                                   | [manifests/workloads/jenkins-oss](https://github.com/danmanners/homelab-k3s-cluster/tree/main/manifests/workloads/jenkins-oss)                               | [Website](https://www.jenkins.io/)                                                                                                      |
-| Rancher Upgrade Controller | In your Kubernetes, upgrading your nodes                                                | [manifests/workloads/k3s-upgrade-controller](https://github.com/danmanners/homelab-k3s-cluster/tree/main/manifests/workloads/k3s-upgrade-controller)         | [GitHub - rancher/system-upgrade-controller](https://github.com/rancher/system-upgrade-controller)                                      |
-| Kube-Prometheus-Stack      | Easy to deploy Grafana, Prometheus rules, and the Prometheus Operator.                  | [manifests/workloads/kube-prometheus-stack-grafana](https://github.com/danmanners/homelab-k3s-cluster/tree/main/manifests/workloads/kube-prom-stack-grafana) | [GitHub - prometheus-community/helm-charts](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack) |
-| Luzifer - One Time Secret  | One-Time-Secret sharing platform with a symmetric 256bit AES encryption in the browser. | [manifests/workloads/luzifer-ots](https://github.com/danmanners/homelab-k3s-cluster/tree/main/manifests/workloads/luzifer-ots)                               | [GitHub - Luzifer/ots](https://github.com/Luzifer/ots)                                                                                  |
-| Memegen                    | The free and open source API to generate memes.                                         | [manifests/workloads/memegen](https://github.com/danmanners/homelab-k3s-cluster/tree/main/manifests/workloads/memegen)                                       | [GitHub - jacebrowning/memegen](https://github.com/jacebrowning/memegen)                                                                |
-| Node-Feature-Discovery     | Node feature discovery for Kubernetes                                                   | [manifests/workloads/node-feature-discovery](https://github.com/danmanners/homelab-k3s-cluster/tree/main/manifests/workloads/node-feature-discovery)         | [GitHub - kubernetes-sigs/node-feature-discovery](https://github.com/kubernetes-sigs/node-feature-discovery)                            |
-| Non-Disclosure-Agreement   | Flask app to obfuscate URL's and strings for obfuscated sharing of information.         | [manifests/workloads/non-disclosure-agreement](https://github.com/danmanners/homelab-k3s-cluster/tree/main/manifests/workloads/non-disclosure-agreement)     | [GitHub - danmaners/non-disclosure-agreement](https://github.com/danmanners/non-disclosure-agreement)                                   |
-| Open Policy Agent          | Policy-based control for cloud native environments                                      | [manifests/workloads/open-policy-agent](https://github.com/danmanners/homelab-k3s-cluster/tree/main/manifests/workloads/open-policy-agent)                   | [Website](https://www.openpolicyagent.org/)                                                                                             |
-| OpenFaaS                   | Serverless functions, made simple!                                                      | [manifests/workloads/openfaas-ingress](https://github.com/danmanners/homelab-k3s-cluster/tree/main/manifests/workloads/openfaas-ingress)                     | [Website](https://www.openfaas.com/)                                                                                                    |
-| SonarQube OSS              | Code quality and code security                                                          | [manifests/workloads/sonarqube-oss](https://github.com/danmanners/homelab-k3s-cluster/tree/main/manifests/workloads/sonarqube-oss)                           | [Website](https://www.sonarqube.org/)                                                                                                   |
-| Spiderfoot                 | Automated OSINT webcrawling                                                             | [manifests/workloads/spiderfoot](https://github.com/danmanners/homelab-k3s-cluster/tree/main/manifests/workloads/spiderfoot)                                 | [Website](https://www.spiderfoot.net/)                                                                                                  |
-| Traefik                    | Cloud native application proxying; simplifying network complexity                       | [manifests/workloads/traefik-helm](https://github.com/danmanners/homelab-k3s-cluster/tree/main/manifests/workloads/traefik-helm)                             | [Website](https://traefik.io/traefik/)                                                                                                  |
+| Name                      | Description                                                                             | Path                                                                                                                                                         | Relevant Link                                                                                                                           |
+| ------------------------- | --------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------- |
+| Excalidraw                | Easy whiteboarding with excellent shortcuts!                                            | [manifests/workloads/excalidraw](https://github.com/danmanners/homelab-kube-cluster/tree/main/manifests/workloads/excalidraw)                                 | [GitHub - excalidraw/excalidraw](https://github.com/excalidraw/excalidraw)                                                              |
+| Jenkins OSS               | An older tool sir, but it checks out.                                                   | [manifests/workloads/jenkins-oss](https://github.com/danmanners/homelab-kube-cluster/tree/main/manifests/workloads/jenkins-oss)                               | [Website](https://www.jenkins.io/)                                                                                                      |
+| Kube-Prometheus-Stack     | Easy to deploy Grafana, Prometheus rules, and the Prometheus Operator.                  | [manifests/workloads/kube-prometheus-stack-grafana](https://github.com/danmanners/homelab-kube-cluster/tree/main/manifests/workloads/kube-prom-stack-grafana) | [GitHub - prometheus-community/helm-charts](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack) |
+| Luzifer - One Time Secret | One-Time-Secret sharing platform with a symmetric 256bit AES encryption in the browser. | [manifests/workloads/luzifer-ots](https://github.com/danmanners/homelab-kube-cluster/tree/main/manifests/workloads/luzifer-ots)                               | [GitHub - Luzifer/ots](https://github.com/Luzifer/ots)                                                                                  |
+| Memegen                   | The free and open source API to generate memes.                                         | [manifests/workloads/memegen](https://github.com/danmanners/homelab-kube-cluster/tree/main/manifests/workloads/memegen)                                       | [GitHub - jacebrowning/memegen](https://github.com/jacebrowning/memegen)                                                                |
+| Node-Feature-Discovery    | Node feature discovery for Kubernetes                                                   | [manifests/workloads/node-feature-discovery](https://github.com/danmanners/homelab-kube-cluster/tree/main/manifests/workloads/node-feature-discovery)         | [GitHub - kubernetes-sigs/node-feature-discovery](https://github.com/kubernetes-sigs/node-feature-discovery)                            |
+| Non-Disclosure-Agreement  | Flask app to obfuscate URL's and strings for obfuscated sharing of information.         | [manifests/workloads/non-disclosure-agreement](https://github.com/danmanners/homelab-kube-cluster/tree/main/manifests/workloads/non-disclosure-agreement)     | [GitHub - danmaners/non-disclosure-agreement](https://github.com/danmanners/non-disclosure-agreement)                                   |
+| Open Policy Agent         | Policy-based control for cloud native environments                                      | [manifests/workloads/open-policy-agent](https://github.com/danmanners/homelab-kube-cluster/tree/main/manifests/workloads/open-policy-agent)                   | [Website](https://www.openpolicyagent.org/)                                                                                             |
+| OpenFaaS                  | Serverless functions, made simple!                                                      | [manifests/workloads/openfaas-ingress](https://github.com/danmanners/homelab-kube-cluster/tree/main/manifests/workloads/openfaas-ingress)                     | [Website](https://www.openfaas.com/)                                                                                                    |
+| SonarQube OSS             | Code quality and code security                                                          | [manifests/workloads/sonarqube-oss](https://github.com/danmanners/homelab-kube-cluster/tree/main/manifests/workloads/sonarqube-oss)                           | [Website](https://www.sonarqube.org/)                                                                                                   |
+| Spiderfoot                | Automated OSINT webcrawling                                                             | [manifests/workloads/spiderfoot](https://github.com/danmanners/homelab-kube-cluster/tree/main/manifests/workloads/spiderfoot)                                 | [Website](https://www.spiderfoot.net/)                                                                                                  |
+| Traefik                   | Cloud native application proxying; simplifying network complexity                       | [manifests/bootstrapping/traefik](https://github.com/danmanners/homelab-kube-cluster/tree/main/manifests/workloads/traefik-helm)                              | [Website](https://traefik.io/traefik/)                                                                                                  |
+
+## Deprecated Services
+
+The services listed below once existed in the cluster, but have since been removed for one reason or another
+
+| Name                       | Deprecation Reason                                  | Description                          | Path                                                                                                                                                 | Relevant Link                                                                                      |
+| -------------------------- | --------------------------------------------------- | ------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| Rancher Upgrade Controller | Removed from the cluster when I moved away from K3s | In ur Kubernetes, upgrading ur nodes | [manifests/workloads/k3s-upgrade-controller](https://github.com/danmanners/homelab-kube-cluster/tree/main/manifests/workloads/k3s-upgrade-controller) | [GitHub - rancher/system-upgrade-controller](https://github.com/rancher/system-upgrade-controller) |
+
 
 ### Proxied Services
 
@@ -150,14 +160,14 @@ Below is a list of the hardware (both physical and virtual) in use on this proje
 
 While this section is _very much_ a Work-in-Progress, I'd like to provide some relevant information on core services that must be deployed and in which order.
 
-01. [Talos Linux](talos/)
-02. [Cilium CNI](manifests/cilium/)
-03. [MetalLB](manifests/metallb/)
-04. [Cert-Manager](manifests/cert-manager/)
-05. [ArgoCD - Part 1](manifests/argocd/)
-06. [External-DNS](manifests/argoprojects/external-dns.yaml)
-07. [Traefik](manifests/workloads/traefik-helm/)
-08. [ArgoCD - Part 2](manifests/argocd/)
+1. [Talos Linux](talos/)
+2. [Cilium CNI](manifests/bootstrapping/01-cilium/)
+3. [MetalLB](manifests/bootstrapping/02-metallb/)
+4. [Cert-Manager](manifests/bootstrapping/03-cert-manager/)
+5. [External-DNS](manifests/bootstrapping/04-external-dns/)
+6. [Traefik](manifests/bootstrapping/05-traefik/)
+7. [ArgoCD - Part One](manifests/bootstrapping/06-argocd/)
+8. [ArgoCD - Part Two](manifests/bootstrapping/07-bootstrapping-argoprojects/)
 
 ## Gratitude and Thanks
 

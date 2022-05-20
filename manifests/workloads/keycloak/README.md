@@ -1,5 +1,7 @@
 # KeyCloak
 
+> **CRITICAL NOTICE**: this directory is a fast demo and **should not be used in a production**!!
+
 In order to deploy this service, you will require several things:
 
 - AWS API tokens to access the KMS keys
