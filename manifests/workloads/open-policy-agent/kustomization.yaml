@@ -1,7 +1,0 @@
----
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-namespace: gatekeeper-system
-
-resources:
-  - https://raw.githubusercontent.com/open-policy-agent/gatekeeper/v3.7.0/deploy/gatekeeper.yaml

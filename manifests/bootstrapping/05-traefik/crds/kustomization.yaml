@@ -1,0 +1,14 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: kube-system
+resources:
+  - https://raw.githubusercontent.com/traefik/traefik-helm-chart/v10.19.5/traefik/crds/ingressroute.yaml
+  - https://raw.githubusercontent.com/traefik/traefik-helm-chart/v10.19.5/traefik/crds/ingressroutetcp.yaml
+  - https://raw.githubusercontent.com/traefik/traefik-helm-chart/v10.19.5/traefik/crds/ingressrouteudp.yaml
+  - https://raw.githubusercontent.com/traefik/traefik-helm-chart/v10.19.5/traefik/crds/middlewares.yaml
+  - https://raw.githubusercontent.com/traefik/traefik-helm-chart/v10.19.5/traefik/crds/middlewarestcp.yaml
+  - https://raw.githubusercontent.com/traefik/traefik-helm-chart/v10.19.5/traefik/crds/serverstransports.yaml
+  - https://raw.githubusercontent.com/traefik/traefik-helm-chart/v10.19.5/traefik/crds/tlsoptions.yaml
+  - https://raw.githubusercontent.com/traefik/traefik-helm-chart/v10.19.5/traefik/crds/tlsstores.yaml
+  - https://raw.githubusercontent.com/traefik/traefik-helm-chart/v10.19.5/traefik/crds/traefikservices.yaml

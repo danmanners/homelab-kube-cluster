@@ -1,0 +1,12 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: argocd
+
+resources:
+  - 01-cilium.yaml
+  - 02-metallb.yaml
+  - 03-cert-manager.yaml
+  - 04-external-dns.yaml
+  - 05-traefik.yaml
+  - 06-argocd.yaml
