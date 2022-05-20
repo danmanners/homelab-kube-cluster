@@ -1,0 +1,10 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-cm
+data:
+  kustomize.buildOptions: --enable-alpha-plugins --enable-helm
+  url: https://argocd.k3s.danmanners.io
+  server.insecure: "true"
+  server.staticassets: "/shared/app"

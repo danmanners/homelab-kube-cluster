@@ -9,7 +9,7 @@ domainFilters:
 policy: sync
 interval: 30s
 
-crd: 
+crd:
   create: true
 
 provider: aws
@@ -17,4 +17,4 @@ aws:
   zoneType: public
   credentials:
     secretName: aws-credentials
-    mountPath: /.aws'
+    mountPath: /.aws

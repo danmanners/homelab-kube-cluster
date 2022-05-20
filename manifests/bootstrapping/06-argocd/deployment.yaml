@@ -13,31 +13,26 @@ kind: Deployment
 apiVersion: apps/v1
 metadata:
   name: argocd-server
-  labels:
-    app.kubernetes.io/component: server
-    app.kubernetes.io/name: argocd-server
-    app.kubernetes.io/part-of: argocd
 spec:
   template:
     spec:
       nodeSelector:
         kubernetes.io/arch: amd64
-      containers:
-        - name: argocd-server
-          command:
-            - argocd-server
-            - '--insecure'
-            - '--staticassets'
-            - /shared/app
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: argocd-applicationset-controller
+spec:
+  template: 
+    spec:
+      nodeSelector:
+        kubernetes.io/arch: amd64
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: argocd-repo-server
-  labels:
-    app.kubernetes.io/component: repo-server
-    app.kubernetes.io/name: argocd-repo-server
-    app.kubernetes.io/part-of: argocd
 spec:
   selector:
     matchLabels:
@@ -48,7 +43,7 @@ spec:
         kubernetes.io/arch: amd64
       containers:
       - name: argocd-repo-server
-        image: ghcr.io/danmanners/argo-repo-server:aws-ksops-v2.2.5
+        image: ghcr.io/danmanners/argo-repo-server:aws-ksops-v2.3.3
         imagePullPolicy: Always
         resources: {}
         volumeMounts:
