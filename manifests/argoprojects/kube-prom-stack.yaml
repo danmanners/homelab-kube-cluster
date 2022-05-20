@@ -11,7 +11,7 @@ spec:
   source:
     repoURL: "https://github.com/danmanners/homelab-kube-cluster.git"
     path: manifests/workloads/kube-prom-stack
-    targetRevision: HEAD
+    targetRevision: main
   project: default
   syncPolicy:
     automated:

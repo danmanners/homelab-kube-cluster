@@ -7,9 +7,9 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: "git@github.com:danmanners/homelab-k3s-cluster.git"
+    repoURL: "git@github.com:danmanners/homelab-kube-cluster.git"
     path: tekton/argocd-repo-server-encrypted
-    targetRevision: HEAD
+    targetRevision: main
   destination:
     server: "https://kubernetes.default.svc"
     namespace: tekton-pipelines
