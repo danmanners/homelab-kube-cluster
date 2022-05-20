@@ -8,9 +8,10 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: "git@github.com:danmanners/homelab-k3s-cluster.git"
+    repoURL: "git@github.com:danmanners/homelab-kube-cluster.git"
     path: manifests/argocd
-    targetRevision: HEAD
+    targetRevision:     targetRevision: main
+
   destination:
     server: "https://kubernetes.default.svc"
     namespace: argocd

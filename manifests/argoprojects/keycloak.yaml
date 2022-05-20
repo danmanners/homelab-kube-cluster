@@ -8,9 +8,9 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: "git@github.com:danmanners/homelab-k3s-cluster.git"
+    repoURL: "git@github.com:danmanners/homelab-kube-cluster.git"
     path: manifests/workloads/keycloak
-    targetRevision: HEAD
+    targetRevision: main
   destination:
     server: "https://kubernetes.default.svc"
     namespace: keycloak
