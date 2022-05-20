@@ -11,9 +11,9 @@ HelmChartInflationGenerator:
     releaseNamespace: kube-system
     values: values.yaml
 
-bases:
-  - crds
-
 resources:
+  # CRDs Directory
+  - crds
+  # Files
   - ingress.yaml
   - service.yaml

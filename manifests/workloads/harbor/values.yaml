@@ -1,0 +1,64 @@
+externalURL: https://harbor.danmanners.com
+secretKey: 3b568f10f3cc3fd9
+
+expose:
+  type: clusterIP
+  tls:
+    auto:
+      commonName: harbor.danmanners.com
+
+persistence:
+  persistentVolumeClaim:
+    registry:
+      storageClass: nfs-client
+      size: 20Gi
+    chartmuseum:
+      storageClass: nfs-client
+    jobservice:
+      storageClass: nfs-client
+    database:
+      storageClass: nfs-client
+    redis:
+      storageClass: nfs-client
+    trivy:
+      storageClass: nfs-client
+
+nginx:
+  nodeSelector:
+    kubernetes.io/arch: amd64
+portal:
+  nodeSelector:
+    kubernetes.io/arch: amd64
+core:
+  nodeSelector:
+    kubernetes.io/arch: amd64
+jobservice:
+  nodeSelector:
+    kubernetes.io/arch: amd64
+registry:
+  nodeSelector:
+    kubernetes.io/arch: amd64
+chartmuseum:
+  nodeSelector:
+    kubernetes.io/arch: amd64
+trivy:
+  nodeSelector:
+    kubernetes.io/arch: amd64
+notary:
+  server:
+    nodeSelector:
+      kubernetes.io/arch: amd64
+  signer:
+    nodeSelector:
+      kubernetes.io/arch: amd64
+database:
+  internal:
+    nodeSelector:
+      kubernetes.io/arch: amd64
+redis:
+  internal:
+    nodeSelector:
+      kubernetes.io/arch: amd64
+exporter:
+  nodeSelector:
+    kubernetes.io/arch: amd64

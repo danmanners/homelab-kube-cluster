@@ -3,11 +3,17 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: kube-system
 
-bases:
-  - crds
+helmCharts:
+  - releaseName: traefik
+    name: traefik
+    namespace: kube-system
+    repo: https://helm.traefik.io/traefik
+    version: "10.19.5"
+    valuesFile: values.yaml
 
 resources:
-  - traefik-rendered.yaml
+  # CRD Directories
+  - crds/
   # Reverse Service Proxies
   - proxmox.yaml
   - wikijs.yaml

@@ -2,8 +2,7 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
-bases:
-  - github.com/rancher/system-upgrade-controller
-
 resources:
+  - github.com/rancher/system-upgrade-controller
   - upgrade-plan.yaml
+

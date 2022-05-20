@@ -11,10 +11,11 @@ This project aims to utilize industry-standard tooling and practices in order to
 - [x] Hybrid Multi-Cloud
 - [x] External DNS updates
 - [x] Automagic cert management
+- [x] In-Cluster Container Registry
 - [ ] Monitoring and alerting 🚧
 - [ ] Multiple environment support 🚧
 - [ ] Automated Backups 🚧
-- [x] ~~Cluster SSO through GitHub~~ - Removed from Talos
+- [x] ~~Cluster SSO through GitHub~~ - Removed when switching from K3s to Talos
 
 ## 💡 Current Tech Stack
 
@@ -29,6 +30,7 @@ This project aims to utilize industry-standard tooling and practices in order to
 | [External-DNS](https://github.com/kubernetes-sigs/external-dns) | Configure and manage External DNS servers         |
 | [GitHub](https://github.com/)                                   | Popular Code Management through Git               |
 | [Grafana](https://grafana.com/)                                 | Metrics Visualization                             |
+| [Harbor](https://goharbor.io/)                                  | Open Source Container and Helm Registry           |
 | [Helm](https://helm.sh/)                                        | Kubernetes Package Management                     |
 | [Jenkins](https://www.jenkins.io/)                              | Open-Source Automation Server                     |
 | [Kubernetes](https://kubernetes.io/)                            | Container Orchestration                           |
@@ -150,14 +152,13 @@ Below is a list of the hardware (both physical and virtual) in use on this proje
 
 While this section is _very much_ a Work-in-Progress, I'd like to provide some relevant information on core services that must be deployed and in which order.
 
-01. [Talos Linux](talos/)
-02. [Cilium CNI](manifests/cilium/)
-03. [MetalLB](manifests/metallb/)
-04. [Cert-Manager](manifests/cert-manager/)
-05. [ArgoCD - Part 1](manifests/argocd/)
-06. [External-DNS](manifests/argoprojects/external-dns.yaml)
-07. [Traefik](manifests/workloads/traefik-helm/)
-08. [ArgoCD - Part 2](manifests/argocd/)
+1. [Talos Linux](talos/)
+2. [Cilium CNI](manifests/cilium/)
+3. [MetalLB](manifests/metallb/)
+4. [Cert-Manager](manifests/cert-manager/)
+5. [External-DNS](manifests/argoprojects/external-dns.yaml)
+6. [Traefik](manifests/workloads/traefik-helm/)
+7. [ArgoCD](manifests/argocd/)
 
 ## Gratitude and Thanks
 
