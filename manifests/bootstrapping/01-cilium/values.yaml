@@ -16,7 +16,7 @@ rollOutCiliumPods: true
 # -- Agent container image.
 image:
   repository: quay.io/cilium/cilium
-  tag: v1.11.1
+  tag: v1.11.5
   pullPolicy: IfNotPresent
   # cilium-digest
   digest: "sha256:251ff274acf22fd2067b29a31e9fda94253d2961c061577203621583d7e85bd2"
