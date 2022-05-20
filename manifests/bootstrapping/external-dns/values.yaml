@@ -1,0 +1,20 @@
+txtOwnerId: homelab-k3s-danmanners
+txtPrefix: txt.
+registry: txt
+domainFilters:
+  - danmanners.com
+  - danmanners.io
+  - k3s.danmanners.io
+
+policy: sync
+interval: 30s
+
+crd: 
+  create: true
+
+provider: aws
+aws:
+  zoneType: public
+  credentials:
+    secretName: aws-credentials
+    mountPath: /.aws'

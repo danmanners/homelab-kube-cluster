@@ -2,7 +2,6 @@
 apiVersion: viaduct.ai/v1
 kind: ksops
 metadata:
-  # Specify a name
   name: aws-creds
 files:
   - secret.yaml

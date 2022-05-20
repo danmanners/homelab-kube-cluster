@@ -14,6 +14,5 @@ resources:
   # Triggers
   - https://storage.googleapis.com/tekton-releases/triggers/previous/v0.18.0/release.yaml
   - https://storage.googleapis.com/tekton-releases/triggers/previous/v0.18.0/interceptors.yaml
-
-bases:
+  # Tasks Subdirectory
   - tasks

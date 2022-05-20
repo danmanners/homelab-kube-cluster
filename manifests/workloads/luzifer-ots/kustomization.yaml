@@ -5,7 +5,5 @@ namespace: ots
 
 resources:
   - ns.yaml
-
-bases:
   - ots
   - redis
