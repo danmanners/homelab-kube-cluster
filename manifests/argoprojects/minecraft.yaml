@@ -10,7 +10,7 @@ spec:
   source:
     repoURL: "https://github.com/danmanners/homelab-kube-cluster.git"
     path: manifests/workloads/minecraft
-    targetRevision: HEAD
+    targetRevision: main
   destination:
     server: "https://kubernetes.default.svc"
     namespace: minecraft

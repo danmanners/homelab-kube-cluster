@@ -3,9 +3,16 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: dex
 
+helmCharts:
+  - name: dex
+    releaseName: dex
+    namespace: dex
+    repo: https://charts.dexidp.io
+    version: "0.8.2"
+    valuesFile: values.yaml
+
 resources:
   - namespace.yaml
-  - rendered-helm.yaml
   - ingress.yaml
 
 generators:

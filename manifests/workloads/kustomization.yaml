@@ -1,9 +1,9 @@
 ---
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-bases:
+
+resources:
+  - ns.yaml
   - danmanners-dot-com.yaml
   - resume-dot-danmanners-dot-com.yaml
   - non-disclosure-agreement.yaml
-resources:
-  - ns.yaml
