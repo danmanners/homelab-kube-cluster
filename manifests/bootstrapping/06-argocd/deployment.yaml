@@ -43,7 +43,7 @@ spec:
         kubernetes.io/arch: amd64
       containers:
       - name: argocd-repo-server
-        image: ghcr.io/danmanners/argo-repo-server:aws-ksops-v2.3.3
+        image: ghcr.io/danmanners/argo-repo-server:v2.3.3
         imagePullPolicy: Always
         resources: {}
         volumeMounts:
