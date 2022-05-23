@@ -4,7 +4,7 @@ kind: Service
 metadata:
   name: argocd-server-public
   annotations:
-    external-dns.alpha.kubernetes.io/hostname: argocd.k3s.danmanners.io
+    external-dns.alpha.kubernetes.io/hostname: argocd.k3s.danmanners.io,argocd.danmanners.com
     external-dns.alpha.kubernetes.io/ttl: "300"
   labels:
     app.kubernetes.io/component: server
