@@ -169,6 +169,12 @@ While this section is _very much_ a Work-in-Progress, I'd like to provide some r
 7. [ArgoCD - Part One](manifests/bootstrapping/06-argocd/)
 8. [ArgoCD - Part Two](manifests/bootstrapping/07-bootstrapping-argoprojects/)
 
+## To-Do Items
+
+- Ensure that **ALL** services are tagged for the appropriate hardware (`arm64` or `amd64`) to ensure runtime success
+- Ensure that **ALL** application and service subdirectories have READMEs explaining what they're doing and what someone else may need to modify for their own environment
+- 
+
 ## Gratitude and Thanks
 
 This README redesign was inspired by several other homelab repos, individuals, and communities.
