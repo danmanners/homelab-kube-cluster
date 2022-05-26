@@ -8,5 +8,5 @@ helmCharts:
     releaseName: edns
     namespace: kube-system
     repo: https://charts.bitnami.com/bitnami
-    version: 6.4.4
+    version: 6.4.5
     valuesFile: values.yaml
