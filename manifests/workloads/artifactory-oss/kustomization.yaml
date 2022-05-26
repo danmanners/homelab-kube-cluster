@@ -1,0 +1,12 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: jfrog
+
+helmCharts:
+  - name: artifactory-oss
+    releaseName: artifactory-oss
+    namespace: jfrog
+    repo: https://charts.jfrog.io
+    version: "107.38.10"
+    valuesFile: values.yaml

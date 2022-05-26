@@ -1,0 +1,49 @@
+artifactory:
+  artifactory:
+    image:
+      registry: releases-docker.jfrog.io
+      repository: jfrog/artifactory-oss
+    resources:
+      requests:
+        memory: "1Gi"
+        cpu: "500m"
+      limits:
+        memory: "7Gi"
+        cpu: "2"
+    javaOpts:
+      xms: "2g"
+      xmx: "6g"
+  installer:
+    platform: art-oss-helm
+
+  ## Nginx
+  ## See full list of supported Nginx options and documentation in artifactory chart: https://github.com/jfrog/charts/tree/master/stable/artifactory
+  nginx:
+    enabled: true
+    tlsSecretName: ""
+    service:
+      type: ClusterIP
+
+  ## Ingress
+  ## See full list of supported Ingress options and documentation in artifactory chart: https://github.com/jfrog/charts/tree/master/stable/artifactory
+  ingress:
+    enabled: false
+
+  ## PostgreSQL
+  ## See list of supported postgresql options and documentation in artifactory chart: https://github.com/jfrog/charts/tree/master/stable/artifactory
+  ## Configuration values for the PostgreSQL dependency sub-chart
+  ## ref: https://github.com/bitnami/charts/blob/master/bitnami/postgresql/README.md
+  postgresql:
+    enabled: true
+
+  ## This key is required for upgrades to protect old PostgreSQL chart's breaking changes.
+  databaseUpgradeReady: "yes"
+
+  ## If NOT using the PostgreSQL in this chart (artifactory.postgresql.enabled=false),
+  ## specify custom database details here or leave empty and Artifactory will use embedded derby.
+  ## See full list of database options and documentation in artifactory chart: https://github.com/jfrog/charts/tree/master/stable/artifactory
+  # database:
+
+## Enable the PostgreSQL sub chart
+postgresql:
+  enabled: true
