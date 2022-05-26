@@ -20,6 +20,8 @@ spec:
           value: "10.200.0.3"
         - name: nfs.path
           value: "/KubeStore"
+        - name: storageClass.defaultClass
+          value: "true"
         # - name: nfs.mountOptions
         #   value: "-o nolock"
   syncPolicy:
