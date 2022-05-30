@@ -12,8 +12,6 @@ helmCharts:
     valuesFile: values.yaml
 
 resources:
-  # CRDs Directory
-  - crds
   # Files
   - ingress.yaml
   - service.yaml
