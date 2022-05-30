@@ -41,7 +41,7 @@ spec:
           runAsUser: 0
       containers:
       - name: sonarqube
-        image: sonarqube:9.3.0-community
+        image: sonarqube-image
         ports:
         - containerPort: 9000
           name: web

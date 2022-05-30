@@ -10,5 +10,13 @@ resources:
   - sonar-ingress.yaml
   - sonar-statefulset.yaml
 
+images:
+  - name: sonarqube-image
+    newName: sonarqube
+    newTag: 9.4.0-community
+  - name: postgres-image
+    newName: postgres
+    newTag: "14.1"
+
 generators:
   - secrets-generator.yaml

@@ -24,7 +24,7 @@ spec:
                 - "cloud"
       containers:
       - name: postgresql
-        image: postgres:14.1
+        image: postgres-image
         volumeMounts:
           - name: snr-psql-data
             mountPath: /var/lib/postgresql/data
