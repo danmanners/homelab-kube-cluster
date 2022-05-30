@@ -22,8 +22,8 @@ spec:
           value: "/KubeStore"
         - name: storageClass.defaultClass
           value: "true"
-        # - name: nfs.mountOptions
-        #   value: "-o nolock"
+        - name: nfs.mountOptions[0]
+          value: "nfsvers=4"
   syncPolicy:
     automated:
       prune: true
