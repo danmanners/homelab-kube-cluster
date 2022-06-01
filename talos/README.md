@@ -159,7 +159,7 @@ talosctl apply-config \
   --nodes 10.200.0.247 \
   --file controlplane-03.yaml
 
-# Provision Workers 1 through 4:
+# Provision VM Workers 1 through 4:
 talosctl apply-config \
   --insecure \
   --nodes 10.200.0.249 \
@@ -179,9 +179,32 @@ talosctl apply-config \
   --insecure \
   --nodes 10.200.0.245 \
   --file worker-04.yaml
+
+# Provision the Raspberry Pi Compute Module Workers
+talosctl apply-config \
+  --insecure \
+  --nodes 10.200.0.244 \
+  --file worker-cm4-01.yaml
+
+talosctl apply-config \
+  --insecure \
+  --nodes 10.200.0.243 \
+  --file worker-cm4-02.yaml
+
+talosctl apply-config \
+  --insecure \
+  --nodes 10.200.0.242 \
+  --file worker-cm4-03.yaml
+
+talosctl apply-config \
+  --insecure \
+  --nodes 10.200.0.241 \
+  --file worker-cm4-04.yaml
 ```
 
-If we give everything another ~3 minutes or so, we can open Lens and see that all of the nodes have connected, or run `kubectl get nodes`
+If we give everything another ~3 minutes or so to start up, we can label each of oru nodes.
+
+Then, we can open Lens and see that all of the nodes have connected, or run `kubectl get nodes`
 
 ![Lens](screenshots/lens.png)
 

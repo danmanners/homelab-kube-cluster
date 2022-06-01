@@ -1,0 +1,57 @@
+---
+persistentVolumeClaim:
+  enabled: true
+
+serviceTCP:
+  loadBalancerIP: 10.56.1.10
+  type: LoadBalancer
+  annotations:
+    metallb.universe.tf/allow-shared-ip: pihole-svc
+
+serviceUDP:
+  loadBalancerIP: 10.56.1.10
+  type: LoadBalancer
+  annotations:
+    metallb.universe.tf/allow-shared-ip: pihole-svc
+
+serviceWeb:
+  loadBalancerIP: 10.56.1.10
+  annotations:
+    metallb.universe.tf/allow-shared-ip: pihole-svc
+  type: LoadBalancer
+
+serviceDns:
+  loadBalancerIP: 10.56.1.10
+  annotations:
+    metallb.universe.tf/allow-shared-ip: pihole-svc
+  type: LoadBalancer
+
+resources:
+  limits:
+    cpu: 200m
+    memory: 256Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+# If using in the real world, set up admin.existingSecret instead.
+adminPassword: admin
+
+DNS1: "10.45.0.2"
+DNS2: "10.45.0.1"
+
+podDnsConfig:
+  enabled: true
+  policy: "None"
+  nameservers:
+  - 10.45.0.2
+  - 10.45.0.1
+
+privileged: "true"
+
+extraEnvVars:
+  DNSMASQ_USER: root
+
+serviceDns:
+  type: LoadBalancer
+  port: 53
