@@ -1,4 +1,7 @@
 ---
+serviceDhcp:
+  enabled: false
+
 persistentVolumeClaim:
   enabled: true
 
