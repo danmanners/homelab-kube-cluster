@@ -1,3 +1,7 @@
+global:
+  nodeSelector:
+    kubernetes.io/arch: amd64
+
 artifactory:
   artifactory:
     image:
@@ -35,6 +39,9 @@ artifactory:
   ## ref: https://github.com/bitnami/charts/blob/master/bitnami/postgresql/README.md
   postgresql:
     enabled: true
+    primary:
+      nodeSelector:
+        kubernetes.io/arch: amd64
 
   ## This key is required for upgrades to protect old PostgreSQL chart's breaking changes.
   databaseUpgradeReady: "yes"
