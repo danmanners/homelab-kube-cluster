@@ -24,7 +24,9 @@ artifactory:
   ## See full list of supported Nginx options and documentation in artifactory chart: https://github.com/jfrog/charts/tree/master/stable/artifactory
   nginx:
     enabled: true
-    tlsSecretName: ""
+    tlsSecretName: "artifactory-danmanners-cert"
+    nodeSelector:
+      kubernetes.io/arch: amd64
     service:
       type: ClusterIP
 
