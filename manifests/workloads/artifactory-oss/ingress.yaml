@@ -34,11 +34,19 @@ spec:
   entryPoints:
     - web
   routes:
+    - match: Host(`artifactory.danmanners.com`) && Path(`/ui`)
+      kind: Rule
+      services:
+        - name: artifactory-oss
+          port: 8082
+      middlewares:
+        - name: http-https-redirectscheme
+          namespace: kube-system
     - match: Host(`artifactory.danmanners.com`)
       kind: Rule
       services:
-        - name: artifactory-oss-artifactory-nginx
-          port: 80
+        - name: artifactory-oss
+          port: 8081
       middlewares:
         - name: http-https-redirectscheme
           namespace: kube-system
@@ -51,10 +59,15 @@ spec:
   entryPoints:
     - websecure
   routes:
+    - match: Host(`artifactory.danmanners.com`) && Path(`/ui`)
+      kind: Rule
+      services:
+        - name: artifactory-oss
+          port: 8082
     - match: Host(`artifactory.danmanners.com`)
       kind: Rule
       services:
-        - name: artifactory-oss-artifactory-nginx
-          port: 443
+        - name: artifactory-oss
+          port: 8081
   tls:
     secretName: artifactory-danmanners-cert
