@@ -16,7 +16,7 @@ images:
     newTag: 9.4.0-community
   - name: postgres-image
     newName: postgres
-    newTag: "14.1"
+    newTag: "14.3"
 
 generators:
   - secrets-generator.yaml
