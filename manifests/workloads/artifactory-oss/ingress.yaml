@@ -13,24 +13,6 @@ spec:
   externalName: kube.danmanners.com
   sessionAffinity: None
 ---
-apiVersion: v1
-kind: Service
-metadata:
-  name: artifactory
-  labels:
-    run: artifactory
-spec:
-  type: ClusterIP
-  ports:
-  - name: web
-    port: 8080
-    protocol: TCP
-  - name: jnlp-agents
-    port: 50000
-    protocol: TCP
-  selector:
-    run: artifactory
----
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
@@ -47,7 +29,7 @@ spec:
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: artifactory-danmanners-cert-web
+  name: artifactory-danmanners-web
 spec:
   entryPoints:
     - web
@@ -55,8 +37,8 @@ spec:
     - match: Host(`artifactory.danmanners.com`)
       kind: Rule
       services:
-        - name: artifactory
-          port: 8080
+        - name: artifactory-oss-artifactory-nginx
+          port: 80
       middlewares:
         - name: http-https-redirectscheme
           namespace: kube-system
@@ -64,7 +46,7 @@ spec:
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: artifactory-danmanners-cert-websecure
+  name: artifactory-danmanners-websecure
 spec:
   entryPoints:
     - websecure
@@ -72,7 +54,7 @@ spec:
     - match: Host(`artifactory.danmanners.com`)
       kind: Rule
       services:
-        - name: artifactory
-          port: 8080
+        - name: artifactory-oss-artifactory-nginx
+          port: 443
   tls:
     secretName: artifactory-danmanners-cert

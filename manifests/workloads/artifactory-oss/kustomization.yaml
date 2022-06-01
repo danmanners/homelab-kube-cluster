@@ -11,5 +11,5 @@ helmCharts:
     version: "107.38.10"
     valuesFile: values.yaml
 
-# resources:
-#   - ingress.yaml
+resources:
+  - ingress.yaml
