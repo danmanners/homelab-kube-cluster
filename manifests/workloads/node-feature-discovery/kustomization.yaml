@@ -2,7 +2,7 @@
 kind: Kustomization
 
 resources:
-  - https://github.com/kubernetes-sigs/node-feature-discovery/deployment/overlays/default?ref=v0.11.0
+  - https://github.com/kubernetes-sigs/node-feature-discovery/deployment/overlays/default?ref=v0.11.1
 
 patchesStrategicMerge:
   - overrides.yaml
