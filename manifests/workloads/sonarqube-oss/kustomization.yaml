@@ -13,7 +13,7 @@ resources:
 images:
   - name: sonarqube-image
     newName: sonarqube
-    newTag: 9.4.0-community
+    newTag: 9.5.0-community
   - name: postgres-image
     newName: postgres
     newTag: "14.3"
