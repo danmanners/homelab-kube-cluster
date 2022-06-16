@@ -234,3 +234,7 @@ talos-worker04   Ready    amd64                        2d8h   v1.23.1
 ```
 
 Now, you can go through and set your cluster normally!
+
+## NVIDIA Container Runtime
+
+> Instructions can be found here: https://www.talos.dev/v1.0/talos-guides/configuration/nvidia-gpu/
