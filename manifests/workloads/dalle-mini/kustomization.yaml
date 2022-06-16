@@ -1,0 +1,14 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: dalle
+
+resources:
+  - ns.yaml
+  - ingress.yaml
+  - statefulset.yaml
+
+images:
+  - name: dalle-mini-image
+    newName: ghcr.io/danmanners/dalle-mini
+    newTag: v0.1.0
