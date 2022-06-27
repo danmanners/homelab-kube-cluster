@@ -1,8 +1,25 @@
 ---
 kind: Kustomization
+namespace: kube-system
+
+helmCharts:
+  - name: node-feature-discovery
+    releaseName: node-feature-discovery
+    repo: https://kubernetes-sigs.github.io/node-feature-discovery/charts
+    version: "0.11.1"
+    valuesInline:
+      master:
+        tolerations:
+          - key: "node-role.kubernetes.io/cloud"
+            operator: "Equal"
+            value: ""
+            effect: "NoSchedule"
+      worker:
+        tolerations:
+          - key: "node-role.kubernetes.io/cloud"
+            operator: "Equal"
+            value: ""
+            effect: "NoSchedule"
 
 resources:
-  - https://github.com/kubernetes-sigs/node-feature-discovery/deployment/overlays/default?ref=v0.11.1
-
-patchesStrategicMerge:
-  - overrides.yaml
+  - nfd-worker-conf-cm.yaml
