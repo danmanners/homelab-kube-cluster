@@ -1,0 +1,17 @@
+aws-grav1-privkey: ENC[AES256_GCM,data:DAom4JNHvg7EAcWhXFap1CLBTsNDxT882hcgXPIw2PhGfpDsawSdTB4pQnc=,iv:7VNtkcOLKKDxuFGzcjR44RkPHrs1594Li0Vl+12fdMc=,tag:DhAQ3esuQbyXv6q87EgTXQ==,type:str]
+aws-grav1-pubkey: ENC[AES256_GCM,data:EBhf9vPb+3JJiH+X7jOnY9eMfA0zfELwUmRJT5OPOgkXaTnJg0ErPLU+DdM=,iv:bw7gmBkqV6/ouE5sNaZ4YOXR2mU/wcgHUZQkTD4gAzw=,tag:V3O4G3T42TgKmYFyVkxFwQ==,type:str]
+sops:
+    kms:
+        - arn: arn:aws:kms:us-east-1:977656673179:key/7e829b85-6fed-4598-b675-8ebeea105c4c
+          created_at: "2022-06-27T00:27:00Z"
+          enc: AQICAHi1XYvA3EFEGTwFyd0NLI4cRLiZ3o2bNcK2AmDuVl/CEwHNdca4g13Hs3tnWJPp2SppAAAAfjB8BgkqhkiG9w0BBwagbzBtAgEAMGgGCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQMNuJJnS9c1cl3mIRGAgEQgDvIkvXB+cVLb/YK7kDm8nJVYb1D3arOfVevIBpOr5m4aziPibWoijLk1GqEZLTsEaHVQtepbMwsguMyJA==
+          aws_profile: default
+    gcp_kms: []
+    azure_kv: []
+    hc_vault: []
+    age: []
+    lastmodified: "2022-06-27T00:27:00Z"
+    mac: ENC[AES256_GCM,data:YQkAy3iwq44s7WMihsZMec9SzsLBA+Qp5VIa4BMNWQbXwz/9hKOaXiT2zHEMdUbVKJNuvNt4uLwNe+B4Ihz4Dr1wQCkCrPRGOqtHN4jPbPgs+daKeT4CQE+iJf+2ViqqdtmbzSrQTIMzVUvX9VoSq8iuvlrDuxF1FX3WXdT5Vm0=,iv:02xp2S5LDHjDZsyj1vNlSpei+9TofPLcmFA8/xAUJfA=,tag:Oah3Uf6lb5bF7ghAj+/SBw==,type:str]
+    pgp: []
+    unencrypted_suffix: _unencrypted
+    version: 3.7.3

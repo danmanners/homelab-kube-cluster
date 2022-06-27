@@ -19,48 +19,49 @@ This project aims to utilize industry-standard tooling and practices in order to
 
 ## 💡 Current Tech Stack
 
-| Name                                                            | Description                                       |
-| --------------------------------------------------------------- | ------------------------------------------------- |
-| [ArgoCD](https://argoproj.github.io/cd/)                        | GitOps for Kubernetes                             |
-| [AWS](https://aws.amazon.com/)                                  | Cloud Provider                                    |
-| [Buildah](https://github.com/containers/buildah/)               | Container Building                                |
-| [Cert-Manager](https://cert-manager.io/docs/)                   | Certificate Manager                               |
-| [Cilium](https://cilium.io/)                                    | CNI utilizing eBPF for Observability and Security |
-| [Dex](https://dexidp.io/)                                       | Federated OIDC                                    |
-| [External-DNS](https://github.com/kubernetes-sigs/external-dns) | Configure and manage External DNS servers         |
-| [GitHub](https://github.com/)                                   | Popular Code Management through Git               |
-| [Grafana](https://grafana.com/)                                 | Metrics Visualization                             |
-| [Harbor](https://goharbor.io/)                                  | Open Source Container and Helm Registry           |
-| [Helm](https://helm.sh/)                                        | Kubernetes Package Management                     |
-| [Jenkins](https://www.jenkins.io/)                              | Open-Source Automation Server                     |
-| [Kubernetes](https://kubernetes.io/)                            | Container Orchestration                           |
-| [Let's Encrypt](https://letsencrypt.org/)                       | Free TLS certificates                             |
-| [MetalLB](https://metallb.universe.tf/)                         | Kubernetes bare-metal Load Balancer               |
-| [Microsoft Azure](https://azure.microsoft.com/en-us/)           | Cloud Provider                                    |
-| [Mozilla SOPS](https://github.com/mozilla/sops)                 | Simple/Flexible Tool                              |
-| [NGINX](https://www.nginx.com/)                                 | Open-Source Web Server and Reverse Proxy          |
-| [Podman](https://github.com/containers/podman/)                 | Container and Pod management                      |
-| [Prometheus](https://prometheus.io/)                            | Metrics and Data Collection                       |
-| [Proxmox](https://www.proxmox.com/en/proxmox-ve)                | Virtualization Platform                           |
-| [Python](https://www.python.org/)                               | Python Programming Language                       |
-| [QNAP](https://www.qnap.com/en-us)                              | Storage Array Hardware and Networking             |
-| [Raspberry Pi](https://www.raspberrypi.org/)                    | Baremetal ARM SoC Hardware!                       |
-| [SonarQube](https://www.sonarqube.org/)                         | Static code analysis                              |
-| [Talos](https://talos.dev/)                                     | Secure, immutable, and minimal Linux OS           |
-| [Tekton](https://tekton.dev/)                                   | Cloud-Native CI/CD                                |
-| [Terraform](https://www.terraform.io/)                          | Open-Source Infrastructure-as-Code                |
-| [Terragrunt](https://terragrunt.gruntwork.io/)                  | Making Terraform DRY                              |
-| [Turing Pi 2](https://turingpi.com/)                            | Raspberry Pi Compute Module Clustering            |
-| [Ubuntu](https://ubuntu.com/)                                   | Operating System                                  |
-| [Uptime Kuma](https://github.com/louislam/uptime-kuma)          | Fancy self-hosted system monitoring               |
-| [WikiJS](https://js.wiki/)                                      | Open-Source Wiki/Documentation Service            |
+| Name                                                            | Description                                                       |
+|-----------------------------------------------------------------|-------------------------------------------------------------------|
+| [ArgoCD](https://argoproj.github.io/cd/)                        | GitOps for Kubernetes                                             |
+| [AWS](https://aws.amazon.com/)                                  | Cloud Provider                                                    |
+| [Buildah](https://github.com/containers/buildah/)               | Container Building                                                |
+| [Cert-Manager](https://cert-manager.io/docs/)                   | Certificate Manager                                               |
+| [Cilium](https://cilium.io/)                                    | CNI utilizing eBPF for Observability and Security                 |
+| [Dex](https://dexidp.io/)                                       | Federated OIDC                                                    |
+| [External-DNS](https://github.com/kubernetes-sigs/external-dns) | Configure and manage External DNS servers                         |
+| [GitHub](https://github.com/)                                   | Popular Code Management through Git                               |
+| [Grafana](https://grafana.com/)                                 | Metrics Visualization                                             |
+| [Harbor](https://goharbor.io/)                                  | Open Source Container and Helm Registry                           |
+| [Helm](https://helm.sh/)                                        | Kubernetes Package Management                                     |
+| [Jenkins](https://www.jenkins.io/)                              | Open-Source Automation Server                                     |
+| [Kubernetes](https://kubernetes.io/)                            | Container Orchestration                                           |
+| [Let's Encrypt](https://letsencrypt.org/)                       | Free TLS certificates                                             |
+| [MetalLB](https://metallb.universe.tf/)                         | Kubernetes bare-metal Load Balancer                               |
+| [Microsoft Azure](https://azure.microsoft.com/en-us/)           | Cloud Provider                                                    |
+| [Mozilla SOPS](https://github.com/mozilla/sops)                 | Simple/Flexible Tool                                              |
+| [NGINX](https://www.nginx.com/)                                 | Open-Source Web Server and Reverse Proxy                          |
+| [Podman](https://github.com/containers/podman/)                 | Container and Pod management                                      |
+| [Prometheus](https://prometheus.io/)                            | Metrics and Data Collection                                       |
+| [Proxmox](https://www.proxmox.com/en/proxmox-ve)                | Virtualization Platform                                           |
+| [Python](https://www.python.org/)                               | Python Programming Language                                       |
+| [QEMU Guest Agent](https://wiki.qemu.org/Features/GuestAgent)   | Provides access to a system-level agent via standard QMP commands |
+| [QNAP](https://www.qnap.com/en-us)                              | Storage Array Hardware and Networking                             |
+| [Raspberry Pi](https://www.raspberrypi.org/)                    | Baremetal ARM SoC Hardware!                                       |
+| [SonarQube](https://www.sonarqube.org/)                         | Static code analysis                                              |
+| [Talos](https://talos.dev/)                                     | Secure, immutable, and minimal Linux OS                           |
+| [Tekton](https://tekton.dev/)                                   | Cloud-Native CI/CD                                                |
+| [Terraform](https://www.terraform.io/)                          | Open-Source Infrastructure-as-Code                                |
+| [Terragrunt](https://terragrunt.gruntwork.io/)                  | Making Terraform DRY                                              |
+| [Turing Pi 2](https://turingpi.com/)                            | Raspberry Pi Compute Module Clustering                            |
+| [Ubuntu](https://ubuntu.com/)                                   | Operating System                                                  |
+| [Uptime Kuma](https://github.com/louislam/uptime-kuma)          | Fancy self-hosted system monitoring                               |
+| [WikiJS](https://js.wiki/)                                      | Open-Source Wiki/Documentation Service                            |
 
 ### Removed Tech Stack
 
 Several items have previously been in my cluster, but have been removed over time for one reason or another. Those items can be foud below.
 
 | Name                                                     | Removal Reason                                                     | Description                                                 |
-| -------------------------------------------------------- | ------------------------------------------------------------------ | ----------------------------------------------------------- |
+|----------------------------------------------------------|--------------------------------------------------------------------|-------------------------------------------------------------|
 | [Ansible](https://www.ansible.com/)                      | I don't need host provisioning anymore                             | Ad-hoc system configuration-as-code                         |
 | [Amazon Linux 2](https://aws.amazon.com/amazon-linux-2/) | I standardized on Talos OS                                         | Operating System                                            |
 | [Flannel CNI](https://github.com/flannel-io/flannel)     | I migrated to Cilium for my CNI                                    | Network Fabric for Containers                               |
@@ -72,8 +73,8 @@ Several items have previously been in my cluster, but have been removed over tim
 
 ## Services Hosted
 
-| Name                      | Description                                                                             | Path                                                                                                                                                         | Relevant Link                                                                                                                           |
-| ------------------------- | --------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------- |
+| Name                      | Description                                                                             | Path                                                                                                                                                          | Relevant Link                                                                                                                           |
+|---------------------------|-----------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------|
 | Excalidraw                | Easy whiteboarding with excellent shortcuts!                                            | [manifests/workloads/excalidraw](https://github.com/danmanners/homelab-kube-cluster/tree/main/manifests/workloads/excalidraw)                                 | [GitHub - excalidraw/excalidraw](https://github.com/excalidraw/excalidraw)                                                              |
 | Jenkins OSS               | An older tool sir, but it checks out.                                                   | [manifests/workloads/jenkins-oss](https://github.com/danmanners/homelab-kube-cluster/tree/main/manifests/workloads/jenkins-oss)                               | [Website](https://www.jenkins.io/)                                                                                                      |
 | Kube-Prometheus-Stack     | Easy to deploy Grafana, Prometheus rules, and the Prometheus Operator.                  | [manifests/workloads/kube-prometheus-stack-grafana](https://github.com/danmanners/homelab-kube-cluster/tree/main/manifests/workloads/kube-prom-stack-grafana) | [GitHub - prometheus-community/helm-charts](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack) |
@@ -91,15 +92,15 @@ Several items have previously been in my cluster, but have been removed over tim
 
 The services listed below once existed in the cluster, but have since been removed for one reason or another
 
-| Name                       | Deprecation Reason                                  | Description                          | Path                                                                                                                                                 | Relevant Link                                                                                      |
-| -------------------------- | --------------------------------------------------- | ------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| Name                       | Deprecation Reason                                  | Description                          | Path                                                                                                                                                  | Relevant Link                                                                                      |
+|----------------------------|-----------------------------------------------------|--------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------|
 | Rancher Upgrade Controller | Removed from the cluster when I moved away from K3s | In ur Kubernetes, upgrading ur nodes | [manifests/workloads/k3s-upgrade-controller](https://github.com/danmanners/homelab-kube-cluster/tree/main/manifests/workloads/k3s-upgrade-controller) | [GitHub - rancher/system-upgrade-controller](https://github.com/rancher/system-upgrade-controller) |
 
 
 ### Proxied Services
 
 | Name        | Description                                                | Link                                              |
-| ----------- | ---------------------------------------------------------- | ------------------------------------------------- |
+|-------------|------------------------------------------------------------|---------------------------------------------------|
 | Proxmox     | Compute, network, and storage in a single solution         | [Website](https://www.proxmox.com/en/proxmox-ve)  |
 | Uptime Kuma | A fancy self-hosted monitoring tool                        | [GitHub](https://github.com/louislam/uptime-kuma) |
 | WikiJS      | The most powerful and extensible open source Wiki software | [Website](https://js.wiki/)                       |
@@ -115,7 +116,7 @@ Below is a list of the hardware (both physical and virtual) in use on this proje
 #### Virtualization Hosts
 
 | Count | System Type | CPU Type            | CPU Cores | Memory |
-| ----- | ----------- | ------------------- | --------- | ------ |
+|-------|-------------|---------------------|-----------|--------|
 | 1     | Desktop     | Intel Core i7-7700  | 4c8t      | 64GiB  |
 | 1     | Desktop     | AMD Ryzen 7 5800X   | 8c16t     | 64GiB  |
 | 1     | Desktop     | Intel Celeron J4105 | 4c4t      | 16GiB  |
@@ -124,7 +125,7 @@ Below is a list of the hardware (both physical and virtual) in use on this proje
 #### Cluster Boards
 
 | Count | System Type      | CPU Type                 | CPU Cores | Memory      |
-| ----- | ---------------- | ------------------------ | --------- | ----------- |
+|-------|------------------|--------------------------|-----------|-------------|
 | 1     | Turing Pi v2     | 4x Raspberry Pi CM4      | 4c4t      | 4x 8GiB     |
 | ~~1~~ | ~~Turing Pi v1~~ | ~~7x Raspberry Pi CM3+~~ | ~~4c4t~~  | ~~7x 1GiB~~ |
 | ~~1~~ | ~~Turing Pi v1~~ | ~~3x Raspberry Pi CM3+~~ | ~~4c4t~~  | ~~3x 1GiB~~ |
@@ -132,19 +133,19 @@ Below is a list of the hardware (both physical and virtual) in use on this proje
 #### Additional Compute
 
 | Count | System Type    | CPU Type         | CPU Cores | Memory |
-| ----- | -------------- | ---------------- | --------- | ------ |
+|-------|----------------|------------------|-----------|--------|
 | 1     | Raspberry Pi 4 | Raspberry Pi CM4 | 4c4t      | 4GiB   |
 
 #### Storage
 
 | Hardware     | Drive Count             | Memory |
-| ------------ | ----------------------- | ------ |
+|--------------|-------------------------|--------|
 | QNAP TS-332X | 3x M.2, 3x 3.5" 7200RPM | 16GiB  |
 
 #### Networking
 
 | Hardware                    | SFP+ Ports | SFP Ports | 1Gb Eth Ports |
-| --------------------------- | ---------- | --------- | ------------- |
+|-----------------------------|------------|-----------|---------------|
 | Ubiquiti EdgeSwitch 24 Lite | 0          | 2         | 24            |
 | Ubiquiti EdgeSwitch 8 150W  | 0          | 2         | 8             |
 | Mikrotik CRS305-1G-4S+      | 4          | 0         | 1 (PoE In)    |
@@ -152,7 +153,7 @@ Below is a list of the hardware (both physical and virtual) in use on this proje
 ### Cloud Hosted Resources
 
 | Name               | Provider | CPU   | Memory |
-| ------------------ | -------- | ----- | ------ |
+|--------------------|----------|-------|--------|
 | tpi-k3s-aws-edge   | AWS      | 2vCPU | 4GiB   |
 | tpi-k3s-azure-edge | Azure    | 2vCPU | 4GiB   |
 
