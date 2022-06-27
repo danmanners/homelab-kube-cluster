@@ -1,19 +1,4 @@
 ---
-apiVersion: apps/v1
-kind: DaemonSet
-metadata:
-  name: nfd-worker
-  namespace: node-feature-discovery
-spec:
-  selector:
-    matchLabels:
-      app: nfd-worker
-  template:
-    spec:
-      containers:
-      - name: nfd-worker
-        image: ghcr.io/danmanners/node-feature-discovery:v0.10.0
----
 apiVersion: v1
 kind: ConfigMap
 metadata:
