@@ -10,3 +10,4 @@ resources:
   - 04-external-dns.yaml
   - 05-traefik.yaml
   - 06-argocd.yaml
+  - 07-qemu-guest-agent.yaml
