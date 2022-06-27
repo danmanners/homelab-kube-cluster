@@ -1,0 +1,77 @@
+version: v1alpha1
+debug: false
+persist: true
+machine:
+  type: controlplane
+  token: RealToken.GoesHere
+  ca:
+    crt: RealCertificateGoesHere
+    key: RealKeyGoesHere
+  certSANs:
+    - homelab.kube.danmanners.io
+  network:
+    hostname: talos-cp01
+    nameservers:
+      - 10.200.0.1
+      - 10.45.0.2
+    interfaces:
+      - interface: eth0
+        dhcp: false
+        mtu: 1500
+        addresses:
+          - 10.200.0.51/24
+        routes:
+          - network: 0.0.0.0/0
+            gateway: 10.200.0.1
+        vip:
+          ip: 10.200.0.10
+  install:
+    disk: /dev/sda
+    image: ghcr.io/siderolabs/installer:v1.0.5
+    bootloader: true
+    wipe: false
+  features:
+    rbac: true
+  kubelet:
+    image: ghcr.io/siderolabs/kubelet:v1.23.7
+cluster:
+  id: FakeClusterID
+  secret: FakeClusterSecret
+  controlPlane:
+    endpoint: https://homelab.kube.danmanners.io:6443
+  clusterName: homelab
+  network:
+    cni:
+      name: none
+    dnsDomain: cluster.local
+    podSubnets:
+      - 10.244.0.0/16
+    serviceSubnets:
+      - 10.96.0.0/12
+  token: Fake.Token
+  aescbcEncryptionSecret: EncryptionSecretGoesHere
+  ca:
+    crt: caCertGoesHere
+    key: caCertKeyGoesHere
+  aggregatorCA:
+    crt: aggregatorCACertGoesHere
+    key: aggregatorCACertKeyGoesHere
+  serviceAccount:
+    key: ServiceAccountKeyGoesHere
+  apiServer:
+    certSANs:
+      - homelab.kube.danmanners.io
+      - kube.danmanners.io
+  controllerManager:
+    image: k8s.gcr.io/kube-controller-manager:v1.23.6
+  proxy:
+    image: k8s.gcr.io/kube-proxy:v1.23.6
+  scheduler:
+    image: k8s.gcr.io/kube-scheduler:v1.23.6
+  discovery:
+    enabled: true
+  etcd:
+    subnet: 10.200.0.0/24
+    ca:
+      crt: etcdCertGoesHere
+      key: etcdCertKeyGoesHere

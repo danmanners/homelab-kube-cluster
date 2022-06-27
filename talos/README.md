@@ -2,6 +2,8 @@
 
 [Talos](https://www.talos.dev/) is a Linux OS designed for secure, immutable, and minimal installations on both baremetal hardware and cloud-native environments. Talos is available on both `amd64` and various single board computers, like the Raspberry Pi and Compute Module 4.
 
+> If you're looking for unencrypted config file examples, [navigate to the examples directory](examples/).
+
 ## Setup & Prep
 
 In my environment, I spun up all of my virtual machines. I did this by creating a Virtual Machine Template with the [Talos ISO](https://github.com/talos-systems/talos/releases/tag/v0.14.2), an empty hard drive, and that's about it.
