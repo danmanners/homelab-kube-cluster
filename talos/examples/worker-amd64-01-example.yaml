@@ -1,0 +1,48 @@
+version: v1alpha1
+debug: false
+persist: true
+machine:
+  type: worker
+  token: RealToken.GoesHere
+  certSANs:
+    - homelab.kube.danmanners.io
+  ca:
+    crt: RealCertificateGoesHere
+    key: ""
+  network:
+    hostname: talos-wn01
+    kubespan:
+      enabled: false
+    interfaces:
+      - interface: eth0
+        dhcp: true
+    nameservers:
+      - 10.200.0.1
+      - 10.45.0.2
+  install:
+    disk: /dev/sda
+    image: ghcr.io/siderolabs/installer:v1.0.5
+    bootloader: true
+    wipe: false
+  features:
+    rbac: true
+  kubelet:
+    image: ghcr.io/siderolabs/kubelet:v1.23.7
+cluster:
+  id: FakeClusterID
+  secret: FakeClusterSecret
+  controlPlane:
+    endpoint: https://homelab.kube.danmanners.io:6443
+  network:
+    dnsDomain: cluster.local
+    podSubnets:
+      - 10.244.0.0/16
+    serviceSubnets:
+      - 10.96.0.0/12
+  token: Fake.Token
+  aescbcEncryptionSecret: ""
+  ca:
+    crt: NotTheRealCert==
+    key: ""
+  discovery:
+    enabled: true
