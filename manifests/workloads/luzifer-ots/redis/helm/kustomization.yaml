@@ -8,7 +8,7 @@ helmCharts:
     releaseName: redis
     namespace: ots
     repo: https://charts.bitnami.com/bitnami
-    version: "7.6.1"
+    version: "7.6.4"
     valuesFile: values.yaml
 
 patchesStrategicMerge: 
