@@ -9,7 +9,7 @@ image:
 deployment:
   enabled: true
   # Can be either Deployment or DaemonSet
-  kind: Deployment
+  kind: DaemonSet
   # Number of pods of the deployment (only applies when kind == Deployment)
   replicas: 1
   # Amount of time (in seconds) before Kubernetes will send the SIGKILL signal if Traefik does not shut down
@@ -95,8 +95,8 @@ additionalArguments:
 
 # Configure ports
 # hostNetwork: true
-nodeSelector:
-  node-role.kubernetes.io/cloud: "true"
+# nodeSelector:
+#   node-role.kubernetes.io/cloud: "true"
   
 ports:
   traefik:
@@ -109,13 +109,13 @@ ports:
     expose: true
     exposedPort: 80
     protocol: TCP
-    nodePort: 31693
+    nodePort: 80
   websecure:
     port: 443
     expose: true
     exposedPort: 443
     protocol: TCP
-    nodePort: 30484
+    nodePort: 443
     tls:
       enabled: false
   metrics:
