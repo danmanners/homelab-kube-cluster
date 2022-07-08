@@ -6,13 +6,13 @@ metadata:
 spec:
   selector:
     matchLabels:
-      run: jenkins-ce
+      app: jenkins-ce
   serviceName: jenkins-ce
   replicas: 1
   template:
     metadata:
       labels:
-        run: jenkins-ce
+        app: jenkins-ce
     spec:
       terminationGracePeriodSeconds: 60
       initContainers:
