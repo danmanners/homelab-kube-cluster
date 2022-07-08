@@ -18,7 +18,7 @@ kind: Service
 metadata:
   name: jenkins-ce
   labels:
-    run: jenkins-ce
+    app: jenkins-ce
 spec:
   type: ClusterIP
   ports:
@@ -29,7 +29,7 @@ spec:
     port: 50000
     protocol: TCP
   selector:
-    run: jenkins-ce
+    app: jenkins-ce
 ---
 apiVersion: cert-manager.io/v1
 kind: Certificate
