@@ -11,7 +11,7 @@ deployment:
   # Can be either Deployment or DaemonSet
   kind: Deployment
   # Number of pods of the deployment (only applies when kind == Deployment)
-  replicas: 4
+  replicas: 1
   # Amount of time (in seconds) before Kubernetes will send the SIGKILL signal if Traefik does not shut down
   terminationGracePeriodSeconds: 60
   # The minimum number of seconds Traefik needs to be up and running before the DaemonSet/Deployment controller considers it available
@@ -42,8 +42,8 @@ ingressRoute:
     enabled: true
 
 rollingUpdate:
-  maxUnavailable: 2
-  maxSurge: 2
+  maxUnavailable: 1
+  maxSurge: 1
 
 # Configure providers
 providers:
@@ -93,6 +93,10 @@ additionalArguments:
   - "--entryPoints.websecure.forwardedHeaders.insecure=true"
 
 # Configure ports
+hostNetwork: true
+nodeSelector:
+  node-role.kubernetes.io/cloud: "true"
+  
 ports:
   traefik:
     port: 9000
@@ -114,9 +118,9 @@ ports:
     tls:
       enabled: false
   metrics:
-    port: 9100
+    port: 9101
     expose: false
-    exposedPort: 9100
+    exposedPort: 9101
     protocol: TCP
 
 # Pod Resources
