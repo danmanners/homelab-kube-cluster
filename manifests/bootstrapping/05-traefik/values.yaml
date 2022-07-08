@@ -15,6 +15,7 @@ deployment:
   # Amount of time (in seconds) before Kubernetes will send the SIGKILL signal if Traefik does not shut down
   terminationGracePeriodSeconds: 60
   # The minimum number of seconds Traefik needs to be up and running before the DaemonSet/Deployment controller considers it available
+  dnsPolicy: ClusterFirstWithHostNet
   minReadySeconds: 0
   annotations:
     helm_repo_url: "https://helm.traefik.io/traefik"
