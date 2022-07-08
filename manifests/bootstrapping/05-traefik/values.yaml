@@ -104,13 +104,13 @@ ports:
     exposedPort: 9000
     protocol: TCP
   web:
-    port: 8000
+    port: 80
     expose: true
     exposedPort: 80
     protocol: TCP
     nodePort: 31693
   websecure:
-    port: 8443
+    port: 443
     expose: true
     exposedPort: 443
     protocol: TCP
@@ -167,11 +167,13 @@ serviceAccount:
 # To run the container with ports below 1024 this will need to be adjust to run as root
 securityContext:
   capabilities:
-    drop: [ALL]
+    drop: []
+    # drop: [ALL]
   readOnlyRootFilesystem: true
-  runAsGroup: 65532
-  runAsNonRoot: true
-  runAsUser: 65532
+  runAsGroup: 0
+  privileged: true
+  runAsNonRoot: false
+  runAsUser: 0
 
 podSecurityContext:
-  fsGroup: 65532
+  fsGroup: 0
