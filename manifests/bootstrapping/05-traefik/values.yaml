@@ -94,7 +94,7 @@ additionalArguments:
   - "--entryPoints.websecure.forwardedHeaders.insecure=true"
 
 # Configure ports
-hostNetwork: true
+# hostNetwork: true
 nodeSelector:
   node-role.kubernetes.io/cloud: "true"
   
