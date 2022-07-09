@@ -70,7 +70,6 @@ Several items have previously been in my cluster, but have been removed over tim
 | [Rocky Linux](https://rockylinux.org/)                   | I standardized on Talos OS                                         | Open-Source Enterprise Linux; Spiritual successor to CentOS |
 | [Turing Pi 1](https://turingpi.com/v1/)                  | I can't run Talos OS on the Turing Pi CM3+ nodes                   | Raspberry Pi Compute Module Clustering                      |
 
-
 ## Services Hosted
 
 | Name                      | Description                                                                             | Path                                                                                                                                                          | Relevant Link                                                                                                                           |
@@ -95,7 +94,6 @@ The services listed below once existed in the cluster, but have since been remov
 | Name                       | Deprecation Reason                                  | Description                          | Path                                                                                                                                                  | Relevant Link                                                                                      |
 |----------------------------|-----------------------------------------------------|--------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------|
 | Rancher Upgrade Controller | Removed from the cluster when I moved away from K3s | In ur Kubernetes, upgrading ur nodes | [manifests/workloads/k3s-upgrade-controller](https://github.com/danmanners/homelab-kube-cluster/tree/main/manifests/workloads/k3s-upgrade-controller) | [GitHub - rancher/system-upgrade-controller](https://github.com/rancher/system-upgrade-controller) |
-
 
 ### Proxied Services
 
@@ -124,11 +122,12 @@ Below is a list of the hardware (both physical and virtual) in use on this proje
 
 #### Cluster Boards
 
-| Count | System Type      | CPU Type                 | CPU Cores | Memory      |
-|-------|------------------|--------------------------|-----------|-------------|
-| 1     | Turing Pi v2     | 4x Raspberry Pi CM4      | 4c4t      | 4x 8GiB     |
-| ~~1~~ | ~~Turing Pi v1~~ | ~~7x Raspberry Pi CM3+~~ | ~~4c4t~~  | ~~7x 1GiB~~ |
-| ~~1~~ | ~~Turing Pi v1~~ | ~~3x Raspberry Pi CM3+~~ | ~~4c4t~~  | ~~3x 1GiB~~ |
+| Count | System Type                                                                                                                                         | CPU Type                 | CPU Cores | Memory      |
+|-------|-----------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------|-----------|-------------|
+| 1     | [DeskPi Super6C](https://deskpi.com/collections/deskpi-super6c/products/deskpi-super6c-raspberry-pi-cm4-cluster-mini-itx-board-6-rpi-cm4-supported) | 4x Raspberry Pi CM4      | 4c4t      | 4x 8GiB     |
+| ~~1~~ | [~~Turing Pi 2~~](https://www.kickstarter.com/projects/turingpi/turing-pi-cluster-board)                                                            | ~~4x Raspberry Pi CM4~~  | ~~4c4t~~  | ~~4x 8GiB~~ |
+| ~~1~~ | [~~Turing Pi 1~~](https://turingpi.com/v1/)r                                                                                                        | ~~7x Raspberry Pi CM3+~~ | ~~4c4t~~  | ~~7x 1GiB~~ |
+| ~~1~~ | [~~Turing Pi 1~~](https://turingpi.com/v1/)r                                                                                                        | ~~3x Raspberry Pi CM3+~~ | ~~4c4t~~  | ~~3x 1GiB~~ |
 
 #### Additional Compute
 
@@ -152,10 +151,11 @@ Below is a list of the hardware (both physical and virtual) in use on this proje
 
 ### Cloud Hosted Resources
 
-| Name               | Provider | CPU   | Memory |
-|--------------------|----------|-------|--------|
-| tpi-k3s-aws-edge   | AWS      | 2vCPU | 4GiB   |
-| tpi-k3s-azure-edge | Azure    | 2vCPU | 4GiB   |
+| Name                   | Provider  | Arch      | Instance Size | CPU       | Memory   |
+|------------------------|-----------|-----------|---------------|-----------|----------|
+| tpi-k3s-aws-edge       | AWS       | arm64     | t4g.small     | 2vCPU     | 2GiB     |
+| ~~tpi-k3s-aws-edge~~   | ~~AWS~~   | ~~amd64~~ | t3.medium     | ~~2vCPU~~ | ~~4GiB~~ |
+| ~~tpi-k3s-azure-edge~~ | ~~Azure~~ | ~~amd64~~ | Standard B2s  | ~~2vCPU~~ | ~~4GiB~~ |
 
 ## Deployment Order of Operations
 
@@ -170,11 +170,36 @@ While this section is _very much_ a Work-in-Progress, I'd like to provide some r
 7. [ArgoCD - Part One](manifests/bootstrapping/06-argocd/)
 8. [ArgoCD - Part Two](manifests/bootstrapping/07-bootstrapping-argoprojects/)
 
+## Identifying Problems, Troubleshooting Steps, and more
+
+Below are a few things that may be beneficial to you when troubleshooting or getting things up and operational
+
+### Traffic is not getting from the edge (cloud) nodes to the on-prem cluster networking
+
+You can validate that your remote traffic is or isn't making it on site by using `dig` inside of the [netshoot container]()
+
+```bash
+kubectl run temp-troubleshooting \
+  --rm -it -n default \
+  --overrides='{"apiVersion":"v1","spec":{"nodeSelector":{"kubernetes.io/hostname":"talos-aws-grav01"}}}' \
+  --pod-running-timeout 3m \
+  --image=docker.io/nicolaka/netshoot:latest \
+  --command -- /bin/bash
+```
+
+Then, you can validate that you can reach CoreDNS or another pod/service IP from your remote node.
+
+If you can prove it is not working, you may want to restart all of Cilium:
+
+```bash
+kubectl rollout restart -n kube-system daemonset cilium
+```
+
 ## To-Do Items
 
 - Ensure that **ALL** services are tagged for the appropriate hardware (`arm64` or `amd64`) to ensure runtime success
+  - Alternatively, ensure that all containers are built for multi-architecture.
 - Ensure that **ALL** application and service subdirectories have READMEs explaining what they're doing and what someone else may need to modify for their own environment
-- 
 
 ## Gratitude and Thanks
 
