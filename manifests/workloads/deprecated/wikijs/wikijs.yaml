@@ -1,0 +1,20 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: wikijs
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: "git@github.com:danmanners/homelab-kube-cluster.git"
+    path: manifests/workloads/wikijs
+    targetRevision: main
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: wikijs
+  syncPolicy:
+    automated:
+      prune: true
+    syncOptions:
+      - CreateNamespace=true
