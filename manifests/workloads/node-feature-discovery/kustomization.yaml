@@ -9,17 +9,23 @@ helmCharts:
     version: "0.11.1"
     valuesInline:
       master:
-        tolerations:
-          - key: "node-role.kubernetes.io/cloud"
-            operator: "Equal"
-            value: ""
-            effect: "NoSchedule"
-      worker:
-        tolerations:
-          - key: "node-role.kubernetes.io/cloud"
-            operator: "Equal"
-            value: ""
-            effect: "NoSchedule"
+        affinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                topologyKey: topology.kubernetes.io/zone
+                labelSelector:
+                  matchExpressions:
+                  - key: security
+                    operator: In
+                    values:
+                    - S2
+      # worker:
+      #   tolerations:
+      #     - key: "node-role.kubernetes.io/cloud"
+      #       operator: "Equal"
+      #       value: ""
+      #       effect: "NoSchedule"
 
 resources:
   - nfd-worker-conf-cm.yaml
