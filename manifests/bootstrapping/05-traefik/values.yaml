@@ -137,6 +137,8 @@ resources:
 service:
   enabled: true
   type: LoadBalancer
+  spec:
+    externalTrafficPolicy: Local
   annotations:
     helm_repo_url: "https://helm.traefik.io/traefik"
 
