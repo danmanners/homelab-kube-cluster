@@ -1,0 +1,24 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: openfaas
+
+helmCharts:
+  - name: openfaas
+    releaseName: openfaas
+    namespace: openfaas
+    repo: https://openfaas.github.io/faas-netes
+    version: "10.0.13"
+    valuesInline:
+      serviceType: "ClusterIP"
+      exposeServices: "false"
+      functionNamespace: "openfaas"
+      generateBasicAuth: "true"
+      prometheus:
+        create: "false"
+      alertmanager:
+        create: "false"
+      psp: "true"
+
+resources:
+  - ingress.yaml

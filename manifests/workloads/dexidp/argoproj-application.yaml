@@ -1,0 +1,20 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: "dexidp"
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: "git@github.com:danmanners/homelab-kube-cluster.git"
+    path: manifests/workloads/dexidp
+    targetRevision: main
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: dex
+  syncPolicy:
+    automated:
+      prune: true
+    syncOptions:
+      - CreateNamespace=true

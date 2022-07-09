@@ -1,0 +1,19 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: kube-system
+
+helmCharts:
+  - name: nfs-subdir-external-provisioner
+    releaseName: nfs-subdir-external-provisioner
+    namespace: kube-system
+    repo: https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner
+    version: "4.0.16"
+    valuesInline:
+      nfs:
+        server: 10.200.0.3
+        path: "/KubeStore"
+      storageClass:
+        defaultClass: true
+      mountOptions:
+        - nfsvers=4
