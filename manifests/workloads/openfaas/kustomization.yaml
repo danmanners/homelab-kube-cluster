@@ -8,7 +8,7 @@ helmCharts:
     releaseName: openfaas
     namespace: openfaas
     repo: https://openfaas.github.io/faas-netes
-    version: "10.1.4"
+    version: "10.2.0"
     valuesInline:
       serviceType: "ClusterIP"
       exposeServices: "false"
