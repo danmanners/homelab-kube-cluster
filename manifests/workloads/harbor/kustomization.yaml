@@ -12,5 +12,5 @@ helmCharts:
     name: harbor
     namespace: harbor
     repo: https://helm.goharbor.io
-    version: "1.9.2"
+    version: "1.9.3"
     valuesFile: values.yaml
