@@ -8,7 +8,7 @@ helmCharts:
     releaseName: artifactory-oss
     namespace: jfrog
     repo: https://charts.jfrog.io
-    version: "107.39.4"
+    version: "107.41.4"
     valuesFile: values.yaml
 
 resources:
