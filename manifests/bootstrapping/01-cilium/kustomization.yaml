@@ -8,5 +8,5 @@ helmCharts:
     releaseName: cilium
     namespace: kube-system
     repo: https://helm.cilium.io/
-    version: "1.11.6"
+    version: "1.12.0"
     valuesFile: values.yaml
