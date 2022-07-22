@@ -15,5 +15,5 @@ helmCharts:
         path: "/KubeStore"
       storageClass:
         defaultClass: true
-      mountOptions:
-        - nfsvers=4
+      # mountOptions:
+      #   - nfsvers=4
