@@ -5,5 +5,4 @@ namespace: metallb-system
 
 resources:
   - configMap.yaml
-  - https://raw.githubusercontent.com/metallb/metallb/v0.12.1/manifests/namespace.yaml
-  - https://raw.githubusercontent.com/metallb/metallb/v0.12.1/manifests/metallb.yaml
+  - https://github.com/metallb/metallb//config/native?ref=v0.13.4
