@@ -12,8 +12,8 @@ helmCharts:
     valuesInline:
       nfs:
         server: 10.200.0.3
-        path: "/KubeStore"
+        path: "/kubestorage"
       storageClass:
         defaultClass: true
-      # mountOptions:
-      #   - nfsvers=4
+      mountOptions:
+        - nfsvers=4.0
