@@ -15,5 +15,6 @@ helmCharts:
         path: "/kubestorage"
       storageClass:
         defaultClass: true
-      mountOptions:
-        - nfsvers=4.0
+      # mountOptions:
+      #   - nfsvers=4.0
+      #   - nolock
