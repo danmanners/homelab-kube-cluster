@@ -9,11 +9,11 @@ prometheus:
       requests:
         memory: 400Mi
 
-    storageSpec:
-      volumeClaimTemplate:
-        spec:
-          storageClassName: nfs-client
-          accessModes: ["ReadWriteOnce"]
-          resources:
-            requests:
-              storage: 20Gi
+    # storageSpec:
+    #   volumeClaimTemplate:
+    #     spec:
+    #       storageClassName: nfs-client
+    #       accessModes: ["ReadWriteOnce"]
+    #       resources:
+    #         requests:
+    #           storage: 20Gi
