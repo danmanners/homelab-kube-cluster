@@ -17,7 +17,7 @@ metadata:
     provider: AWS
 spec:
   type: ExternalName
-  externalName: 54.163.40.24
+  externalName: 3.88.155.154 
 # OLD AMAZON
 # ---
 # kind: Service
