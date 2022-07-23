@@ -19,13 +19,13 @@ machine:
       - 10.45.0.2
   install:
     disk: /dev/nvme0n1
-    image: ghcr.io/siderolabs/installer:v1.0.5
+    image: ghcr.io/siderolabs/installer:v1.1.1
     bootloader: true
     wipe: false
   features:
     rbac: true
   kubelet:
-    image: ghcr.io/siderolabs/kubelet:v1.23.7
+    image: ghcr.io/siderolabs/kubelet:v1.24.2
 cluster:
   id: FakeClusterID
   secret: FakeClusterSecret
