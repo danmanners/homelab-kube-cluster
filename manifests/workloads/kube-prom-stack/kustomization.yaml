@@ -5,7 +5,7 @@ namespace: kube-system
 
 helmCharts:
   - name: kube-prometheus-stack
-    releaseName: monitoring
+    releaseName: kube-prometheus-stack
     namespace: kube-system
     repo: https://prometheus-community.github.io/helm-charts
     version: "38.0.0"
@@ -15,3 +15,4 @@ resources:
   # Files
   - ingress.yaml
   - service.yaml
+  - crds-argoproj-application.yaml
