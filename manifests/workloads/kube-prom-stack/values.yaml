@@ -1,10 +1,12 @@
+kubeProxy:
+  enabled: false
+
 prometheus:
   admissionWebhooks:
     enabled: false
     certManager:
       enabled: true
   prometheusSpec:
-
     resources:
       requests:
         memory: 400Mi
