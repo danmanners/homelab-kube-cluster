@@ -12,6 +12,10 @@ image:
   pullPolicy: IfNotPresent
   useDigest: true
 
+# Necessary for Kubernetes v1.24+
+securityContext:
+  privileged: true
+
 tolerations:
   - operator: Exists
 
