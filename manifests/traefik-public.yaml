@@ -18,6 +18,19 @@ metadata:
 spec:
   type: ExternalName
   externalName: 3.88.155.154 
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: external-ip-azure
+  namespace: kube-system
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: kube.danmanners.com
+  labels:
+    provider: Azure
+spec:
+  type: ExternalName
+  externalName: 20.81.29.199
 # OLD AMAZON
 # ---
 # kind: Service
