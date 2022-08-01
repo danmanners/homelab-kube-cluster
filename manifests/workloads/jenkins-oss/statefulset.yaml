@@ -24,7 +24,7 @@ spec:
           mountPath: /var/jenkins_home
           subPath: jenkins_home
       nodeSelector:
-        beta.kubernetes.io/arch: amd64
+        kubernetes.io/arch: amd64
       containers:
       - name: jenkins-ce
         image: jenkins-image
@@ -50,7 +50,7 @@ spec:
       name: jenkins-volume
     spec:
       accessModes: [ "ReadWriteMany" ]
-      storageClassName: "nfs-client"
+      storageClassName: "hdd"
       resources:
         requests:
           storage: 16Gi
