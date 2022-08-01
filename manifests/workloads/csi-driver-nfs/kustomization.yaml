@@ -3,53 +3,12 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: kube-system
 
+resources:
+  - storageclass.yaml
+
 helmCharts:
-  ## ~9.06TiB Bulk Storage; 7200 RPM HDDs
   - name: csi-driver-nfs
     releaseName: hdd
     namespace: kube-system
     repo: https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/master/charts
     version: v4.1.0
-    # valuesInline:
-      # node:
-      #   name: hdd
-      # controller:
-      #   name: csi-nfs-controller-hdd
-      # driver:
-      #   name: hdd.nfs.csi.k8s.io
-  ## 512GiB SSDs
-  # - name: csi-driver-nfs
-  #   releaseName: ssd
-  #   namespace: kube-system
-  #   repo: https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/master/charts
-  #   version: v4.1.0
-  #   valuesFile: values.yaml
-  #   valuesInline:
-  #     node:
-  #       name: ssd
-  #     serviceAccount:
-  #       create: false
-  #     rbac:
-  #       create: false
-  #     controller:
-  #       name: csi-nfs-controller-ssd
-  #     driver:
-  #       name: ssd.nfs.csi.k8s.io
-  # ## 512GiB Intel NVMe Disks
-  # - name: csi-driver-nfs
-  #   releaseName: nvme
-  #   namespace: kube-system
-  #   repo: https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/master/charts
-  #   version: v4.1.0
-  #   valuesFile: values.yaml
-  #   valuesInline:
-  #     node:
-  #       name: nvme
-  #     serviceAccount:
-  #       create: false
-  #     rbac:
-  #       create: false
-  #     controller:
-  #       name: csi-nfs-controller-nvme
-  #     driver:
-  #       name: nvme.nfs.csi.k8s.io
