@@ -1,0 +1,44 @@
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: hdd
+provisioner: hdd.nfs.csi.k8s.io
+parameters:
+  server: "10.200.0.3"
+  share: "/spinning-bois/talos-kubernetes/"
+reclaimPolicy: Delete
+volumeBindingMode: Immediate
+mountOptions:
+  - nfsvers=4.1
+  - nolock
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: ssd
+provisioner: ssd.nfs.csi.k8s.io
+parameters:
+  server: "10.200.0.3"
+  share: "/faster-bois/talos-kubernetes/"
+reclaimPolicy: Delete
+volumeBindingMode: Immediate
+mountOptions:
+  - nfsvers=4.1
+  - nolock
+  - hard
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: nvme
+provisioner: nvme.nfs.csi.k8s.io
+parameters:
+  server: "10.200.0.3"
+  share: "/fastest-bois/talos-kubernetes/"
+reclaimPolicy: Delete
+volumeBindingMode: Immediate
+mountOptions:
+  - nfsvers=4.1
+  - nolock
+  - hard
