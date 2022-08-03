@@ -1,7 +1,6 @@
 global:
   nodeSelector:
     kubernetes.io/arch: amd64
-
 artifactory:
   artifactory:
     image:
@@ -22,6 +21,13 @@ artifactory:
   admin:
     username: "admin"
     password: "ThisPasswordWillChangeOnTheFirstBoot"
+  customPersistentVolumeClaim:
+    name: artifactory
+    mountPath: /var/opt/jfrog
+    accessModes: 
+      - ReadWriteOnce
+    size: 60
+    storageClassName: ssd
 
   ## Nginx
   ## See full list of supported Nginx options and documentation in artifactory chart: https://github.com/jfrog/charts/tree/master/stable/artifactory
@@ -60,3 +66,5 @@ artifactory:
 ## Enable the PostgreSQL sub chart
 postgresql:
   enabled: true
+  global:
+    storageClass: ssd
