@@ -1,7 +1,6 @@
-global:
-  nodeSelector:
-    kubernetes.io/arch: amd64
 artifactory:
+  persistence:
+    storageClassName: nvme
   artifactory:
     image:
       registry: releases-docker.jfrog.io
@@ -21,13 +20,6 @@ artifactory:
   admin:
     username: "admin"
     password: "ThisPasswordWillChangeOnTheFirstBoot"
-  customPersistentVolumeClaim:
-    name: artifactory
-    mountPath: /var/opt/jfrog
-    accessModes: 
-      - ReadWriteOnce
-    size: 60
-    storageClassName: ssd
 
   ## Nginx
   ## See full list of supported Nginx options and documentation in artifactory chart: https://github.com/jfrog/charts/tree/master/stable/artifactory
