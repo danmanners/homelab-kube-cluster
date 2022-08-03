@@ -9,7 +9,7 @@ helmCharts:
     releaseName: hdd
     namespace: kube-system
     repo: https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner
-    version: 4.0.16
+    version: 4.0.17
     valuesFile: values.yaml
     valuesInline:
       nfs:
@@ -22,7 +22,7 @@ helmCharts:
     releaseName: ssd
     namespace: kube-system
     repo: https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner
-    version: 4.0.16
+    version: 4.0.17
     valuesFile: values.yaml
     valuesInline:
       nfs:
@@ -34,7 +34,7 @@ helmCharts:
     releaseName: nvme
     namespace: kube-system
     repo: https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner
-    version: 4.0.16
+    version: 4.0.17
     valuesFile: values.yaml
     valuesInline:
       nfs:
