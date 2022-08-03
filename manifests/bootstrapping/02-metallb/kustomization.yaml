@@ -4,5 +4,6 @@ kind: Kustomization
 namespace: metallb-system
 
 resources:
-  - configMap.yaml
   - https://github.com/metallb/metallb//config/native?ref=v0.13.4
+  - ipaddresspool.yaml
+  - bgppeers.yaml
