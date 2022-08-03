@@ -5,10 +5,10 @@ namespace: jfrog
 
 helmCharts:
   - name: artifactory-oss
-    releaseName: artifactory-oss
+    releaseName: arti
     namespace: jfrog
     repo: https://charts.jfrog.io
-    version: "107.41.4"
+    version: "107.41.7"
     valuesFile: values.yaml
 
 resources:

@@ -10,18 +10,18 @@ expose:
 persistence:
   persistentVolumeClaim:
     registry:
-      storageClass: nfs-client
-      size: 20Gi
+      storageClass: ssd
+      size: 40Gi
     chartmuseum:
-      storageClass: nfs-client
+      storageClass: ssd
     jobservice:
-      storageClass: nfs-client
+      storageClass: ssd
     database:
-      storageClass: nfs-client
+      storageClass: ssd
     redis:
-      storageClass: nfs-client
+      storageClass: ssd
     trivy:
-      storageClass: nfs-client
+      storageClass: ssd
 
 nginx:
   nodeSelector:
