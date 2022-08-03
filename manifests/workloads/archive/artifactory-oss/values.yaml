@@ -1,6 +1,9 @@
+global:
+  nodeSelector:
+    kubernetes.io/arch: amd64
+
 artifactory:
-  persistence:
-    storageClassName: nvme
+# Artifactory Settings
   artifactory:
     image:
       registry: releases-docker.jfrog.io
@@ -15,24 +18,33 @@ artifactory:
     javaOpts:
       xms: "2g"
       xmx: "6g"
+
+  # Persistence Settings
+  customPersistentVolumeClaim:
+    name: artifactory-volume
+    storageClassName: nvme
+    size: 60Gi
+    accessModes:
+      - ReadWriteOnce
+
+  persistence:
+    size: 60Gi
+    storageClassName: nvme
+
+  # Installer Settings
   installer:
     platform: art-oss-helm
+
+  # Credentials
   admin:
     username: "admin"
     password: "ThisPasswordWillChangeOnTheFirstBoot"
 
   ## Nginx
-  ## See full list of supported Nginx options and documentation in artifactory chart: https://github.com/jfrog/charts/tree/master/stable/artifactory
   nginx:
     enabled: false
-    tlsSecretName: "artifactory-danmanners-cert"
-    nodeSelector:
-      kubernetes.io/arch: amd64
-    service:
-      type: ClusterIP
 
   ## Ingress
-  ## See full list of supported Ingress options and documentation in artifactory chart: https://github.com/jfrog/charts/tree/master/stable/artifactory
   ingress:
     enabled: false
 
@@ -43,20 +55,15 @@ artifactory:
   postgresql:
     enabled: true
     postgresqlPassword: "InternalPostgresPasswordNeverExposeMeToTheAir"
-    primary:
-      nodeSelector:
-        kubernetes.io/arch: amd64
 
   ## This key is required for upgrades to protect old PostgreSQL chart's breaking changes.
   databaseUpgradeReady: "yes"
 
-  ## If NOT using the PostgreSQL in this chart (artifactory.postgresql.enabled=false),
-  ## specify custom database details here or leave empty and Artifactory will use embedded derby.
-  ## See full list of database options and documentation in artifactory chart: https://github.com/jfrog/charts/tree/master/stable/artifactory
-  # database:
-
 ## Enable the PostgreSQL sub chart
 postgresql:
   enabled: true
+  persistence:
+    enabled: true
+    size: 40Gi
   global:
     storageClass: ssd
