@@ -6,4 +6,5 @@ namespace: metallb-system
 resources:
   - https://github.com/metallb/metallb//config/native?ref=v0.13.4
   - ipaddresspool.yaml
-  - bgppeers.yaml
+  - bgp-peers.yaml
+  - bgp-advertisement.yaml
