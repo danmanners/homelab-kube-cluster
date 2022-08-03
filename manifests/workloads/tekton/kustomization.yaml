@@ -4,15 +4,13 @@ kind: Kustomization
 namespace: tekton-pipelines
 
 resources:
-  # Argo Tekton CI/CD Project
-  - argoproject.yaml
   # Pipelines
-  - https://storage.googleapis.com/tekton-releases/pipeline/previous/v0.37.0/release.yaml
+  - https://storage.googleapis.com/tekton-releases/pipeline/previous/v0.38.1/release.yaml
   # Dashboard
-  - https://github.com/tektoncd/dashboard/releases/download/v0.27.0/tekton-dashboard-release.yaml
+  - https://github.com/tektoncd/dashboard/releases/download/v0.28.0/tekton-dashboard-release.yaml
   - ingress.yaml
   # Triggers
-  - https://storage.googleapis.com/tekton-releases/triggers/previous/v0.20.1/release.yaml
-  - https://storage.googleapis.com/tekton-releases/triggers/previous/v0.20.1/interceptors.yaml
+  - https://storage.googleapis.com/tekton-releases/triggers/previous/v0.20.2/release.yaml
+  - https://storage.googleapis.com/tekton-releases/triggers/previous/v0.20.2/interceptors.yaml
   # Tasks Subdirectory
   - tasks
