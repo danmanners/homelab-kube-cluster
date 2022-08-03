@@ -10,3 +10,6 @@ helmCharts:
     repo: https://mojo2600.github.io/pihole-kubernetes/
     version: "2.9.0"
     valuesFile: values.yaml
+
+generators:
+  - ksops-generator.yaml
