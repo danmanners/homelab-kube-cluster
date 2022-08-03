@@ -4,13 +4,11 @@ kind: Kustomization
 namespace: harbor
 
 resources:
+  # Directory
+  - helm
+  # Files
   - ns.yaml
   - ingress.yaml
 
-helmCharts:
-  - releaseName: harbor
-    name: harbor
-    namespace: harbor
-    repo: https://helm.goharbor.io
-    version: "1.9.3"
-    valuesFile: values.yaml
+patchesStrategicMerge:
+  - patches/database.yaml
