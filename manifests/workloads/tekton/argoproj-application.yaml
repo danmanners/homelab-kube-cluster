@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: "tekton-cicd"
+  name: "tekton"
   namespace: argocd
 spec:
   project: default
@@ -12,7 +12,7 @@ spec:
     targetRevision: main
   destination:
     server: "https://kubernetes.default.svc"
-    namespace: tekton-pipelines
+    namespace: tekton
   syncPolicy:
     automated:
       prune: true
