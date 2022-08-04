@@ -14,25 +14,29 @@ serviceTCP:
   type: LoadBalancer
   annotations:
     metallb.universe.tf/allow-shared-ip: pihole-svc
+    metallb.universe.tf/loadBalancerIPs: 10.56.1.10
 
 serviceUDP:
   loadBalancerIP: 10.56.1.10
   type: LoadBalancer
   annotations:
     metallb.universe.tf/allow-shared-ip: pihole-svc
+    metallb.universe.tf/loadBalancerIPs: 10.56.1.10
 
 serviceWeb:
   loadBalancerIP: 10.56.1.10
+  type: LoadBalancer
   annotations:
     metallb.universe.tf/allow-shared-ip: pihole-svc
-  type: LoadBalancer
+    metallb.universe.tf/loadBalancerIPs: 10.56.1.10
 
 serviceDns:
-  type: LoadBalancer
   loadBalancerIP: 10.56.1.10
+  type: LoadBalancer
   port: 53
   annotations:
     metallb.universe.tf/allow-shared-ip: pihole-svc
+    metallb.universe.tf/loadBalancerIPs: 10.56.1.10
 
 resources:
   limits:
@@ -50,7 +54,7 @@ podDnsConfig:
   enabled: true
   policy: "None"
   nameservers:
-  - 10.45.0.1
+    - 10.45.0.1
 
 extraEnvVars:
   DNSMASQ_USER: root
