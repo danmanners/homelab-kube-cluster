@@ -1,8 +1,0 @@
----
-apiVersion: argoproj.io/v1alpha1
-kind: AppProject
-metadata:
-  name: tekton-pipelines
-  namespace: argocd
-spec:
-  description: Pipelines for Tekton CI/CD system
