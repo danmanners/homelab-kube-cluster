@@ -7,7 +7,7 @@ resources:
   # Traefik Ingress
   - ingress.yaml
   # Pipelines
-  - https://github.com/tektoncd/pipeline/releases/download/v0.38.2/release.yaml
+  - https://github.com/tektoncd/pipeline/releases/download/v0.37.3/release.yaml
   # Triggers
   - https://github.com/tektoncd/triggers/releases/download/v0.20.2/release.yaml
   - https://github.com/tektoncd/triggers/releases/download/v0.20.2/interceptors.yaml
