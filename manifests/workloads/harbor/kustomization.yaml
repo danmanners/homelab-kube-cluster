@@ -9,6 +9,3 @@ resources:
   # Files
   - ns.yaml
   - ingress.yaml
-
-patchesStrategicMerge:
-  - patches/database.yaml
