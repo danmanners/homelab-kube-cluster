@@ -141,6 +141,7 @@ service:
     externalTrafficPolicy: Local
   annotations:
     helm_repo_url: "https://helm.traefik.io/traefik"
+    metallb.universe.tf/loadBalancerIPs: 10.56.1.1
 
 ## Create HorizontalPodAutoscaler object.
 autoscaling:
