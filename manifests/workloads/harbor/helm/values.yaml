@@ -10,18 +10,18 @@ expose:
 persistence:
   persistentVolumeClaim:
     registry:
-      storageClass: ssd
+      storageClass: harbor
       size: 40Gi
     chartmuseum:
-      storageClass: ssd
+      storageClass: harbor
     jobservice:
-      storageClass: ssd
+      storageClass: harbor
     database:
-      storageClass: ssd
+      storageClass: harbor
     redis:
-      storageClass: ssd
+      storageClass: harbor
     trivy:
-      storageClass: ssd
+      storageClass: harbor
 
 nginx:
   nodeSelector:
