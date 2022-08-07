@@ -8,7 +8,7 @@ helmCharts:
     releaseName: minecraft
     namespace: minecraft
     repo: https://itzg.github.io/minecraft-server-charts/
-    version: "4.1.0"
+    version: "4.2.0"
     valuesFile: values.yaml
 
 patchesStrategicMerge:
