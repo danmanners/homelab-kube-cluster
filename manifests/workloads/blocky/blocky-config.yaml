@@ -1,0 +1,23 @@
+# Ripped from here: https://github.com/k8s-at-home/charts/blob/master/charts/stable/blocky/values.yaml
+upstream:
+  default:
+    - 10.45.0.1
+    - 8.8.8.8
+upstreamTimeout: 1s
+blocking:
+  blackLists:
+    ads:
+      - https://s3.amazonaws.com/lists.disconnect.me/simple_ad.txt
+      - https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts
+      - https://mirror1.malwaredomains.com/files/justdomains
+      - http://sysctl.org/cameleon/hosts
+      - https://zeustracker.abuse.ch/blocklist.php?download=domainblocklist
+      - https://s3.amazonaws.com/lists.disconnect.me/simple_tracking.txt
+caching:
+  minTime: 5m
+  maxTime: -1
+  maxItemsCount: 0
+  prefetching: true
+  prefetchExpires: 2h
+  prefetchThreshold: 5
+  prefetchMaxItemsCount: 0
