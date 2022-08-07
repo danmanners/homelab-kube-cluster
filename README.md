@@ -20,7 +20,7 @@ This project aims to utilize industry-standard tooling and practices in order to
 ## 💡 Current Tech Stack
 
 | Name                                                               | Description                                                      |
-| ------------------------------------------------------------------ | ---------------------------------------------------------------- |
+|--------------------------------------------------------------------|------------------------------------------------------------------|
 | [ArgoCD](https://argoproj.github.io/cd/)                           | GitOps for Kubernetes                                            |
 | [AWS](https://aws.amazon.com/)                                     | Cloud Provider                                                   |
 | [Blocky](https://github.com/0xERR0R/blocky)                        | Fast and lightweight DNS proxy as ad-blocker                     |
@@ -46,12 +46,12 @@ This project aims to utilize industry-standard tooling and practices in order to
 | [Prometheus](https://prometheus.io/)                               | Metrics and Data Collection                                      |
 | [Python](https://www.python.org/)                                  | Python Programming Language                                      |
 | [Raspberry Pi](https://www.raspberrypi.org/)                       | Baremetal ARM SoC Hardware!                                      |
+| [Reloader](https://github.com/stakater/Reloader)                   | Kubernetes controller to watch cm's and secrets and reloads pods |
 | [SonarQube](https://www.sonarqube.org/)                            | Static code analysis                                             |
 | [Talos](https://talos.dev/)                                        | Secure, immutable, and minimal Linux OS                          |
 | [Tekton](https://tekton.dev/)                                      | Cloud-Native CI/CD                                               |
 | [Terraform](https://www.terraform.io/)                             | Open-Source Infrastructure-as-Code                               |
 | [Terragrunt](https://terragrunt.gruntwork.io/)                     | Making Terraform DRY                                             |
-| [Turing Pi 2](https://turingpi.com/)                               | Raspberry Pi Compute Module Clustering                           |
 | [Ubuntu](https://ubuntu.com/)                                      | Operating System                                                 |
 | [Uptime Kuma](https://github.com/louislam/uptime-kuma)             | Fancy self-hosted system monitoring                              |
 | [WikiJS](https://js.wiki/)                                         | Open-Source Wiki/Documentation Service                           |
@@ -61,7 +61,7 @@ This project aims to utilize industry-standard tooling and practices in order to
 Several items have previously been in my cluster, but have been removed over time for one reason or another. Those items can be foud below.
 
 | Name                                                          | Removal Reason                                                     | Description                                                       |
-| ------------------------------------------------------------- | ------------------------------------------------------------------ | ----------------------------------------------------------------- |
+|---------------------------------------------------------------|--------------------------------------------------------------------|-------------------------------------------------------------------|
 | [Ansible](https://www.ansible.com/)                           | I don't need host provisioning anymore                             | Ad-hoc system configuration-as-code                               |
 | [Amazon Linux 2](https://aws.amazon.com/amazon-linux-2/)      | I standardized on Talos OS                                         | Operating System                                                  |
 | [Flannel CNI](https://github.com/flannel-io/flannel)          | I migrated to Cilium for my CNI                                    | Network Fabric for Containers                                     |
@@ -78,7 +78,7 @@ Several items have previously been in my cluster, but have been removed over tim
 ## Services Hosted
 
 | Name                   | Description                                                            | Path                                                                                                                                                          | Relevant Link                                                                                                                           |
-| ---------------------- | ---------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+|------------------------|------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------|
 | Excalidraw             | Easy whiteboarding with excellent shortcuts!                           | [manifests/workloads/excalidraw](https://github.com/danmanners/homelab-kube-cluster/tree/main/manifests/workloads/excalidraw)                                 | [GitHub - excalidraw/excalidraw](https://github.com/excalidraw/excalidraw)                                                              |
 | Jenkins OSS            | An older tool sir, but it checks out.                                  | [manifests/workloads/jenkins-oss](https://github.com/danmanners/homelab-kube-cluster/tree/main/manifests/workloads/jenkins-oss)                               | [Website](https://www.jenkins.io/)                                                                                                      |
 | Kube-Prometheus-Stack  | Easy to deploy Grafana, Prometheus rules, and the Prometheus Operator. | [manifests/workloads/kube-prometheus-stack-grafana](https://github.com/danmanners/homelab-kube-cluster/tree/main/manifests/workloads/kube-prom-stack-grafana) | [GitHub - prometheus-community/helm-charts](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack) |
@@ -88,25 +88,19 @@ Several items have previously been in my cluster, but have been removed over tim
 | SonarQube OSS          | Code quality and code security                                         | [manifests/workloads/sonarqube-oss](https://github.com/danmanners/homelab-kube-cluster/tree/main/manifests/workloads/sonarqube-oss)                           | [Website](https://www.sonarqube.org/)                                                                                                   |
 | Spiderfoot             | Automated OSINT webcrawling                                            | [manifests/workloads/spiderfoot](https://github.com/danmanners/homelab-kube-cluster/tree/main/manifests/workloads/spiderfoot)                                 | [Website](https://www.spiderfoot.net/)                                                                                                  |
 | Traefik                | Cloud native application proxying; simplifying network complexity      | [manifests/bootstrapping/traefik](https://github.com/danmanners/homelab-kube-cluster/tree/main/manifests/workloads/traefik-helm)                              | [Website](https://traefik.io/traefik/)                                                                                                  |
-| WikiJS                 | The most powerful and extensible open source Wiki software             | [Website](https://js.wiki/)                                                                                                                                   |
+| WikiJS                 | The most powerful and extensible open source Wiki software             | [manifests/workloads/wikijs](https://github.com/danmanners/homelab-kube-cluster/tree/main/manifests/workloads/wikijs)                                         | [Website](https://js.wiki/)                                                                                                             |
 
 ## Deprecated Services
 
 The services listed below once existed in the cluster, but have since been removed for one reason or another
 
 | Name                       | Deprecation Reason                                   | Description                                                                             | Path                                                                                                                                                      | Relevant Link                                                                                         |
-| -------------------------- | ---------------------------------------------------- | --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+|----------------------------|------------------------------------------------------|-----------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------|
 | Luzifer - One Time Secret  | No longer using it                                   | One-Time-Secret sharing platform with a symmetric 256bit AES encryption in the browser. | [manifests/workloads/luzifer-ots](https://github.com/danmanners/homelab-kube-cluster/tree/main/manifests/workloads/luzifer-ots)                           | [GitHub - Luzifer/ots](https://github.com/Luzifer/ots)                                                |
 | Non-Disclosure-Agreement   | No longer using it                                   | Flask app to obfuscate URL's and strings for obfuscated sharing of information.         | [manifests/workloads/non-disclosure-agreement](https://github.com/danmanners/homelab-kube-cluster/tree/main/manifests/workloads/non-disclosure-agreement) | [GitHub - danmaners/non-disclosure-agreement](https://github.com/danmanners/non-disclosure-agreement) |
 | Open Policy Agent          | Made obsolete by Kyverno                             | Policy-based control for cloud native environments                                      | [manifests/workloads/open-policy-agent](https://github.com/danmanners/homelab-kube-cluster/tree/main/manifests/workloads/open-policy-agent)               | [Website](https://www.openpolicyagent.org/)                                                           |
-| Proxmox                    | No longer using virtualization in my on-prem homelab | Compute, network, and storage in a single solution                                      | [Website](https://www.proxmox.com/en/proxmox-ve)                                                                                                          |
+| Proxmox                    | No longer using virtualization in my on-prem homelab | Compute, network, and storage in a single solution                                      | N/A                                                                                                                                                       | [Website](https://www.proxmox.com/en/proxmox-ve)                                                      |
 | Rancher Upgrade Controller | Removed from the cluster when I moved away from K3s  | In ur Kubernetes, upgrading ur nodes                                                    | [manifests/workloads/k3s-upgrade-controller](https://github.com/danmanners/homelab-kube-cluster/tree/main/manifests/workloads/k3s-upgrade-controller)     | [GitHub - rancher/system-upgrade-controller](https://github.com/rancher/system-upgrade-controller)    |
-
-### Proxied Services
-
-| Name        | Description                         | Link                                              |
-| ----------- | ----------------------------------- | ------------------------------------------------- |
-| Uptime Kuma | A fancy self-hosted monitoring tool | [GitHub](https://github.com/louislam/uptime-kuma) |
 
 ## 🔧 Hardware
 
@@ -116,10 +110,10 @@ Below is a list of the hardware (both physical and virtual) in use on this proje
 
 -----
 
-#### Virtualization Hosts
+#### Baremetal Talos Hosts
 
 | Count | System Type | CPU Type            | CPU Cores | Memory |
-| ----- | ----------- | ------------------- | --------- | ------ |
+|-------|-------------|---------------------|-----------|--------|
 | 1     | Desktop     | Intel Core i7-7700  | 4c8t      | 64GiB  |
 | 1     | Desktop     | AMD Ryzen 7 5800X   | 8c16t     | 64GiB  |
 | 1     | Desktop     | Intel Celeron J4105 | 4c4t      | 16GiB  |
@@ -128,28 +122,29 @@ Below is a list of the hardware (both physical and virtual) in use on this proje
 #### Cluster Boards
 
 | Count | System Type                                                                                                                                         | CPU Type                 | CPU Cores | Memory      |
-| ----- | --------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------ | --------- | ----------- |
+|-------|-----------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------|-----------|-------------|
 | 1     | [DeskPi Super6C](https://deskpi.com/collections/deskpi-super6c/products/deskpi-super6c-raspberry-pi-cm4-cluster-mini-itx-board-6-rpi-cm4-supported) | 4x Raspberry Pi CM4      | 4c4t      | 4x 8GiB     |
 | ~~1~~ | [~~Turing Pi 2~~](https://www.kickstarter.com/projects/turingpi/turing-pi-cluster-board)                                                            | ~~4x Raspberry Pi CM4~~  | ~~4c4t~~  | ~~4x 8GiB~~ |
-| ~~1~~ | [~~Turing Pi 1~~](https://turingpi.com/v1/)r                                                                                                        | ~~7x Raspberry Pi CM3+~~ | ~~4c4t~~  | ~~7x 1GiB~~ |
-| ~~1~~ | [~~Turing Pi 1~~](https://turingpi.com/v1/)r                                                                                                        | ~~3x Raspberry Pi CM3+~~ | ~~4c4t~~  | ~~3x 1GiB~~ |
+| ~~1~~ | [~~Turing Pi 1~~](https://turingpi.com/v1/)                                                                                                         | ~~7x Raspberry Pi CM3+~~ | ~~4c4t~~  | ~~7x 1GiB~~ |
+| ~~1~~ | [~~Turing Pi 1~~](https://turingpi.com/v1/)                                                                                                         | ~~3x Raspberry Pi CM3+~~ | ~~4c4t~~  | ~~3x 1GiB~~ |
 
 #### Additional Compute
 
 | Count | System Type    | CPU Type         | CPU Cores | Memory |
-| ----- | -------------- | ---------------- | --------- | ------ |
+|-------|----------------|------------------|-----------|--------|
 | 1     | Raspberry Pi 4 | Raspberry Pi CM4 | 4c4t      | 4GiB   |
 
 #### Storage
 
-| Hardware     | Drive Count             | Memory |
-| ------------ | ----------------------- | ------ |
-| QNAP TS-332X | 3x M.2, 3x 3.5" 7200RPM | 16GiB  |
+| Hardware         | Drive Count                                                               | Memory    | CPU                                                                                                                                           |
+|------------------|---------------------------------------------------------------------------|-----------|-----------------------------------------------------------------------------------------------------------------------------------------------|
+| Custom Build     | 3x 2.7TiB 7200RPM<br>3x 3.6TiB 7200RPM<br>2x 512GiB SSD<br>2x 512GiB NVMe | 32GiB     | [Intel 12th-Gen 12600](https://ark.intel.com/content/www/us/en/ark/products/96149/intel-core-i512600-processor-18m-cache-up-to-4-80-ghz.html) |
+| ~~QNAP TS-332X~~ | ~~3x M.2, 3x 3.5" 7200RPM~~                                               | ~~16GiB~~ | [Alpine AL-324](https://en.wikipedia.org/wiki/Annapurna_Labs#AL324)                                                                           |
 
 #### Networking
 
 | Hardware                    | SFP+ Ports | SFP Ports | 1Gb Eth Ports |
-| --------------------------- | ---------- | --------- | ------------- |
+|-----------------------------|------------|-----------|---------------|
 | Ubiquiti EdgeSwitch 24 Lite | 0          | 2         | 24            |
 | Ubiquiti EdgeSwitch 8 150W  | 0          | 2         | 8             |
 | Mikrotik CRS305-1G-4S+      | 4          | 0         | 1 (PoE In)    |
@@ -157,9 +152,11 @@ Below is a list of the hardware (both physical and virtual) in use on this proje
 ### Cloud Hosted Resources
 
 | Name                   | Provider  | Arch      | Instance Size | CPU       | Memory   |
-| ---------------------- | --------- | --------- | ------------- | --------- | -------- |
-| tpi-k3s-aws-edge       | AWS       | arm64     | t4g.small     | 2vCPU     | 2GiB     |
-| ~~tpi-k3s-aws-edge~~   | ~~AWS~~   | ~~amd64~~ | t3.medium     | ~~2vCPU~~ | ~~4GiB~~ |
+|------------------------|-----------|-----------|---------------|-----------|----------|
+| talos-azure-vm01       | Azure     | amd64     | Standard B2s  | 2vCPU     | 4GiB     |
+| talos-aws-grav01       | AWS       | amd64     | t4g.small     | 2vCPU     | 2GiB     |
+| ~~tpi-k3s-aws-edge~~   | ~~AWS~~   | ~~arm64~~ | ~~t4g.small~~ | ~~2vCPU~~ | ~~2GiB~~ |
+| ~~tpi-k3s-aws-edge~~   | ~~AWS~~   | ~~amd64~~ | ~~t3.medium~~ | ~~2vCPU~~ | ~~4GiB~~ |
 | ~~tpi-k3s-azure-edge~~ | ~~Azure~~ | ~~amd64~~ | Standard B2s  | ~~2vCPU~~ | ~~4GiB~~ |
 
 ## Deployment Order of Operations
