@@ -14,10 +14,6 @@ helmCharts:
 resources:
   # CRD Directories
   - crds/
-  # Reverse Service Proxies
-  - proxmox.yaml
-  - wikijs.yaml
-  - uptimekuma.yaml
   # Additional Values
   - traefik-crds.yaml
   - traefik-dashboard.yaml
