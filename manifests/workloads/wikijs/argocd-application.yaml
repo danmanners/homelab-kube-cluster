@@ -7,7 +7,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: "git@github.com:danmanners/homelab-kube-cluster.git"
+    repoURL: "https://github.com/danmanners/homelab-kube-cluster.git"
     path: manifests/workloads/wikijs
     targetRevision: main
   destination:

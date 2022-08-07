@@ -1,0 +1,66 @@
+---
+global:
+  nameOverride: wikijs
+
+image:
+  repository: ghcr.io/linuxserver/wikijs
+  tag: "2.5.286"
+  pullPolicy: IfNotPresent
+
+initContainers:
+  init-db:
+    image: ghcr.io/onedr0p/postgres-initdb:14.4
+    env:
+      - name: POSTGRES_HOST
+        value: "primary-rw.postgres.svc.cluster.local"
+      - name: POSTGRES_DB
+        value: wikijs
+      - name: POSTGRES_SUPER_PASS
+        valueFrom:
+          secretKeyRef:
+            name: postgres-superuser
+            key: password
+      - name: POSTGRES_USER
+        valueFrom:
+          secretKeyRef:
+            name: db-secrets
+            key: POSTGRES_USERNAME
+      - name: POSTGRES_PASS
+        valueFrom:
+          secretKeyRef:
+            name: db-secrets
+            key: POSTGRES_PASSWORD
+
+env:
+  TZ: America/New_York
+  DB_TYPE: "postgres"
+  DB_NAME: "wikijs"
+  DB_HOST: "primary-rw.postgres.svc.cluster.local"
+  DB_PORT: "5432"
+  DB_USER:
+    valueFrom:
+      secretKeyRef:
+        name: db-secrets
+        key: POSTGRES_USERNAME
+  DB_PASS:
+    valueFrom:
+      secretKeyRef:
+        name: db-secrets
+        key: POSTGRES_PASSWORD
+
+service:
+  main:
+    ports:
+      http:
+        port: 3000
+
+ingress:
+  main:
+    enabled: false
+
+persistence:
+  data:
+    enabled: true
+    storageClass: ssd
+    accessMode: ReadWriteMany
+    size: 4Gi

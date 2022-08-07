@@ -1,0 +1,60 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: wiki-danmanners-cert
+spec:
+  commonName: wiki.danmanners.com
+  secretName: wiki-danmanners-cert
+  dnsNames:
+    - wiki.danmanners.com
+  issuerRef:
+    name: acme-prod
+    kind: ClusterIssuer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wiki-danmanners-extname
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: wiki.danmanners.com
+    external-dns.alpha.kubernetes.io/ttl: "300"
+  labels:
+    app.kubernetes.io/instance: wikijs
+spec:
+  type: ExternalName
+  externalName: kube.danmanners.com
+  sessionAffinity: None
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: wiki-danmanners-cert-web
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`wiki.danmanners.com`)
+      kind: Rule
+      services:
+        - name: wikijs
+          port: 3000
+      middlewares:
+        - name: http-https-redirectscheme
+          namespace: kube-system
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: wiki-danmanners-cert-websecure
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`wiki.danmanners.com`)
+      kind: Rule
+      services:
+        - name: wikijs
+          port: 3000
+  tls:
+    secretName: wiki-danmanners-cert
