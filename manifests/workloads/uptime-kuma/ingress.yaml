@@ -1,0 +1,46 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: uptime-cert
+spec:
+  commonName: uptime.danmanners.com
+  secretName: uptime-cert
+  dnsNames:
+    - uptime.danmanners.com
+  issuerRef:
+    name: acme-prod
+    kind: ClusterIssuer
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: uptime-danmanners-com-web
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`uptime.danmanners.com`)
+      kind: Rule
+      services:
+        - name: uptime-kuma
+          port: 80
+      middlewares:
+        - name: http-https-redirectscheme
+          namespace: kube-system
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: uptime-danmanners-com-websecure
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`uptime.danmanners.com`)
+      kind: Rule
+      services:
+        - name: uptime-kuma
+          port: 80
+  tls:
+    secretName: uptime-cert

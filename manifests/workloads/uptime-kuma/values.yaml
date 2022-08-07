@@ -6,9 +6,6 @@ image:
   repository: uptime-kuma-container-image
   pullPolicy: IfNotPresent
 
-# podAnnotations:
-#   configmap.reloader.stakater.com/reload: "blocky-config"
-
 env:
   TZ: America/New_York
 
