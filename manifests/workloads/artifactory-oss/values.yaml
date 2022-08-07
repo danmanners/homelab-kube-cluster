@@ -36,8 +36,11 @@ artifactory:
     xmx: "10g"
 
   persistence:
+    enabled: true
     size: 60Gi
     storageClassName: nvme
+    accessMode:
+      - ReadWriteOnce
 
   # Credentials
   admin:
