@@ -5,10 +5,10 @@ namespace: kube-system
 
 helmCharts:
   - name: kube-prometheus-stack
-    releaseName: kube-prometheus-stack
+    releaseName: kps
     namespace: kube-system
     repo: https://prometheus-community.github.io/helm-charts
-    version: "39.1.0"
+    version: "39.5.0"
     valuesFile: values.yaml
 
 resources:
