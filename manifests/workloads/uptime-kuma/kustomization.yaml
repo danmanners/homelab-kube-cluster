@@ -1,0 +1,20 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: monitoring
+
+images:
+  - name: uptime-kuma-container-image
+    newName: docker.io/louislam/uptime-kuma
+    newTag: 1.17.1
+
+helmCharts:
+  - name: kah-common-chart
+    releaseName: uptime-kuma
+    namespace: uptime-kuma
+    repo: https://k8s-at-home.com/charts
+    version: 1.2.2
+    valuesFile: values.yaml
+
+resources:
+  - external-svc.yaml
