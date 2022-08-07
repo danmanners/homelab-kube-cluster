@@ -1,0 +1,18 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: wikijs
+
+helmCharts:
+  - name: kah-common-chart
+    releaseName: wikijs
+    namespace: wikijs
+    repo: https://k8s-at-home.com/charts
+    version: 1.2.2
+    valuesFile: values.yaml
+
+resources:
+  - ingress.yaml
+
+generators:
+  - ksops-generator.yaml
