@@ -1,14 +1,14 @@
 # Deploying Kubernetes with Talos
 
+> This page is a WIP and is not entirely up to date at this time.
+
 [Talos](https://www.talos.dev/) is a Linux OS designed for secure, immutable, and minimal installations on both baremetal hardware and cloud-native environments. Talos is available on both `amd64` and various single board computers, like the Raspberry Pi and Compute Module 4.
 
 > If you're looking for unencrypted config file examples, [navigate to the examples directory](examples/).
 
 ## Setup & Prep
 
-In my environment, I spun up all of my virtual machines. I did this by creating a Virtual Machine Template with the [Talos ISO](https://github.com/talos-systems/talos/releases/tag/v0.14.2), an empty hard drive, and that's about it.
-
-![Proxmox](screenshots/proxmox.png)
+~~In my environment, I spun up all of my virtual machines. I did this by creating a Virtual Machine Template with the [Talos ISO](https://github.com/talos-systems/talos/releases/tag/v0.14.2), an empty hard drive, and that's about it.~~
 
 For the Control Plane Nodes, I allocated 2vCPUs, 6GB of Memory, and 32GB of storage. For the Worker Nodes, I allocated 4vCPUs, 8GB of Memory, and 32GB of storage. For the network, I put all of my VMs on a dedicated VLAN (200) with its own DHCP server.
 
@@ -219,8 +219,6 @@ done
 ```
 
 Then, we can open Lens and see that all of the nodes have connected, or run `kubectl get nodes`
-
-![Lens](screenshots/lens.png)
 
 ```bash
 $ kubectl get nodes
