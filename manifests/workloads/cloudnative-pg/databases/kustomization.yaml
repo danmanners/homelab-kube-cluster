@@ -4,6 +4,4 @@ kind: Kustomization
 namespace: postgres
 
 resources:
-  # Directories
-  - helm
-  - databases
+  - primary-cluster.yaml
