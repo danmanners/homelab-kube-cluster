@@ -23,7 +23,7 @@ spec:
     - match: Host(`grafana.danmanners.com`)
       kind: Rule
       services:
-        - name: kube-prometheus-stack-grafana
+        - name: kps-grafana
           port: 80
       middlewares:
         - name: http-https-redirectscheme
@@ -40,7 +40,7 @@ spec:
     - match: Host(`grafana.danmanners.com`)
       kind: Rule
       services:
-        - name: kube-prometheus-stack-grafana
+        - name: kps-grafana
           port: 80
   tls:
     secretName: grafana-danmanners-com
