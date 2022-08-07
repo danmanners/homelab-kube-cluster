@@ -11,7 +11,7 @@ env:
   TZ: America/New_York
 
 configmap:
-  blocky-config:
+  config:
     enabled: true
     # Ripped from here: https://github.com/k8s-at-home/charts/blob/master/charts/stable/blocky/values.yaml
     data:
@@ -74,6 +74,14 @@ ingress:
     enabled: false
 
 persistence:
+  config:
+    enabled: "true"
+    mountPath: "/app/config.yml"
+    subPath: "config.yml"
+    name: blocky-config
+    type: "configMap"
+    volumeSpec:
+      configMap: blocky-config
   logs:
     enabled: true
     storageClass: ssd
