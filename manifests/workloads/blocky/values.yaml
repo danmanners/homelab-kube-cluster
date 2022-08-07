@@ -16,7 +16,7 @@ env:
 service:
   main:
     enabled: false
-  dns-tcp:
+  dns:
     enabled: true
     type: LoadBalancer
     externalTrafficPolicy: Local
