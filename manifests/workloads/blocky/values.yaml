@@ -44,7 +44,7 @@ service:
     enabled: false
   dns-tcp:
     enabled: true
-    type: ClusterIP
+    type: LoadBalancer
     externalTrafficPolicy: Local
     annotations:
       metallb.universe.tf/allow-shared-ip: blocky-svc
@@ -57,7 +57,7 @@ service:
         targetPort: 53
   dns-udp:
     enabled: true
-    type: ClusterIP
+    type: LoadBalancer
     externalTrafficPolicy: Local
     annotations:
       metallb.universe.tf/allow-shared-ip: blocky-svc
