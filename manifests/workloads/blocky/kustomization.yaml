@@ -1,0 +1,12 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: blocky
+
+helmCharts:
+  - name: kah-common-chart
+    releaseName: blocky
+    namespace: blocky
+    repo: https://k8s-at-home.com/charts
+    version: 1.2.2
+    valuesFile: values.yaml
