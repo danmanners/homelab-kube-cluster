@@ -11,10 +11,12 @@ images:
 helmCharts:
   - name: kah-common-chart
     releaseName: uptime-kuma
-    namespace: uptime-kuma
+    namespace: monitoring
     repo: https://k8s-at-home.com/charts
     version: 1.2.2
     valuesFile: values.yaml
 
 resources:
+  - ns.yaml
+  - ingress.yaml
   - external-svc.yaml
