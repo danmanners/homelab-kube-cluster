@@ -1,0 +1,42 @@
+---
+global:
+  nameOverride: uptime-kuma
+
+image:
+  repository: uptime-kuma-container-image
+  pullPolicy: IfNotPresent
+
+# podAnnotations:
+#   configmap.reloader.stakater.com/reload: "blocky-config"
+
+env:
+  TZ: America/New_York
+
+service:
+  main:
+    enabled: true
+    type: ClusterIP
+    ports:
+      http:
+        protocol: TCP
+        port: 80
+        targetPort: 3001
+  extname:
+    # Broken in Chart v1.2.2, Common 4.5.2
+    enabled: false
+    type: ExternalName
+    externalName: kube.danmanners.com
+    annotations:
+      external-dns.alpha.kubernetes.io/hostname: uptime.danmanners.com
+      external-dns.alpha.kubernetes.io/ttl: "300"
+
+ingress:
+  main:
+    enabled: false
+
+persistence:
+  data:
+    enabled: true
+    storageClass: ssd
+    accessMode: ReadWriteMany
+    size: 4Gi
