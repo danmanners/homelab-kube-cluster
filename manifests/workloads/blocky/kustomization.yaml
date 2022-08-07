@@ -10,3 +10,11 @@ helmCharts:
     repo: https://k8s-at-home.com/charts
     version: 1.2.2
     valuesFile: values.yaml
+
+configMapGenerator:
+  - name: blocky-config
+    files:
+      - config.yml=blocky-config.yaml
+
+generatorOptions:
+  disableNameSuffixHash: true
