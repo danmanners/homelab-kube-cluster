@@ -5,3 +5,6 @@ namespace: postgres
 
 resources:
   - primary-cluster.yaml
+
+generators:
+  - secrets-generator.yaml
