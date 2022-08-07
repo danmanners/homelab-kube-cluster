@@ -10,12 +10,18 @@ prometheus:
     resources:
       requests:
         memory: 400Mi
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: "ssd"
+          resources:
+            requests:
+              storage: 10Gi
 
-    # storageSpec:
-    #   volumeClaimTemplate:
-    #     spec:
-    #       storageClassName: nfs-client
-    #       accessModes: ["ReadWriteOnce"]
-    #       resources:
-    #         requests:
-    #           storage: 20Gi
+prometheusOperator:
+  admissionWebhooks:
+    enabled: false
+    patch:
+      enabled: false
+    tlsProxy:
+      enabled: false
