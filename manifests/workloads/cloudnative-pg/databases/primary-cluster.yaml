@@ -1,0 +1,16 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: primary
+  namespace: postgres
+spec:
+  instances: 2
+  primaryUpdateStrategy: unsupervised
+  storage:
+    size: 80Gi
+    storageClass: nvme
+  superuserSecret:
+    name: postgres-superuser
+  monitoring:
+    enablePodMonitor: true
