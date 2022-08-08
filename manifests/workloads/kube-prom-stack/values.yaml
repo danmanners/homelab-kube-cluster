@@ -7,13 +7,15 @@ kube-state-metrics:
   prometheus:
     monitor:
       enabled: true
+      additionalLabels:
+        monitoring: prometheus
       relabelings:
         - action: replace
           regex: (.*)
           replacement: $1
+          targetLabel: kubernetes_node
           sourceLabels:
             - __meta_kubernetes_pod_node_name
-          targetLabel: kubernetes_node
 
 grafana:
   enabled: false
@@ -56,7 +58,6 @@ kubeEtcd:
     port: 2381
     targetPort: 2381
 
-
 nodeExporter:
   serviceMonitor:
     relabelings:
@@ -68,10 +69,10 @@ nodeExporter:
         targetLabel: kubernetes_node
 
 prometheus:
-  admissionWebhooks:
-    enabled: false
-    certManager:
-      enabled: true
+  # admissionWebhooks:
+  #   enabled: false
+  #   certManager:
+  #     enabled: true
   prometheusSpec:
     ruleSelectorNilUsesHelmValues: false
     serviceMonitorSelectorNilUsesHelmValues: false
@@ -91,10 +92,10 @@ prometheus:
             requests:
               storage: 10Gi
 
-prometheusOperator:
-  admissionWebhooks:
-    enabled: false
-    patch:
-      enabled: false
-    tlsProxy:
-      enabled: false
+# prometheusOperator:
+#   admissionWebhooks:
+#     enabled: false
+#     patch:
+#       enabled: false
+#     tlsProxy:
+#       enabled: false
