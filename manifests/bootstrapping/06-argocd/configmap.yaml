@@ -5,6 +5,7 @@ metadata:
   name: argocd-cm
 data:
   kustomize.buildOptions: --enable-alpha-plugins --enable-helm
+  application.instanceLabelKey: argocd.argoproj.io/instance
   url: https://argocd.k3s.danmanners.io
 ---
 apiVersion: v1
