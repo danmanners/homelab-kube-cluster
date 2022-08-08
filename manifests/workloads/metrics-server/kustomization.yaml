@@ -1,0 +1,5 @@
+---
+namespace: kube-system
+resources:
+  - https://raw.githubusercontent.com/alex1989hu/kubelet-serving-cert-approver/main/deploy/ha-install.yaml
+  - https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.6.1/components.yaml
