@@ -33,6 +33,40 @@ kubelet:
           - node
         targetLabel: instance
 
+kubeControllerManager:
+  enabled: true
+  endpoints:
+    - 10.200.0.51
+    - 10.200.0.52
+    - 10.200.0.53
+kubeScheduler:
+  enabled: true
+  endpoints:
+    - 10.200.0.51
+    - 10.200.0.52
+    - 10.200.0.53
+kubeEtcd:
+  enabled: true
+  endpoints:
+    - 10.200.0.51
+    - 10.200.0.52
+    - 10.200.0.53
+  service:
+    enabled: true
+    port: 2381
+    targetPort: 2381
+
+
+nodeExporter:
+  serviceMonitor:
+    relabelings:
+      - action: replace
+        regex: (.*)
+        replacement: $1
+        sourceLabels:
+          - __meta_kubernetes_pod_node_name
+        targetLabel: kubernetes_node
+
 prometheus:
   admissionWebhooks:
     enabled: false
