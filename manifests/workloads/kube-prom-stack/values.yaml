@@ -69,10 +69,6 @@ nodeExporter:
         targetLabel: kubernetes_node
 
 prometheus:
-  # admissionWebhooks:
-  #   enabled: false
-  #   certManager:
-  #     enabled: true
   prometheusSpec:
     ruleSelectorNilUsesHelmValues: false
     serviceMonitorSelectorNilUsesHelmValues: false
@@ -91,11 +87,3 @@ prometheus:
           resources:
             requests:
               storage: 10Gi
-
-# prometheusOperator:
-#   admissionWebhooks:
-#     enabled: false
-#     patch:
-#       enabled: false
-#     tlsProxy:
-#       enabled: false
