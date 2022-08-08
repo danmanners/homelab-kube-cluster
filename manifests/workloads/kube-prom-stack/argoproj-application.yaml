@@ -6,7 +6,7 @@ metadata:
   namespace: argocd
 spec:
   destination:
-    namespace: kube-system
+    namespace: monitoring
     server: 'https://kubernetes.default.svc'
   source:
     repoURL: "https://github.com/danmanners/homelab-kube-cluster.git"
