@@ -1,0 +1,21 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: metrics-server
+  namespace: argocd
+spec:
+  destination:
+    namespace: kube-system
+    server: 'https://kubernetes.default.svc'
+  source:
+    repoURL: "https://github.com/danmanners/homelab-kube-cluster.git"
+    path: manifests/workloads/metrics-server
+    targetRevision: main
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
