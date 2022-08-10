@@ -1,0 +1,74 @@
+---
+global:
+  nameOverride: vaultwarden
+
+image:
+  repository: vaultwarden-container-image
+  pullPolicy: IfNotPresent
+
+initContainers:
+  init-db:
+    image: postgres-init-db
+    env:
+      - name: POSTGRES_HOST
+        valueFrom:
+          secretKeyRef:
+            name: vaultwarden-secrets
+            key: POSTGRES_HOST
+        # value: "primary-rw.postgres.svc.cluster.local"
+      - name: POSTGRES_DB
+        value: vaultwarden
+      - name: POSTGRES_SUPER_PASS
+        valueFrom:
+          secretKeyRef:
+            name: postgres-superuser
+            key: password
+      - name: POSTGRES_USER
+        valueFrom:
+          secretKeyRef:
+            name: vaultwarden-secrets
+            key: POSTGRES_USERNAME
+      - name: POSTGRES_PASS
+        valueFrom:
+          secretKeyRef:
+            name: vaultwarden-secrets
+            key: POSTGRES_PASSWORD
+
+env:
+  TZ: America/New_York
+  DATA_FOLDER: "config"
+  SIGNUPS_ALLOWED: false
+  WEBSOCKET_ENABLED: true
+  WEBSOCKET_ADDRESS: 0.0.0.0
+  WEBSOCKET_PORT: 3012
+  DOMAIN: https://vaultwarden.danmanners.com
+  ADMIN_TOKEN:
+    valueFrom:
+      secretKeyRef:
+        name: vaultwarden-secrets
+        key: ADMIN_TOKEN
+  DATABASE_URL:
+    valueFrom:
+      secretKeyRef:
+        name: vaultwarden-secrets
+        key: POSTGRES_URL
+
+service:
+  main:
+    enabled: true
+    type: ClusterIP
+    ports:
+      http:
+        port: 80
+      websocket:
+        enabled: true
+        port: 3012
+
+ingress:
+  main:
+    enabled: false
+
+persistence:
+  config:
+    enabled: true
+    existingClaim: vaultwarden
