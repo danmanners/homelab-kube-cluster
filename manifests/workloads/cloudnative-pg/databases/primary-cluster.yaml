@@ -20,7 +20,7 @@ spec:
       wal:
         compression: bzip2
         maxParallel: 8
-      destinationPath: arn:aws:s3:::danmanners-backups/postgres
+      destinationPath: s3://danmanners-backups/postgres
       endpointURL: https://s3.us-east-1.amazonaws.com
       serverName: postgres-v1
       s3Credentials:
