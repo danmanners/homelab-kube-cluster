@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Secret
+type: Opaque
+metadata:
+    name: postgres-s3
+    namespace: postgres
+stringData:
+    AWS_ACCESS_KEY: ENC[AES256_GCM,data:nGUNhjTg2J2tRAvAJhCgkJ/wa9U=,iv:c1HIu6GGd7wyR/elrKnQ3XEI7DLH6k5GatvAq/rESrI=,tag:DQwAI6aexMszbjd9G3j0Sw==,type:str]
+    AWS_SECRET_KEY: ENC[AES256_GCM,data:CT1DFYTnU/7Gfx6R5dTeNSO6BNjACU6sBIsxzsc8LYJooovsz95FuA==,iv:pFdrQZp+WldVC4waFOmiUOhTeK6o9w7YbT6FP9IX9mc=,tag:t1XYPwh2e2M6CTVF1MudQw==,type:str]
+sops:
+    kms:
+        - arn: arn:aws:kms:us-east-1:977656673179:key/7e829b85-6fed-4598-b675-8ebeea105c4c
+          created_at: "2022-08-10T21:58:50Z"
+          enc: AQICAHi1XYvA3EFEGTwFyd0NLI4cRLiZ3o2bNcK2AmDuVl/CEwHGuw0XJCiVEdFZu+AOrfDAAAAAfjB8BgkqhkiG9w0BBwagbzBtAgEAMGgGCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQMgLP1a+IEGMRghuWMAgEQgDsdHxyzCtxb4XyNFW81Sag0czdWJRV/mobOD3EAMt4dsN59yD+qWKCPP0TBHd4DSrLLnooe886q8wrK/Q==
+          aws_profile: default
+    gcp_kms: []
+    azure_kv: []
+    hc_vault: []
+    age: []
+    lastmodified: "2022-08-10T21:58:51Z"
+    mac: ENC[AES256_GCM,data:3H/Y/H9Ln1NCYeuFvLe9zaWI6izKTzY/QizwZi77EkssH6lcOzvJm4OMphN6/b5HBsInxRsyvtBP33jwlyxtazuJqHmR/4VJytqK2MEPWcX9eh8pRNodYvvl9sKssXWutowaUBZX/GjnbtF/E6BdIZgv6xv7+i0eDVL3d/bNO/g=,iv:k0PrN5mZvTVKs2cH6H7IMaCTrs/69u4xZvyBqpOseHc=,tag:tw4yPK7ma5lMGKHcIBEjTw==,type:str]
+    pgp: []
+    encrypted_regex: ^(data|stringData)$
+    version: 3.7.3
