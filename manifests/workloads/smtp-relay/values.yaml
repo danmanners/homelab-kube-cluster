@@ -1,0 +1,50 @@
+---
+global:
+  nameOverride: smtp-relay
+
+image:
+  repository: smtp-relay-container-image
+  pullPolicy: IfNotPresent
+
+env:
+  DEBUG: "true"
+  SMTP_DOMAIN: "gmail.com"
+  SMTP_SERVER: "smtp.gmail.com"
+  SMTP_USERNAME: "daniel.a.manners@gmail.com"
+  SMTP_PORT: "465"
+
+envFrom:
+  - secretRef:
+      name: smtp-relay
+
+service:
+  main:
+    enabled: true
+    type: LoadBalancer
+    annotations:
+      metallb.universe.tf/loadBalancerIPs: 10.56.1.5
+    ports:
+      http:
+        port: 2525
+      metrics:
+        enabled: true
+        port: 9749
+
+ingress:
+  main:
+    enabled: false
+
+persistence:
+  config:
+    enabled: true
+    type: configMap
+    name: smtp-relay
+    subPath: maddy.conf
+    mountPath: /data/maddy.conf
+    readOnly: true
+  data:
+    enabled: true
+    type: emptyDir
+    medium: Memory
+    sizeLimit: 1Gi
+    mountPath: /dev/shm

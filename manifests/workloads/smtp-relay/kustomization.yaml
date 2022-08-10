@@ -1,0 +1,29 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: networking
+
+resources:
+  - ns.yaml
+  - secrets
+
+images:
+  - name: smtp-relay-container-image
+    newName: ghcr.io/foxcpp/maddy
+    newTag: 0.6.2
+
+helmCharts:
+  - name: kah-common-chart
+    releaseName: smtp-relay
+    namespace: networking
+    repo: https://k8s-at-home.com/charts
+    version: 1.2.2
+    valuesFile: values.yaml
+
+configMapGenerator:
+  - name: smtp-relay
+    files:
+      - maddy.conf
+
+generatorOptions:
+  disableNameSuffixHash: true
