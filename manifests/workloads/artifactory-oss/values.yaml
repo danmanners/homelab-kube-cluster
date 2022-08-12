@@ -15,44 +15,45 @@ serviceAccount:
   automountServiceAccountToken: true
 
 artifactory:
-  # Installer Settings
-  installer:
-    platform: art-oss-helm
+  artifactory:
+    # Installer Settings
+    installer:
+      platform: art-oss-helm
 
-  # Artifactory Settings
-  name: artifactory
-  image:
-    registry: releases-docker.jfrog.io
-    repository: jfrog/artifactory-oss
-  resources:
-    requests:
-      memory: "1Gi"
-      cpu: "500m"
-    limits:
-      memory: "11Gi"
-      cpu: "4"
-  javaOpts:
-    xms: "2g"
-    xmx: "10g"
+    # Artifactory Settings
+    name: artifactory
+    image:
+      registry: releases-docker.jfrog.io
+      repository: jfrog/artifactory-oss
+    resources:
+      requests:
+        memory: "1Gi"
+        cpu: "500m"
+      limits:
+        memory: "11Gi"
+        cpu: "4"
+    javaOpts:
+      xms: "2g"
+      xmx: "10g"
 
-  persistence:
-    enabled: true
-    size: 60Gi
-    storageClassName: nvme
-    accessMode:
-      - ReadWriteOnce
+    persistence:
+      enabled: true
+      size: 60Gi
+      storageClassName: nvme
+      accessMode:
+        - ReadWriteOnce
 
-  # Credentials
-  admin:
-    secret: artifactory-creds
-    dataKey: bootstrap.creds
+    # Credentials
+    admin:
+      secret: artifactory-creds
+      dataKey: bootstrap.creds
 
-  nginx:
-    enabled: false
-  ingress:
-    enabled: false
-  postgresql:
-    enabled: false
+    nginx:
+      enabled: false
+    ingress:
+      enabled: false
+    postgresql:
+      enabled: false
 
 postgresql:
   type: postgresql
