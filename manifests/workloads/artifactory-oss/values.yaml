@@ -27,11 +27,11 @@ artifactory:
       repository: jfrog/artifactory-oss
     resources:
       requests:
-        memory: "1Gi"
         cpu: "500m"
+        memory: "1Gi"
       limits:
-        memory: "11Gi"
         cpu: "4"
+        memory: "11Gi"
     javaOpts:
       xms: "2g"
       xmx: "10g"
