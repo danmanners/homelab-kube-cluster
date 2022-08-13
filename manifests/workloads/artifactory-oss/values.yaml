@@ -48,12 +48,12 @@ artifactory:
       secret: artifactory-creds
       dataKey: bootstrap.creds
 
-    nginx:
-      enabled: false
-    ingress:
-      enabled: false
-    postgresql:
-      enabled: false
+  nginx:
+    enabled: false
+  ingress:
+    enabled: false
+  postgresql:
+    enabled: false
 
 postgresql:
   type: postgresql
