@@ -67,6 +67,7 @@ spec:
 apiVersion: tekton.dev/v1beta1
 kind: PipelineRun
 metadata:
+  name: excalidraw
   generateName: excalidraw-
   namespace: tekton-pipelines
 spec:
