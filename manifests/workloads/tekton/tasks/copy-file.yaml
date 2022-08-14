@@ -1,0 +1,39 @@
+---
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: copy-file
+  labels:
+    app.kubernetes.io/version: "0.1"
+  annotations:
+    tekton.dev/pipelines.minVersion: "0.12.1"
+    tekton.dev/categories: Developer Tools
+    tekton.dev/tags: generic
+    tekton.dev/displayName: Copy a file from one workspace to another
+    tekton.dev/platforms: "linux/amd64,linux/arm64,linux/s390x,linux/ppc64le"
+spec:
+  # description: >-
+  params:
+    - name: source-path
+      type: string
+      # description: >
+    - name: dest-path
+      type: string
+  workspaces:
+    - name: source
+      description: Source Workspace
+    - name: dest
+      description: Destination Workspace
+  steps:
+    - name: copy-file
+      image: docker.io/library/alpine:3.16
+      workingDir: $(workspaces.output.path)
+      env:
+        - name: SOURCE_PATH
+          value: $(params.source-path)
+        - name: DEST_PATH
+          value: $(params.dest-path)
+      script: |
+        #!/bin/sh
+        set -eu
+        cp ${SOURCE_PATH} ${DEST_PATH}

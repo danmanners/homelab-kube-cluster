@@ -14,3 +14,5 @@ resources:
   - https://raw.githubusercontent.com/tektoncd/catalog/main/task/kubernetes-actions/0.2/kubernetes-actions.yaml
   # Curl - https://hub.tekton.dev/tekton/task/curl
   - https://raw.githubusercontent.com/tektoncd/catalog/main/task/curl/0.1/curl.yaml
+  # Copy File - Personal Task
+  - copy-file.yaml
