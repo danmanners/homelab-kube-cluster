@@ -13,9 +13,9 @@ metadata:
     tekton.dev/platforms: "linux/amd64,linux/arm64,linux/s390x,linux/ppc64le"
 spec:
   params:
-    - name: source-path
+    - name: source-files
       type: string
-    - name: dest-path
+    - name: dest-files
       type: string
   workspaces:
     - name: source
@@ -25,7 +25,18 @@ spec:
   steps:
     - name: copy-file
       image: docker.io/library/alpine:3.16
+      workingDir: $(workspaces.source.path)
       script: |
         #!/bin/sh
         set -eu
-        cp $(workspaces.source.path) $(workspaces.dest.path)
+        echo "Source Files:"
+        ls -halt $(workspaces.source.path)
+        echo "========================"
+        echo "Destination Files:"
+        ls -halt $(workspaces.dest.path)
+        echo "========================"
+        echo "Copying $(workspaces.source.path)/$(params.source-files) to $(workspaces.dest.path)/$(params.dest-files)"
+        cp -Lr $(workspaces.source.path)/$(params.source-files) $(workspaces.dest.path)/$(params.dest-files)
+        echo "========================"
+        echo "Post-Copy Destination:"
+        ls -halt $(workspaces.dest.path)
