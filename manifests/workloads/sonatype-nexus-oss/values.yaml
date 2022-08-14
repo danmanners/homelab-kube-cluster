@@ -9,6 +9,9 @@ image:
 env:
   INSTALL4J_ADD_VM_PARAMS: "-Xms4g -Xmx4g -XX:MaxDirectMemorySize=5g"
 
+nodeSelector:
+  kubernetes.io/arch: amd64
+
 podSecurityContext:
   fsGroup: 200
   runAsUser: 200
