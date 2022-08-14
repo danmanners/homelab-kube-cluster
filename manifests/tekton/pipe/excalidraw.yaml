@@ -34,10 +34,11 @@ spec:
     - name: containerName
       type: string
       default: danmanners/excalidraw
+
   # Workspaces
   workspaces:
     - name: ws
-    - name: dockerconfigjson
+
   # Steps
   tasks:
     # Initial Step
@@ -69,6 +70,7 @@ metadata:
   generateName: excalidraw-
   namespace: tekton-pipelines
 spec:
+  serviceAccountName: tekton-user
   pipelineRef:
     name: clone-and-build
   workspaces:
