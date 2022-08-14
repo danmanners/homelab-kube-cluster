@@ -39,8 +39,6 @@ spec:
   workspaces:
     - name: ws
     - name: dockerfile
-      configMap:
-        name: excalidraw
 
   # Steps
   tasks:
@@ -59,19 +57,19 @@ spec:
 
     - name: copy-file
       taskRef:
-        - name: write-file
+        name: copy-file
       workspaces:
         - name: source
           workspace: dockerfile
         - name: dest
           workspace: ws
       runAfter:
-        - git-clone
+        - clone
       params:
         - name: source-path
-          value: /excalidraw/Dockerfile
+          value: "$(workspaces.source.path)/Dockerfile"
         - name: dest-path
-          value: $(workspaces.ws.path)/Dockerfile
+          value: "$(workspaces.dest.path)/Dockerfile"
 
     # After Initialization
     - name: buildah-amd64
@@ -80,15 +78,26 @@ spec:
       workspaces:
         - name: source
           workspace: ws
-        - workspace: dockerfile
       runAfter:
-        - git-clone
+        - clone
         - copy-file
       params:
         - name: IMAGE
           value: "$(params.containerRegistry)/$(params.containerName)"
-      nodeSelector:
-        kubernetes.io/arch: amd64
+
+    # After Initialization
+    - name: buildah-arm64
+      taskRef:
+        name: buildah
+      workspaces:
+        - name: source
+          workspace: ws
+      runAfter:
+        - clone
+        - copy-file
+      params:
+        - name: IMAGE
+          value: "$(params.containerRegistry)/$(params.containerName)"
 
 ---
 apiVersion: tekton.dev/v1beta1
@@ -101,6 +110,15 @@ spec:
   serviceAccountName: tekton-user
   pipelineRef:
     name: clone-and-build
+  taskRunSpecs:
+    - pipelineTaskName: buildah-amd64
+      taskPodTemplate:
+        nodeSelector:
+          kubernetes.io/arch: amd64
+    - pipelineTaskName: buildah-arm64
+      taskPodTemplate:
+        nodeSelector:
+          kubernetes.io/arch: arm64
   workspaces:
     - name: ws
       persistentVolumeClaim:
