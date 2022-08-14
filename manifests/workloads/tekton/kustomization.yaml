@@ -8,8 +8,9 @@ resources:
   - ingress.yaml
   # Tasks Subdirectory
   - tasks
+  # Feature Flags
+  - feature-flags.yaml
   # Main Install
   - dashboard
   - pipelines
   - triggers
-  
