@@ -1,0 +1,62 @@
+---
+global:
+  nameOverride: jenkins
+
+image:
+  repository: jenkins-container-image
+  pullPolicy: IfNotPresent
+
+nodeSelector:
+  kubernetes.io/arch: amd64
+
+podSecurityContext:
+  runAsUser: 1000
+  runAsGroup: 1000
+
+termination:
+  gracePeriodSeconds: 60
+
+resources:
+  limits:
+    cpu: "2"
+  requests:
+    cpu: "1"
+
+initContainers:
+  init-jenkins:
+    image: docker.io/library/busybox:stable
+    command: ["sh", "-c", "chown -R 1000:1000 /var/jenkins_home"]
+    volumeMounts:
+      - name: jenkins-volume-jenkins-ce-0
+        mountPath: /var/jenkins_home
+        subPath: jenkins-volume
+
+service:
+  main:
+    enabled: true
+    type: ClusterIP
+    ports:
+      http:
+        enabled: false
+      web:
+        enabled: true
+        port: 8080
+        protocol: TCP
+      jnlp-agents:
+        enabled: true
+        port: 50000
+        protocol: TCP
+
+ingress:
+  main:
+    enabled: false
+
+persistence:
+  jenkins-volume-jenkins-ce-0:
+    enabled: true
+    nameOverride: volume-jenkins-ce-0
+    storageClass: hdd
+    accessMode: ReadWriteMany
+    mountPath: /var/jenkins_home
+    subPath: jenkins-volume
+    size: 16Gi

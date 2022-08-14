@@ -13,24 +13,6 @@ spec:
   externalName: kube.danmanners.com
   sessionAffinity: None
 ---
-apiVersion: v1
-kind: Service
-metadata:
-  name: jenkins-ce
-  labels:
-    app: jenkins-ce
-spec:
-  type: ClusterIP
-  ports:
-  - name: web
-    port: 8080
-    protocol: TCP
-  - name: jnlp-agents
-    port: 50000
-    protocol: TCP
-  selector:
-    app: jenkins-ce
----
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
