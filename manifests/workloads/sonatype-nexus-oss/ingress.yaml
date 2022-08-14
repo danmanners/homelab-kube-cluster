@@ -57,6 +57,14 @@ spec:
       middlewares:
         - name: http-https-redirectscheme
           namespace: kube-system
+    - match: Host(`containers.danmanners.com`)
+      kind: Rule
+      services:
+        - name: nexus-oss
+          port: 5001
+      middlewares:
+        - name: http-https-redirectscheme
+          namespace: kube-system
 ---
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
@@ -71,17 +79,11 @@ spec:
       services:
         - name: nexus-oss
           port: 8081
-  tls:
-    secretName: nexus-danmanners-cert
----
-apiVersion: traefik.containo.us/v1alpha1
-kind: IngressRoute
-metadata:
-  name: nexus-containers-danmanners-websecure
-spec:
-  entryPoints:
-    - websecure
-  routes:
+    - match: Host(`nexus.danmanners.com`) && PathPrefix(`/v2/`)
+      kind: Rule
+      services:
+        - name: nexus-oss
+          port: 5001
     - match: Host(`containers.danmanners.com`)
       kind: Rule
       services:
