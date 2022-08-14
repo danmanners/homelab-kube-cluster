@@ -5,3 +5,11 @@ namespace: tekton-pipelines
 
 resources:
   - excalidraw.yaml
+
+configMapGenerator:
+  - name: excalidraw
+    files:
+      - files/Dockerfile
+
+generatorOptions:
+  disableNameSuffixHash: true
