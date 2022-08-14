@@ -37,7 +37,7 @@ spec:
     - match: Host(`jenkins.danmanners.com`)
       kind: Rule
       services:
-        - name: jenkins-ce
+        - name: jenkins
           port: 8080
       middlewares:
         - name: http-https-redirectscheme
@@ -54,7 +54,7 @@ spec:
     - match: Host(`jenkins.danmanners.com`)
       kind: Rule
       services:
-        - name: jenkins-ce
+        - name: jenkins
           port: 8080
   tls:
     secretName: jenkins-danmanners-cert
