@@ -2,9 +2,23 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: nexus-danmanners-extname
+  name: nexus-main-danmanners-extname
   annotations:
     external-dns.alpha.kubernetes.io/hostname: nexus.danmanners.com
+    external-dns.alpha.kubernetes.io/ttl: "300"
+  labels:
+    app.kubernetes.io/instance: nexus
+spec:
+  type: ExternalName
+  externalName: kube.danmanners.com
+  sessionAffinity: None
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nexus-containers-danmanners-extname
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: containers.danmanners.com
     external-dns.alpha.kubernetes.io/ttl: "300"
   labels:
     app.kubernetes.io/instance: nexus
@@ -22,6 +36,7 @@ spec:
   secretName: nexus-danmanners-cert
   dnsNames:
     - nexus.danmanners.com
+    - containers.danmanners.com
   issuerRef:
     name: acme-prod
     kind: ClusterIssuer
@@ -56,5 +71,21 @@ spec:
       services:
         - name: nexus-oss
           port: 8081
+  tls:
+    secretName: nexus-danmanners-cert
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: nexus-containers-danmanners-websecure
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`containers.danmanners.com`)
+      kind: Rule
+      services:
+        - name: nexus-oss
+          port: 5001
   tls:
     secretName: nexus-danmanners-cert
