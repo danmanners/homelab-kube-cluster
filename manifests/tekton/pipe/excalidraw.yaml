@@ -38,6 +38,7 @@ spec:
   # Workspaces
   workspaces:
     - name: ws
+    - name: dockerfile
 
   # Steps
   tasks:
@@ -53,6 +54,7 @@ spec:
       workspaces:
         - name: output
           workspace: ws
+
     # After Initialization
     - name: buildah
       taskRef:
@@ -60,9 +62,13 @@ spec:
       workspaces:
         - name: source
           workspace: ws
+        - name: dockerfile
+          workspace: dockerfile
       params:
         - name: IMAGE
-          value: $(params.containerRegistry)/$(params.containerName)
+          value: "$(params.containerRegistry)/$(params.containerName)"
+        - name: DOCKERFILE
+          value: /excalidraw/Dockerfile
 ---
 apiVersion: tekton.dev/v1beta1
 kind: PipelineRun
@@ -78,3 +84,12 @@ spec:
     - name: ws
       persistentVolumeClaim:
         claimName: tekton-builder-excalidraw
+    - name: dockerfile
+      configMap:
+        name: excalidraw
+        items:
+          - key: Dockerfile
+            path: /excalidraw/Dockerfile
+  params:
+    - name: dockerFileMountPath
+      value: /tmp/Dockerfile
