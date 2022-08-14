@@ -1,0 +1,77 @@
+---
+# Persistent Volume Claim
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: tekton-builder-excalidraw
+  namespace: tekton-pipelines
+spec:
+  storageClassName: ssd-nrs
+  resources:
+    requests:
+      storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+---
+# Pipeline - Build a container and push it up to the definied container registry
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: clone-and-build
+  namespace: tekton-pipelines
+spec:
+  # Paramaters
+  params:
+    - name: gitUrl
+      type: string
+      default: https://github.com/excalidraw/excalidraw.git
+    - name: gitRevision
+      type: string
+      default: v0.12.0
+    - name: containerRegistry
+      type: string
+      default: ghcr.io
+    - name: containerName
+      type: string
+      default: danmanners/excalidraw
+  # Workspaces
+  workspaces:
+    - name: ws
+    - name: dockerconfigjson
+  # Steps
+  tasks:
+    # Initial Step
+    - name: clone
+      taskRef:
+        name: git-clone
+      params:
+        - name: url
+          value: $(params.gitUrl)
+        - name: revision
+          value: $(params.gitRevision)
+      workspaces:
+        - name: output
+          workspace: ws
+    # After Initialization
+    - name: buildah
+      taskRef:
+        name: buildah
+      workspaces:
+        - name: source
+          workspace: ws
+      params:
+        - name: IMAGE
+          value: $(params.containerRegistry)/$(params.containerName)
+---
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  generateName: excalidraw-
+  namespace: tekton-pipelines
+spec:
+  pipelineRef:
+    name: clone-and-build
+  workspaces:
+    - name: ws
+      persistentVolumeClaim:
+        claimName: tekton-builder-excalidraw

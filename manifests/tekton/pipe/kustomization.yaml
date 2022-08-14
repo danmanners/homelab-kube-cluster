@@ -4,7 +4,4 @@ kind: Kustomization
 namespace: tekton-pipelines
 
 resources:
-  - serviceaccount.yaml
-
-generators:
-  - secrets-generator.yaml
+  - excalidraw.yaml
