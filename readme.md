@@ -32,7 +32,6 @@ This project aims to utilize industry-standard tooling and practices in order to
 | [External-DNS](https://github.com/kubernetes-sigs/external-dns)          | Configure and manage External DNS servers                                     |
 | [GitHub](https://github.com/)                                            | Popular Code Management through Git                                           |
 | [Grafana](https://grafana.com/)                                          | Metrics Visualization                                                         |
-| [Harbor](https://goharbor.io/)                                           | Open Source Container and Helm Registry                                       |
 | [Helm](https://helm.sh/)                                                 | Kubernetes Package Management                                                 |
 | [Jenkins](https://www.jenkins.io/)                                       | Open-Source Automation Server                                                 |
 | [Kubernetes](https://kubernetes.io/)                                     | Container Orchestration                                                       |
@@ -62,20 +61,21 @@ This project aims to utilize industry-standard tooling and practices in order to
 
 Several items have previously been in my cluster, but have been removed over time for one reason or another. Those items can be foud below.
 
-| Name                                                          | Removal Reason                                                     | Description                                                       |
-| ------------------------------------------------------------- | ------------------------------------------------------------------ | ----------------------------------------------------------------- |
-| [Ansible](https://www.ansible.com/)                           | I don't need host provisioning anymore                             | Ad-hoc system configuration-as-code                               |
-| [Amazon Linux 2](https://aws.amazon.com/amazon-linux-2/)      | I standardized on Talos OS                                         | Operating System                                                  |
-| [Flannel CNI](https://github.com/flannel-io/flannel)          | I migrated to Cilium for my CNI                                    | Network Fabric for Containers                                     |
-| [K3s](https://k3s.io/)                                        | I moved to Talos for Kubernetes                                    | Lightweight Kubernetes                                            |
-| [KubeLogin](https://github.com/int128/kubelogin)              | This was more of a hassle than anything, but worked perfectly well | kubectl plugin for Kubernetes OpenID Connect authentication       |
-| [NGINX](https://www.nginx.com/)                               | This was no longer necessary with my edge TalosOS nodes            | Open-Source Web Server and Reverse Proxy                          |
-| [Proxmox](https://www.proxmox.com/en/proxmox-ve)              | Moved to fully baremetal Kubernetes on Talos OS                    | Virtualization Platform                                           |
-| [QEMU Guest Agent](https://wiki.qemu.org/Features/GuestAgent) | No longer necessary without virtualized on-prem infrastructure     | Provides access to a system-level agent via standard QMP commands |
-| [QNAP](https://www.qnap.com/en-us)                            | After an OS upgrade, NFS broke; built a new Array utilizing ZFS    | Storage Array Hardware and Networking                             |
-| [Rocky Linux](https://rockylinux.org/)                        | I standardized on Talos OS                                         | Open-Source Enterprise Linux; Spiritual successor to CentOS       |
-| [Turing Pi 1](https://turingpi.com/v1/)                       | I can't run Talos OS on the Turing Pi CM3+ nodes                   | Raspberry Pi Compute Module Clustering                            |
-| [Turing Pi 2](https://turingpi.com/)                          | The persistent storage options weren't enough with TalosOS         | Raspberry Pi Compute Module Clustering                            |
+| Name                                                          | Removal Reason                                                             | Description                                                       |
+| ------------------------------------------------------------- | -------------------------------------------------------------------------- | ----------------------------------------------------------------- |
+| [Ansible](https://www.ansible.com/)                           | I don't need host provisioning anymore                                     | Ad-hoc system configuration-as-code                               |
+| [Amazon Linux 2](https://aws.amazon.com/amazon-linux-2/)      | I standardized on Talos OS                                                 | Operating System                                                  |
+| [Flannel CNI](https://github.com/flannel-io/flannel)          | I migrated to Cilium for my CNI                                            | Network Fabric for Containers                                     |
+| [K3s](https://k3s.io/)                                        | I moved to Talos for Kubernetes                                            | Lightweight Kubernetes                                            |
+| [Harbor](https://goharbor.io/)                                | Kept crashing; logging was nearly useless. Might go back to it later, TBD. | Open Source Container and Helm Registry                           |
+| [KubeLogin](https://github.com/int128/kubelogin)              | This was more of a hassle than anything, but worked perfectly well         | kubectl plugin for Kubernetes OpenID Connect authentication       |
+| [NGINX](https://www.nginx.com/)                               | This was no longer necessary with my edge TalosOS nodes                    | Open-Source Web Server and Reverse Proxy                          |
+| [Proxmox](https://www.proxmox.com/en/proxmox-ve)              | Moved to fully baremetal Kubernetes on Talos OS                            | Virtualization Platform                                           |
+| [QEMU Guest Agent](https://wiki.qemu.org/Features/GuestAgent) | No longer necessary without virtualized on-prem infrastructure             | Provides access to a system-level agent via standard QMP commands |
+| [QNAP](https://www.qnap.com/en-us)                            | After an OS upgrade, NFS broke; built a new Array utilizing ZFS            | Storage Array Hardware and Networking                             |
+| [Rocky Linux](https://rockylinux.org/)                        | I standardized on Talos OS                                                 | Open-Source Enterprise Linux; Spiritual successor to CentOS       |
+| [Turing Pi 1](https://turingpi.com/v1/)                       | I can't run Talos OS on the Turing Pi CM3+ nodes                           | Raspberry Pi Compute Module Clustering                            |
+| [Turing Pi 2](https://turingpi.com/)                          | The persistent storage options weren't enough with TalosOS                 | Raspberry Pi Compute Module Clustering                            |
 
 ## Services Hosted
 
