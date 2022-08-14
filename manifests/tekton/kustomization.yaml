@@ -5,4 +5,4 @@ namespace: tekton-pipelines
 
 resources:
   - sa.yaml
-  - pipe/
+  - pipe
