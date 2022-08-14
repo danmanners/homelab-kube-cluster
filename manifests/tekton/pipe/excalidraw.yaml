@@ -66,10 +66,10 @@ spec:
       runAfter:
         - clone
       params:
-        - name: source-path
-          value: "$(workspaces.source.path)/Dockerfile"
-        - name: dest-path
-          value: "$(workspaces.dest.path)/Dockerfile"
+        - name: source-files
+          value: Dockerfile
+        - name: dest-files
+          value: Dockerfile
 
     # After Initialization
     - name: buildah-amd64
@@ -83,7 +83,7 @@ spec:
         - copy-file
       params:
         - name: IMAGE
-          value: "$(params.containerRegistry)/$(params.containerName)"
+          value: "$(params.containerRegistry)/$(params.containerName):$(params.gitRevision)"
 
     # After Initialization
     - name: buildah-arm64
@@ -97,7 +97,7 @@ spec:
         - copy-file
       params:
         - name: IMAGE
-          value: "$(params.containerRegistry)/$(params.containerName)"
+          value: "$(params.containerRegistry)/$(params.containerName):$(params.gitRevision)"
 
 ---
 apiVersion: tekton.dev/v1beta1
@@ -128,4 +128,4 @@ spec:
         name: excalidraw
         items:
           - key: Dockerfile
-            path: /excalidraw/Dockerfile
+            path: Dockerfile
