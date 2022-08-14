@@ -1,0 +1,17 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: default
+
+images:
+  - name: nexus-container-image
+    newName: docker.io/sonatype/nexus3
+    newTag: 3.41.0
+
+helmCharts:
+  - name: kah-common-chart
+    releaseName: nexus-oss
+    namespace: default
+    repo: https://k8s-at-home.com/charts
+    version: 1.2.2
+    valuesFile: values.yaml
