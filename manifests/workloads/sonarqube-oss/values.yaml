@@ -12,6 +12,10 @@ nodeSelector:
 termination:
   gracePeriodSeconds: 180
 
+podSecurityContext:
+  fsGroup: 1000
+  runAsUser: 1000
+
 resources:
   requests:
     cpu: "1"
@@ -85,19 +89,19 @@ ingress:
     enabled: false
 
 persistence:
-  snr-data-pvc:
+  data:
     enabled: true
-    storageClass: nvme
+    storageClass: ssd
     accessMode: ReadWriteMany
     mountPath: /opt/sonarqube/data
     size: 20Gi
-  snr-logs-pvc:
+  logs:
     enabled: true
     storageClass: ssd
     accessMode: ReadWriteMany
     mountPath: /opt/sonarqube/logs
     size: 4Gi
-  snr-extensions-pvc:
+  extensions:
     enabled: true
     storageClass: ssd
     accessMode: ReadWriteMany
