@@ -39,6 +39,8 @@ spec:
   workspaces:
     - name: ws
     - name: dockerfile
+      configMap:
+        name: excalidraw
 
   # Steps
   tasks:
@@ -55,20 +57,39 @@ spec:
         - name: output
           workspace: ws
 
+    - name: copy-file
+      taskRef:
+        - name: write-file
+      workspaces:
+        - name: source
+          workspace: dockerfile
+        - name: dest
+          workspace: ws
+      runAfter:
+        - git-clone
+      params:
+        - name: source-path
+          value: /excalidraw/Dockerfile
+        - name: dest-path
+          value: $(workspaces.ws.path)/Dockerfile
+
     # After Initialization
-    - name: buildah
+    - name: buildah-amd64
       taskRef:
         name: buildah
       workspaces:
         - name: source
           workspace: ws
-        - name: dockerfile
-          workspace: dockerfile
+        - workspace: dockerfile
+      runAfter:
+        - git-clone
+        - copy-file
       params:
         - name: IMAGE
           value: "$(params.containerRegistry)/$(params.containerName)"
-        - name: DOCKERFILE
-          value: /excalidraw/Dockerfile
+      nodeSelector:
+        kubernetes.io/arch: amd64
+
 ---
 apiVersion: tekton.dev/v1beta1
 kind: PipelineRun
@@ -90,6 +111,3 @@ spec:
         items:
           - key: Dockerfile
             path: /excalidraw/Dockerfile
-  params:
-    - name: dockerFileMountPath
-      value: /tmp/Dockerfile
