@@ -7,9 +7,16 @@ resources:
   - ns.yaml
   - rbac.yaml
   - ingress.yaml
-  - statefulset.yaml
+
+helmCharts:
+  - name: kah-common-chart
+    releaseName: jenkins
+    namespace: default
+    repo: https://k8s-at-home.com/charts
+    version: 1.2.2
+    valuesFile: values.yaml
 
 images:
-  - name: jenkins-image
-    newName: jenkins/jenkins
+  - name: jenkins-container-image
+    newName: docker.io/jenkins/jenkins
     newTag: 2.346.3-lts
