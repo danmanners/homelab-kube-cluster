@@ -1,0 +1,105 @@
+---
+global:
+  nameOverride: sonarqube
+
+image:
+  repository: sonarqube-image
+  pullPolicy: IfNotPresent
+
+nodeSelector:
+  kubernetes.io/arch: amd64
+
+termination:
+  gracePeriodSeconds: 180
+
+resources:
+  requests:
+    cpu: "1"
+  limits:
+    cpu: "4"
+
+envFrom:
+  - secretRef:
+      name: sonarqube-secrets
+
+initContainers:
+  # Set host-level system settings
+  init-sysctl:
+    image: busybox-image
+    command:
+      - /bin/sh
+      - -c
+      - |
+        sysctl -w vm.max_map_count=524288 && \
+        sysctl -w fs.file-max=131072 && \
+        ulimit -n 131072 && \
+        ulimit -u 8192
+    securityContext:
+      privileged: true
+      runAsUser: 0
+  # Ensure that the PostgresDB has been initialized
+  init-db:
+    image: postgres-init-db
+    env:
+      - name: POSTGRES_HOST
+        valueFrom:
+          secretKeyRef:
+            name: sonarqube-secrets
+            key: POSTGRES_HOST
+        # value: "primary-rw.postgres.svc.cluster.local"
+      - name: POSTGRES_SUPER_PASS
+        valueFrom:
+          secretKeyRef:
+            name: postgres-superuser
+            key: password
+      - name: POSTGRES_DB
+        valueFrom:
+          secretKeyRef:
+            name: sonarqube-secrets
+            key: SONAR_POSTGRES_DB
+      - name: POSTGRES_USER
+        valueFrom:
+          secretKeyRef:
+            name: sonarqube-secrets
+            key: SONAR_JDBC_USERNAME
+      - name: POSTGRES_PASS
+        valueFrom:
+          secretKeyRef:
+            name: sonarqube-secrets
+            key: SONAR_JDBC_PASSWORD
+
+service:
+  main:
+    enabled: true
+    type: ClusterIP
+    ports:
+      http:
+        enabled: false
+      web:
+        enabled: true
+        port: 9000
+        protocol: TCP
+
+ingress:
+  main:
+    enabled: false
+
+persistence:
+  snr-data-pvc:
+    enabled: true
+    storageClass: nvme
+    accessMode: ReadWriteMany
+    mountPath: /opt/sonarqube/data
+    size: 20Gi
+  snr-logs-pvc:
+    enabled: true
+    storageClass: ssd
+    accessMode: ReadWriteMany
+    mountPath: /opt/sonarqube/logs
+    size: 4Gi
+  snr-extensions-pvc:
+    enabled: true
+    storageClass: ssd
+    accessMode: ReadWriteMany
+    mountPath: /opt/sonarqube/extensions
+    size: 2Gi
