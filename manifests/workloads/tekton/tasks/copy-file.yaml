@@ -12,11 +12,9 @@ metadata:
     tekton.dev/displayName: Copy a file from one workspace to another
     tekton.dev/platforms: "linux/amd64,linux/arm64,linux/s390x,linux/ppc64le"
 spec:
-  # description: >-
   params:
     - name: source-path
       type: string
-      # description: >
     - name: dest-path
       type: string
   workspaces:
@@ -27,13 +25,7 @@ spec:
   steps:
     - name: copy-file
       image: docker.io/library/alpine:3.16
-      workingDir: $(workspaces.output.path)
-      env:
-        - name: SOURCE_PATH
-          value: $(params.source-path)
-        - name: DEST_PATH
-          value: $(params.dest-path)
       script: |
         #!/bin/sh
         set -eu
-        cp ${SOURCE_PATH} ${DEST_PATH}
+        cp $(workspaces.source.path) $(workspaces.dest.path)
