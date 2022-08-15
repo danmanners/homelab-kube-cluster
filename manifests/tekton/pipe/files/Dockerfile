@@ -4,12 +4,12 @@ FROM docker.io/library/node:16-alpine AS build
 WORKDIR /opt/node_app
 
 COPY package.json yarn.lock ./
-RUN yarn --ignore-optional
+RUN /usr/local/bin/yarn --ignore-optional
 
 ARG NODE_ENV=production
 
 COPY . .
-RUN yarn build:app:docker
+RUN  /usr/local/bin/yarn build:app:docker
 
 # Swapped container path from 'nginx:1.21-alpine' to 'docker.io/nginxinc/nginx-unprivileged:1.23.1'
 FROM docker.io/nginxinc/nginx-unprivileged:1.23.1
