@@ -6,3 +6,5 @@ namespace: tekton-pipelines
 resources:
   # Dashboard
   - https://github.com/tektoncd/dashboard/releases/download/v0.28.0/tekton-dashboard-release.yaml
+  # Read-Only Dashboard
+  - read-only.yaml

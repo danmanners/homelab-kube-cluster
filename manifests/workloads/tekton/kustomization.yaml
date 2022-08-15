@@ -6,6 +6,7 @@ namespace: tekton-pipelines
 resources:
   # Traefik Ingress
   - ingress.yaml
+  - ingress-ro.yaml
   # Tasks Subdirectory
   - tasks/
   # Main Install
