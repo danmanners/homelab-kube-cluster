@@ -22,7 +22,7 @@ images:
     newTag: 9.6.0-community
   - name: postgres-init-db
     newName: ghcr.io/onedr0p/postgres-initdb
-    newTag: "14.4"
+    newTag: "14.5"
   - name: busybox-image
     newName: docker.io/library/busybox
     newTag: stable
