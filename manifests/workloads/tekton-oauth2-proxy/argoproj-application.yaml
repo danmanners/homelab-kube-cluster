@@ -1,0 +1,20 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: "tekton-oauth2-proxy"
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: "https://github.com/danmanners/homelab-kube-cluster.git"
+    path: manifests/workloads/tekton-oauth2-proxy
+    targetRevision: main
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: tekton-pipelines
+  syncPolicy:
+    automated:
+      prune: true
+    syncOptions:
+      - CreateNamespace=true
