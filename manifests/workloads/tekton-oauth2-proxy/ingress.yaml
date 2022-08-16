@@ -1,0 +1,80 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tekton-danmanners-extname
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: tekton.danmanners.com
+    external-dns.alpha.kubernetes.io/ttl: "300"
+  labels:
+    app.kubernetes.io/instance: tekton
+spec:
+  type: ExternalName
+  externalName: kube.danmanners.com
+  sessionAffinity: None
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: tekton-danmanners-cert
+spec:
+  commonName: tekton.danmanners.com
+  secretName: tekton-danmanners-cert
+  dnsNames:
+    - tekton.danmanners.com
+  issuerRef:
+    name: acme-prod
+    kind: ClusterIssuer
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: tekton-danmanners-cert-web
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`tekton.danmanners.com`)
+      kind: Rule
+      services:
+        - name: tekton-oauth2-proxy
+          port: 4180
+        # - name: tekton-dashboard
+        #   port: 9097
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: tekton-danmanners-cert-websecure
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`tekton.danmanners.com`)
+      kind: Rule
+      services:
+        - name: tekton-oauth2-proxy
+          port: 4180
+        # - name: tekton-dashboard
+        #   port: 9097
+      # middlewares:
+      #   - name: tekton-auth
+  tls:
+    secretName: tekton-danmanners-cert
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: tekton-auth
+spec:
+  basicAuth:
+    removeHeader: true
+    secret: tekton-authsecret
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: tekton-authsecret
+stringData:
+  users: |
+    danmanners:$apr1$UEeDFiS4$kcIpWb5YTEh8cSqqlVtRO1

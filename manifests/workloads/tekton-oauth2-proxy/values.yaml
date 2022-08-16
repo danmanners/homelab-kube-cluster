@@ -1,0 +1,18 @@
+---
+replicaCount: 2
+httpScheme: http
+
+config:
+  existingSecret: oauth2-proxy-values
+
+extraArgs:
+  provider: github
+  provider-display-name: GitHub
+  github-org: GoodMannersHosting
+  upstream: http://tekton-dashboard.tekton-pipelines.svc.cluster.local:9097
+  pass-basic-auth: "false"
+  pass-access-token: "false"
+
+service:
+  type: ClusterIP
+  portNumber: 4180
