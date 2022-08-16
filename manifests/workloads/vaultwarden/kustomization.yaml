@@ -9,7 +9,7 @@ images:
     newTag: 1.25.2-alpine
   - name: postgres-init-db
     newName: ghcr.io/onedr0p/postgres-initdb
-    newTag: "14.4"
+    newTag: "14.5"
 
 helmCharts:
   - name: kah-common-chart

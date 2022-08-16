@@ -9,7 +9,7 @@ image:
 
 initContainers:
   init-db:
-    image: ghcr.io/onedr0p/postgres-initdb:14.4
+    image: ghcr.io/onedr0p/postgres-initdb:14.5
     env:
       - name: POSTGRES_HOST
         value: "primary-rw.postgres.svc.cluster.local"
