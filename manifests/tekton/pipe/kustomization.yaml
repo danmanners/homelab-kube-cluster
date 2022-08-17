@@ -5,6 +5,7 @@ namespace: tekton-pipelines
 
 resources:
   - excalidraw.yaml
+  - excalidraw-2.yaml
 
 configMapGenerator:
   - name: excalidraw
