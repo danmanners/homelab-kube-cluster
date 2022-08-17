@@ -6,7 +6,7 @@ metadata:
   name: tekton-builder-excalidraw
   namespace: tekton-pipelines
 spec:
-  storageClassName: ssd-nrs
+  storageClassName: ceph-filesystem
   resources:
     requests:
       storage: 1Gi
@@ -190,9 +190,9 @@ spec:
     - name: containers
       volumeClaimTemplate:
         spec:
-          storageClassName: ssd-nrs
+          storageClassName: ceph-filesystem
           accessModes:
-            - ReadWriteMany # access mode may affect how you can use this volume in parallel tasks
+            - ReadWriteOnce # access mode may affect how you can use this volume in parallel tasks
           resources:
             requests:
               storage: 2Gi
