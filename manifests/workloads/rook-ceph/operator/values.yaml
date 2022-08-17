@@ -5,6 +5,8 @@ crds:
 monitoring:
   enabled: true
 
+hostpathRequiresPrivileged: true
+
 resources:
   requests:
     cpu: 10m
