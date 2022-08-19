@@ -10,24 +10,23 @@ spec:
   params:
     - name: gitUrl
       type: string
-      default: https://github.com/excalidraw/excalidraw.git
+      default: https://github.com/jacebrowning/memegen.git
     - name: gitRevision
       type: string
-      default: v0.12.0
+      default: main
     - name: containerRegistry
       type: string
       default: ghcr.io
     - name: manifestName
       type: string
-      default: excalidraw
+      default: memegen
     - name: containerName
       type: string
-      default: danmanners/excalidraw
+      default: danmanners/memegen
 
   # Workspaces
   workspaces:
     - name: ws
-    - name: dockerfile
     - name: containers
 
   # Steps
@@ -46,24 +45,6 @@ spec:
         - name: output
           workspace: ws
 
-    # Overwrite the original Dockerfile with the modified version
-    - name: copy-file
-      taskRef:
-        kind: ClusterTask
-        name: copy-files
-      workspaces:
-        - name: source
-          workspace: dockerfile
-        - name: dest
-          workspace: ws
-      runAfter:
-        - clone
-      params:
-        - name: source-files
-          value: Dockerfile
-        - name: dest-files
-          value: Dockerfile
-
     # Create the Buildah Manifest
     - name: create-manifest
       taskRef:
@@ -73,7 +54,7 @@ spec:
         - name: containers
           workspace: containers
       runAfter:
-        - copy-file
+        - clone
       params:
         - name: MANIFEST
           value: $(params.manifestName)
@@ -95,8 +76,12 @@ spec:
           value: $(params.manifestName)
         - name: IMAGE
           value: "$(params.containerRegistry)/$(params.containerName):$(params.gitRevision)"
+        - name: STORAGE_DRIVER
+          value: vfs
         - name: ARCH
           value: amd64
+        - name: DOCKERFILE
+          value: Containerfile
 
     - name: arm64
       taskRef:
@@ -108,14 +93,18 @@ spec:
         - name: containers
           workspace: containers
       runAfter:
-        - amd64
+        - create-manifest
       params:
         - name: MANIFEST
           value: $(params.manifestName)
         - name: IMAGE
           value: "$(params.containerRegistry)/$(params.containerName):$(params.gitRevision)"
+        - name: STORAGE_DRIVER
+          value: vfs
         - name: ARCH
           value: arm64
+        - name: DOCKERFILE
+          value: Containerfile
 
     # Push up the container images to the image destination
     - name: push
@@ -140,8 +129,8 @@ spec:
 apiVersion: tekton.dev/v1beta1
 kind: PipelineRun
 metadata:
-  name: excalidraw
-  generateName: excalidraw-
+  name: memegen
+  generateName: memegen-
   namespace: tekton-pipelines
 spec:
   serviceAccountName: tekton-user
@@ -151,29 +140,22 @@ spec:
     # Build the amd64 image on dedicated amd64 hardware
     - pipelineTaskName: amd64
       taskPodTemplate:
-        hostNetwork: true
+        # hostNetwork: true
         nodeSelector:
           kubernetes.io/arch: amd64
     # Build the arm64 image on dedicated arm64 hardware
     - pipelineTaskName: arm64
       taskPodTemplate:
-        hostNetwork: true
+        # hostNetwork: true
         nodeSelector:
           kubernetes.io/arch: arm64
     # Faster Networking on the amd64 nodes
     - pipelineTaskName: push
       taskPodTemplate:
-        hostNetwork: true
+        # hostNetwork: true
         nodeSelector:
           kubernetes.io/arch: amd64
   workspaces:
-    # ConfigMap
-    - name: dockerfile
-      configMap:
-        name: excalidraw
-        items:
-          - key: Dockerfile
-            path: Dockerfile
     # Disk Volumes
     - name: ws
       volumeClaimTemplate:
@@ -183,9 +165,9 @@ spec:
             - ReadWriteMany # access mode may affect how you can use this volume in parallel tasks
           resources:
             requests:
-              storage: 500Mi
+              storage: 1Gi
       # persistentVolumeClaim:
-      # claimName: tekton-builder-excalidraw
+      # claimName: tekton-builder-memegen
     - name: containers
       volumeClaimTemplate:
         spec:
@@ -194,4 +176,4 @@ spec:
             - ReadWriteMany # access mode may affect how you can use this volume in parallel tasks
           resources:
             requests:
-              storage: 1500Mi
+              storage: 2Gi
