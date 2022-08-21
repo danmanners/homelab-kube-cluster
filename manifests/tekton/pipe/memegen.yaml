@@ -76,12 +76,14 @@ spec:
           value: $(params.manifestName)
         - name: IMAGE
           value: "$(params.containerRegistry)/$(params.containerName):$(params.gitRevision)"
-        - name: STORAGE_DRIVER
-          value: overlay
+        # - name: STORAGE_DRIVER
+        #   value: vfs
         - name: ARCH
           value: amd64
         - name: DOCKERFILE
           value: Containerfile
+        - name: BUILD_EXTRA_ARGS
+          value: "--no-cache"
 
     # - name: arm64
     #   taskRef:
@@ -165,7 +167,7 @@ spec:
             - ReadWriteMany # access mode may affect how you can use this volume in parallel tasks
           resources:
             requests:
-              storage: 1Gi
+              storage: 2Gi
       # persistentVolumeClaim:
       # claimName: tekton-builder-memegen
     - name: containers
@@ -176,4 +178,4 @@ spec:
             - ReadWriteMany # access mode may affect how you can use this volume in parallel tasks
           resources:
             requests:
-              storage: 2Gi
+              storage: 5Gi
