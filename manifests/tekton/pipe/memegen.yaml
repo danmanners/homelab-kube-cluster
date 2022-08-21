@@ -77,34 +77,34 @@ spec:
         - name: IMAGE
           value: "$(params.containerRegistry)/$(params.containerName):$(params.gitRevision)"
         - name: STORAGE_DRIVER
-          value: vfs
+          value: overlay
         - name: ARCH
           value: amd64
         - name: DOCKERFILE
           value: Containerfile
 
-    - name: arm64
-      taskRef:
-        kind: ClusterTask
-        name: buildah-build
-      workspaces:
-        - name: source
-          workspace: ws
-        - name: containers
-          workspace: containers
-      runAfter:
-        - create-manifest
-      params:
-        - name: MANIFEST
-          value: $(params.manifestName)
-        - name: IMAGE
-          value: "$(params.containerRegistry)/$(params.containerName):$(params.gitRevision)"
-        - name: STORAGE_DRIVER
-          value: vfs
-        - name: ARCH
-          value: arm64
-        - name: DOCKERFILE
-          value: Containerfile
+    # - name: arm64
+    #   taskRef:
+    #     kind: ClusterTask
+    #     name: buildah-build
+    #   workspaces:
+    #     - name: source
+    #       workspace: ws
+    #     - name: containers
+    #       workspace: containers
+    #   runAfter:
+    #     - create-manifest
+    #   params:
+    #     - name: MANIFEST
+    #       value: $(params.manifestName)
+    #     - name: IMAGE
+    #       value: "$(params.containerRegistry)/$(params.containerName):$(params.gitRevision)"
+    #     - name: STORAGE_DRIVER
+    #       value: vfs
+    #     - name: ARCH
+    #       value: arm64
+    #     - name: DOCKERFILE
+    #       value: Containerfile
 
     # Push up the container images to the image destination
     - name: push
@@ -118,7 +118,7 @@ spec:
           workspace: containers
       runAfter:
         - amd64
-        - arm64
+        # - arm64
       params:
         - name: MANIFEST
           value: $(params.manifestName)
@@ -144,11 +144,11 @@ spec:
         nodeSelector:
           kubernetes.io/arch: amd64
     # Build the arm64 image on dedicated arm64 hardware
-    - pipelineTaskName: arm64
-      taskPodTemplate:
-        # hostNetwork: true
-        nodeSelector:
-          kubernetes.io/arch: arm64
+    # - pipelineTaskName: arm64
+    #   taskPodTemplate:
+    #     # hostNetwork: true
+    #     nodeSelector:
+    #       kubernetes.io/arch: arm64
     # Faster Networking on the amd64 nodes
     - pipelineTaskName: push
       taskPodTemplate:
