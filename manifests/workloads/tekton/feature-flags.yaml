@@ -14,7 +14,7 @@ data:
   disable-creds-init: "false"
   disable-home-env-overwrite: "true"
   disable-working-directory-overwrite: "true"
-  enable-api-fields: stable
+  enable-api-fields: alpha
   enable-custom-tasks: "false"
   enable-tekton-oci-bundles: "false"
   require-git-ssh-secret-known-hosts: "false"
