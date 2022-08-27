@@ -5,7 +5,7 @@ namespace: argocd
 
 resources:
   # Increment up this version number once you have new encrypted container versions available for the repo server
-  - https://raw.githubusercontent.com/argoproj/argo-cd/v2.4.9/manifests/install.yaml
+  - https://raw.githubusercontent.com/argoproj/argo-cd/v2.4.11/manifests/install.yaml
   - ingress.yaml
   - services.yaml
   - namespace.yaml
