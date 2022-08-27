@@ -9,7 +9,7 @@ resources:
 images:
   - name: nexus-container-image
     newName: docker.io/sonatype/nexus3
-    newTag: 3.41.0
+    newTag: 3.41.1
 
 helmCharts:
   - name: kah-common-chart
