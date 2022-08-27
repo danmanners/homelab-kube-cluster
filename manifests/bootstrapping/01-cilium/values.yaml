@@ -8,7 +8,7 @@ name: cilium
 rollOutCiliumPods: true
 image:
   repository: quay.io/cilium/cilium
-  tag: v1.12.0
+  tag: v1.12.1
   pullPolicy: IfNotPresent
   useDigest: true
 
