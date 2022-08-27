@@ -1,0 +1,54 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: buildah-troubleshooting
+  namespace: tekton-pipelines
+spec:
+  storageClassName: ceph-filesystem
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Gi
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: buildah-troubleshooter
+  namespace: tekton-pipelines
+spec:
+  containers:
+    - name: buildah-troubleshooting
+      image: quay.io/buildah/stable:v1.23.3
+      imagePullPolicy: IfNotPresent
+      resources: {}
+      command: ["/bin/bash", "-c", "--"]
+      args: ["while true; do sleep 30; done;"]
+      securityContext:
+        privileged: true
+      volumeMounts:
+        - name: buildah-troubleshooting
+          mountPath: /tmp
+  nodeSelector:
+    kubernetes.io/arch: amd64
+  serviceAccountName: tekton-user
+  serviceAccount: tekton-user
+  volumes:
+    - name: buildah-troubleshooting
+      persistentVolumeClaim:
+        claimName: buildah-troubleshooting
+---
+# COMMANDS
+#
+# kubectl exec -it -n tekton-pipelines buildah-troubleshooter -- /bin/bash
+#
+# Container ONE
+# mkdir -p /tmp/{memegen,storage}
+# git clone https://github.com/jacebrowning/memegen.git /tmp/memegen
+# buildah --root /tmp/storage manifest create memegen
+#
+# Container TWO
+# buildah --root /tmp/storage manifest create memegen | tr -d '\n'
+# 
+# 

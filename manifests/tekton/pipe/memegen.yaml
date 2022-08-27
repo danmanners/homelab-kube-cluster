@@ -76,12 +76,14 @@ spec:
           value: $(params.manifestName)
         - name: IMAGE
           value: "$(params.containerRegistry)/$(params.containerName):$(params.gitRevision)"
-        # - name: STORAGE_DRIVER
-        #   value: vfs
+        - name: DIGEST
+          value: "$(tasks.create-manifest.results.digest)"
         - name: ARCH
           value: amd64
         - name: DOCKERFILE
           value: Containerfile
+        - name: FORMAT
+          value: "docker"
         - name: BUILD_EXTRA_ARGS
           value: "--no-cache"
 
@@ -114,8 +116,6 @@ spec:
         kind: ClusterTask
         name: buildah-push
       workspaces:
-        - name: source
-          workspace: ws
         - name: containers
           workspace: containers
       runAfter:
