@@ -1,5 +1,5 @@
 ---
-# Pipeline - Build a container and push it up to the definied container registry
+# Pipeline - Build a container and push it up to the defined container registry
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:

@@ -1,5 +1,5 @@
 ---
-# Pipeline - Build a container and push it up to the definied container registry
+# Pipeline - Build a container and push it up to the defined container registry
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
@@ -64,20 +64,6 @@ spec:
         - name: dest-files
           value: Dockerfile
 
-    # Create the Buildah Manifest
-    - name: create-manifest
-      taskRef:
-        kind: ClusterTask
-        name: buildah-create-manifest
-      workspaces:
-        - name: containers
-          workspace: containers
-      runAfter:
-        - copy-file
-      params:
-        - name: MANIFEST
-          value: $(params.manifestName)
-
     # After creating the manifest, build the container images
     - name: amd64
       taskRef:
@@ -89,15 +75,16 @@ spec:
         - name: containers
           workspace: containers
       runAfter:
-        - create-manifest
+        - clone
       params:
-        - name: MANIFEST
-          value: $(params.manifestName)
         - name: IMAGE
           value: "$(params.containerRegistry)/$(params.containerName):$(params.gitRevision)"
         - name: ARCH
           value: amd64
+        - name: BUILD_EXTRA_ARGS
+          value: "--no-cache"
 
+    # After creating the manifest, build the container images
     - name: arm64
       taskRef:
         kind: ClusterTask
@@ -108,31 +95,27 @@ spec:
         - name: containers
           workspace: containers
       runAfter:
-        - amd64
+        - clone
       params:
-        - name: MANIFEST
-          value: $(params.manifestName)
         - name: IMAGE
           value: "$(params.containerRegistry)/$(params.containerName):$(params.gitRevision)"
         - name: ARCH
           value: arm64
+        - name: BUILD_EXTRA_ARGS
+          value: "--no-cache"
 
     # Push up the container images to the image destination
     - name: push
       taskRef:
         kind: ClusterTask
-        name: buildah-push
+        name: buildah-testing
       workspaces:
-        - name: source
-          workspace: ws
         - name: containers
           workspace: containers
       runAfter:
         - amd64
         - arm64
       params:
-        - name: MANIFEST
-          value: $(params.manifestName)
         - name: IMAGE
           value: "$(params.containerRegistry)/$(params.containerName):$(params.gitRevision)"
 
@@ -183,7 +166,7 @@ spec:
             - ReadWriteMany # access mode may affect how you can use this volume in parallel tasks
           resources:
             requests:
-              storage: 500Mi
+              storage: 1Gi
       # persistentVolumeClaim:
       # claimName: tekton-builder-excalidraw
     - name: containers
@@ -194,4 +177,4 @@ spec:
             - ReadWriteMany # access mode may affect how you can use this volume in parallel tasks
           resources:
             requests:
-              storage: 1500Mi
+              storage: 5Gi
