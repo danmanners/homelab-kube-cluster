@@ -52,3 +52,39 @@ spec:
 # buildah --root /tmp/storage manifest create memegen | tr -d '\n'
 # 
 # 
+# kubectl run buildah-troubleshooting --rm -it -n default \
+# --overrides='{
+#     "apiVersion":"v1",
+#     "spec":{
+#         "nodeName":"talos-cp03",
+#         "volumes":[
+#             {
+#                 "name": "jenkins-home",
+#                 "persistentVolumeClaim": {
+#                     "claimName": "jenkins-jenkins-home"
+#                 }
+#             }
+#         ]
+#     }
+# }' \
+# --pod-running-timeout 3m --privileged \
+# --image=quay.io/buildah/stable:v1.23.3 \
+# --command -- /bin/bash
+
+# kubectl run buildah-troubleshooting --rm -it -n default \
+# --overrides='{"apiVersion":"v1","spec":{"nodeName":"talos-cp03"}}' \
+# --pod-running-timeout 3m --privileged \
+# --image=quay.io/buildah/stable:v1.23.3 \
+# --command -- /bin/bash
+
+# kubectl run buildah-troubleshooting --rm -it -n default \
+# --overrides='{"apiVersion":"v1","spec":{"nodeName":"talos-cp03"}}' \
+# --pod-running-timeout 3m --privileged \
+# --image=quay.io/buildah/stable:v1.23.3 \
+# --command -- /bin/bash
+
+# kubectl run buildah-troubleshooting --rm -it -n default \
+# --overrides='{"apiVersion":"v1","spec":{"nodeName":"talos-cp03"}}' \
+# --pod-running-timeout 3m --privileged \
+# --image=quay.io/buildah/stable:v1.23.3 \
+# --command -- /bin/bash

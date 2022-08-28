@@ -72,10 +72,8 @@ spec:
       params:
         - name: IMAGE
           value: "ghcr.io/danmanners/excalidraw:$(params.gitRevision)"
-        # - name: DOCKERFILE
-        #   value: "Containerfile"
-        - name: BUILD_EXTRA_ARGS
-          value: "--jobs=2 --platform=linux/amd64,linux/arm64"
+        # - name: BUILD_EXTRA_ARGS
+        #   value: "--jobs=2 --platform=linux/amd64,linux/arm64"
         - name: PUSH_EXTRA_ARGS
           value: "--all"
       workspaces:
@@ -100,6 +98,12 @@ spec:
         hostNetwork: true
         nodeSelector:
           kubernetes.io/arch: amd64
+    # Build the arm64 image on dedicated arm64 hardware
+    # - pipelineTaskName: arm64
+    #   taskPodTemplate:
+    #     hostNetwork: true
+    #     nodeSelector:
+    #       kubernetes.io/arch: arm64
   workspaces:
     # ConfigMap
     - name: dockerfile
@@ -118,5 +122,3 @@ spec:
           resources:
             requests:
               storage: 5Gi
-      # persistentVolumeClaim:
-      # claimName: tekton-builder-excalidraw
