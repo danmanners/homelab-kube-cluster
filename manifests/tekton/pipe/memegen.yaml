@@ -118,19 +118,16 @@ spec:
     # Build the amd64 image on dedicated amd64 hardware
     - pipelineTaskName: amd64
       taskPodTemplate:
-        # hostNetwork: true
         nodeSelector:
           kubernetes.io/arch: amd64
     # Build the arm64 image on dedicated arm64 hardware
     - pipelineTaskName: arm64
       taskPodTemplate:
-        # hostNetwork: true
         nodeSelector:
           kubernetes.io/arch: arm64
     # Faster Networking on the amd64 nodes
     - pipelineTaskName: push
       taskPodTemplate:
-        # hostNetwork: true
         nodeSelector:
           kubernetes.io/arch: amd64
   workspaces:
@@ -144,8 +141,6 @@ spec:
           resources:
             requests:
               storage: 2Gi
-      # persistentVolumeClaim:
-      # claimName: tekton-builder-memegen
     - name: containers
       volumeClaimTemplate:
         spec:

@@ -167,8 +167,6 @@ spec:
           resources:
             requests:
               storage: 1Gi
-      # persistentVolumeClaim:
-      # claimName: tekton-builder-excalidraw
     - name: containers
       volumeClaimTemplate:
         spec:
