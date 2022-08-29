@@ -92,7 +92,7 @@ spec:
     - name: push
       taskRef:
         kind: ClusterTask
-        name: buildah-testing
+        name: buildah-push
       workspaces:
         - name: containers
           workspace: containers
