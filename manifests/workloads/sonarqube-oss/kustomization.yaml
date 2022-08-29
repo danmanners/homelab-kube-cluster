@@ -19,7 +19,7 @@ helmCharts:
 images:
   - name: sonarqube-image
     newName: sonarqube
-    newTag: 9.6.0-community
+    newTag: 9.6.1-community
   - name: postgres-init-db
     newName: ghcr.io/onedr0p/postgres-initdb
     newTag: "14.5"
