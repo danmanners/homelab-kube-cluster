@@ -1,0 +1,22 @@
+---
+global:
+  nameOverride: excalidraw
+
+controller:
+  replicas: 3
+
+image:
+  repository: excalidraw-image
+  pullPolicy: IfNotPresent
+
+service:
+  main:
+    enabled: true
+    type: ClusterIP
+    ports:
+      http:
+        port: 8080
+
+ingress:
+  main:
+    enabled: false
