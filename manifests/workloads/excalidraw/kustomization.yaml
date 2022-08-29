@@ -5,9 +5,15 @@ namespace: excalidraw
 
 resources:
   - namespace.yaml
-  - deployment.yaml
   - ingress.yaml
-  - service.yaml
+
+helmCharts:
+  - name: kah-common-chart
+    releaseName: excalidraw
+    namespace: excalidraw
+    repo: https://k8s-at-home.com/charts
+    version: 1.2.2
+    valuesFile: values.yaml
 
 images:
   - name: excalidraw-image
