@@ -26,7 +26,7 @@ spec:
       kind: Rule
       services:
         - name: excalidraw
-          port: 80
+          port: 8080
       middlewares:
         - name: http-https-redirectscheme
           namespace: kube-system
@@ -34,7 +34,7 @@ spec:
       kind: Rule
       services:
         - name: excalidraw
-          port: 80
+          port: 8080
       middlewares:
         - name: http-https-redirectscheme
           namespace: kube-system
@@ -52,6 +52,6 @@ spec:
       kind: Rule
       services:
         - name: excalidraw
-          port: 80
+          port: 8080
   tls:
     secretName: excalidraw

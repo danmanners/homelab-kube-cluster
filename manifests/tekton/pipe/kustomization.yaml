@@ -10,7 +10,7 @@ resources:
 configMapGenerator:
   - name: excalidraw
     files:
-      - files/Dockerfile
+      - files/excalidraw.Dockerfile
 
 generatorOptions:
   disableNameSuffixHash: true

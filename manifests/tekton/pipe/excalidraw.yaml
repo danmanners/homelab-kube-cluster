@@ -155,7 +155,7 @@ spec:
       configMap:
         name: excalidraw
         items:
-          - key: Dockerfile
+          - key: excalidraw.Dockerfile
             path: Dockerfile
     # Disk Volumes
     - name: ws
