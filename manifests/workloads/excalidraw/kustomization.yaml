@@ -12,4 +12,4 @@ resources:
 images:
   - name: excalidraw-image
     newName: ghcr.io/danmanners/excalidraw
-    newTag: 0a89c4b
+    newTag: main
