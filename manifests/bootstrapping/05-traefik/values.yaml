@@ -3,6 +3,8 @@ image:
   name: traefik
   pullPolicy: IfNotPresent
 
+tolerations:
+  - operator: Exists
 #
 # Configure the deployment
 #
