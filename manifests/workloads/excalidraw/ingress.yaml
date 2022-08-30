@@ -1,4 +1,18 @@
 ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: whiteboard-danmanners-extname
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: whiteboard.danmanners.com
+    external-dns.alpha.kubernetes.io/ttl: "300"
+  labels:
+    app.kubernetes.io/name: excalidraw
+spec:
+  type: ExternalName
+  externalName: kube.danmanners.com
+  sessionAffinity: None
+---
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
@@ -26,7 +40,7 @@ spec:
       kind: Rule
       services:
         - name: excalidraw
-          port: 8080
+          port: http
       middlewares:
         - name: http-https-redirectscheme
           namespace: kube-system
@@ -34,7 +48,7 @@ spec:
       kind: Rule
       services:
         - name: excalidraw
-          port: 8080
+          port: http
       middlewares:
         - name: http-https-redirectscheme
           namespace: kube-system
@@ -52,6 +66,6 @@ spec:
       kind: Rule
       services:
         - name: excalidraw
-          port: 8080
+          port: http
   tls:
     secretName: excalidraw
