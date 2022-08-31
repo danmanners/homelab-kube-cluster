@@ -8,5 +8,5 @@ helmCharts:
     releaseName: rook-ceph
     namespace: rook-ceph
     repo: https://charts.rook.io/release
-    version: v1.9.9
+    version: v1.10.0
     valuesFile: values.yaml
