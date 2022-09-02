@@ -11,36 +11,36 @@ spec:
   issuerRef:
     name: acme-prod
     kind: ClusterIssuer
----
-apiVersion: traefik.containo.us/v1alpha1
-kind: IngressRoute
-metadata:
-  name: grafana-danmanners-com-web
-spec:
-  entryPoints:
-    - web
-  routes:
-    - match: Host(`grafana.danmanners.com`)
-      kind: Rule
-      services:
-        - name: kps-grafana
-          port: 80
-      middlewares:
-        - name: http-https-redirectscheme
-          namespace: kube-system
----
-apiVersion: traefik.containo.us/v1alpha1
-kind: IngressRoute
-metadata:
-  name: grafana-danmanners-com-websecure
-spec:
-  entryPoints:
-    - websecure
-  routes:
-    - match: Host(`grafana.danmanners.com`)
-      kind: Rule
-      services:
-        - name: kps-grafana
-          port: 80
-  tls:
-    secretName: grafana-danmanners-com
+# ---
+# apiVersion: traefik.containo.us/v1alpha1
+# kind: IngressRoute
+# metadata:
+#   name: grafana-danmanners-com-web
+# spec:
+#   entryPoints:
+#     - web
+#   routes:
+#     - match: Host(`grafana.danmanners.com`)
+#       kind: Rule
+#       services:
+#         - name: kps-grafana
+#           port: 80
+#       middlewares:
+#         - name: http-https-redirectscheme
+#           namespace: kube-system
+# ---
+# apiVersion: traefik.containo.us/v1alpha1
+# kind: IngressRoute
+# metadata:
+#   name: grafana-danmanners-com-websecure
+# spec:
+#   entryPoints:
+#     - websecure
+#   routes:
+#     - match: Host(`grafana.danmanners.com`)
+#       kind: Rule
+#       services:
+#         - name: kps-grafana
+#           port: 80
+#   tls:
+#     secretName: grafana-danmanners-com
