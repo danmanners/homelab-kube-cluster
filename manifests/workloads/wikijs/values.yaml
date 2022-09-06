@@ -4,7 +4,7 @@ global:
 
 image:
   repository: ghcr.io/linuxserver/wikijs
-  tag: "2.5.286"
+  tag: "2.5.287"
   pullPolicy: IfNotPresent
 
 initContainers:
