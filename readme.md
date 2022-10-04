@@ -1,24 +1,6 @@
 # Dan Manners' Homelab
 
-<html>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-  .alert {
-    padding: 18px;
-    border-radius: 20px;
-    background-color: #5d95f5;
-    color: white;
-  }
-</style>
-</head>
-<body>
-  <div class="alert">
-    <strong>Notice - </strong> This repository is on hold for a little while I'm working on non-tech related things. I'm planning on being back early 2023 in full swing, working on more Kubernetes and cloud things in the homelab! 🙂
-  </div>
-  </body>
-  <br>
-</html>
+> <strong>Notice - </strong> This repository is on hold for a little while I'm working on non-tech related things. I'm planning on being back early 2023 in full swing, working on more Kubernetes and cloud things in the homelab! 🙂
 
 Current status: **BETA** (but is highly stable)
 
