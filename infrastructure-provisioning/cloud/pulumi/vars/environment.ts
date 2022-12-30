@@ -39,7 +39,7 @@ export const compute = {
     {
       "name": "k3s-control-1",
       "instance_size": "t4g.small",
-      "subnet_id": "private1a",
+      "subnet_name": "private1a",
       "root_volume_size": 16,
     },
   ],
@@ -47,13 +47,13 @@ export const compute = {
     {
       "name": "k3s-worker-1",
       "instance_size": "t3.small",
-      "subnet_id": "private1a",
+      "subnet_name": "public1a",
       "root_volume_size": 32,
     },
     {
       "name": "k3s-worker-2",
       "instance_size": "t3.small",
-      "subnet_id": "private1a",
+      "subnet_name": "public1a",
       "root_volume_size": 32,
     }
   ]
