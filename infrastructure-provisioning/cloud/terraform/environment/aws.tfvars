@@ -15,11 +15,19 @@ network = {
         name       = "public1a"
         cidr_block = "172.29.0.0/23"
       }
+      public1b = {
+        name       = "public1b"
+        cidr_block = "172.29.2.0/23"
+      }
     }
     private = {
       private1a = {
         name       = "private1a"
         cidr_block = "172.29.14.0/23"
+      }
+      private1b = {
+        name       = "private1b"
+        cidr_block = "172.29.12.0/23"
       }
     }
   }
