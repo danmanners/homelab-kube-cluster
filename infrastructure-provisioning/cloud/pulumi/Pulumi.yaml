@@ -1,3 +1,4 @@
 name: homelab
-runtime: nodejs
+runtime:
+  name: nodejs
 description: Pulumi Codebase for my AWS-based homelab

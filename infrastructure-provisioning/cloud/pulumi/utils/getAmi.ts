@@ -1,5 +1,4 @@
 import * as aws from "@pulumi/aws";
-import * as config from "../vars/environment"
 
 // Get the latest Ubuntu AMI
 export async function getUbuntuAmi() {

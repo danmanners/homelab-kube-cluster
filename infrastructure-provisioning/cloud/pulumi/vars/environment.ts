@@ -6,6 +6,7 @@ export const cloud_auth = {
 export const network = {
   // VPC Cidr Block Definition
   "vpc": {
+    "name": "homelab-vpc",
     "cidr_block": "172.29.0.0/20"
   },
   // Subnet Definitions
@@ -14,20 +15,24 @@ export const network = {
       {
         "name": "public1a",
         "cidr_block": "172.29.0.0/23",
+        "az": "a",
       },
       {
         "name": "public1b",
         "cidr_block": "172.29.2.0/23",
+        "az": "b",
       },
     ],
     "private": [
       {
         "name": "private1a",
         "cidr_block": "172.29.14.0/23",
+        "az": "a",
       },
       {
         "name": "private1b",
         "cidr_block": "172.29.12.0/23",
+        "az": "b",
       },
     ]
   }
