@@ -1,3 +1,5 @@
+import {Node} from "../types/types"
+
 export const cloud_auth = {
   "aws_region": "us-east-1",
   "aws_profile": "default"
@@ -39,7 +41,7 @@ export const network = {
 }
 
 // Compute
-export const compute = {
+export const compute: {control_planes: Node[], workers: Node[] } = {
   "control_planes": [
     {
       "name": "k3s-control-1",
@@ -52,15 +54,15 @@ export const compute = {
     {
       "name": "k3s-worker-1",
       "instance_size": "t3.small",
-      "subnet_name": "public1a",
+      "subnet_name": "private1a",
       "root_volume_size": 32,
     },
     {
       "name": "k3s-worker-2",
       "instance_size": "t3.small",
-      "subnet_name": "public1a",
+      "subnet_name": "private1b",
       "root_volume_size": 32,
-    }
+    },
   ]
 }
 
