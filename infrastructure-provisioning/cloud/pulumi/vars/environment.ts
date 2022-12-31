@@ -1,4 +1,4 @@
-import {Node} from "../types/types"
+import { Node } from "../types/types"
 
 export const cloud_auth = {
   "aws_region": "us-east-1",
@@ -41,7 +41,7 @@ export const network = {
 }
 
 // Compute
-export const compute: {control_planes: Node[], workers: Node[] } = {
+export const compute: { control_planes: Node[], workers: Node[] } = {
   "control_planes": [
     {
       "name": "k3s-control-1",

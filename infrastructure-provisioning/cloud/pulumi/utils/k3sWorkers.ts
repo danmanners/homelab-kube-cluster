@@ -1,14 +1,15 @@
 import * as aws from "@pulumi/aws";
 import * as pulumi from "@pulumi/pulumi";
 import { getUbuntuAmi } from "./getAmi"
-import {Node, NetworkingPreview} from "../types/types"
+import { Node, NetworkingPreview } from "../types/types"
 
 // Provision a K3s worker
 export function createK3sWorkers(
   compute: Node[],
   tags: { [key: string]: any },
-  networking: NetworkingPreview): { name: string, privateIP: pulumi.Output<string>
-}[] {
+  networking: NetworkingPreview): {
+    name: string, privateIP: pulumi.Output<string>
+  }[] {
   // Create the K3s final array
   const k3sworkers = []
   // Create the K3s Workers
@@ -25,7 +26,7 @@ export function createK3sWorkers(
     if (networking.private_subnets[node.subnet_name] !== undefined) {
       subnetId = networking.private_subnets[node.subnet_name].id
     }
-  
+
     if (networking.public_subnets[node.subnet_name] !== undefined) {
       subnetId = networking.public_subnets[node.subnet_name].id
     }
@@ -33,7 +34,6 @@ export function createK3sWorkers(
     if (subnetId == undefined) {
       throw new Error("shouldn't happen")
     }
-
 
     const s = new aws.ec2.Instance(node.name, {
       ami: getUbuntuAmi().then(ubuntu => ubuntu.id),

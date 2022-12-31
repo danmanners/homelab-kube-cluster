@@ -7,9 +7,8 @@ export type NetworkingPreview = {
     name: pulumi.Output<string>
   }
 
-  public_subnets: {[name: string]: { id: pulumi.Input<string> }}
-
-  private_subnets: {[name: string]: { id: pulumi.Input<string> }}
+  public_subnets: { [name: string]: { id: pulumi.Input<string> } }
+  private_subnets: { [name: string]: { id: pulumi.Input<string> } }
 }
 
 export type Node = {

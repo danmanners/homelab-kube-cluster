@@ -1,8 +1,3 @@
-// Pulumi Functions
-import * as pulumi from "@pulumi/pulumi";
-import * as aws from "@pulumi/aws";
-
-
 // Environment Variable Imports
 import * as config from "./vars/environment"
 
@@ -18,8 +13,8 @@ const networking = vpcProvision(
   config.tags
 )
 
- const k3sWorkers = createK3sWorkers(
-   config.compute.workers,
-   config.tags, 
-   networking
- )
+const k3sWorkers = createK3sWorkers(
+  config.compute.workers,
+  config.tags,
+  networking
+)
