@@ -1,4 +1,4 @@
-import * as aws from "@pulumi/aws";
+import * as aws from "@pulumi/aws"
 
 // Get the latest Ubuntu AMI
 export async function getUbuntuAmi() {
@@ -15,6 +15,6 @@ export async function getUbuntuAmi() {
       },
     ],
     owners: ["099720109477"],
-  });
+  })
   return ubuntuAmi
 }
