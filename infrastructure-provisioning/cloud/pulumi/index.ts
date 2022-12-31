@@ -11,18 +11,15 @@ import { createK3sWorkers } from "./utils/k3sWorkers"
 import { vpcProvision } from "./utils/vpc"
 
 const networking = vpcProvision(
+  config.cloud_auth.aws_region,
   config.network.vpc,
   config.network.subnets.public,
   config.network.subnets.private,
   config.tags
 )
 
-// createK3sWorkers(
-//   config.compute.workers,
-//   config.tags
-// )
-
-// Create K3s Workers
-
-// // Export the name of the bucket
-// export { networking }
+ const k3sWorkers = createK3sWorkers(
+   config.compute.workers,
+   config.tags, 
+   networking
+ )
