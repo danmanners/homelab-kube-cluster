@@ -1,6 +1,6 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as aws from "@pulumi/aws";
-import {NetworkingPreview} from "../types/types"
+import { NetworkingPreview } from "../types/types"
 
 // Provision the VPC and associated resources
 export function vpcProvision(
@@ -20,7 +20,7 @@ export function vpcProvision(
   })
 
   // Create Public Subnets
-  const pubSubnets: {[name: string]: { id: pulumi.Output<string> }} = {}
+  const pubSubnets: { [name: string]: { id: pulumi.Output<string> } } = {}
   for (const subnet of publicSubnets) {
     const s = new aws.ec2.Subnet(subnet.name, {
       vpcId: vpc_setup.id,
@@ -32,12 +32,12 @@ export function vpcProvision(
         { "Name": subnet.name }
       )
     })
-    pubSubnets[subnet.name] = {id: s.id}
+    pubSubnets[subnet.name] = { id: s.id }
     //pubSubnets.push({ "name": subnet.name, "id": s.id })
   }
 
   // Create Private Subnets
-  const privSubnets: {[name: string]: { id: pulumi.Output<string> }} = {}
+  const privSubnets: { [name: string]: { id: pulumi.Output<string> } } = {}
   for (const subnet of privateSubnets) {
     const s = new aws.ec2.Subnet(subnet.name, {
       vpcId: vpc_setup.id,
@@ -48,7 +48,7 @@ export function vpcProvision(
         { "Name": subnet.name }
       )
     })
-    privSubnets[subnet.name] = {id: s.id}
+    privSubnets[subnet.name] = { id: s.id }
   }
 
   // Build the return output
