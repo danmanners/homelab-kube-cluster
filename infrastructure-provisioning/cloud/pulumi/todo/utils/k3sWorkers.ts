@@ -1,5 +1,5 @@
-import * as aws from "@pulumi/aws";
-import * as pulumi from "@pulumi/pulumi";
+import * as aws from "@pulumi/aws"
+import * as pulumi from "@pulumi/pulumi"
 import { getUbuntuAmi } from "./getAmi"
 import { Node, NetworkingPreview } from "../types/types"
 
@@ -10,32 +10,27 @@ export function createK3sWorkers(
   networking: NetworkingPreview): {
     name: string, privateIP: pulumi.Output<string>
   }[] {
-  // Create the K3s final array
+  // Create the K3s object array
   const k3sworkers = []
-  // Create the K3s Workers
   for (const node of compute) {
-    // const v = aws.ec2.getSubnet({
-    //   filters: [{
-    //     name: "tag:Name",
-    //     values: [node.subnet_name]
-    //   }]
-    // })
     // Check for the subnetId
     let subnetId: pulumi.Input<string> | undefined
 
+    // Check if we're doing private subnets
     if (networking.private_subnets[node.subnet_name] !== undefined) {
       subnetId = networking.private_subnets[node.subnet_name].id
     }
-
+    // Check if we're doing public subnets
     if (networking.public_subnets[node.subnet_name] !== undefined) {
       subnetId = networking.public_subnets[node.subnet_name].id
     }
-
+    // If subnetId isn't definied, throw an error and die
     if (subnetId == undefined) {
       throw new Error("shouldn't happen")
     }
 
-    const s = new aws.ec2.Instance(node.name, {
+  // Create a K3s Workers for each 
+  const s = new aws.ec2.Instance(node.name, {
       ami: getUbuntuAmi().then(ubuntu => ubuntu.id),
       instanceType: node.instance_size,
       subnetId: subnetId,
@@ -50,6 +45,6 @@ export function createK3sWorkers(
     // Add each node to the K3s array
     k3sworkers.push({ name: node.name, privateIP: s.privateIp })
   }
-  // Return the final object
+  // Return the final object back
   return k3sworkers
 }

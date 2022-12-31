@@ -1,6 +1,7 @@
-import * as pulumi from "@pulumi/pulumi";
-import * as aws from "@pulumi/aws";
+import * as pulumi from "@pulumi/pulumi"
+import * as aws from "@pulumi/aws"
 import { NetworkingPreview } from "../types/types"
+import { network } from "../vars/environment"
 
 // Provision the VPC and associated resources
 export function vpcProvision(
@@ -19,6 +20,14 @@ export function vpcProvision(
     )
   })
 
+  // Internet Gateway
+  const gw = new aws.ec2.InternetGateway("gw", {
+    vpcId: vpc_setup.id,
+    tags: Object.assign({},
+      tags, { "Name": vpc.name + "-igw" }
+    )
+  })
+
   // Create Public Subnets
   const pubSubnets: { [name: string]: { id: pulumi.Output<string> } } = {}
   for (const subnet of publicSubnets) {
@@ -33,7 +42,6 @@ export function vpcProvision(
       )
     })
     pubSubnets[subnet.name] = { id: s.id }
-    //pubSubnets.push({ "name": subnet.name, "id": s.id })
   }
 
   // Create Private Subnets
@@ -52,9 +60,37 @@ export function vpcProvision(
   }
 
   // Build the return output
-  network_output['vpc'] = { arn: vpc.arn, id: vpc.id, name: vpc.name }
+  network_output['vpc'] = {
+    name: vpc.name,
+    arn: vpc.arn,
+    id: vpc.id,
+  }
   network_output['public_subnets'] = pubSubnets
   network_output['private_subnets'] = privSubnets
+
+  // Elastic IP for the NAT Gateway
+  const natgw_eip = new aws.ec2.Eip("natgw", {
+    vpc: true,
+    tags: Object.assign({},
+      tags, { "Name": vpc.name + "-igw-eip" }
+    )
+  })
+
+  // NAT Gateway
+  const natgw = new aws.ec2.NatGateway("natgw", {
+    allocationId: natgw_eip.id,
+    subnetId: network_output,
+    tags: Object.assign({},
+      tags, { "Name": vpc.name + "-ngw" }
+    )
+  })
+
+  // Public Subnet Route Tables
+  // Private Subnet Route Tables
+  // Public Subnet Routes
+  // Private Subnet Routes
+  // Public Subnet Route Table Associations
+  // Private Subnet Route Table Associations
 
   // Return the output
   return network_output

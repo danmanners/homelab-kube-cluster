@@ -1,20 +1,19 @@
-// Environment Variable Imports
+import * as aws from "@pulumi/aws"
+import * as pulumi from "@pulumi/pulumi"
 import * as config from "./vars/environment"
 
-// Function Imports
-import { createK3sWorkers } from "./utils/k3sWorkers"
-import { vpcProvision } from "./utils/vpc"
+const vpc = new aws.ec2.Vpc("primary", {
+  cidrBlock: config.network.vpc.cidr_block,
+  tags: Object.assign({},
+    config.tags,
+    { "Name": config.network.vpc.name }
+  )
+})
 
-const networking = vpcProvision(
-  config.cloud_auth.aws_region,
-  config.network.vpc,
-  config.network.subnets.public,
-  config.network.subnets.private,
-  config.tags
-)
-
-const k3sWorkers = createK3sWorkers(
-  config.compute.workers,
-  config.tags,
-  networking
-)
+// Internet Gateway
+const gw = new aws.ec2.InternetGateway("gw", {
+  vpcId: vpc.id,
+  tags: Object.assign({},
+    config.tags, { "Name": config.network.vpc.name + "-igw" }
+  )
+})
