@@ -17,7 +17,7 @@ const routeTableRoutes: RouteTableIds = {}
 const vpc = new aws.ec2.Vpc("primary", {
   cidrBlock: config.network.vpc.cidr_block,
   tags: Object.assign({},
-    config.tags, { "Name": config.network.vpc.name }
+    config.tags, { Name: config.network.vpc.name }
   )
 })
 
@@ -26,11 +26,14 @@ for (const subnet of config.network.subnets.public) {
   const s = new aws.ec2.Subnet(subnet.name, {
     vpcId: vpc.id,
     cidrBlock: subnet.cidr_block,
-    availabilityZone: config.cloud_auth.aws_region + subnet.az,
+    availabilityZone: `${config.cloud_auth.aws_region}${subnet.az}`,
     mapPublicIpOnLaunch: true,
     tags: Object.assign({},
-      config.tags, { "Name": subnet.name }
-    )
+      config.tags, {
+      Name: subnet.name,
+      "kubernetes.io/role/elb": "true",
+      "kubernetes.io/cluster/cluster-name": "shared"
+    })
   })
   pubSubnets[subnet.name] = { id: s.id }
   Object.assign({}, pubSubnets[subnet.name].id = s.id)
@@ -41,9 +44,9 @@ for (const subnet of config.network.subnets.private) {
   const s = new aws.ec2.Subnet(subnet.name, {
     vpcId: vpc.id,
     cidrBlock: subnet.cidr_block,
-    availabilityZone: config.cloud_auth.aws_region + subnet.az,
+    availabilityZone: `${config.cloud_auth.aws_region}${subnet.az}`,
     tags: Object.assign({},
-      config.tags, { "Name": subnet.name }
+      config.tags, { Name: subnet.name }
     )
   })
   privSubnets[subnet.name] = { id: s.id }
@@ -53,7 +56,7 @@ for (const subnet of config.network.subnets.private) {
 const gw = new aws.ec2.InternetGateway("gw", {
   vpcId: vpc.id,
   tags: Object.assign({},
-    config.tags, { "Name": config.network.vpc.name + "-igw" }
+    config.tags, { Name: `${config.network.vpc.name}-igw` }
   )
 })
 
@@ -61,7 +64,7 @@ const gw = new aws.ec2.InternetGateway("gw", {
 const natgw_eip = new aws.ec2.Eip("natgw", {
   vpc: true,
   tags: Object.assign({},
-    config.tags, { "Name": config.network.vpc.name + "-igw-eip" }
+    config.tags, { Name: `${config.network.vpc.name}-igw` }
   )
 })
 
@@ -71,7 +74,7 @@ const natgw = new aws.ec2.NatGateway("natgw", {
   subnetId: pubSubnets[config.network.subnets.public[0].name].id,
   // TODO: figure out how to make this less crap
   tags: Object.assign({},
-    config.tags, { "Name": config.network.vpc.name + "-ngw" }
+    config.tags, { Name: `${config.network.vpc.name}-ngw` }
   )
 })
 
@@ -80,7 +83,7 @@ for (const subnet of config.network.subnets.public) {
   const rt = new aws.ec2.RouteTable(`${config.network.vpc.name}-${subnet.name}`, {
     vpcId: vpc.id,
     tags: Object.assign({},
-      config.tags, { "Name": subnet.name }
+      config.tags, { Name: subnet.name }
     ),
   })
   routeTables[`${subnet.name}`] = rt.id
@@ -91,7 +94,7 @@ for (const subnet of config.network.subnets.private) {
   const rt = new aws.ec2.RouteTable(`${config.network.vpc.name}-${subnet.name}`, {
     vpcId: vpc.id,
     tags: Object.assign({},
-      config.tags, { "Name": subnet.name }
+      config.tags, { Name: subnet.name }
     ),
   })
   routeTables[`${subnet.name}`] = rt.id
@@ -112,7 +115,7 @@ for (const [key, value] of Object.entries(privSubnets)) {
   const route = new aws.ec2.Route(`${key}-ro`, {
     routeTableId: routeTables[key],
     destinationCidrBlock: "0.0.0.0/0",
-    gatewayId: natgw.id
+    natGatewayId: natgw.id
   })
   routeTableRoutes[`${key}-route`] = route.id
 }
@@ -133,17 +136,403 @@ for (const [key, value] of Object.entries(privSubnets)) {
   })
 }
 
-// TODO: Everything below
-// Create IAM Policies
-  // SSM Parameter Read
-  // Load Balancer Read/Write
-  // Route53 Read/Write
-  // S3 Read/Write
-  // EBS Read/Write
-// Create IAM Role
-// Associcate IAM to Role
+/* TODO: Everything below
+  Create IAM Policiess
+  - Load Balancer - Read/Write
+  - Route53 Read/Write
+  - Network Interface Read/Write
+  - EBS Read/Write - https://docs.aws.amazon.com/eks/latest/userguide/csi-iam-role.html
+*/
+const nodePolicy = new aws.iam.Policy("talosNodePolicies", {
+  path: "/",
+  description: "Policy for Talos Kubernetes Nodes",
+  policy: JSON.stringify({
+    Version: "2012-10-17",
+    Statement: [
+      // AWS VPC CNI - https://github.com/aws/amazon-vpc-cni-k8s/blob/master/docs/iam-policy.md
+      {
+        Effect: "Allow",
+        Action: [
+          "ec2:AssignPrivateIpAddresses",
+          "ec2:AttachNetworkInterface",
+          "ec2:CreateNetworkInterface",
+          "ec2:DeleteNetworkInterface",
+          "ec2:DescribeInstances",
+          "ec2:DescribeTags",
+          "ec2:DescribeNetworkInterfaces",
+          "ec2:DescribeInstanceTypes",
+          "ec2:DetachNetworkInterface",
+          "ec2:ModifyNetworkInterfaceAttribute",
+          "ec2:UnassignPrivateIpAddresses"
+        ],
+        Resource: "*"
+      },
+      {
+        Effect: "Allow",
+        Action: ["ec2:CreateTags"],
+        Resource: ["arn:aws:ec2:*:*:network-interface/*"]
+      },
+      // Cert-Manager - https://cert-manager.io/docs/configuration/acme/dns01/route53/
+      {
+        Effect: "Allow",
+        Action: "route53:GetChange",
+        Resource: "arn:aws:route53:::change/*"
+      },
+      {
+        Effect: "Allow",
+        Action: [
+          "route53:ChangeResourceRecordSets",
+          "route53:ListResourceRecordSets"
+        ],
+        Resource: "arn:aws:route53:::hostedzone/*"
+      },
+      {
+        Effect: "Allow",
+        Action: "route53:ListHostedZonesByName",
+        Resource: "*"
+      },
+      // External DNS - https://aws.amazon.com/premiumsupport/knowledge-center/eks-set-up-externaldns/
+      {
+        Effect: "Allow",
+        Action: ["route53:ChangeResourceRecordSets"],
+        Resource: ["arn:aws:route53:::hostedzone/*"]
+      },
+      {
+        Effect: "Allow",
+        Action: [
+          "route53:ListHostedZones",
+          "route53:ListResourceRecordSets"
+        ],
+        Resource: "*"
+      },
+      // AWS Load Balancer Controller - https://github.com/kubernetes-sigs/aws-load-balancer-controller/blob/5634fa2e1ab417a9a0167a1d561b04523f2965ff/docs/install/iam_policy.json
+      {
+        Effect: "Allow",
+        Action: ["iam:CreateServiceLinkedRole"],
+        Resource: "*",
+        Condition: {
+          StringEquals: {
+            "iam:AWSServiceName": "elasticloadbalancing.amazonaws.com"
+          }
+        }
+      },
+      {
+        Effect: "Allow",
+        Action: [
+          "ec2:DescribeAccountAttributes",
+          "ec2:DescribeAddresses",
+          "ec2:DescribeAvailabilityZones",
+          "ec2:DescribeInternetGateways",
+          "ec2:DescribeVpcs",
+          "ec2:DescribeVpcPeeringConnections",
+          "ec2:DescribeSubnets",
+          "ec2:DescribeSecurityGroups",
+          "ec2:DescribeInstances",
+          "ec2:DescribeNetworkInterfaces",
+          "ec2:DescribeTags",
+          "ec2:GetCoipPoolUsage",
+          "ec2:DescribeCoipPools",
+          "elasticloadbalancing:DescribeLoadBalancers",
+          "elasticloadbalancing:DescribeLoadBalancerAttributes",
+          "elasticloadbalancing:DescribeListeners",
+          "elasticloadbalancing:DescribeListenerCertificates",
+          "elasticloadbalancing:DescribeSSLPolicies",
+          "elasticloadbalancing:DescribeRules",
+          "elasticloadbalancing:DescribeTargetGroups",
+          "elasticloadbalancing:DescribeTargetGroupAttributes",
+          "elasticloadbalancing:DescribeTargetHealth",
+          "elasticloadbalancing:DescribeTags"
+        ],
+        Resource: "*"
+      },
+      {
+        Effect: "Allow",
+        Action: [
+          "cognito-idp:DescribeUserPoolClient",
+          "acm:ListCertificates",
+          "acm:DescribeCertificate",
+          "iam:ListServerCertificates",
+          "iam:GetServerCertificate",
+          "waf-regional:GetWebACL",
+          "waf-regional:GetWebACLForResource",
+          "waf-regional:AssociateWebACL",
+          "waf-regional:DisassociateWebACL",
+          "wafv2:GetWebACL",
+          "wafv2:GetWebACLForResource",
+          "wafv2:AssociateWebACL",
+          "wafv2:DisassociateWebACL",
+          "shield:GetSubscriptionState",
+          "shield:DescribeProtection",
+          "shield:CreateProtection",
+          "shield:DeleteProtection"
+        ],
+        Resource: "*"
+      },
+      {
+        Effect: "Allow",
+        Action: [
+          "ec2:AuthorizeSecurityGroupIngress",
+          "ec2:RevokeSecurityGroupIngress"
+        ],
+        Resource: "*"
+      },
+      {
+        Effect: "Allow",
+        Action: [
+          "ec2:CreateSecurityGroup"
+        ],
+        Resource: "*"
+      },
+      {
+        Effect: "Allow",
+        Action: [
+          "ec2:CreateTags"
+        ],
+        Resource: "arn:aws:ec2:*:*:security-group/*",
+        Condition: {
+          "StringEquals": {
+            "ec2:CreateAction": "CreateSecurityGroup"
+          },
+          Null: {
+            "aws:RequestTag/elbv2.k8s.aws/cluster": "false"
+          }
+        }
+      },
+      {
+        Effect: "Allow",
+        Action: [
+          "ec2:CreateTags",
+          "ec2:DeleteTags"
+        ],
+        Resource: "arn:aws:ec2:*:*:security-group/*",
+        Condition: {
+          Null: {
+            "aws:RequestTag/elbv2.k8s.aws/cluster": "true",
+            "aws:ResourceTag/elbv2.k8s.aws/cluster": "false"
+          }
+        }
+      },
+      {
+        Effect: "Allow",
+        Action: [
+          "ec2:AuthorizeSecurityGroupIngress",
+          "ec2:RevokeSecurityGroupIngress",
+          "ec2:DeleteSecurityGroup"
+        ],
+        Resource: "*",
+        Condition: {
+          Null: {
+            "aws:ResourceTag/elbv2.k8s.aws/cluster": "false"
+          }
+        }
+      },
+      {
+        Effect: "Allow",
+        Action: [
+          "elasticloadbalancing:CreateLoadBalancer",
+          "elasticloadbalancing:CreateTargetGroup"
+        ],
+        Resource: "*",
+        Condition: {
+          Null: {
+            "aws:RequestTag/elbv2.k8s.aws/cluster": "false"
+          }
+        }
+      },
+      {
+        Effect: "Allow",
+        Action: [
+          "elasticloadbalancing:CreateListener",
+          "elasticloadbalancing:DeleteListener",
+          "elasticloadbalancing:CreateRule",
+          "elasticloadbalancing:DeleteRule"
+        ],
+        Resource: "*"
+      },
+      {
+        Effect: "Allow",
+        Action: [
+          "elasticloadbalancing:AddTags",
+          "elasticloadbalancing:RemoveTags"
+        ],
+        Resource: [
+          "arn:aws:elasticloadbalancing:*:*:targetgroup/*/*",
+          "arn:aws:elasticloadbalancing:*:*:loadbalancer/net/*/*",
+          "arn:aws:elasticloadbalancing:*:*:loadbalancer/app/*/*"
+        ],
+        Condition: {
+          Null: {
+            "aws:RequestTag/elbv2.k8s.aws/cluster": "true",
+            "aws:ResourceTag/elbv2.k8s.aws/cluster": "false"
+          }
+        }
+      },
+      {
+        Effect: "Allow",
+        Action: [
+          "elasticloadbalancing:AddTags",
+          "elasticloadbalancing:RemoveTags"
+        ],
+        Resource: [
+          "arn:aws:elasticloadbalancing:*:*:listener/net/*/*/*",
+          "arn:aws:elasticloadbalancing:*:*:listener/app/*/*/*",
+          "arn:aws:elasticloadbalancing:*:*:listener-rule/net/*/*/*",
+          "arn:aws:elasticloadbalancing:*:*:listener-rule/app/*/*/*"
+        ]
+      },
+      {
+        Effect: "Allow",
+        Action: [
+          "elasticloadbalancing:ModifyLoadBalancerAttributes",
+          "elasticloadbalancing:SetIpAddressType",
+          "elasticloadbalancing:SetSecurityGroups",
+          "elasticloadbalancing:SetSubnets",
+          "elasticloadbalancing:DeleteLoadBalancer",
+          "elasticloadbalancing:ModifyTargetGroup",
+          "elasticloadbalancing:ModifyTargetGroupAttributes",
+          "elasticloadbalancing:DeleteTargetGroup"
+        ],
+        Resource: "*",
+        Condition: {
+          Null: {
+            "aws:ResourceTag/elbv2.k8s.aws/cluster": "false"
+          }
+        }
+      },
+      {
+        Effect: "Allow",
+        Action: [
+          "elasticloadbalancing:RegisterTargets",
+          "elasticloadbalancing:DeregisterTargets"
+        ],
+        Resource: "arn:aws:elasticloadbalancing:*:*:targetgroup/*/*"
+      },
+      {
+        Effect: "Allow",
+        Action: [
+          "elasticloadbalancing:SetWebAcl",
+          "elasticloadbalancing:ModifyListener",
+          "elasticloadbalancing:AddListenerCertificates",
+          "elasticloadbalancing:RemoveListenerCertificates",
+          "elasticloadbalancing:ModifyRule"
+        ],
+        Resource: "*"
+      },
+    ]
+  }),
+})
 
-// Identify which AMI to use for Compute
+// Create IAM Role
+const talosNodeRole = new aws.iam.Role("talosNodeRole", {
+  assumeRolePolicy: JSON.stringify({
+    Version: "2012-10-17",
+    Statement: [{
+      Action: "sts:AssumeRole",
+      Effect: "Allow",
+      Sid: "",
+      Principal: {
+        Service: "ec2.amazonaws.com",
+      },
+    }],
+  }),
+  tags: Object.assign({},
+    config.tags, { Name: "talos-node-role" }
+  )
+})
+
+// Associcate IAM to Role
+new aws.iam.RolePolicyAttachment("talosPolicyAttachment", {
+  role: talosNodeRole.name,
+  policyArn: nodePolicy.arn,
+})
+
+// Create the IAM Instance Profile
+const iamInstanceProfile = new aws.iam.InstanceProfile(
+  "talosInstanceProfile", { role: talosNodeRole.name }
+)
+
+// Security Groups
+const talosNodeSecurityGroup = new aws.ec2.SecurityGroup("talosNodeSecurityGroup", {
+  description: "Allow TLS inbound traffic",
+  vpcId: vpc.id,
+  tags: Object.assign({},
+    config.tags, { Name: "k3s-master" }
+  ),
+})
+
+// Ingress Security Group Rules
+for (let k of config.security_groups.nlb_ingress.ingress) {
+  // Define expected values
+  let cidrBlock: string = ""
+  let fromPort: number = 0
+  let toPort: number = 0
+
+  // Check Port Logic
+  if (k.port_start && k.port_end) {
+    fromPort = k.port_start
+    toPort = k.port_end
+  } else if (k.port) {
+    fromPort = k.port
+    toPort = k.port
+  }
+
+  // Check CIDR Block Logic
+  if (!k.cidr_block) {
+    cidrBlock = config.network.vpc.cidr_block
+  } else {
+    cidrBlock = k.cidr_block
+  }
+
+  // Create and associate the Security Group Rules
+  new aws.ec2.SecurityGroupRule(k.description, {
+    type: "ingress",
+    fromPort: fromPort,
+    toPort: toPort,
+    protocol: k.protocol,
+    cidrBlocks: [cidrBlock],
+    securityGroupId: talosNodeSecurityGroup.id,
+  })  
+}
+
+// Egress Security Group Rules
+for (let k of config.security_groups.nlb_ingress.egress) {
+  // Create and associate the Security Group Rules
+  new aws.ec2.SecurityGroupRule(k.description, {
+    type: "egress",
+    fromPort: k.port,
+    toPort: k.port,
+    protocol: k.protocol,
+    cidrBlocks: [k.cidr_block],
+    securityGroupId: talosNodeSecurityGroup.id,
+  })  
+}
+
 // Create the K3s Control Plane; associate Role
-// Ensure that the SSM Parameter exists
+const k3sControlPlane = new aws.ec2.Instance("k3s-master", {
+  ami: config.amis[config.cloud_auth.aws_region].masters_arm64,
+  instanceType: config.compute.control_planes[0].instance_size,
+
+  // Networking
+  subnetId: privSubnets[config.compute.control_planes[0].subnet_name].id,
+  sourceDestCheck: false,
+  vpcSecurityGroupIds: [
+    talosNodeSecurityGroup.id
+  ],
+
+  // Storage
+  rootBlockDevice: {
+    deleteOnTermination: true,
+    volumeType: config.compute.control_planes[0].root_volume_type,
+    volumeSize: config.compute.control_planes[0].root_volume_size
+  },
+
+  // Tags
+  tags: Object.assign({},
+    config.tags, { Name: "k3s-master" }
+  ),
+  volumeTags: Object.assign({},
+    config.tags, { Name: "k3s-master" }
+  ),
+})
+
 // Deploy the K3s Workers
