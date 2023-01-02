@@ -18,4 +18,5 @@ export type Node = {
   instance_size: string
   subnet_name: string
   root_volume_size: number
+  root_volume_type: string
 }
