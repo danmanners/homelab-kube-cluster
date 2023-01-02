@@ -133,10 +133,17 @@ for (const [key, value] of Object.entries(privSubnets)) {
   })
 }
 
-// Identify which AMI to use
+// TODO: Everything below
 // Create IAM Policies
-// Create Node Role
-// Associcate IAM to Node Role
-// Create the K3s Control Plane
+  // SSM Parameter Read
+  // Load Balancer Read/Write
+  // Route53 Read/Write
+  // S3 Read/Write
+  // EBS Read/Write
+// Create IAM Role
+// Associcate IAM to Role
+
+// Identify which AMI to use for Compute
+// Create the K3s Control Plane; associate Role
 // Ensure that the SSM Parameter exists
 // Deploy the K3s Workers
