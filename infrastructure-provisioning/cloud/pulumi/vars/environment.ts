@@ -25,6 +25,7 @@ export const network = {
         name: "public1a",
         cidr_block: "172.29.0.0/23",
         az: "a",
+        privateIP: "172.29.0.5",
       },
       {
         name: "public1b",
