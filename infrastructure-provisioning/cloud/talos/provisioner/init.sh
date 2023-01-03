@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 <<comment
 Steps to set up the cluster:
 
@@ -21,41 +21,64 @@ IAM Requirements
   - KMS for SOPS decryption key
 comment
 
-# Variables
-export VARS="GITOPS_REPO GITOPS_REPOTAG TALOS_MASTER_IP TALOS_MASTER_PATH K8S_BOOTSTRAP_PATH"
+check() {
+  if [[ "$1" == "1" ]]; then
+    echo "crashed :("
+    exit
+  fi
+}
 
 # Check that all expected variables are set
-for var in $VARS; do
-  if [[ "${var}" == "GITOPS_REPOTAG" ]]; then
-    export GITOPS_REPOTAG='main'
-  elif [[ ! -v "${var}" ]]; then
-      echo "The '${var}' is not set; ensure it is and re-try running this."
-      exit 1
-  fi;
-done
+if [ -z ${GITOPS_REPOTAG+x} ]; then
+  export GITOPS_REPOTAG='main'
+fi
+
+if [ -z ${GITOPS_REPO+x} ]; then
+  echo "'GITOPS_REPO' is not set; ensure it is and re-try running this."
+  exit 1
+fi
+
+if [ -z ${TALOS_MASTER_IP+x} ]; then
+  echo "'TALOS_MASTER_IP' is not set; ensure it is and re-try running this."
+  exit 1
+fi
+
+if [ -z ${TALOS_MASTER_PATH+x} ]; then
+  echo "'TALOS_MASTER_PATH' is not set; ensure it is and re-try running this."
+  exit 1
+fi
+
+if [ -z ${K8S_BOOTSTRAP_PATH+x} ]; then
+  echo "'K8S_BOOTSTRAP_PATH' is not set; ensure it is and re-try running this."
+  exit 1
+fi 
 
 # 1 - Clone the repo
+rm -rf /gitops
 git clone --depth 1 \
   -b ${GITOPS_REPOTAG} \
   "${GITOPS_REPO}" /gitops \
   && cd /gitops
 
 # 2 - Decrypt the master TalosCTL file
-sops --decrypt --insecure \
-  /gitops/${TALOS_MASTER_PATH}/controlplane.yaml
+sops -d -i /gitops/${TALOS_MASTER_PATH}/controlplane.yaml
+check $?
 
 # 3 - Apply the Talos master config file
 talosctl apply-config --insecure \
   --nodes ${TALOS_MASTER_IP} \
   --file /gitops/${TALOS_MASTER_PATH}/controlplane.yaml
+check $?
 # Create the talos configpath
 mkdir -p ~/.talos
 cp /gitops/${TALOS_MASTER_PATH}/talosconfig ~/.talos/config
 # Set the endpoint
 talosctl config endpoint ${TALOS_MASTER_IP}
+check $?
 
 # 4 - Wait for a bit, then bootstrap
 sleep 60 && talosctl bootstrap
+check $?
 
 # 5 - Get the kubeconfig
 talosctl kubeconfig \
