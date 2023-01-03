@@ -20,7 +20,7 @@ ENV KSOPS_PLUGIN_PATH="${XDG_CONFIG_HOME}/kustomize/plugin/viaduct.ai/v1/ksops/"
 
 # Install Required Pakckages
 RUN apk add --no-cache \
-    curl git tar
+    curl git tar openssh aws-cli
 
 # Install Kubectl
 RUN \
@@ -54,3 +54,6 @@ RUN kubectl version --client && \
     kustomize version && \
     sops --version && \
     talosctl version --client
+
+# Finally, add the script to the root of the container
+COPY init.sh /init.sh

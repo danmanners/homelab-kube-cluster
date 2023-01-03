@@ -1,4 +1,5 @@
 import * as aws from "@pulumi/aws"
+import * as pulumi from "@pulumi/pulumi"
 
 // Keep types in a separate file to keep things clean in this main file
 import { NameIdOutputs, RouteTableIds } from "./types/types"
@@ -36,6 +37,9 @@ const privateHostedZone = new aws.route53.Zone("primary", {
 const dhcpOpts = new aws.ec2.VpcDhcpOptions("cloud.danmanners.com", {
   domainName: config.general.domain,
   netbiosNodeType: "2",
+  domainNameServers: [
+    "169.254.169.253"
+  ],
   tags: Object.assign({},
     config.tags, {
     Name: config.general.domain,
@@ -484,7 +488,7 @@ const talosNodeSecurityGroup = new aws.ec2.SecurityGroup("talosNodeSecurityGroup
   description: "Allow TLS inbound traffic",
   vpcId: vpc.id,
   tags: Object.assign({},
-    config.tags, { Name: "k3s-master" }
+    config.tags, { Name: "talos-master" }
   ),
 })
 
@@ -535,14 +539,15 @@ for (let k of config.security_groups.nlb_ingress.egress) {
   })
 }
 
-// Create the K3s Control Plane & associate the role
-const k3sControlPlane = new aws.ec2.Instance("k3s-master", {
+// Create the talos Control Plane & associate the role
+const talosControlPlane = new aws.ec2.Instance("talos-master", {
   ami: config.amis[config.cloud_auth.aws_region].masters_arm64,
   instanceType: config.compute.control_planes[0].instance_size,
 
   // Networking
   subnetId: privSubnets[config.compute.control_planes[0].subnet_name].id,
   sourceDestCheck: false,
+  privateIp: config.compute.control_planes[0].privateIp,
   vpcSecurityGroupIds: [talosNodeSecurityGroup.id],
   privateDnsNameOptions: {
     enableResourceNameDnsARecord: true,
@@ -561,12 +566,179 @@ const k3sControlPlane = new aws.ec2.Instance("k3s-master", {
 
   // Tags
   tags: Object.assign({},
-    config.tags, { Name: "k3s-master" }
+    config.tags, { Name: "talos-master" }
   ),
   volumeTags: Object.assign({},
-    config.tags, { Name: "k3s-master" }
+    config.tags, { Name: "talos-master" }
   ),
 })
 
-// TODO: Deploy the K3s Workers
-// TODO: K3s Master Provisioning
+/*
+The following section should be left commented **UNLESS** you're troubleshooting!!
+*/
+// Security Groups
+const bastionSecurityGroup = new aws.ec2.SecurityGroup("bastionSecurityGroup", {
+  description: "Allow SSH Ingress",
+  vpcId: vpc.id,
+  tags: Object.assign({},
+    config.tags, { Name: config.compute.bastion[0].name }
+  ),
+})
+
+// Bastion Security Group Stuffs
+for (let k of config.security_groups.bastion.ingress) {
+  // Define expected values
+  let cidrBlocks: string[] = [""]
+  let fromPort: number = 0
+  let toPort: number = 0
+
+  // Check Port Logic
+  fromPort = k.port
+  toPort = k.port
+
+  // Check CIDR Block Logic
+  if (!k.cidr_blocks) {
+    cidrBlocks = [config.network.vpc.cidr_block]
+  } else {
+    cidrBlocks = k.cidr_blocks
+  }
+
+  // Create and associate the Security Group Rules
+  new aws.ec2.SecurityGroupRule(`bastion-${k.description}`, {
+    type: "ingress",
+    fromPort: fromPort,
+    toPort: toPort,
+    protocol: k.protocol,
+    cidrBlocks: cidrBlocks,
+    securityGroupId: bastionSecurityGroup.id,
+  })
+}
+
+// Egress Security Group Rules
+for (let k of config.security_groups.bastion.egress) {
+  // Create and associate the Security Group Rules
+  new aws.ec2.SecurityGroupRule(`bastion-${k.description}`, {
+    type: "egress",
+    fromPort: k.port,
+    toPort: k.port,
+    protocol: k.protocol,
+    cidrBlocks: k.cidr_blocks,
+    securityGroupId: bastionSecurityGroup.id,
+  })
+}
+
+const bastionNodePolicy = new aws.iam.Policy("bastionNodePolicy", {
+  path: "/",
+  description: "Policy for Bastion",
+  policy: JSON.stringify({
+    Version: "2012-10-17",
+    Statement: [
+      {
+        Sid: "VisualEditor0",
+        Effect: "Allow",
+        Action: [
+          "kms:Encrypt",
+          "kms:Decrypt",
+          "kms:ReEncrypt*",
+          "kms:GenerateDataKey*",
+          "kms:DescribeKey",
+          "ecr:ListImages",
+          "ecr:BatchGetImage",
+          "ecr:GetDownloadUrlForLayer",
+        ],
+        Resource: [
+          "arn:aws:kms:us-east-1:977656673179:key/7e829b85-6fed-4598-b675-8ebeea105c4c",
+          "arn:aws:ecr:us-east-1:977656673179:repository/homelab-provisioning",
+        ]
+      },
+      {
+        Sid: "VisualEditor1",
+        Effect: "Allow",
+        Action: "ecr:GetAuthorizationToken",
+        Resource: "*"
+      },
+    ]
+  }),
+})
+
+// Create Bastion IAM Role
+const bastionNodeRole = new aws.iam.Role("bastionNodeRole", {
+  assumeRolePolicy: JSON.stringify({
+    Version: "2012-10-17",
+    Statement: [{
+      Action: "sts:AssumeRole",
+      Effect: "Allow",
+      Sid: "",
+      Principal: {
+        Service: "ec2.amazonaws.com",
+      },
+    }],
+  }),
+  tags: Object.assign({},
+    config.tags, { Name: "bastion-node-role" }
+  )
+})
+
+// Associcate Bastion IAM to Role
+new aws.iam.RolePolicyAttachment("bastionPolicyAttachment", {
+  role: bastionNodeRole.name,
+  policyArn: bastionNodePolicy.arn,
+})
+
+// Create the IAM Instance Profile
+const bastionIamInstanceProfile = new aws.iam.InstanceProfile(
+  "bastionInstanceProfile", { role: bastionNodeRole.name }
+)
+
+// Bastion Compute Node
+const bastion = new aws.ec2.Instance("bastion", {
+  ami: config.amis[config.cloud_auth.aws_region].bastion_amd64,
+  instanceType: config.compute.bastion[0].instance_size,
+
+  // Networking
+  subnetId: pubSubnets[config.compute.bastion[0].subnet_name].id,
+  sourceDestCheck: false,
+  privateIp: config.compute.bastion[0].privateIp,
+  vpcSecurityGroupIds: [bastionSecurityGroup.id],
+  privateDnsNameOptions: {
+    enableResourceNameDnsARecord: true,
+    hostnameType: "resource-name",
+  },
+
+  // Storage
+  rootBlockDevice: {
+    deleteOnTermination: true,
+    volumeType: config.compute.bastion[0].root_volume_type,
+    volumeSize: config.compute.bastion[0].root_volume_size
+  },
+
+  // IAM Instance Profile
+  iamInstanceProfile: bastionIamInstanceProfile.name,
+
+  // Cloud-Init - SSH Load
+  userData: `
+#cloud-config
+users:
+  - name: dan
+    shell: /bin/bash
+    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+    ssh-authorized-keys:
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBvwr0v1C32Xc72AqJexn0fEsESblReaGEPLeTs/Fa5i DM Fedora Desktop
+`,
+
+  // Tags
+  tags: Object.assign({},
+    config.tags, { Name: config.compute.bastion[0].name }
+  ),
+  volumeTags: Object.assign({},
+    config.tags, { Name: config.compute.bastion[0].name }
+  ),
+})
+
+export const bastionPublicIP = bastion.publicIp
+/*
+Make sure the above section is commented **UNLESS** you're troubleshooting!!
+*/
+
+// TODO: Deploy the talos Workers
+// TODO: talos Master Provisioning
