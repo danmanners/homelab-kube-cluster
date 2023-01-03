@@ -103,6 +103,7 @@ const natgw_eip = new aws.ec2.Eip("natgw", {
 const natgw = new aws.ec2.NatGateway("natgw", {
   allocationId: natgw_eip.id,
   subnetId: pubSubnets[config.network.subnets.public[0].name].id,
+  privateIp: config.network.subnets.public[0].privateIP,
   // TODO: figure out how to make this less crap
   tags: Object.assign({},
     config.tags, { Name: `${config.network.vpc.name}-ngw` }
