@@ -15,9 +15,37 @@ const routeTableRoutes: RouteTableIds = {}
 // Create the VPC
 const vpc = new aws.ec2.Vpc("primary", {
   cidrBlock: config.network.vpc.cidr_block,
+  enableDnsHostnames: true,
   tags: Object.assign({},
     config.tags, { Name: config.network.vpc.name }
   )
+})
+
+// Private Hosted Zone
+const privateHostedZone = new aws.route53.Zone("primary", {
+  name: config.general.domain,
+  comment: config.general.domain_comment,
+  vpcs: [{ vpcId: vpc.id, vpcRegion: config.cloud_auth.aws_region }],
+  tags: Object.assign({},
+    config.tags, {
+    Name: config.general.domain,
+  })
+})
+
+// Create the DHCP Options
+const dhcpOpts = new aws.ec2.VpcDhcpOptions("cloud.danmanners.com", {
+  domainName: config.general.domain,
+  netbiosNodeType: "2",
+  tags: Object.assign({},
+    config.tags, {
+    Name: config.general.domain,
+  })
+})
+
+// Associate the DHCP Options to the VPC
+new aws.ec2.VpcDhcpOptionsAssociation("cloud.danmanners.com", {
+  vpcId: vpc.id,
+  dhcpOptionsId: dhcpOpts.id,
 })
 
 // Create the Public Subnets
@@ -463,7 +491,7 @@ const talosNodeSecurityGroup = new aws.ec2.SecurityGroup("talosNodeSecurityGroup
 // Ingress Security Group Rules
 for (let k of config.security_groups.nlb_ingress.ingress) {
   // Define expected values
-  let cidrBlock: string = ""
+  let cidrBlocks: string[] = [""]
   let fromPort: number = 0
   let toPort: number = 0
 
@@ -477,10 +505,10 @@ for (let k of config.security_groups.nlb_ingress.ingress) {
   }
 
   // Check CIDR Block Logic
-  if (!k.cidr_block) {
-    cidrBlock = config.network.vpc.cidr_block
+  if (!k.cidr_blocks) {
+    cidrBlocks = [config.network.vpc.cidr_block]
   } else {
-    cidrBlock = k.cidr_block
+    cidrBlocks = k.cidr_blocks
   }
 
   // Create and associate the Security Group Rules
@@ -489,9 +517,9 @@ for (let k of config.security_groups.nlb_ingress.ingress) {
     fromPort: fromPort,
     toPort: toPort,
     protocol: k.protocol,
-    cidrBlocks: [cidrBlock],
+    cidrBlocks: cidrBlocks,
     securityGroupId: talosNodeSecurityGroup.id,
-  })  
+  })
 }
 
 // Egress Security Group Rules
@@ -502,12 +530,12 @@ for (let k of config.security_groups.nlb_ingress.egress) {
     fromPort: k.port,
     toPort: k.port,
     protocol: k.protocol,
-    cidrBlocks: [k.cidr_block],
+    cidrBlocks: k.cidr_blocks,
     securityGroupId: talosNodeSecurityGroup.id,
-  })  
+  })
 }
 
-// Create the K3s Control Plane; associate Role
+// Create the K3s Control Plane & associate the role
 const k3sControlPlane = new aws.ec2.Instance("k3s-master", {
   ami: config.amis[config.cloud_auth.aws_region].masters_arm64,
   instanceType: config.compute.control_planes[0].instance_size,
@@ -515,9 +543,11 @@ const k3sControlPlane = new aws.ec2.Instance("k3s-master", {
   // Networking
   subnetId: privSubnets[config.compute.control_planes[0].subnet_name].id,
   sourceDestCheck: false,
-  vpcSecurityGroupIds: [
-    talosNodeSecurityGroup.id
-  ],
+  vpcSecurityGroupIds: [talosNodeSecurityGroup.id],
+  privateDnsNameOptions: {
+    enableResourceNameDnsARecord: true,
+    hostnameType: "resource-name",
+  },
 
   // Storage
   rootBlockDevice: {
@@ -525,6 +555,9 @@ const k3sControlPlane = new aws.ec2.Instance("k3s-master", {
     volumeType: config.compute.control_planes[0].root_volume_type,
     volumeSize: config.compute.control_planes[0].root_volume_size
   },
+
+  // IAM Instance Profile
+  iamInstanceProfile: iamInstanceProfile.name,
 
   // Tags
   tags: Object.assign({},

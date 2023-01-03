@@ -6,6 +6,11 @@ export const cloud_auth = {
   aws_profile: "default"
 }
 
+export const general = {
+  domain: "cloud.danmanners.com",
+  domain_comment: "Internal DNS HostedZone for the cloud cluster"
+}
+
 // VPC Setup and Networking
 export const network = {
   // VPC Cidr Block Definition
@@ -74,8 +79,8 @@ export const compute: { control_planes: Node[], workers: Node[] } = {
 // AMIs
 export const amis: {
   [region: string]: {
-    masters_amd64:string,
-    masters_arm64:string,
+    masters_amd64: string,
+    masters_arm64: string,
     workers_amd64?: string, // Optional; only if you're using t4g instances
     workers_arm64?: string, // Optional; only if you're using t4g instances
   }
@@ -100,37 +105,38 @@ export const security_groups = {
         description: "ICMP Inbound",
         port: -1,
         protocol: "icmp",
-        cidr_block: "0.0.0.0/0",
+        cidr_blocks: ["0.0.0.0/0"],
       },
       {
         description: "SSH Inbound",
         port: 22,
         protocol: "tcp",
-        cidr_block: "0.0.0.0/0",
+        cidr_blocks: ["0.0.0.0/0"],
       },
       {
         description: "HTTP Inbound",
         port: 80,
         protocol: "tcp",
-        cidr_block: "0.0.0.0/0",
+        cidr_blocks: ["0.0.0.0/0"],
       },
       {
         description: "HTTPS Inbound",
         port: 443,
         protocol: "tcp",
-        cidr_block: "0.0.0.0/0",
+        cidr_blocks: ["0.0.0.0/0"],
       },
       {
         description: "Netmaker Ingress",
         port_start: 51821,
         port_end: 51830,
         protocol: "udp",
-        cidr_block: "0.0.0.0/0",
+        cidr_blocks: ["0.0.0.0/0"],
       },
       {
-        description: "All Inbound",
+        description: "All Inbound from Internal Traffic, Wireguard, and On-Prem Networking.",
         port: -1,
         protocol: "all",
+        cidr_blocks: ["10.4.0.0/23", network.vpc.cidr_block],
       },
     ],
     egress: [
@@ -138,7 +144,7 @@ export const security_groups = {
         description: "Internet",
         port: -1,
         protocol: "all",
-        cidr_block: "0.0.0.0/0",
+        cidr_blocks: ["0.0.0.0/0"],
       },
     ]
   }
