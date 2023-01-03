@@ -1,8 +1,7 @@
 import * as aws from "@pulumi/aws"
-import * as pulumi from "@pulumi/pulumi"
 
 // Keep types in a separate file to keep things clean in this main file
-import { Node, NameIdOutputs, RouteTableIds } from "./types/types"
+import { NameIdOutputs, RouteTableIds } from "./types/types"
 
 // Configuration / Environment Variables
 import * as config from "./vars/environment"
@@ -136,11 +135,12 @@ for (const [key, value] of Object.entries(privSubnets)) {
   })
 }
 
-/* TODO: Everything below
+/* The node policy does everything below
   Create IAM Policiess
   - Load Balancer - Read/Write
   - Route53 Read/Write
   - Network Interface Read/Write
+  - TODO: S3 Read/Write 
   - EBS Read/Write - https://docs.aws.amazon.com/eks/latest/userguide/csi-iam-role.html
 */
 const nodePolicy = new aws.iam.Policy("talosNodePolicies", {
@@ -535,4 +535,5 @@ const k3sControlPlane = new aws.ec2.Instance("k3s-master", {
   ),
 })
 
-// Deploy the K3s Workers
+// TODO: Deploy the K3s Workers
+// TODO: K3s Master Provisioning
