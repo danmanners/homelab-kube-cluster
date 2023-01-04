@@ -71,6 +71,7 @@ talosctl apply-config --insecure \
 check $?
 # Create the talos configpath
 mkdir -p ~/.talos
+sops -d -i /gitops/${TALOS_MASTER_PATH}/talosconfig
 cp /gitops/${TALOS_MASTER_PATH}/talosconfig ~/.talos/config
 # Set the endpoint
 talosctl config endpoint ${TALOS_MASTER_IP}
