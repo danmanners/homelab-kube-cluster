@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/ash
 <<comment
 Steps to set up the cluster:
 
