@@ -25,14 +25,12 @@ machine:
               addresses:
                 - ENC[AES256_GCM,data:dueqo2WYSDwifp8=,iv:glGfOwWsJxVVbgeOWA4Kfpg4Nao05WQgeptvBqjaLQ8=,tag:gHnownz/SduO01ijGXwfKw==,type:str]
               routes:
-                - network: ENC[AES256_GCM,data:RSXoxxBlqMwWqvw=,iv:6PjRMPkmiCtCYzOvi3S6iDXCTQ+JmLBqlXORnlLHjxg=,tag:gUGpmjaE0rzk8AQQn/fT+Q==,type:str]
-                  gateway: ENC[AES256_GCM,data:sDXKEvLkqaM=,iv:2h7CbTQ/AEY28J3SBr8Huf0D9KqQCkNlUWJmLApvX7c=,tag:JNWhlQ3/mmx97LwGTDcLFw==,type:str]
                 - network: ENC[AES256_GCM,data:mzE3bxjHbwOg7ew=,iv:4Kvj4+AklrJMZQDGsiTncH8+Ovw8fNARXDcedic01sw=,tag:n3FVVCt1lvzDYZkiQLRQ3g==,type:str]
-                  gateway: ENC[AES256_GCM,data:TF0f64ZqdP0=,iv:l1+DItPlIgfoVcXe+AJbSzlw20nfPiY6Ba1Gpxe2q9o=,tag:2+EQ3xPbDIYbHYXT5h16gw==,type:str]
+                  gateway: ENC[AES256_GCM,data:Sq7OCZFvjHA=,iv:Pn4z/ODM+XZx0Cbkc1oRR5fZvxZ12KUwXHab3NSABNg=,tag:8fmDF+MDpbXcckFPz0ubxw==,type:str]
               wireguard:
                 privateKey: ENC[AES256_GCM,data:n44F4DdoWNFCIdhEhVuh9ceWRqhf34Sk1Z6RhOspvhzSU9QhsCFqETWJ2Jw=,iv:UT422zB28gEyM/DP99Bto/hgceGlUIT4tarqDf31SUA=,tag:Q/5dX9u0SrCmZN8PQtQLFA==,type:str]
                 peers:
-                    - publicKey: ENC[AES256_GCM,data:aE9mZ6pO9TOgdZ8V+jp1b0PDXeN88cn9cxL2lwscB31vl5bqw517gB2wR70=,iv:CqHX+90g9mr57ROYatswVk0IRcqIqUcHa3R6pAmRplA=,tag:DHpr9abpzBpJUBbgHpZtcQ==,type:str]
+                    - publicKey: ENC[AES256_GCM,data:1EpySLz3n5O+ARmjiNM2CjucX9bn0W29d8cQB3ITfwtf9AtNA29XZpR58pk=,iv:KfjpSUGy6f4/azrOf3sEWh+6DdD2CKBrbzod/iTDIGc=,tag:RODXtVhaLf285lmXZOisug==,type:str]
                       endpoint: ENC[AES256_GCM,data:xkgXa7ujKzb0iD5758oqxJg2qwKOQ5Wa2GBnhQ==,iv:/6Hu9RNuJB7VxNk4Ve+rSDPWS4A6Zd3TKWb6r/xiwhc=,tag:XYSeNJ+y+xdjzqYfFoaU1A==,type:str]
                       persistentKeepaliveInterval: ENC[AES256_GCM,data:wNo=,iv:04e3Z7yF2uumkUi2pSXShj6v5p1i7/YvT/25bTnU2h8=,tag:pTmM9aBerUklv39OI/WVUw==,type:str]
                       allowedIPs:
@@ -118,8 +116,8 @@ sops:
     azure_kv: []
     hc_vault: []
     age: []
-    lastmodified: "2023-01-04T05:16:10Z"
-    mac: ENC[AES256_GCM,data:fODU8H0lYDjskmpExS238jOEkZ5dO6vd+IN5hmsbMMGB4FfTbhJz5TDBSg49VjKb5onDRI5FYxPUs3XJM21DNhPpjSFKfvC9UCyprwhUPrD1QsII0slHs7sdCsQilDXB8dl9U1ext5TyJ1Tvg/Adpf4ksfbfHHXdw045KG2g7jA=,iv:X0ofrjL/mjCY+eyJFVB+SLwnD0wGXSzeCkXAlT7voTw=,tag:euQjU0ELYvhEnAkeblCsoQ==,type:str]
+    lastmodified: "2023-01-04T05:32:22Z"
+    mac: ENC[AES256_GCM,data:dfZDOvf1hY7T39NvlSnReKdMaqQSjMN1aoYiguuF8QOllKyRNokQMa7kvIRdbmoBgWBbrIgGnVJsgwo6y2JCy2whlBgCVMCaubQYSBupq/pzWBbEmivoxWXUXNhB6PEmUvtaEz/3hA8boCSKBJglLY965Kn9NH/fiNKuXL6Bb+s=,iv:OfwAA5aKZGFFiEl8FNQFyZeP7Wjz7qiwYqrwMzlNfDw=,tag:/70369sa2m5LJ1TuEchDRQ==,type:str]
     pgp: []
     unencrypted_suffix: _unencrypted
     version: 3.7.3
