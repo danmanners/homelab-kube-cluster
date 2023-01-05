@@ -27,6 +27,8 @@ machine:
               routes:
                 - network: ENC[AES256_GCM,data:mzE3bxjHbwOg7ew=,iv:4Kvj4+AklrJMZQDGsiTncH8+Ovw8fNARXDcedic01sw=,tag:n3FVVCt1lvzDYZkiQLRQ3g==,type:str]
                   gateway: ENC[AES256_GCM,data:Sq7OCZFvjHA=,iv:Pn4z/ODM+XZx0Cbkc1oRR5fZvxZ12KUwXHab3NSABNg=,tag:8fmDF+MDpbXcckFPz0ubxw==,type:str]
+                - network: ENC[AES256_GCM,data:7z0I/P64Q6jUNxI=,iv:n1rP2TZvvqKM1rqkbwYanyeyDJJATqc52//c2NY0bp4=,tag:QbwkGoqcq7aiW0q+3neeSA==,type:str]
+                  gateway: ENC[AES256_GCM,data:Sq7OCZFvjHA=,iv:Pn4z/ODM+XZx0Cbkc1oRR5fZvxZ12KUwXHab3NSABNg=,tag:8fmDF+MDpbXcckFPz0ubxw==,type:str]
               wireguard:
                 privateKey: ENC[AES256_GCM,data:n44F4DdoWNFCIdhEhVuh9ceWRqhf34Sk1Z6RhOspvhzSU9QhsCFqETWJ2Jw=,iv:UT422zB28gEyM/DP99Bto/hgceGlUIT4tarqDf31SUA=,tag:Q/5dX9u0SrCmZN8PQtQLFA==,type:str]
                 peers:
@@ -34,8 +36,9 @@ machine:
                       endpoint: ENC[AES256_GCM,data:xkgXa7ujKzb0iD5758oqxJg2qwKOQ5Wa2GBnhQ==,iv:/6Hu9RNuJB7VxNk4Ve+rSDPWS4A6Zd3TKWb6r/xiwhc=,tag:XYSeNJ+y+xdjzqYfFoaU1A==,type:str]
                       persistentKeepaliveInterval: ENC[AES256_GCM,data:wNo=,iv:04e3Z7yF2uumkUi2pSXShj6v5p1i7/YvT/25bTnU2h8=,tag:pTmM9aBerUklv39OI/WVUw==,type:str]
                       allowedIPs:
-                        - ENC[AES256_GCM,data:85OOTPRhfoZf4Uo=,iv:Hv6NXqxHvd+iaxRZ//+oHL/B1dGhRx9SdlOMbAP6p1M=,tag:zyyf+Ygm/j3mBn84GvR1dQ==,type:str]
+                        - ENC[AES256_GCM,data:kPgWdl/FvAnBmiM=,iv:RUFMRkMARJ9k76WP1Pavu4PVkP9x7cgZs/ZpG9V4ePA=,tag:W6La/ffWnhUPn91er0cR9g==,type:str]
                         - ENC[AES256_GCM,data:ZC2NO8JsbvPXsYU=,iv:kspRnZcXNG0CGUEg1VTEmTlrzCSGaDyW2ahSSdUiCKw=,tag:M5A7ib3yGNyTj6IRbKwasA==,type:str]
+                        - ENC[AES256_GCM,data:/uS+A5t8bNcMHAc=,iv:47JS6g0xUYSY1bpvjAcRPo5N0k6sExqpVXM0IlnNMqI=,tag:rwb3+F/no7zjAPUS8/5uAw==,type:str]
     install:
         disk: ENC[AES256_GCM,data:jbq2G5TqTCCFHPxf,iv:dEenqsFucnrQFKjE6a2+swwwLFHh3zBHuS4QJ7XOOh0=,tag:YeNgli819DZXcLFJz6gZqg==,type:str]
         image: ENC[AES256_GCM,data:q6Ddiol91hHLpFhNsw2nascmEPCYvLQx4MS3M2SD2PtbZtA=,iv:Y8Bb2sPeNUTg6XCUrD/TyYR4WCbWJZSiqQC5QNFwJs8=,tag:PFxwzB349ImBLfCGc2Drrg==,type:str]
@@ -116,8 +119,8 @@ sops:
     azure_kv: []
     hc_vault: []
     age: []
-    lastmodified: "2023-01-04T05:32:22Z"
-    mac: ENC[AES256_GCM,data:dfZDOvf1hY7T39NvlSnReKdMaqQSjMN1aoYiguuF8QOllKyRNokQMa7kvIRdbmoBgWBbrIgGnVJsgwo6y2JCy2whlBgCVMCaubQYSBupq/pzWBbEmivoxWXUXNhB6PEmUvtaEz/3hA8boCSKBJglLY965Kn9NH/fiNKuXL6Bb+s=,iv:OfwAA5aKZGFFiEl8FNQFyZeP7Wjz7qiwYqrwMzlNfDw=,tag:/70369sa2m5LJ1TuEchDRQ==,type:str]
+    lastmodified: "2023-01-05T04:29:25Z"
+    mac: ENC[AES256_GCM,data:XvTtrpaih+VdTP69uhJFydvpfF99GjCO4bbncm2EnSP1lB3wP+1Ruoe/jKmZBwHeegepz+qj3apfX7GSl0ikAMlGA0lwv7wQZ3t9P8Dnx5PFD0Ec6J+KSIbomYCEM9fr1HKf8RtGhUC2WPDcYiGwokPzW6XlHOMzogch3FkVnho=,iv:vNBgmQi4oDDBwMVdmTxBOQ1NVVbXUhHGdEp84N5dF1s=,tag:pV9vGyrS0bXakqzaj56HaQ==,type:str]
     pgp: []
     unencrypted_suffix: _unencrypted
     version: 3.7.3
