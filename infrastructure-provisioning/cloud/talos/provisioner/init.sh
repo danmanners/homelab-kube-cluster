@@ -33,21 +33,25 @@ if [ -z ${GITOPS_REPOTAG+x} ]; then
   export GITOPS_REPOTAG='main'
 fi
 
+# Check that the GitOps repo has been defined
 if [ -z ${GITOPS_REPO+x} ]; then
   echo "'GITOPS_REPO' is not set; ensure it is and re-try running this."
   exit 1
 fi
 
+# Check that the Talos Master IP has been defined
 if [ -z ${TALOS_MASTER_IP+x} ]; then
   echo "'TALOS_MASTER_IP' is not set; ensure it is and re-try running this."
   exit 1
 fi
 
+# Check that the Talos Master path has been defined
 if [ -z ${TALOS_MASTER_PATH+x} ]; then
   echo "'TALOS_MASTER_PATH' is not set; ensure it is and re-try running this."
   exit 1
 fi
 
+# Check that the K8s Bootstrapping path has been defined
 if [ -z ${K8S_BOOTSTRAP_PATH+x} ]; then
   echo "'K8S_BOOTSTRAP_PATH' is not set; ensure it is and re-try running this."
   exit 1

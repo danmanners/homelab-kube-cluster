@@ -1,0 +1,17 @@
+txtOwnerId: cloud-dan
+txtPrefix: txt.
+registry: txt
+domainFilters:
+  - cloud.danmanners.com
+  - danmanners.com
+
+policy: sync
+interval: 30s
+
+provider: aws
+extraArgs:
+  - aws-zone-type: public
+
+env:
+  - name: AWS_DEFAULT_REGION
+    value: us-east-1

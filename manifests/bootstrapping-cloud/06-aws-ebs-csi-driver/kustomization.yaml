@@ -1,0 +1,30 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: kube-system
+
+helmCharts:
+  # https://artifacthub.io/packages/helm/aws/aws-load-balancer-controller/1.4.6
+  - name: aws-ebs-csi-driver
+    releaseName: aws-ebs-csi-driver
+    namespace: kube-system
+    repo: https://kubernetes-sigs.github.io/aws-ebs-csi-driver
+    version: v1.14.1
+    valuesInline:
+      # https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/master/docs/parameters.md
+      storageClasses:
+        - name: gp3-ext4
+          annotations:
+            storageclass.kubernetes.io/is-default-class: "true"
+          reclaimPolicy: Retain
+          allowVolumeExpansion: true
+          parameters:
+            encrypted: "true"
+            csi.storage.k8s.io/fstype: ext4
+        - name: gp3-xfs
+          reclaimPolicy: Retain
+          allowVolumeExpansion: true
+          parameters:
+            encrypted: "true"
+            csi.storage.k8s.io/fstype: xfs
+
