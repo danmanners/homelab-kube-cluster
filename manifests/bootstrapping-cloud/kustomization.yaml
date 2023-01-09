@@ -1,0 +1,13 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - 01-aws-cni
+  - 02-cilium
+  - 03-cert-manager
+  - 04-external-dns
+  - 05-aws-lb-controller
+  - 06-aws-ebs-csi-driver
+  - 07-traefik
+  - 08-argocd

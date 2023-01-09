@@ -13,10 +13,7 @@ spec:
       - dns01:
           route53:
             region: us-east-1
-            accessKeyID: AKIA6HIHA6ON4QTLOGE5
-            secretAccessKeySecretRef:
-              name: prod-route53-credentials-secret
-              key: secret-access-key
+            role: arn:aws:iam::977656673179:role/talosNodeRole-1453839
         selector:
           dnsZones:
             - "cloud.danmanners.com"

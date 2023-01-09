@@ -6,7 +6,8 @@ namespace: argo-cd
 resources:
   - https://github.com/argoproj/argo-cd/manifests/crds?ref=v2.5.5
   - ingress.yaml
-  - service.yaml
+  - services.yaml
+  - namespace.yaml
 
 helmCharts:
   # https://github.com/argoproj/argo-helm/tree/main/charts/argo-cd

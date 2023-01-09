@@ -15,6 +15,3 @@ helmCharts:
 resources:
   # One-Time Deployment Resources
   - ClusterIssuer.yaml
-
-generators:
-  - ksops-generator.yaml

@@ -4,7 +4,7 @@ kind: Service
 metadata:
   name: argocd-server-public
   annotations:
-    external-dns.alpha.kubernetes.io/hostname: argocd.k3s.danmanners.io,argocd.danmanners.com
+    external-dns.alpha.kubernetes.io/hostname: argocd.cloud.danmanners.com
     external-dns.alpha.kubernetes.io/ttl: "300"
   labels:
     app.kubernetes.io/component: server
@@ -12,21 +12,9 @@ metadata:
     app.kubernetes.io/part-of: argocd
 spec:
   type: ExternalName
-  externalName: kube.danmanners.com
+  externalName: cloud.danmanners.com
   selector:
     app.kubernetes.io/component: server
     app.kubernetes.io/name: argocd-server
     app.kubernetes.io/part-of: argocd
   sessionAffinity: None
-# ---
-# apiVersion: externaldns.k8s.io/v1alpha1
-# kind: DNSEndpoint
-# metadata:
-#   name: argocd-server-public
-# spec:
-#   endpoints:
-#   - dnsName: argocd.k3s.danmanners.io
-#     recordTTL: 300
-#     recordType: CNAME
-#     targets:
-#     - danmanners.com

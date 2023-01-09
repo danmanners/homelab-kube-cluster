@@ -5,9 +5,8 @@ image:
 
 tolerations:
   - operator: Exists
-#
+
 # Configure the deployment
-#
 deployment:
   enabled: true
   # Can be either Deployment or DaemonSet
@@ -18,31 +17,24 @@ deployment:
   terminationGracePeriodSeconds: 60
   # The minimum number of seconds Traefik needs to be up and running before the DaemonSet/Deployment controller considers it available
   dnsPolicy: ClusterFirstWithHostNet
-  minReadySeconds: 0
-  annotations:
-    helm_repo_url: "https://helm.traefik.io/traefik"
+  minReadySeconds: 1
 
 # Pod disruption budget
 podDisruptionBudget:
   enabled: true
-  maxUnavailable: 50%
+  maxUnavailable: 70%
 
 # Use ingressClass. Ignored if Traefik version < 2.3 / kubernetes < 1.18.x
 ingressClass:
-  # true is not unit-testable yet, pending https://github.com/rancher/helm-unittest/pull/12
-  enabled: false
-  isDefaultClass: false
-
-# Activate Pilot integration
-pilot:
   enabled: true
-  token: "5832658f-1297-4945-8baf-854a4be323b9"
-  dashboard: true
+  isDefaultClass: true
 
 # Create an IngressRoute for the dashboard
 ingressRoute:
   dashboard:
     enabled: true
+    entryPoints: ["traefik","web","websecure"]
+    middlewares: ["http-https-redirectscheme"]
 
 rollingUpdate:
   maxUnavailable: 1
@@ -54,23 +46,11 @@ providers:
     enabled: true
     allowCrossNamespace: true
     allowExternalNameServices: false
-    # ingressClass: traefik-internal
-    # namespaces: []
 
   kubernetesIngress:
-    enabled: false
-    allowExternalNameServices: false
-    # IP used for Kubernetes Ingress endpoints
-    publishedService:
-      enabled: false
+    enabled: true
 
-volumes: []
-
-# Additional volumeMounts to add to the Traefik container
-additionalVolumeMounts: []
-
-# Logs
-# https://docs.traefik.io/observability/logs/
+# Logs - https://docs.traefik.io/observability/logs/
 logs:
   general:
     level: ERROR
@@ -95,11 +75,6 @@ additionalArguments:
   - "--entryPoints.web.forwardedHeaders.insecure=true"
   - "--entryPoints.websecure.forwardedHeaders.insecure=true"
 
-# Configure ports
-# hostNetwork: true
-# nodeSelector:
-#   node-role.kubernetes.io/cloud: "true"
-  
 ports:
   traefik:
     port: 9000
@@ -107,17 +82,15 @@ ports:
     exposedPort: 9000
     protocol: TCP
   web:
-    port: 80
+    port: 8080
     expose: true
     exposedPort: 80
     protocol: TCP
-    nodePort: 80
   websecure:
-    port: 443
+    port: 8443
     expose: true
     exposedPort: 443
     protocol: TCP
-    nodePort: 443
     tls:
       enabled: false
   metrics:
@@ -142,8 +115,11 @@ service:
   spec:
     externalTrafficPolicy: Local
   annotations:
-    helm_repo_url: "https://helm.traefik.io/traefik"
-    metallb.universe.tf/loadBalancerIPs: 10.56.1.1
+    external-dns.alpha.kubernetes.io/hostname: cloud.danmanners.com
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/tags: "name=TraefikIngerss-CloudHomelab"
+    service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: "*"
 
 ## Create HorizontalPodAutoscaler object.
 autoscaling:
@@ -162,24 +138,17 @@ podSecurityPolicy:
   enabled: false
 
 # Additional serviceAccount annotations (e.g. for oidc authentication)
-serviceAccountAnnotations:
-  helm_repo_url: "https://helm.traefik.io/traefik"
-
-# The service account the pods will use to interact with the Kubernetes API
-serviceAccount:
-  name: ""
+serviceAccountAnnotations: {}
 
 # Set the container security context
 # To run the container with ports below 1024 this will need to be adjust to run as root
 securityContext:
   capabilities:
-    drop: []
-    # drop: [ALL]
+    drop: [ALL]
   readOnlyRootFilesystem: true
-  runAsGroup: 0
-  privileged: true
-  runAsNonRoot: false
-  runAsUser: 0
+  runAsGroup: 65532
+  runAsNonRoot: true
+  runAsUser: 65532
 
 podSecurityContext:
-  fsGroup: 0
+  fsGroup: 65532
