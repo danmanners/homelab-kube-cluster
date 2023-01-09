@@ -10,8 +10,13 @@ interval: 30s
 
 provider: aws
 extraArgs:
-  - aws-zone-type: public
+  - "--aws-zone-type=public"
+  - "--domain-filter=cloud.danmanners.com,danmanners.com"
 
 env:
   - name: AWS_DEFAULT_REGION
     value: us-east-1
+
+serviceAccount:
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::977656673179:role/talosNodeRole-1453839

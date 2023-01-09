@@ -4,13 +4,16 @@ kind: Kustomization
 namespace: kube-system
 
 helmCharts:
-  # https://artifacthub.io/packages/helm/aws/aws-load-balancer-controller/1.4.6
+  # https://github.com/kubernetes-sigs/aws-ebs-csi-driver
   - name: aws-ebs-csi-driver
     releaseName: aws-ebs-csi-driver
     namespace: kube-system
     repo: https://kubernetes-sigs.github.io/aws-ebs-csi-driver
-    version: v1.14.1
+    version: "2.14.1"
     valuesInline:
+      serviceAccount:
+        annotations:
+          eks.amazonaws.com/role-arn: arn:aws:iam::977656673179:role/talosNodeRole-1453839        
       # https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/master/docs/parameters.md
       storageClasses:
         - name: gp3-ext4

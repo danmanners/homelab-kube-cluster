@@ -11,4 +11,8 @@ helmCharts:
     repo: https://aws.github.io/eks-charts
     version: 1.4.6
     valuesInline:
+      clusterName: homelab-cloud
       region: us-east-1
+      serviceAccount:
+        name: aws-load-balancer-controller
+        create: false

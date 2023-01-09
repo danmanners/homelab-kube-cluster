@@ -182,6 +182,25 @@ const nodePolicy = new aws.iam.Policy("talosNodePolicies", {
   policy: JSON.stringify({
     Version: "2012-10-17",
     Statement: [
+      // AWS ECR - Pull Image Permissions
+      {
+        Effect: "Allow",
+        Action: [
+          "ecr:GetAuthorizationToken",
+          "ecr:BatchCheckLayerAvailability",
+          "ecr:GetDownloadUrlForLayer",
+          "ecr:GetRepositoryPolicy",
+          "ecr:DescribeRepositories",
+          "ecr:ListImages",
+          "ecr:DescribeImages",
+          "ecr:BatchGetImage",
+          "ecr:GetLifecyclePolicy",
+          "ecr:GetLifecyclePolicyPreview",
+          "ecr:ListTagsForResource",
+          "ecr:DescribeImageScanFindings"          
+        ],
+        Resource: "*"
+      },
       // AWS VPC CNI - https://github.com/aws/amazon-vpc-cni-k8s/blob/master/docs/iam-policy.md
       {
         Effect: "Allow",
