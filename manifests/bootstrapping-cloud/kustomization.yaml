@@ -4,7 +4,7 @@ kind: Kustomization
 
 resources:
   - 01-aws-cni
-  - 02-cilium
+  # - 02-cilium
   - 03-cert-manager
   - 04-external-dns
   - 05-aws-lb-controller
