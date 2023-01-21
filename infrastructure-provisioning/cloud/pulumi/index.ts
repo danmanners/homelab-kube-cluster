@@ -1,6 +1,9 @@
 import * as aws from "@pulumi/aws"
 import * as pulumi from "@pulumi/pulumi"
 
+// Kubernetes Nodes
+import { controlPlane } from "./kube-master"
+
 // Keep types in a separate file to keep things clean in this main file
 import { NameIdOutputs, RouteTableIds } from "./types/types"
 
@@ -559,39 +562,12 @@ for (let k of config.security_groups.nlb_ingress.egress) {
   })
 }
 
-// Create the talos Control Plane & associate the role
-const talosControlPlane = new aws.ec2.Instance("talos-master", {
-  ami: config.amis[config.cloud_auth.aws_region].masters_arm64,
-  instanceType: config.compute.control_planes[0].instance_size,
-
-  // Networking
-  subnetId: privSubnets[config.compute.control_planes[0].subnet_name].id,
-  sourceDestCheck: false,
-  privateIp: config.compute.control_planes[0].privateIp,
-  vpcSecurityGroupIds: [talosNodeSecurityGroup.id],
-  privateDnsNameOptions: {
-    enableResourceNameDnsARecord: true,
-    hostnameType: "resource-name",
-  },
-
-  // Storage
-  rootBlockDevice: {
-    deleteOnTermination: true,
-    volumeType: config.compute.control_planes[0].root_volume_type,
-    volumeSize: config.compute.control_planes[0].root_volume_size
-  },
-
-  // IAM Instance Profile
-  iamInstanceProfile: iamInstanceProfile.name,
-
-  // Tags
-  tags: Object.assign({},
-    config.tags, { Name: "talos-master" }
-  ),
-  volumeTags: Object.assign({},
-    config.tags, { Name: "talos-master" }
-  ),
-})
+controlPlane(
+  config,
+  privSubnets[config.compute.control_planes[0].subnet_name].id,
+  [talosNodeSecurityGroup.id],
+  iamInstanceProfile.name
+)
 
 /*
 The following section should be left commented **UNLESS** you're troubleshooting!!
