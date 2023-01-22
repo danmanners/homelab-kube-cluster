@@ -58,15 +58,16 @@ if [ -z ${K8S_BOOTSTRAP_PATH+x} ]; then
 fi 
 
 # 1 - Clone the repo
-rm -rf /gitops
-git clone --depth 1 \
-  -b ${GITOPS_REPOTAG} \
-  "${GITOPS_REPO}" /gitops \
-  && cd /gitops
+# rm -rf /gitops
+# git clone --depth 1 \
+#   -b ${GITOPS_REPOTAG} \
+#   "${GITOPS_REPO}" /gitops \
+#   && cd /gitops
+cd /gitops
 
 # 2 - Decrypt the master TalosCTL file
-sops -d -i /gitops/${TALOS_MASTER_PATH}/controlplane.yaml
-check $?
+# sops -d -i /gitops/${TALOS_MASTER_PATH}/controlplane.yaml
+# check $?
 
 # 3 - Apply the Talos master config file
 talosctl apply-config --insecure \

@@ -13,12 +13,12 @@ image:
 
 # AWS CNI Chaining Requirements
 # https://docs.cilium.io/en/v1.12/gettingstarted/cni-chaining-aws-cni/
-enableIPv4Masquerade: false
+enableIPv4Masquerade: true
 endpointRoutes:
   enabled: true
 cni:
-  install: true
-  chainingMode: aws-cni
+  install: false
+  # chainingMode: aws-cni
 
 # Necessary for Kubernetes v1.24+
 securityContext:
@@ -93,7 +93,6 @@ ipam:
   mode: "cluster-pool"
   operator:
     clusterPoolIPv4PodCIDR: "10.244.0.0/16"
-    clusterPoolIPv4PodCIDRList: []
     clusterPoolIPv4MaskSize: 24
 
 prometheus:
@@ -126,5 +125,5 @@ wellKnownIdentities:
 operator:
   enabled: true
   rollOutPods: true
-  replicas: 2
+  replicas: 1
   serviceAccountName: cilium-operator
