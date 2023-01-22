@@ -5,7 +5,8 @@ export function controlPlane(
   config: any,
   private_subnets: pulumi.Output<string>,
   security_group_ids: Array<pulumi.Output<string>>,
-  iamInstanceProfile: pulumi.Output<string>
+  iamInstanceProfile: pulumi.Output<string>,
+  user_data: string,
 ) {
 
   // Create the talos Control Plane & associate the role
@@ -40,6 +41,9 @@ export function controlPlane(
     volumeTags: Object.assign({},
       config.tags, { Name: "kubecontrolplane" }
     ),
+
+    // Cloud-Init - SSH Load
+    userData: user_data
   })
 
 }

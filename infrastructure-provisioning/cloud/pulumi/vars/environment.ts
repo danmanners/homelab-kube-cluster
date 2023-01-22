@@ -6,6 +6,16 @@ export const cloud_auth = {
   aws_profile: "default"
 }
 
+export const user_data = `
+#cloud-config
+users:
+  - name: dan
+    shell: /bin/bash
+    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+    ssh-authorized-keys:
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBvwr0v1C32Xc72AqJexn0fEsESblReaGEPLeTs/Fa5i DM Fedora Desktop
+`
+
 export const general = {
   domain: "cloud.danmanners.com",
   domain_comment: "Internal DNS HostedZone for the cloud cluster"
@@ -103,11 +113,18 @@ export const amis: {
 } = {
   "us-east-1": {
     // amd64 / 64-Bit Intel/AMD Architecture
-    masters_amd64: "ami-076bd4ef7fee6bf8a", // v1.3.1
-    workers_amd64: "ami-076bd4ef7fee6bf8a", // v1.3.1
+    // https://cloud-images.ubuntu.com/locator/ec2/ - Ubuntu Image locator; search "us-east-1 22.04"
+    masters_amd64: "ami-00874d747dde814fa", // Ubuntu 22.04, Release 2023.01.15
+    workers_amd64: "ami-00874d747dde814fa", // Ubuntu 22.04, Release 2023.01.15
     // arm64 / 64-Bit ARM Architecture
-    masters_arm64: "ami-08310095e5e03008e", // v1.3.1
-    workers_arm64: "ami-08310095e5e03008e", // v1.3.1
+    masters_arm64: "ami-01625be155ee390e9", // Ubuntu 22.04, Release 2023.01.15
+    workers_arm64: "ami-01625be155ee390e9", // Ubuntu 22.04, Release 2023.01.15
+    // Talos AMIs; deprecated for now
+    // masters_amd64: "ami-076bd4ef7fee6bf8a", // v1.3.1
+    // workers_amd64: "ami-076bd4ef7fee6bf8a", // v1.3.1
+    // // arm64 / 64-Bit ARM Architecture
+    // masters_arm64: "ami-08310095e5e03008e", // v1.3.1
+    // workers_arm64: "ami-08310095e5e03008e", // v1.3.1
     // Bastion
     bastion_amd64: "ami-023fb534213ca41da", // Amazon Linux 2 ARM64
   }

@@ -1,5 +1,4 @@
 import * as aws from "@pulumi/aws"
-import * as pulumi from "@pulumi/pulumi"
 
 // Kubernetes Nodes
 import { controlPlane } from "./kube-master"
@@ -566,7 +565,8 @@ controlPlane(
   config,
   privSubnets[config.compute.control_planes[0].subnet_name].id,
   [talosNodeSecurityGroup.id],
-  iamInstanceProfile.name
+  iamInstanceProfile.name,
+  config.user_data,
 )
 
 /*
