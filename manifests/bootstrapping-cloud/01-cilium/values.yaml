@@ -1,4 +1,4 @@
-k8sServiceHost: homelab.kube.danmanners.io
+k8sServiceHost: kube.cloud.danmanners.com
 k8sServicePort: 6443
 
 name: cilium
