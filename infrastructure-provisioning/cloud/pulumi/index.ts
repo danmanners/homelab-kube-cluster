@@ -199,7 +199,7 @@ const nodePolicy = new aws.iam.Policy("talosNodePolicies", {
           "ecr:GetLifecyclePolicy",
           "ecr:GetLifecyclePolicyPreview",
           "ecr:ListTagsForResource",
-          "ecr:DescribeImageScanFindings"          
+          "ecr:DescribeImageScanFindings"
         ],
         Resource: "*"
       },
@@ -561,13 +561,24 @@ for (let k of config.security_groups.nlb_ingress.egress) {
   })
 }
 
-controlPlane(
+const kubeControlPlane = controlPlane(
   config,
   privSubnets[config.compute.control_planes[0].subnet_name].id,
   [talosNodeSecurityGroup.id],
   iamInstanceProfile.name,
   config.user_data,
 )
+
+// Create the Route53 record for the kube cluster domain name
+const kubeControlPlaneHostname = new aws.route53.Record(
+  `${config.general.kube_cp_hostname}.${config.general.domain}`, {
+    zoneId: privateHostedZone.zoneId,
+    name: `${config.general.kube_cp_hostname}.${config.general.domain}`,
+    type: "A",
+    ttl: 300,
+    records: [kubeControlPlane.privateIp],
+  },
+);
 
 /*
 The following section should be left commented **UNLESS** you're troubleshooting!!

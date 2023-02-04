@@ -1,6 +1,7 @@
 # Listener Values
 bind-address: 0.0.0.0
 tls-san:
+   - kube
    - kube.cloud.danmanners.com
    - homelab.kube.danmanners.io
 

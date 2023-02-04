@@ -18,6 +18,7 @@ users:
 
 export const general = {
   domain: "cloud.danmanners.com",
+  kube_cp_hostname: "kube",
   domain_comment: "Internal DNS HostedZone for the cloud cluster"
 }
 
