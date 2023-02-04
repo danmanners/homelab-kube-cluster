@@ -46,4 +46,8 @@ export function controlPlane(
     userData: user_data
   })
 
+  return {
+    "privateIp": kubeControlPlane.privateIp
+  }
+
 }
