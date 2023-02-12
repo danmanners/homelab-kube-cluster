@@ -1,0 +1,13 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: argocd-extname
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: argocd.homelab.danmanners.com
+    external-dns.alpha.kubernetes.io/ttl: "300"
+    external-dns.alpha.kubernetes.io/access: private
+spec:
+  type: ExternalName
+  externalName: metallb.homelab.danmanners.com
+  sessionAffinity: None

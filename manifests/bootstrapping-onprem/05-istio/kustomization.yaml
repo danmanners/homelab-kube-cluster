@@ -5,6 +5,7 @@ kind: Kustomization
 resources:
   - ns.yaml
   - ingress-class.yaml
+  - metallb-service.yaml
 
 helmCharts:
   - name: base

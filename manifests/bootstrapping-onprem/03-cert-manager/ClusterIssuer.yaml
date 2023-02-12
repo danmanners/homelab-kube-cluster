@@ -19,6 +19,6 @@ spec:
               key: secret-access-key
         selector:
           dnsZones:
-            - "danmanners.com"
-            - "danmanners.io"
-            - "k3s.danmanners.io"
+            - homelab.danmanners.com
+            - danmanners.io
+            - k3s.danmanners.io

@@ -2,7 +2,7 @@ txtOwnerId: homelab-k3s-danmanners
 txtPrefix: txt.
 registry: txt
 domainFilters:
-  - danmanners.com
+  - homelab.danmanners.com
   - danmanners.io
   - k3s.danmanners.io
 

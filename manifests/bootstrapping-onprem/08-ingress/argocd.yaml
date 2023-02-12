@@ -1,0 +1,42 @@
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: argocd-gateway
+spec:
+  selector:
+    istio: ingressgateway # use the default IngressGateway
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - argocd.homelab.danmanners.com
+    tls:
+      httpsRedirect: true # sends 301 redirect for http requests
+  - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    tls:
+      mode: SIMPLE
+      credentialName: argocd-homelab-cert # This should match the Certificate secretName
+    hosts:
+    - argocd.homelab.danmanners.com
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: argocd-ingress
+spec:
+  hosts:
+  - argocd.homelab.danmanners.com
+  gateways:
+  - argocd-gateway
+  http:
+  - route:
+    - destination:
+        host: argocd-server.argocd.svc.cluster.local
+        port:
+          number: 80
