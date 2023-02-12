@@ -1,5 +1,5 @@
-k8sServiceHost: homelab.kube.danmanners.io
-k8sServicePort: 6443
+# k8sServiceHost: kube.homelab.danmanners.com
+# k8sServicePort: 6443
 
 debug:
   enabled: false
@@ -11,7 +11,6 @@ name: cilium
 rollOutCiliumPods: true
 image:
   repository: quay.io/cilium/cilium
-  tag: v1.12.1
   pullPolicy: IfNotPresent
   useDigest: true
 
@@ -21,6 +20,9 @@ securityContext:
 
 tolerations:
   - operator: Exists
+
+# Required to be disabled on Raspbian; breaks shit
+l7Proxy: false
 
 podDisruptionBudget:
   enabled: true
