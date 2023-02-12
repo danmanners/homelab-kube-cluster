@@ -5,7 +5,7 @@ metadata:
   name: argocd-cm
 data:
   kustomize.buildOptions: --enable-alpha-plugins --enable-helm
-  url: https://argocd.k3s.danmanners.io
+  url: https://argocd.homelab.danmanners.com
   # Why in the FUCK is this here? See below!
   # https://argo-cd.readthedocs.io/en/release-2.4/faq/#why-is-my-application-still-outofsync-immediately-after-a-successful-sync
   # https://github.com/argoproj/argo-cd/blob/master/docs/operator-manual/argocd-cm.yaml#L235

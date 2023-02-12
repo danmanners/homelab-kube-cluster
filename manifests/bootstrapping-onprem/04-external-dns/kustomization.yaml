@@ -9,4 +9,10 @@ helmCharts:
     namespace: kube-system
     repo: https://kubernetes-sigs.github.io/external-dns/
     version: 1.12.1
-    valuesFile: values.yaml
+    valuesFile: aws-values.yaml
+  - name: external-dns
+    releaseName: edns-pihole
+    namespace: kube-system
+    repo: https://kubernetes-sigs.github.io/external-dns/
+    version: 1.12.1
+    valuesFile: pihole-values.yaml
