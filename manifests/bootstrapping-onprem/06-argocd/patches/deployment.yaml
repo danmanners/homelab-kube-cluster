@@ -55,8 +55,6 @@ spec:
           imagePullPolicy: Always
           resources: {}
           volumeMounts:
-            - mountPath: /home/argocd/.aws
-              name: argocd-aws-credentials
             - mountPath: /usr/local/bin/kustomize
               name: custom-tools
               subPath: kustomize
@@ -67,10 +65,16 @@ spec:
           env:
             - name: XDG_CONFIG_HOME
               value: /.config
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: aws-creds
+                  key: access-key-id
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: aws-creds
+                  key: secret-access-key
       volumes:
         - name: custom-tools
           emptyDir: {}
-        - name: argocd-aws-credentials
-          secret:
-            defaultMode: 420
-            secretName: argocd-aws-credentials

@@ -4,4 +4,5 @@ kind: ksops
 metadata:
   name: aws-creds
 files:
-  - secret.yaml
+  - aws-secret.yaml
+  - pihole-secret.yaml

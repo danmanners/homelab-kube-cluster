@@ -4,6 +4,7 @@ kind: Kustomization
 
 resources:
   - ns.yaml
+  - ingress-class.yaml
 
 helmCharts:
   - name: base
@@ -11,6 +12,9 @@ helmCharts:
     namespace: istio-system
     repo: https://istio-release.storage.googleapis.com/charts
     version: "1.16.2"
+    valuesInline:
+      base:
+        enableCRDTemplates: true
 
   - name: istiod
     releaseName: istiod
@@ -23,4 +27,3 @@ helmCharts:
     namespace: istio-ingress
     repo: https://istio-release.storage.googleapis.com/charts
     version: "1.16.2"
-

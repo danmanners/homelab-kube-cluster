@@ -5,15 +5,11 @@ namespace: argocd
 
 resources:
   # Increment up this version number once you have new encrypted container versions available for the repo server
-  - https://raw.githubusercontent.com/argoproj/argo-cd/v2.4.11/manifests/install.yaml
+  - https://raw.githubusercontent.com/argoproj/argo-cd/v2.6.1/manifests/install.yaml
+  - ns.yaml
+  - certs.yaml
   - ingress.yaml
-  - services.yaml
-  - namespace.yaml
+  - ../00-secrets
 
-patchesStrategicMerge:
-  - statefulset.yaml
-  - deployment.yaml
-  - configmap.yaml
-
-generators:
-  - ksops-generator.yaml
+components:
+  - patches
