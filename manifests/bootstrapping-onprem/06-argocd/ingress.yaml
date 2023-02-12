@@ -5,6 +5,8 @@ metadata:
   name: ingress
   annotations:
     kubernetes.io/ingress.class: istio
+    external-dns.alpha.kubernetes.io/hostname: argocd.homelab.danmanners.com
+    external-dns.alpha.kubernetes.io/access: private
 spec:
   tls:
   - hosts:
