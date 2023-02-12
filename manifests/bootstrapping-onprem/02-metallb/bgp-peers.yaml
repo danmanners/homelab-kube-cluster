@@ -2,9 +2,9 @@
 apiVersion: metallb.io/v1beta2
 kind: BGPPeer
 metadata:
-  name: mikrotik
+  name: opnsense
   namespace: metallb-system
 spec:
   myASN: 65528
   peerASN: 65529
-  peerAddress: 10.200.0.2
+  peerAddress: 10.4.0.1
