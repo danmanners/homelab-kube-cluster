@@ -3,8 +3,17 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: metallb-system
 
+helmCharts:
+  - name: metallb
+    releaseName: metallb
+    namespace: metallb-system
+    repo: https://metallb.github.io/metallb
+    version: 0.13.7
+    valuesInline:
+      loadBalancerClass: metallb
+
 resources:
-  - https://github.com/metallb/metallb//config/native?ref=v0.13.7
+  - ns.yaml
   - ipaddresspool.yaml
   - bgp-peers.yaml
   - bgp-advertisement.yaml

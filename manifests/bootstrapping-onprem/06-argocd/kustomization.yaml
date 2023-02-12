@@ -8,7 +8,7 @@ resources:
   - https://raw.githubusercontent.com/argoproj/argo-cd/v2.6.1/manifests/install.yaml
   - ns.yaml
   - certs.yaml
-  - ingress.yaml
+  - edns.yaml # External-DNS Service CNAME
   - ../00-secrets
 
 components:
