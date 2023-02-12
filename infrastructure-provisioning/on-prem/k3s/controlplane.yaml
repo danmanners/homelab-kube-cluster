@@ -5,8 +5,8 @@ tls-san:
    - kube.homelab.danmanners.com
 
 # Networking
-cluster-cidr: 10.42.0.0/16
-service-cidr: 10.43.0.0/16
+cluster-cidr: 10.44.0.0/16
+service-cidr: 10.45.0.0/16
 flannel-backend: none
 
 # Client
