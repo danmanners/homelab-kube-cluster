@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  labels:
+    name: istio-system
+  name: istio-system
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  labels:
+    name: istio-ingress
+    istio-injection: enabled
+  name: istio-ingress

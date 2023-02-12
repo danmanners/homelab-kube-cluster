@@ -15,7 +15,7 @@ spec:
             region: us-east-1
             accessKeyID: AKIA6HIHA6ONYX7G357B
             secretAccessKeySecretRef:
-              name: prod-route53-credentials-secret
+              name: aws-creds
               key: secret-access-key
         selector:
           dnsZones:
