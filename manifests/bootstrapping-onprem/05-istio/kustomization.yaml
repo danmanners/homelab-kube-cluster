@@ -28,3 +28,9 @@ helmCharts:
     namespace: istio-ingress
     repo: https://istio-release.storage.googleapis.com/charts
     version: "1.16.2"
+
+  - name: kiali-server
+    releaseName: kiali-server
+    namespace: istio-system
+    repo: https://kiali.org/helm-charts
+    version: "1.63.2"
