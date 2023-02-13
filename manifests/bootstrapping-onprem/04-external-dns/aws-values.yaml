@@ -1,16 +1,14 @@
-txtOwnerId: homelab-k3s-danmanners
+txtOwnerId: homelab
 txtPrefix: txt.
 registry: txt
 domainFilters:
+  - i.homelab.danmanners.com
   - homelab.danmanners.com
   - danmanners.io
   - k3s.danmanners.io
 
 policy: sync
 interval: 30s
-
-crd:
-  create: true
 
 provider: aws
 extraArgs:
@@ -28,5 +26,5 @@ env:
         name: aws-creds
         key: secret-access-key
 
-nodeSelector:
-  kubernetes.io/arch: amd64
+crd:
+  create: true
