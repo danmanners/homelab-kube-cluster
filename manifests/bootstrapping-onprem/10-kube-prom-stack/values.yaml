@@ -3,35 +3,35 @@ kubeProxy:
 
 kube-state-metrics:
   metricLabelsAllowlist:
-    - "persistentvolumeclaims=[*]"
+  - "persistentvolumeclaims=[*]"
   prometheus:
     monitor:
       enabled: true
       relabelings:
-        - action: replace
-          regex: (.*)
-          replacement: $1
-          targetLabel: kubernetes_node
-          sourceLabels:
-            - __meta_kubernetes_pod_node_name
+      - action: replace
+        regex: (.*)
+        replacement: $1
+        targetLabel: kubernetes_node
+        sourceLabels:
+        - __meta_kubernetes_pod_node_name
 
 grafana:
-  enabled: false
-  forceDeployDashboards: true
-  sidecar:
-    dashboards:
-      multicluster:
-        etcd:
-          enabled: true
+  enabled: true
+  # forceDeployDashboards: true
+  # sidecar:
+  #   dashboards:
+  #     multicluster:
+  #       etcd:
+  #         enabled: true
 
 kubelet:
   enabled: true
   serviceMonitor:
     metricRelabelings:
-      - action: replace
-        sourceLabels:
-          - node
-        targetLabel: instance
+    - action: replace
+      sourceLabels:
+      - node
+      targetLabel: instance
 
 # kubeControllerManager:
 #   enabled: true
@@ -59,12 +59,12 @@ kubelet:
 nodeExporter:
   serviceMonitor:
     relabelings:
-      - action: replace
-        regex: (.*)
-        replacement: $1
-        sourceLabels:
-          - __meta_kubernetes_pod_node_name
-        targetLabel: kubernetes_node
+    - action: replace
+      regex: (.*)
+      replacement: $1
+      sourceLabels:
+      - __meta_kubernetes_pod_node_name
+      targetLabel: kubernetes_node
 
 prometheus:
   prometheusSpec:
