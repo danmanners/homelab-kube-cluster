@@ -9,6 +9,12 @@ ingressClass:
   enabled: true
   isDefaultClass: true
 
+service:
+  enabled: true
+  type: LoadBalancer
+  spec:
+    loadBalancerClass: metallb
+
 logs:
   general:
     level: WARN
