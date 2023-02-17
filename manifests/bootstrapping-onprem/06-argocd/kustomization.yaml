@@ -3,12 +3,14 @@ kind: Kustomization
 namespace: argocd
 
 resources:
-# Increment up this version number once you have new encrypted container versions available for the repo server
-- https://raw.githubusercontent.com/argoproj/argo-cd/v2.6.2/manifests/install.yaml
 - ns.yaml
-# - certs.yaml
-- edns.yaml # External-DNS Service CNAME
+# - edns.yaml # External-DNS Service CNAME
 - ../00-secrets
 
-components:
-- patches
+helmCharts:
+- name: argo-cd
+  releaseName: argo-cd
+  namespace: argocd
+  repo: https://argoproj.github.io/argo-helm
+  version: "5.22.0"
+  valuesFile: values.yaml

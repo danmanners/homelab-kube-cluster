@@ -1,0 +1,14 @@
+deployment:
+  replicas: 2
+
+podDisruptionBudget:
+  enabled: true
+  minAvailable: 1
+
+ingressClass:
+  enabled: true
+  isDefaultClass: true
+
+logs:
+  general:
+    level: WARN
