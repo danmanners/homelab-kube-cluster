@@ -1,7 +1,0 @@
----
-apiVersion: v1
-kind: Namespace
-metadata:
-  labels:
-    name: resume-danmanners-com
-  name: resume-danmanners-com
