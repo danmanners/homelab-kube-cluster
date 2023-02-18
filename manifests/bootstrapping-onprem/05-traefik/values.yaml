@@ -12,6 +12,8 @@ ingressClass:
 service:
   enabled: true
   type: LoadBalancer
+  annotations:
+    metallb.universe.tf/loadBalancerIPs: 10.4.240.1
   spec:
     loadBalancerClass: metallb
 

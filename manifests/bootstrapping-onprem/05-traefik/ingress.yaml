@@ -1,0 +1,32 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: traefik-ingress-web
+spec:
+  entryPoints:
+  - web
+  routes:
+  - match: Host(`traefik.homelab.danmanners.com`)
+    kind: Rule
+    services:
+    - name: traefik
+      port: 80
+    middlewares:
+    - name: http-https-redirectscheme
+      namespace: kube-system
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: traefik-ingress-websecure
+spec:
+  entryPoints:
+  - websecure
+  routes:
+  - match: Host(`traefik.homelab.danmanners.com`)
+    kind: Rule
+    services:
+    - name: traefik
+      port: 9000
+  tls:
+    secretName: traefik-cert

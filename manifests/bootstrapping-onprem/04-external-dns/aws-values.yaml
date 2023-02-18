@@ -2,29 +2,29 @@ txtOwnerId: homelab
 txtPrefix: txt.
 registry: txt
 domainFilters:
-  - i.homelab.danmanners.com
-  - homelab.danmanners.com
-  - danmanners.io
-  - k3s.danmanners.io
+- i.homelab.danmanners.com
+- homelab.danmanners.com
+- danmanners.io
+- k3s.danmanners.io
 
 policy: sync
 interval: 30s
 
 provider: aws
 extraArgs:
-  - --aws-zone-type=public
+- --aws-zone-type=public
 
 env:
-  - name: AWS_ACCESS_KEY_ID
-    valueFrom:
-      secretKeyRef:
-        name: aws-creds
-        key: access-key-id
-  - name: AWS_SECRET_ACCESS_KEY
-    valueFrom:
-      secretKeyRef:
-        name: aws-creds
-        key: secret-access-key
+- name: AWS_ACCESS_KEY_ID
+  valueFrom:
+    secretKeyRef:
+      name: aws-creds
+      key: access-key-id
+- name: AWS_SECRET_ACCESS_KEY
+  valueFrom:
+    secretKeyRef:
+      name: aws-creds
+      key: secret-access-key
 
 crd:
   create: true
