@@ -17,6 +17,7 @@ charts/
 # Wireguard Files - Don't accidentally commit anything dumb 😃
 privatekey
 publickey
+gitleaks*
 
 # Terraform Files
 provider.tf
