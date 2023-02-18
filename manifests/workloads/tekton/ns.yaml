@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  labels:
+    name: tekton
+  name: tekton
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  labels:
+    name: tekton-pipelines
+  name: tekton-pipelines
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  labels:
+    name: tekton-chains
+  name: tekton-chains
