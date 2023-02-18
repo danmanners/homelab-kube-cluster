@@ -1,11 +1,10 @@
-# ArgoCD Certs
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: argocd-homelab-cert
+  name: argocd-cert
 spec:
   commonName: argocd.homelab.danmanners.com
-  secretName: argocd-homelab-cert
+  secretName: argocd-cert
   dnsNames:
   - argocd.homelab.danmanners.com
   issuerRef:

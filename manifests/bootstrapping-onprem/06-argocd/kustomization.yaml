@@ -4,8 +4,8 @@ namespace: argocd
 
 resources:
 - ns.yaml
-# - edns.yaml # External-DNS Service CNAME
 - ../00-secrets
+- networking
 
 helmCharts:
 - name: argo-cd

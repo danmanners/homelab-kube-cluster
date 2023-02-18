@@ -12,3 +12,7 @@ helmCharts:
 
 resources:
 - https://github.com/traefik/traefik-helm-chart/traefik/crds?ref=v21.1.0
+- certs.yaml
+- ingress.yaml
+- middlewares.yaml
+- service.yaml
