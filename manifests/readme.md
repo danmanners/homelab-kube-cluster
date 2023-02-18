@@ -20,4 +20,4 @@ This directory homes the raw requirements to get the cluster up and operational.
 
 ## Services and Applications
 
-This directory homes the serives and applications running in my cluster. Not **everything** is used any longer, but projects that have been deprecated are marked accordingly.
+This directory homes the services and applications running in my cluster. Not everything in this directory is currently used, and fully deprecated directories have been entirely removed.

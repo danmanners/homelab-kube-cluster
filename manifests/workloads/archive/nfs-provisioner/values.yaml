@@ -1,8 +1,0 @@
-nfs:
-  server: 10.200.0.3
-rbac:
-  create: true
-podSecurityPolicy:
-  enabled: true
-storageClass:
-  defaultClass: false
