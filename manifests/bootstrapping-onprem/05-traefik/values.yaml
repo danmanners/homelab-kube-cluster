@@ -1,9 +1,9 @@
 deployment:
   replicas: 2
 
-podDisruptionBudget:
-  enabled: true
-  minAvailable: 1
+# podDisruptionBudget:
+#   enabled: true
+#   minAvailable: 1
 
 ingressClass:
   enabled: true
