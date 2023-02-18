@@ -39,9 +39,10 @@ repoServer:
   - mountPath: /.config/kustomize/plugin/viaduct.ai/v1/ksops/ksops
     name: custom-tools
     subPath: ksops
-  - mountPath: "~/.aws"
+  - mountPath: "/home/argocd/.aws/credentials"
     name: aws-creds
     readOnly: true
+    subPath: credentials
   volumes:
   - name: custom-tools
     emptyDir: {}

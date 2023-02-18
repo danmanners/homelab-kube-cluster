@@ -5,7 +5,7 @@ namespace: kube-system
 helmCharts:
 - name: traefik
   releaseName: traefik
-  namespace: argocd
+  namespace: kube-system
   repo: https://traefik.github.io/charts
   version: "21.1.0"
   valuesFile: values.yaml
