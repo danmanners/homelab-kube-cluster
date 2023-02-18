@@ -30,17 +30,6 @@ repoServer:
   env:
   - name: XDG_CONFIG_HOME
     value: /.config
-  - name: AWS_ACCESS_KEY_ID
-    valueFrom:
-      secretKeyRef:
-        name: aws-creds
-        key: access-key-id
-  - name: AWS_SECRET_ACCESS_KEY
-    valueFrom:
-      secretKeyRef:
-        name: aws-creds
-        key: secret-access-key
-
   # Volume Work
   volumeMounts:
   - mountPath: /usr/local/bin/kustomize
@@ -50,6 +39,12 @@ repoServer:
   - mountPath: /.config/kustomize/plugin/viaduct.ai/v1/ksops/ksops
     name: custom-tools
     subPath: ksops
+  - mountPath: "~/.aws"
+    name: aws-creds
+    readOnly: true
   volumes:
   - name: custom-tools
     emptyDir: {}
+  - name: aws-creds
+    secret:
+      secretName: aws-creds

@@ -1,20 +1,19 @@
----
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: "argocd"
+  name: argocd
   namespace: argocd
 spec:
   project: default
   source:
-    repoURL: "https://github.com/danmanners/homelab-kube-cluster.git"
-    path: manifests/bootstrapping/06-argocd
+    repoURL: https://github.com/danmanners/homelab-kube-cluster.git
+    path: manifests/bootstrapping-onprem/06-argocd
     targetRevision: main
   destination:
-    server: "https://kubernetes.default.svc"
+    server: https://kubernetes.default.svc
     namespace: argocd
   syncPolicy:
     automated:
       prune: true
     syncOptions:
-      - CreateNamespace=true
+    - CreateNamespace=true
