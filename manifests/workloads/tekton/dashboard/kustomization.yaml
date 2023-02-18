@@ -4,3 +4,6 @@ namespace: tekton-pipelines
 
 resources:
 - https://github.com/tektoncd/dashboard/releases/download/v0.32.0/release-full.yaml
+- certs.yaml
+- ingress.yaml
+- traefik-middleware.yaml

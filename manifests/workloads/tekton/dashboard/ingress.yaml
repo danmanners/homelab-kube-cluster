@@ -1,0 +1,34 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: tekton-cert-web
+spec:
+  entryPoints:
+  - web
+  routes:
+  - match: Host(`tekton.homelab.danmanners.com`)
+    kind: Rule
+    services:
+    - name: tekton-dashboard
+      port: 9097
+    middlewares:
+    - name: http-https-redirectscheme
+      namespace: kube-system
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: tekton-cert-websecure
+spec:
+  entryPoints:
+  - websecure
+  routes:
+  - match: Host(`tekton.homelab.danmanners.com`)
+    kind: Rule
+    services:
+    - name: tekton-dashboard
+      port: 9097
+    middlewares:
+    - name: tekton-auth
+  tls:
+    secretName: tekton-cert

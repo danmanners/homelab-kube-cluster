@@ -4,3 +4,7 @@ namespace: tekton-pipelines
 
 resources:
 - https://github.com/tektoncd/pipeline/releases/download/v0.45.0/release.yaml
+
+patchesStrategicMerge:
+# Feature Flags
+- feature-flags.yaml
