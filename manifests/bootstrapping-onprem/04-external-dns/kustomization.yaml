@@ -1,0 +1,11 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: kube-system
+
+helmCharts:
+- name: external-dns
+  releaseName: edns
+  namespace: kube-system
+  repo: https://kubernetes-sigs.github.io/external-dns/
+  version: 1.12.1
+  valuesFile: aws-values.yaml

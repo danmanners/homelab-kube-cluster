@@ -1,0 +1,11 @@
+---
+apiVersion: metallb.io/v1beta1
+kind: BGPAdvertisement
+metadata:
+  name: bgp-lb
+  namespace: kube-system
+spec:
+  ipAddressPools:
+    - main-address-pool
+  peers:
+    - opnsense

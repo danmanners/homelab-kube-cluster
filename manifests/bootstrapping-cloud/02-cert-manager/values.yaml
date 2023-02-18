@@ -1,0 +1,7 @@
+installCRDs: true
+replicaCount: 1
+serviceAccount:
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::977656673179:role/talosNodeRole-1453839
+securityContext:
+  fsGroup: 1001

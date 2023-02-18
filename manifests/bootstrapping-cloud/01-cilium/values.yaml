@@ -1,0 +1,129 @@
+k8sServiceHost: kube.cloud.danmanners.com
+k8sServicePort: 6443
+
+name: cilium
+cluster:
+  name: cloud
+
+rollOutCiliumPods: true
+image:
+  repository: quay.io/cilium/cilium
+  pullPolicy: IfNotPresent
+  useDigest: true
+
+# AWS CNI Chaining Requirements
+# https://docs.cilium.io/en/v1.12/gettingstarted/cni-chaining-aws-cni/
+enableIPv4Masquerade: true
+endpointRoutes:
+  enabled: true
+cni:
+  install: false
+  # chainingMode: aws-cni
+
+# Necessary for Kubernetes v1.24+
+securityContext:
+  privileged: true
+
+# Role Based Access Control
+rbac:
+  create: true
+
+tolerations:
+  - operator: Exists
+
+podDisruptionBudget:
+  enabled: true
+  maxUnavailable: 2
+
+updateStrategy:
+  type: RollingUpdate
+  rollingUpdate:
+    maxUnavailable: 2
+
+bpf:
+  lbMapMax: 65536
+  policyMapMax: 16384
+
+containerRuntime:
+  integration: none
+
+customCalls:
+  enabled: false
+
+datapathMode: veth
+encryption:
+  enabled: false
+  type: wireguard
+  wireguard:
+    userspaceFallback: false
+
+hostServices:
+  enabled: false
+  protocols: tcp,udp
+
+hubble:
+  enabled: true
+  tls:
+    auto:
+      method: cronJob
+  relay:
+    enabled: true
+  ui:
+    enabled: true
+    standalone:
+      enabled: false
+    rollOutPods: true
+    replicas: 2
+    updateStrategy:
+      rollingUpdate:
+        maxUnavailable: 1
+      type: RollingUpdate
+
+    securityContext:
+      enabled: true
+
+    ingress:
+      enabled: false
+
+identityAllocationMode: "crd"
+installIptablesRules: true
+installNoConntrackIptablesRules: false
+
+ipam:
+  mode: "cluster-pool"
+  operator:
+    clusterPoolIPv4PodCIDR: "10.244.0.0/16"
+    clusterPoolIPv4MaskSize: 24
+
+prometheus:
+  enabled: false
+  port: 9090
+  serviceMonitor:
+    enabled: false
+    labels: {}
+  metrics: ~
+
+remoteNodeIdentity: true
+resourceQuotas:
+  enabled: false
+  cilium:
+    hard:
+      pods: "10k"
+  operator:
+    hard:
+      pods: "15"
+sleepAfterInit: false
+sockops:
+  enabled: false
+tls:
+  enabled: true
+  secretsBackend: local
+tunnel: "none"
+disableEndpointCRD: "false"
+wellKnownIdentities:
+  enabled: false
+operator:
+  enabled: true
+  rollOutPods: true
+  replicas: 1
+  serviceAccountName: cilium-operator

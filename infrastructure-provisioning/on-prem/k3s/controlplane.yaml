@@ -1,0 +1,23 @@
+# Listener Values
+bind-address: 0.0.0.0
+tls-san:
+   - kube
+   - kube.homelab.danmanners.com
+
+# Networking
+cluster-cidr: 10.44.0.0/16
+service-cidr: 10.45.0.0/16
+flannel-backend: none
+
+# Client
+write-kubeconfig-mode: 0644
+
+# Cluster
+cluster-init: true
+
+# Components
+disable:
+   - traefik
+
+# Security
+secrets-encryption: true
