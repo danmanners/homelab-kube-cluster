@@ -12,3 +12,6 @@ helmCharts:
 
 resources:
 - service.yaml
+
+patches:
+- path: patches/ingress-nginx-controller.yaml

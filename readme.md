@@ -1,6 +1,6 @@
 # Dan Manners' Homelab
 
-> <strong>Notice - </strong> This repository is on hold for a little while I'm working on non-tech related things. I'm planning on being back early 2023 in full swing, working on more Kubernetes and cloud things in the homelab! 🙂
+> All of the readme's are in a state of flux at this moment. I'm working on refactoring much of the repository, but I'm happy to answer any questions in the [k8s@Home Discord server](https://discord.gg/k8s-at-home). Ping me at `danmanners@3077` with any questions!
 
 Current status: **BETA** (but is highly stable)
 
@@ -15,8 +15,6 @@ This project aims to utilize industry-standard tooling and practices in order to
 - [x] Automagic cert management
 - [x] In-Cluster Container Registry
 - [ ] Monitoring and alerting 🚧
-- [ ] Automated Backups 🚧
-- [x] ~~Cluster SSO through GitHub~~ - Removed when switching from K3s to Talos
 
 ## 💡 Current Tech Stack
 
