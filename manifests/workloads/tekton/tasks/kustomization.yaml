@@ -3,8 +3,6 @@ kind: Kustomization
 namespace: tekton
 
 resources:
-# Git Clone - https://hub.tekton.dev/tekton/task/git-clone
-- https://raw.githubusercontent.com/tektoncd/catalog/main/task/git-clone/0.7/git-clone.yaml
 # Git CLI - https://hub.tekton.dev/tekton/task/git-cli
 - https://raw.githubusercontent.com/tektoncd/catalog/main/task/git-cli/0.4/git-cli.yaml
 # Git Clone - https://hub.tekton.dev/tekton/task/git-clone
