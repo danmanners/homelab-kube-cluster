@@ -4,6 +4,5 @@ namespace: tekton-pipelines
 
 resources:
 - ingress.yaml
-- middlewares.yaml
 - deployment.yaml
 - service.yaml

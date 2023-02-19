@@ -1,8 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: homelab-kube-cluster
-  namespace: homelab-kube-cluster
+  name: tekton-el-base
   annotations:
     nginx.ingress.kubernetes.io/use-regex: "true"
     nginx.ingress.kubernetes.io/rewrite-target: /$1
@@ -11,11 +10,12 @@ spec:
   tls:
   - hosts:
     - tekton-el.homelab.danmanners.com
+    secretName: tekton-el-cert
   rules:
   - host: tekton-el.homelab.danmanners.com
     http:
       paths:
-      - path: /github.com/danmanners/homelab-kube-cluster(/|$)(.*)
+      - path: /
         pathType: Prefix
         backend:
           service:

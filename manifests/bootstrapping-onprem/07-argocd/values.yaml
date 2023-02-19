@@ -49,3 +49,15 @@ repoServer:
   - name: aws-creds
     secret:
       secretName: aws-creds
+
+server:
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    annotations: {}
+    hosts:
+    - argocd.homelab.danmanners.com
+    tls:
+    - secretName: argocd-cert
+      hosts:
+      - argocd.homelab.danmanners.com

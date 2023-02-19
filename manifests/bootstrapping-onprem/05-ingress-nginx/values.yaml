@@ -94,6 +94,9 @@ controller:
         - /wait-shutdown
   priorityClassName: ""
 
+  config:
+    force-ssl-redirect: true
+
 revisionHistoryLimit: 10
 defaultBackend:
   enabled: false
