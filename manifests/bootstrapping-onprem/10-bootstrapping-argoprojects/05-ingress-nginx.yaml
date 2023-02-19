@@ -1,13 +1,13 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: traefik
+  name: ingress-nginx
   namespace: argocd
 spec:
   project: default
   source:
     repoURL: https://github.com/danmanners/homelab-kube-cluster.git
-    path: manifests/bootstrapping-onprem/05-traefik
+    path: manifests/bootstrapping-onprem/05-ingress-nginx
     targetRevision: main
   destination:
     server: https://kubernetes.default.svc
