@@ -5,7 +5,7 @@ If you are going to be using Cert-Manager for certificate management, and AWS Ro
 Once you have done that, you can deploy these resources by running:
 
 ```bash
-kustomize build --enable-alpha-plugins | kubectl apply -f -
+kustomize build --enable-alpha-plugins --enable-helm | kubectl apply -f -
 ```
 
 We'll want to deploy the ArgoProject first and wait ~30s to ensure that the namespace and required resources are created first. Otherwise, the `kubectl` apply for the Kustomize manifest will fail and you'll need to re-run it.
