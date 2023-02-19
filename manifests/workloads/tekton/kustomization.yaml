@@ -5,7 +5,6 @@ resources:
 - ns.yaml
 - chains/argo-project.yaml
 - dashboard/argo-project.yaml
-# - pipelines/argo-project.yaml # BROKEN UNTIL FURTHER NOTICE
-# https://github.com/tektoncd/pipeline/issues/5931
+- pipelines/argo-project.yaml
 - tasks/argo-project.yaml
 - triggers/argo-project.yaml
