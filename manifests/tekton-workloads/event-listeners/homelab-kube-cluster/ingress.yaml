@@ -4,6 +4,7 @@ metadata:
   name: homelab-kube-cluster
   namespace: homelab-kube-cluster
 spec:
+  ingressClassName: nginx
   tls:
   - hosts:
     - tekton-el.homelab.danmanners.com
@@ -18,3 +19,4 @@ spec:
             name: nginx
             port:
               number: 80
+---

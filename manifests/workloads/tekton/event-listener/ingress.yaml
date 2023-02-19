@@ -3,6 +3,7 @@ kind: Ingress
 metadata:
   name: tekton-el-ingress
 spec:
+  ingressClassName: nginx
   tls:
   - hosts:
     - tekton-el.homelab.danmanners.com

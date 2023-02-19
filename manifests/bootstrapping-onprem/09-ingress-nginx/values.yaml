@@ -1,0 +1,105 @@
+controller:
+  name: controller
+  containerName: controller
+  containerPort:
+    http: 80
+    https: 443
+  dnsPolicy: ClusterFirst
+  ingressClassResource:
+    name: nginx
+    enabled: true
+    default: false
+    controllerValue: "k8s.io/ingress-nginx"
+  ingressClass: nginx
+  publishService:
+    enabled: false # TODO: Maybe turn this on later??
+  kind: Deployment # DaemonSet??
+  replicaCount: 2
+  minAvailable: 1
+  resources:
+    requests:
+      cpu: 100m
+      memory: 90Mi
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 11
+    targetCPUUtilizationPercentage: 50
+    targetMemoryUtilizationPercentage: 50
+    behavior: {}
+    # scaleDown:
+    #   stabilizationWindowSeconds: 300
+    #   policies:
+    #   - type: Pods
+    #     value: 1
+    #     periodSeconds: 180
+    # scaleUp:
+    #   stabilizationWindowSeconds: 300
+    #   policies:
+    #   - type: Pods
+    #     value: 2
+    #     periodSeconds: 60
+  service:
+    enabled: true
+    # -- If enabled is adding an appProtocol option for Kubernetes service. An appProtocol field replacing annotations that were
+    # using for setting a backend protocol. Here is an example for AWS: service.beta.kubernetes.io/aws-load-balancer-backend-protocol: http
+    # It allows choosing the protocol for each backend specified in the Kubernetes service.
+    # See the following GitHub issue for more details about the purpose: https://github.com/kubernetes/kubernetes/issues/40244
+    # Will be ignored for Kubernetes versions older than 1.20
+    ##
+    appProtocol: true
+    annotations: {}
+    labels: {}
+    enableHttp: true
+    enableHttps: true
+    ipFamilyPolicy: "SingleStack"
+    ipFamilies:
+    - IPv4
+    ports:
+      http: 80
+      https: 443
+    targetPorts:
+      http: http
+      https: https
+    type: ClusterIP
+    external:
+      enabled: true
+    internal:
+      enabled: false
+      annotations: {}
+      loadBalancerSourceRanges: []
+  shareProcessNamespace: false
+  opentelemetry:
+    enabled: false
+    containerSecurityContext:
+      allowPrivilegeEscalation: false
+  metrics:
+    port: 10254
+    portName: metrics
+    enabled: true
+    service:
+      servicePort: 10254
+      type: ClusterIP
+    serviceMonitor:
+      enabled: false
+      scrapeInterval: 30s
+    prometheusRule:
+      enabled: false
+      additionalLabels: {}
+  lifecycle:
+    preStop:
+      exec:
+        command:
+        - /wait-shutdown
+  priorityClassName: ""
+
+revisionHistoryLimit: 10
+defaultBackend:
+  enabled: false
+
+rbac:
+  create: true
+  scope: false
+
+serviceAccount:
+  create: true
