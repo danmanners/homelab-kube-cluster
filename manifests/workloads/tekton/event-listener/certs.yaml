@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: tekton-el-cert
+spec:
+  commonName: tekton-el.homelab.danmanners.com
+  secretName: tekton-el-cert
+  dnsNames:
+  - tekton-el.homelab.danmanners.com
+  issuerRef:
+    name: acme-prod
+    kind: ClusterIssuer

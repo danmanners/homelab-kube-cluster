@@ -8,3 +8,4 @@ resources:
 - pipelines/argo-project.yaml
 - tasks/argo-project.yaml
 - triggers/argo-project.yaml
+- event-listener/argo-project.yaml

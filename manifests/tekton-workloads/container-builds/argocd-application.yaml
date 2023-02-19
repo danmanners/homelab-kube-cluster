@@ -1,20 +1,19 @@
----
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: cluster-secrets
+  name: tekton-workloads
   namespace: argocd
 spec:
   project: default
   source:
     repoURL: "https://github.com/danmanners/homelab-kube-cluster.git"
-    path: manifests/secrets
+    path: manifests/tekton-workloads/container-builds
     targetRevision: main
   destination:
     server: "https://kubernetes.default.svc"
-    namespace: default
+    namespace: tekton-pipelines
   syncPolicy:
     automated:
       prune: true
     syncOptions:
-      - CreateNamespace=true
+    - CreateNamespace=true
