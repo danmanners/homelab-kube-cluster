@@ -5,3 +5,4 @@ namespace: tekton-pipelines
 resources:
 - certs.yaml
 - service.yaml
+- ingress.yaml

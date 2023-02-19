@@ -1,0 +1,11 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: tekton-el-ingress
+spec:
+  tls:
+  - hosts:
+    - tekton-el.homelab.danmanners.com
+    secretName: tekton-el-cert
+  rules:
+  - host: tekton-el.homelab.danmanners.com
