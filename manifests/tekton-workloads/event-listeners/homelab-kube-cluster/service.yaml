@@ -12,3 +12,15 @@ spec:
   selector:
     app: nginx
   sessionAffinity: None
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tekton-el-externalname
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: tekton-el.homelab.danmanners.com
+    external-dns.alpha.kubernetes.io/ttl: "300"
+spec:
+  type: ExternalName
+  externalName: nginx.homelab.danmanners.com
+  sessionAffinity: None

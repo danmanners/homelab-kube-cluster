@@ -9,7 +9,7 @@ spec:
     server: https://kubernetes.default.svc
   source:
     repoURL: https://github.com/danmanners/homelab-kube-cluster.git
-    path: manifests/workloads/bootstrapping-onprem/09-ingress-nginx
+    path: manifests/bootstrapping-onprem/09-ingress-nginx
     targetRevision: main
   project: default
   syncPolicy:

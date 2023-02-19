@@ -1,0 +1,9 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: strip-eventlisterner-prefixes
+  namespace: kube-system
+spec:
+  stripPrefix:
+    prefixes:
+    - /github.com

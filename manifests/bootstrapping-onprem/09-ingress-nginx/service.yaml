@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-bgp-ip
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: nginx.homelab.danmanners.com
+spec:
+  type: ExternalName
+  externalName: 10.4.240.2

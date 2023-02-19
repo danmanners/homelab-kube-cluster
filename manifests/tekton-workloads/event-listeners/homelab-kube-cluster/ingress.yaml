@@ -3,6 +3,9 @@ kind: Ingress
 metadata:
   name: homelab-kube-cluster
   namespace: homelab-kube-cluster
+  annotations:
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /$4
 spec:
   ingressClassName: nginx
   tls:
@@ -12,11 +15,10 @@ spec:
   - host: tekton-el.homelab.danmanners.com
     http:
       paths:
-      - path: /github.com/danmanners/homelab-kube-cluster
+      - path: /github.com/danmanners/homelab-kube-cluster/(/|$)(.*)
         pathType: Prefix
         backend:
           service:
             name: nginx
             port:
               number: 80
----
