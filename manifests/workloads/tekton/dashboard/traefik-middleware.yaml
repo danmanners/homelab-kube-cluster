@@ -1,8 +1,0 @@
-apiVersion: traefik.containo.us/v1alpha1
-kind: Middleware
-metadata:
-  name: tekton-auth
-spec:
-  basicAuth:
-    removeHeader: true
-    secret: tekton-authsecret

@@ -9,5 +9,5 @@ metadata:
     app.kubernetes.io/instance: tekton
 spec:
   type: ExternalName
-  externalName: traefik.homelab.danmanners.com
+  externalName: nginx.homelab.danmanners.com
   sessionAffinity: None

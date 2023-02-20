@@ -1,34 +1,25 @@
-apiVersion: traefik.containo.us/v1alpha1
-kind: IngressRoute
+apiVersion: networking.k8s.io/v1
+kind: Ingress
 metadata:
-  name: tekton-cert-web
+  name: homelab-kube-cluster
+  namespace: homelab-kube-cluster
+  annotations:
+    nginx.ingress.kubernetes.io/auth-type: basic
+    nginx.ingress.kubernetes.io/auth-secret: tekton-authsecret
+    nginx.ingress.kubernetes.io/auth-realm: 'Tekton Dashboard - Authentication Required'
 spec:
-  entryPoints:
-  - web
-  routes:
-  - match: Host(`tekton.homelab.danmanners.com`)
-    kind: Rule
-    services:
-    - name: tekton-dashboard
-      port: 9097
-    middlewares:
-    - name: http-https-redirectscheme
-      namespace: kube-system
----
-apiVersion: traefik.containo.us/v1alpha1
-kind: IngressRoute
-metadata:
-  name: tekton-cert-websecure
-spec:
-  entryPoints:
-  - websecure
-  routes:
-  - match: Host(`tekton.homelab.danmanners.com`)
-    kind: Rule
-    services:
-    - name: tekton-dashboard
-      port: 9097
-    middlewares:
-    - name: tekton-auth
+  ingressClassName: nginx
   tls:
-    secretName: tekton-cert
+  - hosts:
+    - tekton.homelab.danmanners.com
+  rules:
+  - host: tekton.homelab.danmanners.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: tekton-dashboard
+            port:
+              number: 9097

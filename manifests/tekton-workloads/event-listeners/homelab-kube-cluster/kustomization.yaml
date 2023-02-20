@@ -4,6 +4,5 @@ namespace: homelab-kube-cluster
 
 resources:
 - namespace.yaml
-- temp
 - ingress
 - tekton
