@@ -12,6 +12,7 @@ spec:
   tls:
   - hosts:
     - tekton.homelab.danmanners.com
+    secretName: tekton-cert
   rules:
   - host: tekton.homelab.danmanners.com
     http:

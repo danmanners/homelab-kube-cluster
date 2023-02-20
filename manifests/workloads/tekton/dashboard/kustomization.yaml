@@ -8,4 +8,3 @@ resources:
 - ingress.yaml
 - secret.yaml
 - service.yaml
-- traefik-middleware.yaml
