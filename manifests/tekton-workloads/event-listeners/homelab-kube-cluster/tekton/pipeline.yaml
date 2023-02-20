@@ -1,0 +1,55 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: gitleaks-pipeline
+spec:
+  workspaces:
+  - name: workspace
+  tasks:
+  - name: clone-git-repo
+    workspaces:
+    - name: output
+      workspace: workspace
+    taskRef:
+      resolver: cluster
+      params:
+      - name: name
+        value: git-clone
+      - name: kind
+        value: task
+      - name: namespace
+        value: tekton-pipelines
+    params:
+    - name: url
+      value: https://github.com/danmanners/homelab-kube-cluster
+    - name: deleteExisting
+      value: "true"
+
+  - name: secret-detection
+    runAfter:
+    - clone-git-repo
+    taskRef:
+      resolver: cluster
+      params:
+      - name: name
+        value: gitleaks
+      - name: kind
+        value: task
+      - name: namespace
+        value: tekton-pipelines
+    workspaces:
+    - name: source
+      workspace: workspace
+    params:
+    - name: repo_path
+      value: contest-arena
+    - name: config_file_url
+      value: https://raw.githubusercontent.com/tektoncd/catalog/main/task/gitleaks/0.1/samples/gitleaks.toml
+    - name: config_file_path
+      value: gitleaks.toml
+    - name: output_format
+      value: json
+    - name: report_output_path
+      value: report.json
+    - name: args
+      value: ["--verbose", "--no-git"]

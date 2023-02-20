@@ -5,7 +5,7 @@ metadata:
   namespace: homelab-kube-cluster
   annotations:
     nginx.ingress.kubernetes.io/use-regex: "true"
-    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    nginx.ingress.kubernetes.io/rewrite-target: /$1/hooks
 spec:
   ingressClassName: nginx
   tls:
@@ -19,6 +19,6 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: nginx
+            name: el-github-pr
             port:
               number: 80

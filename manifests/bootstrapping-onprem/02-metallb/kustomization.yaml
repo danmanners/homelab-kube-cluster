@@ -10,9 +10,6 @@ helmCharts:
   version: 0.13.7
   valuesInline:
     loadBalancerClass: metallb
-    # speaker:
-    #   frr:
-    # enabled: true
 
 resources:
 - ns.yaml

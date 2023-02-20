@@ -1,16 +1,16 @@
 apiVersion: triggers.tekton.dev/v1alpha1
 kind: EventListener
 metadata:
-  name: security-scanner
+  name: github-pr
 spec:
-  serviceAccountName: tekton-triggers-example-sa
+  # serviceAccountName: tekton-triggers-example-sa
   triggers:
   - name: github-listener
     interceptors:
     - ref:
         name: "github"
       params:
-      - name: "secretRef"
+      - name: secret
         value:
           secretName: github-interceptor-secret
           secretKey: secretToken
