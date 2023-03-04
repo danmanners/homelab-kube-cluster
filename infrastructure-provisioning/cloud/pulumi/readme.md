@@ -1,12 +1,20 @@
 # Pulumi Infrastructure Instantiation
 
-Okay, this is a shitshow. Let's go through it. You need to ensure that your `~/.aws/credentials` file is set up with the required values.
+You need to ensure that your `~/.aws/credentials` file is set up with the required values.
 
 ```ini
 [default]
 aws_access_key_id = fakeAccessKey
 aws_secret_access_key = fakeSecretKey
 region = us-east-1
+```
+
+Next, you'll need to make sure that `pulumi` and `yarn` are installed.
+
+```bash
+brew install pulumi yarn
+# Set up the environment from inside the pulumi directory
+yarn
 ```
 
 You may also want to set up a functions and aliases in your `.bashrc` or `.zshrc` file like this:

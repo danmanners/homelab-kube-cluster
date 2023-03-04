@@ -16,6 +16,7 @@ export type RouteTableIds = {
 export type Node = {
   name: string
   instance_size: string
+  arch: string,
   subnet_name: string
   root_volume_size: number
   root_volume_type: string,

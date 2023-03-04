@@ -1,0 +1,9 @@
+#cloud-config
+users:
+  - name: dan
+    shell: /bin/bash
+    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+    ssh_import_id:
+      - gh:danmanners
+preserve_hostname: true
+hostname: kube-control-1

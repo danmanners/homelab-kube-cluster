@@ -1,33 +1,44 @@
-import { Node } from "../types/types"
+import { Node } from "../types/types";
 
 // Cloud Setup Values
 export const cloud_auth = {
   aws_region: "us-east-1",
-  aws_profile: "default"
-}
+  aws_profile: "default",
+};
 
-export const user_data = `
+export const user_data = {
+  kube: `
 #cloud-config
 users:
   - name: dan
     shell: /bin/bash
-    sudo: ['ALL=(ALL) NOPASSWD:ALL']
-    ssh-authorized-keys:
-      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBvwr0v1C32Xc72AqJexn0fEsESblReaGEPLeTs/Fa5i DM Fedora Desktop
-`
+    sudo: "ALL=(ALL) NOPASSWD:ALL"
+    ssh_import_id:
+      - gh:danmanners
+`,
+  bastion: `
+#cloud-config
+users:
+  - name: dan
+    shell: /bin/bash
+    sudo: "ALL=(ALL) NOPASSWD:ALL"
+    ssh_import_id:
+      - gh:danmanners
+`,
+};
 
 export const general = {
   domain: "cloud.danmanners.com",
   kube_cp_hostname: "kube",
-  domain_comment: "Internal DNS HostedZone for the cloud cluster"
-}
+  domain_comment: "Internal DNS HostedZone for the cloud cluster",
+};
 
 // VPC Setup and Networking
 export const network = {
   // VPC Cidr Block Definition
   vpc: {
     name: "homelab-vpc",
-    cidr_block: "172.29.0.0/20"
+    cidr_block: "172.29.0.0/20",
   },
   // Subnet Definitions
   subnets: {
@@ -55,62 +66,67 @@ export const network = {
         cidr_block: "172.29.12.0/23",
         az: "b",
       },
-    ]
-  }
-}
+    ],
+  },
+};
 
 // Compute Values
 export const compute: {
-  control_planes: Node[],
-  workers: Node[],
-  bastion: Node[]
+  control_planes: Node[];
+  workers: Node[];
+  bastion: Node[];
 } = {
   control_planes: [
     {
-      name: "talos-control-1",
+      name: "kube-control-1",
       instance_size: "t4g.small",
+      arch: "arm64",
       subnet_name: "private1a",
       root_volume_size: 20,
       root_volume_type: "gp3",
-      privateIp: "172.29.14.5"
+      privateIp: "172.29.14.5",
     },
   ],
   workers: [
     {
-      name: "talos-worker-1",
+      name: "kube-worker-1",
       instance_size: "t3.small",
+      arch: "amd64",
       subnet_name: "private1a",
       root_volume_size: 32,
       root_volume_type: "gp3",
     },
     {
-      name: "talos-worker-2",
+      name: "kube-worker-2",
       instance_size: "t3.small",
+      arch: "amd64",
       subnet_name: "private1b",
       root_volume_size: 32,
       root_volume_type: "gp3",
     },
   ],
-  bastion: [ // Used exclusively for troubleshooting
+  bastion: [
+    // Used exclusively for troubleshooting
     {
       name: "bastion",
       instance_size: "t3.micro",
+      arch: "amd64",
       subnet_name: "public1a",
       root_volume_size: 8,
       root_volume_type: "gp3",
-    }
-  ]
-}
+    },
+  ],
+};
 
 // AMIs
 export const amis: {
   [region: string]: {
-    masters_amd64: string,
-    masters_arm64: string,
-    workers_amd64?: string, // Optional; only if you're using t4g instances
-    workers_arm64?: string, // Optional; only if you're using t4g instances
-    bastion_amd64?: string,
-  }
+    masters_amd64: string;
+    masters_arm64: string;
+    workers_amd64?: string; // Optional; only if you're using t4g instances
+    workers_arm64?: string; // Optional; only if you're using t4g instances
+    bastion_amd64?: string;
+  };
 } = {
   "us-east-1": {
     // amd64 / 64-Bit Intel/AMD Architecture
@@ -128,8 +144,8 @@ export const amis: {
     // workers_arm64: "ami-08310095e5e03008e", // v1.3.1
     // Bastion
     bastion_amd64: "ami-023fb534213ca41da", // Amazon Linux 2 ARM64
-  }
-}
+  },
+};
 
 // Security Groups
 export const security_groups = {
@@ -157,7 +173,7 @@ export const security_groups = {
         protocol: "all",
         cidr_blocks: ["0.0.0.0/0"],
       },
-    ]
+    ],
   },
   nlb_ingress: {
     name: "nlb_inbound_traffic",
@@ -195,7 +211,8 @@ export const security_groups = {
         cidr_blocks: ["0.0.0.0/0"],
       },
       {
-        description: "All Inbound from Internal Traffic, Wireguard, and On-Prem Networking.",
+        description:
+          "All Inbound from Internal Traffic, Wireguard, and On-Prem Networking.",
         port: -1,
         protocol: "all",
         cidr_blocks: ["10.4.0.0/23", network.vpc.cidr_block],
@@ -208,12 +225,12 @@ export const security_groups = {
         protocol: "all",
         cidr_blocks: ["0.0.0.0/0"],
       },
-    ]
-  }
-}
+    ],
+  },
+};
 
 // Global Tags
 export const tags = {
   environment: "homelab",
-  project_name: "talos-homelab-cloud",
-}
+  project_name: "kube-homelab-cloud",
+};
