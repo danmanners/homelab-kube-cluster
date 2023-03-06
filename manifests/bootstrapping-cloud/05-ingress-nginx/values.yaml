@@ -42,10 +42,11 @@ controller:
   service:
     enabled: true
     appProtocol: true
+    # type: NodePort
     type: LoadBalancer
     annotations:
       # # Ingress Class Name
-      # kubernetes.io/ingress.class: nlb
+      # kubernetes.io/ingress.class: 
       # External-DNS
       external-dns.alpha.kubernetes.io/hostname: nginx.cloud.danmanners.com
       # AWS ALB Controller - Service Settings

@@ -60,7 +60,7 @@ for (const subnet of config.network.subnets.public) {
     tags: Object.assign({}, config.tags, {
       Name: subnet.name,
       "kubernetes.io/role/elb": "1",
-      "kubernetes.io/cluster/homelab-cloud": "owned",
+      "kubernetes.io/cluster/homelab-cloud": "shared",
     }),
   });
   pubSubnets[subnet.name] = { id: s.id };
@@ -76,7 +76,7 @@ for (const subnet of config.network.subnets.private) {
     tags: Object.assign({}, config.tags, {
       Name: subnet.name,
       "kubernetes.io/role/internal-elb": "1",
-      "kubernetes.io/cluster/homelab-cloud": "owned",
+      "kubernetes.io/cluster/homelab-cloud": "shared",
     }),
   });
   privSubnets[subnet.name] = { id: s.id };
@@ -171,11 +171,7 @@ for (const [key, value] of Object.entries(privSubnets)) {
 
 /* The node policy does everything below
   Create IAM Policiess
-  - Load Balancer - Read/Write
-  - Route53 Read/Write
-  - Network Interface Read/Write
   - TODO: S3 Read/Write 
-  - EBS Read/Write - https://docs.aws.amazon.com/eks/latest/userguide/csi-iam-role.html
 */
 const nodePolicy = new aws.iam.Policy("kubeNodePolicies", {
   path: "/",
@@ -484,9 +480,15 @@ const kubeNodeRole = new aws.iam.Role("kubeNodeRole", {
 });
 
 // Associcate IAM to Role
-new aws.iam.RolePolicyAttachment("kubePolicyAttachment", {
+new aws.iam.RolePolicyAttachment("kubeCustomPolicyAttachment", {
   role: kubeNodeRole.name,
   policyArn: nodePolicy.arn,
+});
+
+// Associcate IAM to Role
+const ebspolicyattach = new aws.iam.RolePolicyAttachment("kubeEBSPolicyAttachment", {
+  role: kubeNodeRole.name,
+  policyArn: "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy",
 });
 
 // Create the IAM Instance Profile

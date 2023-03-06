@@ -94,7 +94,7 @@ export const compute: {
       instance_size: "t3.small",
       arch: "amd64",
       subnet_name: "private1a",
-      root_volume_size: 32,
+      root_volume_size: 40,
       root_volume_type: "gp3",
     },
     {
@@ -102,7 +102,7 @@ export const compute: {
       instance_size: "t3.small",
       arch: "amd64",
       subnet_name: "private1b",
-      root_volume_size: 32,
+      root_volume_size: 40,
       root_volume_type: "gp3",
     },
   ],

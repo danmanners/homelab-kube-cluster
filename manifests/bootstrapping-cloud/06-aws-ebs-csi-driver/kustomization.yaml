@@ -8,7 +8,7 @@ helmCharts:
   releaseName: aws-ebs-csi-driver
   namespace: kube-system
   repo: https://kubernetes-sigs.github.io/aws-ebs-csi-driver
-  version: "2.14.1"
+  version: "2.17.1"
   valuesInline:
     serviceAccount:
       annotations:
@@ -18,15 +18,24 @@ helmCharts:
     - name: gp3-ext4
       annotations:
         storageclass.kubernetes.io/is-default-class: "true"
-      reclaimPolicy: Retain
+      reclaimPolicy: Delete
       allowVolumeExpansion: true
       parameters:
         encrypted: "true"
         csi.storage.k8s.io/fstype: ext4
     - name: gp3-xfs
-      reclaimPolicy: Retain
+      reclaimPolicy: Delete
       allowVolumeExpansion: true
       parameters:
         encrypted: "true"
         csi.storage.k8s.io/fstype: xfs
 
+patches:
+- patch: |-
+    apiVersion: v1
+    kind: Pod
+    metadata:
+      name: ebs-csi-driver-test
+    spec:
+      nodeSelector:
+        kubernetes.io/arch: amd64

@@ -160,6 +160,8 @@ export function bastion(
     // IAM Instance Profile
     iamInstanceProfile: bastionIamInstanceProfile.name,
 
+    
+
     // Cloud-Init - SSH Load
     userData: user_data,
 

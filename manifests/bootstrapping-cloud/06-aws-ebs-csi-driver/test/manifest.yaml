@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pv0004
+spec:
+  storageClassName: gp3-xfs
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 3Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: busybox
+  labels:
+    app: busybox
+spec:
+  selector:
+    matchLabels:
+      app: busybox
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: busybox
+    spec:
+      containers:
+      - name: busybox
+        image: docker.io/library/busybox:1.36.0
+        volumeMounts:
+        - name: pvtest
+          mountPath: /opt
+        command:
+        - sleep
+        - "3600"
+      volumes:
+      - name: pvtest
+        persistentVolumeClaim:
+          claimName: pv0004

@@ -39,8 +39,8 @@ export function controlPlane(
       iamInstanceProfile: iamInstanceProfile,
 
       // Tags
-      tags: Object.assign({}, tags, { Name: "kubecontrolplane" }),
-      volumeTags: Object.assign({}, tags, { Name: "kubecontrolplane" }),
+      tags: Object.assign({}, tags, { Name: nodeConfig.name }),
+      volumeTags: Object.assign({}, tags, { Name: nodeConfig.name }),
 
       // Cloud-Init - SSH Load
       userData: user_data + `hostname: ${nodeConfig.name}`,
@@ -88,8 +88,8 @@ export function worker(
     iamInstanceProfile: iamInstanceProfile,
 
     // Tags
-    tags: Object.assign({}, tags, { Name: "worker" }),
-    volumeTags: Object.assign({}, tags, { Name: "worker" }),
+    tags: Object.assign({}, tags, { Name: nodeConfig.name }),
+    volumeTags: Object.assign({}, tags, { Name: nodeConfig.name }),
 
     // Cloud-Init - SSH Load
     userData: user_data + `hostname: ${nodeConfig.name}`,

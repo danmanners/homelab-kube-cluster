@@ -12,7 +12,7 @@ spec:
     - dns01:
         route53:
           region: us-east-1
-          role: arn:aws:iam::977656673179:role/kubeNodeRole-596be7d
+          hostedZoneID: Z016942938TFLEH1J2FS1
       selector:
         dnsZones:
         - "cloud.danmanners.com"

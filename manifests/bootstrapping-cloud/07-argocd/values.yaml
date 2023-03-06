@@ -1,5 +1,4 @@
 serviceAccount:
-  create: true
   annotations:
     eks.amazonaws.com/role-arn: arn:aws:iam::977656673179:role/kubeNodeRole-596be7d
 
@@ -54,7 +53,8 @@ server:
   ingress:
     enabled: true
     ingressClassName: nginx
-    annotations: {}
+    annotations:
+      cert-manager.io/cluster-issuer: acme-prod
     hosts:
     - argocd.cloud.danmanners.com
     tls:
