@@ -39,3 +39,12 @@ patches:
     spec:
       nodeSelector:
         kubernetes.io/arch: amd64
+- target:
+    group: policy
+    version: v1beta1
+    kind: PodDisruptionBudget
+    name: '.*'
+  patch: |-
+    - op: replace
+      path: "/apiVersion"
+      value: policy/v1
