@@ -31,6 +31,7 @@ export const general = {
   domain: "cloud.danmanners.com",
   kube_cp_hostname: "kube",
   domain_comment: "Internal DNS HostedZone for the cloud cluster",
+  public_hosted_zone: "Z016942938TFLEH1J2FS1"
 };
 
 // VPC Setup and Networking
@@ -165,6 +166,25 @@ export const security_groups = {
         protocol: "tcp",
         cidr_blocks: ["0.0.0.0/0"],
       },
+      {
+        description: "HTTP Inbound",
+        port: 80,
+        protocol: "tcp",
+        cidr_blocks: ["0.0.0.0/0"],
+      },
+      {
+        description: "HTTPS Inbound",
+        port: 443,
+        protocol: "tcp",
+        cidr_blocks: ["0.0.0.0/0"],
+      },
+      {
+        description: "Wireguard Inbound",
+        port_start: 51821,
+        port_end: 51830,
+        protocol: "udp",
+        cidr_blocks: ["0.0.0.0/0"],
+      },
     ],
     egress: [
       {
@@ -228,6 +248,8 @@ export const security_groups = {
     ],
   },
 };
+
+//34.239.187.60
 
 // Global Tags
 export const tags = {

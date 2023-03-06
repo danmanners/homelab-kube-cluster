@@ -2,10 +2,14 @@
 # This script MUST be run as root
 # Set the purpose and version of the k3s binary and service to install
 k3sPurpose="${1:-agent}"
-k3sVersion="${2:-v1.26.0+k3s2}"
+k3sVersion="${2:-v1.25.6+k3s1}"
 
 # Service File Location
-svcLocal="/etc/systemd/system/k3s.service"
+if [ "$k3sPurpose" == 'agent' ]; then
+  svcLocal="/etc/systemd/system/k3s-agent.service"
+else;
+    svcLocal="/etc/systemd/system/k3s.service"
+fi
 
 # Determine Platform Architecture and set the download name
 if [ "$(uname -p)" == "x86_64" ]; then
@@ -22,8 +26,9 @@ chmod a+x /usr/local/bin/k3s
 curl -sLo ${svcLocal} https://raw.githubusercontent.com/k3s-io/k3s/${k3sVersion}/k3s.service
 
 # If we're setting up the agent, let's swap the value in the downloaded service file
-if [ "$k3sPurpose" == 'agent']; then
-    sed 's/server/agent/g' ${svcLocal}
+if ["$k3sPurpose" == 'agent']; then
+    sed -i 's/server/agent/g' ${svcLocal}
+    sed -i 's/k3s.service.env/k3s-agent.service.env/g' ${svcLocal}
 fi
 
 # Install the config file

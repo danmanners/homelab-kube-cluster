@@ -1,8 +1,7 @@
 # Listener Values
 bind-address: 0.0.0.0
 tls-san:
-   - kube
-   - kube.homelab.danmanners.com
+- kube.cloud.danmanners.com
 
 # Networking
 cluster-cidr: 10.42.0.0/16
@@ -17,7 +16,7 @@ cluster-init: true
 
 # Components
 disable:
-   - traefik
+- traefik
 
 # Security
 secrets-encryption: true

@@ -608,6 +608,52 @@ const bastionHost = bastion(
   config.tags
 );
 
+// Create the Route53 record for the Bastion/wireguard Netmaker host
+const bastionNetmaker = new aws.route53.Record(`wg.${config.general.domain}`, {
+  zoneId: config.general.public_hosted_zone,
+  name: `wg.${config.general.domain}`,
+  type: "A",
+  ttl: 300,
+  records: [bastionHost.publicIp],
+});
+
+// Create the Internal Route53 record for the Bastion/wireguard Netmaker host
+const bastionNetmakerInternal = new aws.route53.Record(
+  `wg.${config.general.domain}-internal`,
+  {
+    zoneId: privateHostedZone.zoneId,
+    name: `wg.${config.general.domain}`,
+    type: "A",
+    ttl: 300,
+    records: [bastionHost.privateIp],
+  }
+);
+
+// Create the required subdomain records internal and external
+for (const subdomain of ["dashboard", "api", "broker"]) {
+  const sdext = new aws.route53.Record(
+    `${subdomain}.wg.${config.general.domain}`,
+    {
+      zoneId: config.general.public_hosted_zone,
+      name: `${subdomain}.wg.${config.general.domain}`,
+      type: "CNAME",
+      ttl: 300,
+      records: [bastionNetmaker.fqdn],
+    }
+  );
+
+  const sdin = new aws.route53.Record(
+    `${subdomain}.wg.${config.general.domain}-internal`,
+    {
+      zoneId: privateHostedZone.zoneId,
+      name: `${subdomain}.wg.${config.general.domain}`,
+      type: "CNAME",
+      ttl: 300,
+      records: [bastionNetmakerInternal.fqdn],
+    }
+  );
+}
+
 export const IPs = {
   bastionIP: bastionHost,
   "control-plane-1-ip": kubeControlPlane1.privateIp,

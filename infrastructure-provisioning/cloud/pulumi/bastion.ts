@@ -32,8 +32,13 @@ export function bastion(
     let toPort: number = 0;
 
     // Check Port Logic
-    fromPort = k.port;
-    toPort = k.port;
+    if (!k.port) {
+      fromPort = k.port_start;
+      toPort = k.port_end;
+    } else {
+      fromPort = k.port;
+      toPort = k.port;
+    }
 
     // Check CIDR Block Logic
     if (!k.cidr_blocks) {
@@ -167,6 +172,8 @@ export function bastion(
     }),
   });
 
-  return bastion.publicIp;
+  return {
+    publicIp: bastion.publicIp,
+    privateIp: bastion.privateIp,
+  };
 }
-
