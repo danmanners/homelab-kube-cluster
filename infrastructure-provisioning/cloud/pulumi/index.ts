@@ -59,7 +59,7 @@ for (const subnet of config.network.subnets.public) {
     mapPublicIpOnLaunch: true,
     tags: Object.assign({}, config.tags, {
       Name: subnet.name,
-      "kubernetes.io/role/elb": "true",
+      "kubernetes.io/role/elb": "1",
       "kubernetes.io/cluster/cluster-name": "shared",
     }),
   });
@@ -73,7 +73,10 @@ for (const subnet of config.network.subnets.private) {
     vpcId: vpc.id,
     cidrBlock: subnet.cidr_block,
     availabilityZone: `${config.cloud_auth.aws_region}${subnet.az}`,
-    tags: Object.assign({}, config.tags, { Name: subnet.name }),
+    tags: Object.assign({}, config.tags, {
+      Name: subnet.name,
+      "kubernetes.io/role/internal-elb": "1",
+    }),
   });
   privSubnets[subnet.name] = { id: s.id };
 }
@@ -659,6 +662,10 @@ export const IPs = {
   "control-plane-1-ip": kubeControlPlane1.privateIp,
   "worker-1-ip": kubeWorker1.privateIp,
   "worker-2-ip": kubeWorker2.privateIp,
+};
+
+export const GitOps_Resources = {
+  "certmanager-noderole": kubeNodeRole.arn,
 };
 
 // TODO: kube Master Provisioning

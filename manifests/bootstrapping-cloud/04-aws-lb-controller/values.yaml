@@ -1,0 +1,9 @@
+clusterName: homelab-cloud
+region: us-east-1
+serviceAccount:
+  name: aws-load-balancer-controller
+  create: true
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::977656673179:role/talosNodeRole-1453839
+
+replicaCount: 1

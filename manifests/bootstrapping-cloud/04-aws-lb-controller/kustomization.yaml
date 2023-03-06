@@ -1,0 +1,15 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: kube-system
+
+helmCharts:
+# https://artifacthub.io/packages/helm/aws/aws-load-balancer-controller/1.4.6
+- name: aws-load-balancer-controller
+  releaseName: aws-load-balancer-controller
+  namespace: kube-system
+  repo: https://aws.github.io/eks-charts
+  version: 1.4.8
+  valuesFile: values.yaml
+
+resources:
+- https://github.com/aws/eks-charts/stable/aws-load-balancer-controller/crds?ref=v0.0.128

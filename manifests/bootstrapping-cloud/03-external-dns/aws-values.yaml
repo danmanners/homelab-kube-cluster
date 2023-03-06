@@ -1,0 +1,24 @@
+txtOwnerId: cloud
+txtPrefix: txt.
+registry: txt
+domainFilters:
+- cloud.danmanners.com
+- homelab.danmanners.com
+
+policy: sync
+interval: 30s
+
+provider: aws
+extraArgs:
+- --aws-zone-type=public
+
+env:
+- name: AWS_DEFAULT_REGION
+  value: us-east-1
+
+serviceAccount:
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::977656673179:role/kubeNodeRole-596be7d
+
+crd:
+  create: true
