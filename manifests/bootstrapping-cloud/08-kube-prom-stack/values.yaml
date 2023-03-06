@@ -17,12 +17,18 @@ kube-state-metrics:
 
 grafana:
   enabled: true
-  # forceDeployDashboards: true
-  # sidecar:
-  #   dashboards:
-  #     multicluster:
-  #       etcd:
-  #         enabled: true
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    annotations:
+      cert-manager.io/cluster-issuer: acme-prod
+    hosts:
+    - grafana.cloud.danmanners.com
+    tls:
+    - secretName: grafana-cert
+      hosts:
+      - grafana.cloud.danmanners.com
+
 
 kubelet:
   enabled: true
@@ -85,3 +91,4 @@ prometheus:
           resources:
             requests:
               storage: 20Gi
+

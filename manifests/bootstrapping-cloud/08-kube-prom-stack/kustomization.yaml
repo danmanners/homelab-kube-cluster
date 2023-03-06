@@ -11,8 +11,6 @@ helmCharts:
   valuesFile: values.yaml
 
 resources:
-# Files
-- cert.yaml
 - ns.yaml
 
 components:

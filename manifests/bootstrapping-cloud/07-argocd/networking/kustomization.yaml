@@ -3,5 +3,4 @@ kind: Kustomization
 namespace: argocd
 
 resources:
-# - certs.yaml
 - external-dns.yaml
