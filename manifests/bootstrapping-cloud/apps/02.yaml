@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cert-manager
+  namespace: argocd
+spec:
+  source:
+    repoURL: "https://github.com/danmanners/homelab-kube-cluster.git"
+    path: manifests/bootstrapping-cloud/02-cert-manager
+    targetRevision: main
+  destination:
+    namespace: kube-system
+    server: 'https://kubernetes.default.svc'
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true

@@ -1,0 +1,15 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: argocd
+commonLabels:
+  purpose: bootstrapping
+
+resources:
+- 01.yaml
+- 02.yaml
+- 03.yaml
+- 04.yaml
+- 05.yaml
+- 06.yaml
+- 07.yaml
+- 08.yaml

@@ -80,10 +80,10 @@ export const compute: {
   control_planes: [
     {
       name: "kube-control-1",
-      instance_size: "t4g.small",
+      instance_size: "t4g.medium",
       arch: "arm64",
       subnet_name: "private1a",
-      root_volume_size: 20,
+      root_volume_size: 40,
       root_volume_type: "gp3",
       privateIp: "172.29.14.5",
     },

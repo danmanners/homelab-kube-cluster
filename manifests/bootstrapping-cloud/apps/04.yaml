@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: aws-lb-controller
+  namespace: argocd
+spec:
+  source:
+    repoURL: "https://github.com/danmanners/homelab-kube-cluster.git"
+    path: manifests/bootstrapping-cloud/04-aws-lb-controller
+    targetRevision: main
+  destination:
+    namespace: kube-system
+    server: 'https://kubernetes.default.svc'
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
