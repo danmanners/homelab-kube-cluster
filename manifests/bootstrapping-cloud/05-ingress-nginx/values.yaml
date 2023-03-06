@@ -1,0 +1,107 @@
+controller:
+  name: controller
+  containerName: controller
+  containerPort:
+    http: 80
+    https: 443
+  dnsPolicy: ClusterFirst
+  ingressClassResource:
+    name: nginx
+    enabled: true
+    default: false
+    controllerValue: "k8s.io/ingress-nginx"
+  ingressClass: nginx
+  publishService:
+    enabled: true # TODO: Maybe turn this on later??
+  kind: Deployment # DaemonSet??
+  replicaCount: 2
+  minAvailable: 1
+  resources:
+    requests:
+      cpu: 100m
+      memory: 90Mi
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 11
+    targetCPUUtilizationPercentage: 50
+    targetMemoryUtilizationPercentage: 50
+    behavior: {}
+    # scaleDown:
+    #   stabilizationWindowSeconds: 300
+    #   policies:
+    #   - type: Pods
+    #     value: 1
+    #     periodSeconds: 180
+    # scaleUp:
+    #   stabilizationWindowSeconds: 300
+    #   policies:
+    #   - type: Pods
+    #     value: 2
+    #     periodSeconds: 60
+  service:
+    enabled: true
+    appProtocol: true
+    type: LoadBalancer
+    annotations:
+      # # Ingress Class Name
+      # kubernetes.io/ingress.class: nlb
+      # External-DNS
+      external-dns.alpha.kubernetes.io/hostname: nginx.cloud.danmanners.com
+      # AWS ALB Controller - Service Settings
+      service.beta.kubernetes.io/aws-load-balancer-type: external
+      service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
+      service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: instance
+    enableHttp: true
+    enableHttps: true
+    ipFamilyPolicy: "SingleStack"
+    ipFamilies:
+    - IPv4
+    ports:
+      http: 80
+      https: 443
+    targetPorts:
+      http: http
+      https: https
+    external:
+      enabled: true
+    internal:
+      enabled: false
+  shareProcessNamespace: false
+  opentelemetry:
+    enabled: false
+    containerSecurityContext:
+      allowPrivilegeEscalation: false
+  metrics:
+    port: 10254
+    portName: metrics
+    enabled: true
+    service:
+      servicePort: 10254
+      type: ClusterIP
+    serviceMonitor:
+      enabled: false
+      scrapeInterval: 30s
+    prometheusRule:
+      enabled: false
+      additionalLabels: {}
+  lifecycle:
+    preStop:
+      exec:
+        command:
+        - /wait-shutdown
+  priorityClassName: ""
+
+  config:
+    force-ssl-redirect: true
+
+revisionHistoryLimit: 10
+defaultBackend:
+  enabled: false
+
+rbac:
+  create: true
+  scope: false
+
+serviceAccount:
+  create: true

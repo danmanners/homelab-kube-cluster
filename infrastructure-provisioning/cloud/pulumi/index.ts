@@ -60,7 +60,7 @@ for (const subnet of config.network.subnets.public) {
     tags: Object.assign({}, config.tags, {
       Name: subnet.name,
       "kubernetes.io/role/elb": "1",
-      "kubernetes.io/cluster/cluster-name": "shared",
+      "kubernetes.io/cluster/homelab-cloud": "owned",
     }),
   });
   pubSubnets[subnet.name] = { id: s.id };
@@ -76,6 +76,7 @@ for (const subnet of config.network.subnets.private) {
     tags: Object.assign({}, config.tags, {
       Name: subnet.name,
       "kubernetes.io/role/internal-elb": "1",
+      "kubernetes.io/cluster/homelab-cloud": "owned",
     }),
   });
   privSubnets[subnet.name] = { id: s.id };

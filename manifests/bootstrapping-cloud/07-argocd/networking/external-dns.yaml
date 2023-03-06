@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: argocd-extname
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: argocd.cloud.danmanners.com
+    external-dns.alpha.kubernetes.io/ttl: "300"
+spec:
+  type: ExternalName
+  externalName: nginx.cloud.danmanners.com
+  sessionAffinity: None

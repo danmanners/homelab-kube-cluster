@@ -1,0 +1,63 @@
+serviceAccount:
+  create: true
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::977656673179:role/kubeNodeRole-596be7d
+
+configs:
+  cm:
+    kustomize.buildOptions: --enable-alpha-plugins --enable-helm
+    url: https://argocd.cloud.danmanners.com
+    # Why in the FUCK is this here? See below!
+    # https://argo-cd.readthedocs.io/en/release-2.4/faq/#why-is-my-application-still-outofsync-immediately-after-a-successful-sync
+    # https://github.com/argoproj/argo-cd/blob/master/docs/operator-manual/argocd-cm.yaml#L235
+    # Thanks a ton to @onedr0p, @toboshii, and @xUnholy for the help in figuring this out!
+    application.instanceLabelKey: argocd.argoproj.io/instance
+  rbac:
+    policy.default: role:readonly
+  params:
+    server.insecure: "true"
+
+repoServer:
+  # Until KSOPS setup logic is re-written, this can only run
+  # on amd64 nodes.
+  nodeSelector:
+    kubernetes.io/arch: amd64
+
+  # Add the KSOPS plugin
+  initContainers:
+  - name: install-ksops
+    image: viaductoss/ksops:v4
+    command: ["/bin/sh", "-c"]
+    args:
+    - echo "Installing KSOPS..."; mv ksops /custom-tools/; mv $GOPATH/bin/kustomize /custom-tools/; echo "Done.";
+    volumeMounts:
+    - mountPath: /custom-tools
+      name: custom-tools
+  # Environment Variables
+  env:
+  - name: XDG_CONFIG_HOME
+    value: /.config
+  # Volume Work
+  volumeMounts:
+  - mountPath: /usr/local/bin/kustomize
+    name: custom-tools
+    subPath: kustomize
+    # Verify this matches a XDG_CONFIG_HOME=/.config env variable
+  - mountPath: /.config/kustomize/plugin/viaduct.ai/v1/ksops/ksops
+    name: custom-tools
+    subPath: ksops
+  volumes:
+  - name: custom-tools
+    emptyDir: {}
+
+server:
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    annotations: {}
+    hosts:
+    - argocd.cloud.danmanners.com
+    tls:
+    - secretName: argocd-cert
+      hosts:
+      - argocd.cloud.danmanners.com
