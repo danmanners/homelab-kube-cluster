@@ -1,4 +1,5 @@
 import * as aws from "@pulumi/aws";
+import * as pulumi from "@pulumi/pulumi";
 
 // Kubernetes Nodes
 import { controlPlane, worker } from "./kube-nodes";
@@ -14,6 +15,7 @@ import * as config from "./vars/environment";
 
 // Pulumi Constants
 const hostIps: keyPulumiValue = {};
+const controlPlaneIps: pulumi.Output<string>[] = [];
 
 // Create the VPC
 const vpc = createVpc(config)
@@ -77,21 +79,23 @@ for (let k of config.security_groups.nlb_ingress.egress) {
 
 const iam = iamCreation(config)
 
+// Loop through creation of the Kubernetes Control Plane Nodes
 for (let node of config.compute.control_planes) {
   let controlPlaneNode = controlPlane(
-    config.compute.control_planes[0],
+    node,
     config.cloud_auth.aws_region,
     config.amis,
     config.tags,
-    vpc.privSubnets[config.compute.control_planes[0].subnet_name].id,
+    vpc.privSubnets[node.subnet_name].id,
     [kubeNodeSecurityGroup.id],
     iam.iamInstanceProfile.name,
     config.user_data.kube
   );
   hostIps[node.name] = controlPlaneNode.privateIp
+  controlPlaneIps.push(controlPlaneNode.privateIp)
 }
 
-// Loop through creation of the Kubernetes Workers
+// Loop through creation of the Kubernetes Worker Nodes
 for (let node of config.compute.workers) {
   // Loop through the workers
   let workerNode = worker(
@@ -116,17 +120,9 @@ new aws.route53.Record(
     name: aRecord,
     type: "A",
     ttl: 300,
-    records: [],
+    records: controlPlaneIps
   }
 );
-
-// function loopAndRespond(object: any, word: string) {
-//   for (let [key, value] of Object.entries(object)) {
-//     if (word in object[key]) {
-//       return true
-//     }
-//   }
-// }
 
 /*
 The following section should be left commented **UNLESS** you're troubleshooting!!
