@@ -8,7 +8,7 @@ export type NameIdOutputs = {
 }
 
 // Route Table Layouts
-export type RouteTableIds = {
+export type keyPulumiValue = {
   [name: string]: pulumi.Output<string>
 }
 

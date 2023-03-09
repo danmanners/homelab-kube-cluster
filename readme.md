@@ -1,6 +1,6 @@
 # Dan Manners' Homelab
 
-> All of the readme's are in a state of flux at this moment. I'm working on refactoring much of the repository, but I'm happy to answer any questions in the [k8s@Home Discord server](https://discord.gg/k8s-at-home). Ping me at `danmanners@3077` with any questions!
+> All of the readme's are in a state of flux at this moment. I'm working on refactoring much of the repository, but I'm happy to answer any questions in the [k8s@Home Discord server](https://discord.gg/k8s-at-home) or on Discord! Feel free to reach me at `danmanners@3077` with any questions or at [daniel.a.manners@gmail.com](mailto:daniel.a.manners@gmail.com)!
 
 Current status: **BETA** (but is highly stable)
 
@@ -28,62 +28,30 @@ This project aims to utilize industry-standard tooling and practices in order to
 | [Cilium](https://cilium.io/)                                             | CNI utilizing eBPF for Observability and Security                             |
 | [CloudNativePG](https://cloudnative-pg.io/)                              | Kubernetes operator covering lifecycle of HA PostgreSQL Clusters              |
 | [CSI-Driver-NFS](https://github.com/kubernetes-csi/csi-driver-nfs)       | Kubernetes NFS Driver for persistent storage                                  |
-| [Dex](https://dexidp.io/)                                                | Federated OIDC                                                                |
+| [Dex IDP](https://dexidp.io/)                                            | Federated OIDC                                                                |
 | [External-DNS](https://github.com/kubernetes-sigs/external-dns)          | Configure and manage External DNS servers                                     |
 | [GitHub](https://github.com/)                                            | Popular Code Management through Git                                           |
 | [Grafana](https://grafana.com/)                                          | Metrics Visualization                                                         |
 | [Helm](https://helm.sh/)                                                 | Kubernetes Package Management                                                 |
 | [Jenkins](https://www.jenkins.io/)                                       | Open-Source Automation Server                                                 |
 | [Kubernetes](https://kubernetes.io/)                                     | Container Orchestration                                                       |
-| [Kyverno](https://kyverno.io/)                                           | Kubernetes Native Policy Management                                           |
 | [Let's Encrypt](https://letsencrypt.org/)                                | Free TLS certificates                                                         |
 | [Maddy](https://github.com/foxcpp/maddy)                                 | Composable all-in-one mail server                                             |
 | [MetalLB](https://metallb.universe.tf/)                                  | Kubernetes bare-metal Load Balancer                                           |
-| [Microsoft Azure](https://azure.microsoft.com/en-us/)                    | Cloud Provider                                                                |
 | [Mozilla SOPS](https://github.com/mozilla/sops)                          | Simple/Flexible Tool                                                          |
 | [Podman](https://github.com/containers/podman/)                          | Container and Pod management                                                  |
 | [Prometheus](https://prometheus.io/)                                     | Metrics and Data Collection                                                   |
 | [Python](https://www.python.org/)                                        | Python Programming Language                                                   |
 | [Raspberry Pi](https://www.raspberrypi.org/)                             | Baremetal ARM SoC Hardware!                                                   |
-| [Reloader](https://github.com/stakater/Reloader)                         | Kubernetes controller to watch cm's and secrets and reloads pods              |
 | [SonarQube](https://www.sonarqube.org/)                                  | Static code analysis                                                          |
 | [Sonatype Nexus-OSS](https://www.sonatype.com/products/nexus-repository) | Manage binaries and build artifacts                                           |
-| [Talos](https://talos.dev/)                                              | Secure, immutable, and minimal Linux OS                                       |
 | [Tekton](https://tekton.dev/)                                            | Cloud-Native CI/CD                                                            |
-| [Terraform](https://www.terraform.io/)                                   | Open-Source Infrastructure-as-Code                                            |
-| [Terragrunt](https://terragrunt.gruntwork.io/)                           | Making Terraform DRY                                                          |
 | [Ubuntu](https://ubuntu.com/)                                            | Operating System                                                              |
 | [Uptime Kuma](https://github.com/louislam/uptime-kuma)                   | Fancy self-hosted system monitoring                                           |
-| [Vaultwarden](https://github.com/dani-garcia/vaultwarden)                | Unofficial Bitwarden compatible server written in Rust; formerly bitwarden_rs |
 | [WikiJS](https://js.wiki/)                                               | Open-Source Wiki/Documentation Service                                        |
-
-## Services Hosted
-
-| Name                   | Description                                                            | Path                                                                                                                                                          | Relevant Link                                                                                                                           |
-| ---------------------- | ---------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
-| Excalidraw             | Easy whiteboarding with excellent shortcuts!                           | [manifests/workloads/excalidraw](https://github.com/danmanners/homelab-kube-cluster/tree/main/manifests/workloads/excalidraw)                                 | [GitHub - excalidraw/excalidraw](https://github.com/excalidraw/excalidraw)                                                              |
-| Jenkins OSS            | An older tool sir, but it checks out.                                  | [manifests/workloads/jenkins-oss](https://github.com/danmanners/homelab-kube-cluster/tree/main/manifests/workloads/jenkins-oss)                               | [Website](https://www.jenkins.io/)                                                                                                      |
-| Kube-Prometheus-Stack  | Easy to deploy Grafana, Prometheus rules, and the Prometheus Operator. | [manifests/workloads/kube-prometheus-stack-grafana](https://github.com/danmanners/homelab-kube-cluster/tree/main/manifests/workloads/kube-prom-stack-grafana) | [GitHub - prometheus-community/helm-charts](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack) |
-| Memegen                | The free and open source API to generate memes.                        | [manifests/workloads/memegen](https://github.com/danmanners/homelab-kube-cluster/tree/main/manifests/workloads/memegen)                                       | [GitHub - jacebrowning/memegen](https://github.com/jacebrowning/memegen)                                                                |
-| Node-Feature-Discovery | Node feature discovery for Kubernetes                                  | [manifests/workloads/node-feature-discovery](https://github.com/danmanners/homelab-kube-cluster/tree/main/manifests/workloads/node-feature-discovery)         | [GitHub - kubernetes-sigs/node-feature-discovery](https://github.com/kubernetes-sigs/node-feature-discovery)                            |
-| OpenFaaS               | Serverless functions, made simple!                                     | [manifests/workloads/openfaas-ingress](https://github.com/danmanners/homelab-kube-cluster/tree/main/manifests/workloads/openfaas-ingress)                     | [Website](https://www.openfaas.com/)                                                                                                    |
-| SonarQube OSS          | Code quality and code security                                         | [manifests/workloads/sonarqube-oss](https://github.com/danmanners/homelab-kube-cluster/tree/main/manifests/workloads/sonarqube-oss)                           | [Website](https://www.sonarqube.org/)                                                                                                   |
-| Spiderfoot             | Automated OSINT webcrawling                                            | [manifests/workloads/spiderfoot](https://github.com/danmanners/homelab-kube-cluster/tree/main/manifests/workloads/spiderfoot)                                 | [Website](https://www.spiderfoot.net/)                                                                                                  |
-| Traefik                | Cloud native application proxying; simplifying network complexity      | [manifests/bootstrapping/traefik](https://github.com/danmanners/homelab-kube-cluster/tree/main/manifests/workloads/traefik-helm)                              | [Website](https://traefik.io/traefik/)                                                                                                  |
-| WikiJS                 | The most powerful and extensible open source Wiki software             | [manifests/workloads/wikijs](https://github.com/danmanners/homelab-kube-cluster/tree/main/manifests/workloads/wikijs)                                         | [Website](https://js.wiki/)                                                                                                             |
 
 ## Deployment Order of Operations
 
-While this section is a Work-in-Progress, I'd like to provide some relevant information on core services that must be deployed and in which order.
-
-1. [Talos Linux](talos/)
-2. [Cilium CNI](manifests/bootstrapping/01-cilium/)
-3. [MetalLB](manifests/bootstrapping/02-metallb/)
-4. [Cert-Manager](manifests/bootstrapping/03-cert-manager/)
-5. [External-DNS](manifests/bootstrapping/04-external-dns/)
-6. [Traefik](manifests/bootstrapping/05-traefik/)
-7. [ArgoCD - Part One](manifests/bootstrapping/06-argocd/)
-8. [ArgoCD - Part Two](manifests/bootstrapping/07-bootstrapping-argoprojects/)
 
 ## Identifying Problems, Troubleshooting Steps, and more
 
@@ -121,8 +89,6 @@ kubectl rollout restart -n kube-system daemonset cilium
 This README redesign was inspired by several other homelab repos, individuals, and communities.
 
 ### Individuals
-
------
 
 - [zimmertr/TKS](https://github.com/zimmertr/TKS)
 - [onedr0p/home-ops](https://github.com/onedr0p/home-ops/)
