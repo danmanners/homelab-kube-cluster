@@ -124,9 +124,10 @@ export const amis: {
   [region: string]: {
     masters_amd64: string;
     masters_arm64: string;
-    workers_amd64?: string; // Optional; only if you're using t4g instances
+    workers_amd64?: string; // Optional; only if you're using x64 instances
     workers_arm64?: string; // Optional; only if you're using t4g instances
-    bastion_amd64?: string;
+    bastion_amd64?: string; // Optional; only if you're using x64 instances
+    bastion_arm64?: string; // Optional; only if you're using x64 instances
   };
 } = {
   "us-east-1": {
@@ -137,14 +138,14 @@ export const amis: {
     // arm64 / 64-Bit ARM Architecture
     masters_arm64: "ami-01625be155ee390e9", // Ubuntu 22.04, Release 2023.01.15
     workers_arm64: "ami-01625be155ee390e9", // Ubuntu 22.04, Release 2023.01.15
+    // Bastion
+    bastion_amd64: "ami-023fb534213ca41da", // Amazon Linux 2 ARM64
     // Talos AMIs; deprecated for now
     // masters_amd64: "ami-076bd4ef7fee6bf8a", // v1.3.1
     // workers_amd64: "ami-076bd4ef7fee6bf8a", // v1.3.1
     // // arm64 / 64-Bit ARM Architecture
     // masters_arm64: "ami-08310095e5e03008e", // v1.3.1
     // workers_arm64: "ami-08310095e5e03008e", // v1.3.1
-    // Bastion
-    bastion_amd64: "ami-023fb534213ca41da", // Amazon Linux 2 ARM64
   },
 };
 
@@ -248,8 +249,6 @@ export const security_groups = {
     ],
   },
 };
-
-//34.239.187.60
 
 // Global Tags
 export const tags = {
