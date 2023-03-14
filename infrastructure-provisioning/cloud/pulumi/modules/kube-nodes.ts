@@ -11,6 +11,15 @@ export function controlPlane(
   iamInstanceProfile: pulumi.Output<string>,
   user_data: string
 ) {
+
+  const userData: any = null
+  // Check User-Data
+  if (!user_data) {
+    const userData = null
+  } else {
+    const userData = user_data + `hostname: ${nodeConfig.name}`
+  }
+
   // Create the talos Control Plane & associate the role
   const kubeControlPlane = new aws.ec2.Instance(
     `kubecontrolplane-${nodeConfig.name}`,
@@ -43,7 +52,7 @@ export function controlPlane(
       volumeTags: Object.assign({}, tags, { Name: nodeConfig.name }),
 
       // Cloud-Init - SSH Load
-      userData: user_data + `hostname: ${nodeConfig.name}`,
+      userData: userData
     }
   );
 

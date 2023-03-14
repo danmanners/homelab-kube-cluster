@@ -137,7 +137,7 @@ export function bastion(
 
   // Bastion Compute Node
   const bastion = new aws.ec2.Instance("bastion", {
-    ami: amis[region][`masters_${nodeConfig.arch}`],
+    ami: amis[region][`bastion_${nodeConfig.arch}`],
     instanceType: nodeConfig.instance_size,
 
     // Networking
@@ -160,7 +160,7 @@ export function bastion(
     // IAM Instance Profile
     iamInstanceProfile: bastionIamInstanceProfile.name,
 
-    
+
 
     // Cloud-Init - SSH Load
     userData: user_data,

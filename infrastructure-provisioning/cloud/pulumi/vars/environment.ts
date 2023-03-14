@@ -24,6 +24,8 @@ users:
     sudo: "ALL=(ALL) NOPASSWD:ALL"
     ssh_import_id:
       - gh:danmanners
+    ssh_authorized_keys:
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPnxXDQnY00BUZ5oS2526MHea12VjJUE60pAIbuYHopi Dan Manners <daniel.a.manners@gmail.com>
 `,
 };
 
@@ -91,20 +93,28 @@ export const compute: {
   workers: [
     {
       name: "kube-worker-1",
-      instance_size: "t3.small",
+      instance_size: "t3.medium",
       arch: "amd64",
       subnet_name: "private1a",
-      root_volume_size: 40,
+      root_volume_size: 60,
       root_volume_type: "gp3",
     },
-    {
-      name: "kube-worker-2",
-      instance_size: "t3.small",
-      arch: "amd64",
-      subnet_name: "private1b",
-      root_volume_size: 40,
-      root_volume_type: "gp3",
-    },
+    // {
+    //   name: "kube-worker-1",
+    //   instance_size: "t3.small",
+    //   arch: "amd64",
+    //   subnet_name: "private1a",
+    //   root_volume_size: 40,
+    //   root_volume_type: "gp3",
+    // },
+    // {
+    //   name: "kube-worker-2",
+    //   instance_size: "t3.small",
+    //   arch: "amd64",
+    //   subnet_name: "private1b",
+    //   root_volume_size: 40,
+    //   root_volume_type: "gp3",
+    // },
   ],
   bastion: [
     // Used exclusively for troubleshooting
@@ -133,19 +143,19 @@ export const amis: {
   "us-east-1": {
     // amd64 / 64-Bit Intel/AMD Architecture
     // https://cloud-images.ubuntu.com/locator/ec2/ - Ubuntu Image locator; search "us-east-1 22.04"
-    masters_amd64: "ami-00874d747dde814fa", // Ubuntu 22.04, Release 2023.01.15
-    workers_amd64: "ami-00874d747dde814fa", // Ubuntu 22.04, Release 2023.01.15
+    // masters_amd64: "ami-00874d747dde814fa", // Ubuntu 22.04, Release 2023.01.15
+    // workers_amd64: "ami-00874d747dde814fa", // Ubuntu 22.04, Release 2023.01.15
     // arm64 / 64-Bit ARM Architecture
-    masters_arm64: "ami-01625be155ee390e9", // Ubuntu 22.04, Release 2023.01.15
-    workers_arm64: "ami-01625be155ee390e9", // Ubuntu 22.04, Release 2023.01.15
+    // masters_arm64: "ami-01625be155ee390e9", // Ubuntu 22.04, Release 2023.01.15
+    // workers_arm64: "ami-01625be155ee390e9", // Ubuntu 22.04, Release 2023.01.15
     // Bastion
-    bastion_amd64: "ami-023fb534213ca41da", // Amazon Linux 2 ARM64
+    bastion_amd64: "ami-005f9685cb30f234b", // Amazon Linux 2 ARM64
     // Talos AMIs; deprecated for now
-    // masters_amd64: "ami-076bd4ef7fee6bf8a", // v1.3.1
-    // workers_amd64: "ami-076bd4ef7fee6bf8a", // v1.3.1
+    masters_amd64: "ami-070b3dca3ff30bedf", // v1.3.2
+    workers_amd64: "ami-070b3dca3ff30bedf", // v1.3.2
     // // arm64 / 64-Bit ARM Architecture
-    // masters_arm64: "ami-08310095e5e03008e", // v1.3.1
-    // workers_arm64: "ami-08310095e5e03008e", // v1.3.1
+    masters_arm64: "ami-08f6fcc171176022b", // v1.3.2
+    workers_arm64: "ami-08f6fcc171176022b", // v1.3.2
   },
 };
 

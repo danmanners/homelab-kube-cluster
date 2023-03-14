@@ -2,7 +2,7 @@ import * as aws from "@pulumi/aws";
 import * as pulumi from "@pulumi/pulumi";
 
 // Kubernetes Nodes
-import { controlPlane, worker } from "./kube-nodes";
+import { controlPlane, worker } from "./modules/kube-nodes";
 import { bastion } from "./modules/bastion";
 import { iamCreation } from "./modules/iam";
 import { createVpc } from "./modules/vpc";
