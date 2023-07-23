@@ -1,0 +1,103 @@
+clusterName: opcluster
+
+talosVersion: v1.4.6
+kubernetesVersion: 1.26.7
+# kubernetesVersion: 1.27.2 # Seems broken AF. Sad.
+endpoint: "https://opcluster.homelab.danmanners.com:6443"
+
+cniConfig:
+  name: none
+
+additionalApiServerCertSans:
+- 10.4.0.40
+
+additionalMachineCertSans:
+- 10.4.0.40
+- opcluster.homelab.danmanners.com
+
+nodes:
+- hostname: tcp01.homelab.danmanners.com
+  disableSearchDomain: true
+  ipAddress: 10.4.0.41
+  controlPlane: true
+  installDisk: /dev/sda
+  networkInterfaces:
+  - interface: eth0
+    dhcp: false
+    addresses:
+    - 10.4.0.41/23
+    routes:
+    - network: 0.0.0.0/0
+      gateway: 10.4.0.1
+    mtu: 1500
+    vip:
+      ip: 10.4.0.40
+- hostname: tcp02.homelab.danmanners.com
+  disableSearchDomain: true
+  ipAddress: 10.4.0.42
+  controlPlane: true
+  installDisk: /dev/sda
+  networkInterfaces:
+  - interface: eth0
+    dhcp: false
+    addresses:
+    - 10.4.0.42/23
+    routes:
+    - network: 0.0.0.0/0
+      gateway: 10.4.0.1
+    mtu: 1500
+    vip:
+      ip: 10.4.0.40
+- hostname: tcp03.homelab.danmanners.com
+  disableSearchDomain: true
+  ipAddress: 10.4.0.43
+  controlPlane: true
+  installDisk: /dev/sda
+  networkInterfaces:
+  - interface: eth0
+    dhcp: false
+    addresses:
+    - 10.4.0.43/23
+    routes:
+    - network: 0.0.0.0/0
+      gateway: 10.4.0.1
+    mtu: 1500
+    vip:
+      ip: 10.4.0.40
+
+controlPlane:
+  patches:
+  - |-
+    cluster:
+      allowSchedulingOnMasters: true
+      coreDNS:
+        disabled: true
+
+  - |-
+    - op: remove
+      path: /cluster/apiServer/admissionControl
+
+  - |-
+    machine:
+      kubelet:
+        extraArgs:
+          rotate-server-certificates: "true"
+        extraConfig:
+          maxPods: 150
+        nodeIP:
+          validSubnets:
+              - 10.4.0.0/23
+      network:
+        extraHostEntries:
+          - ip: 10.4.0.40
+            aliases:
+              - opcluster.homelab.danmanners.com
+      sysctls:
+        vm.max_map_count: "524288"
+        fs.file-max: "131072"
+        fs.inotify.max_user_watches: "1048576"
+        fs.inotify.max_user_instances: "8192"
+      time:
+        disabled: false
+        servers:
+          - pool.ntp.org

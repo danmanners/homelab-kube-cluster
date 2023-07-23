@@ -7,7 +7,7 @@ helmCharts:
   releaseName: metallb
   namespace: metallb-system
   repo: https://metallb.github.io/metallb
-  version: 0.13.7
+  version: 0.13.10
   valuesInline:
     loadBalancerClass: metallb
 

@@ -9,15 +9,15 @@ export function controlPlane(
   subnet: pulumi.Output<string>,
   security_group_ids: Array<pulumi.Output<string>>,
   iamInstanceProfile: pulumi.Output<string>,
-  user_data: string
+  user_data?: null | string
 ) {
-
-  const userData: any = null
+  let userData: any = null;
   // Check User-Data
-  if (!user_data) {
-    const userData = null
-  } else {
-    const userData = user_data + `hostname: ${nodeConfig.name}`
+  if (user_data == null) {
+    userData = null;
+  }
+  if (user_data != null) {
+    userData = user_data + `hostname: ${nodeConfig.name}`;
   }
 
   // Create the talos Control Plane & associate the role
@@ -46,13 +46,17 @@ export function controlPlane(
 
       // IAM Instance Profile
       iamInstanceProfile: iamInstanceProfile,
+      // Instance Metadata Options
+      metadataOptions: {
+        httpPutResponseHopLimit: 4,
+      },
 
       // Tags
       tags: Object.assign({}, tags, { Name: nodeConfig.name }),
       volumeTags: Object.assign({}, tags, { Name: nodeConfig.name }),
 
       // Cloud-Init - SSH Load
-      userData: userData
+      userData: userData,
     }
   );
 
@@ -69,8 +73,17 @@ export function worker(
   subnet: pulumi.Output<string>,
   security_group_ids: Array<pulumi.Output<string>>,
   iamInstanceProfile: pulumi.Output<string>,
-  user_data: string
+  user_data?: string | null
 ) {
+  let userData: any = null;
+  // Check User-Data
+  if (user_data == null) {
+    userData = null;
+  }
+  if (user_data != null) {
+    userData = user_data + `hostname: ${nodeConfig.name}`;
+  }
+
   // Create the talos Control Plane & associate the role
   const kubeworker = new aws.ec2.Instance(`kubeworker-${nodeConfig.name}`, {
     ami: amis[region][`masters_${nodeConfig.arch}`],
@@ -95,13 +108,17 @@ export function worker(
 
     // IAM Instance Profile
     iamInstanceProfile: iamInstanceProfile,
+    // Instance Metadata Options
+    metadataOptions: {
+      httpPutResponseHopLimit: 4,
+    },
 
     // Tags
     tags: Object.assign({}, tags, { Name: nodeConfig.name }),
     volumeTags: Object.assign({}, tags, { Name: nodeConfig.name }),
 
     // Cloud-Init - SSH Load
-    userData: user_data + `hostname: ${nodeConfig.name}`,
+    userData: userData,
   });
 
   return {

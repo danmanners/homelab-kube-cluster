@@ -1,0 +1,31 @@
+replicaCount: 2
+service:
+  name: kube-dns
+  clusterIP: 10.96.0.10
+deployment:
+  name: coredns
+
+# servers:
+# # https://kubernetes.io/docs/tasks/administer-cluster/dns-custom-nameservers/#coredns-configmap-options
+# - port: 53
+#   plugins:
+#   - name: errors
+#   - name: health
+#     configBlock: |-
+#       lameduck 5s
+#   - name: ready
+#   - name: kubernetes
+#     parameters: cluster.local in-addr.arpa ip6.arpa
+#     configBlock: |-
+#       pods insecure
+#       fallthrough in-addr.arpa ip6.arpa
+#       ttl 30
+#   - name: prometheus
+#     parameters: 0.0.0.0:9153
+#   - name: forward
+#     parameters: . /etc/resolv.conf
+#   - name: cache
+#     parameters: 30
+#   - name: loop
+#   - name: reload
+#   - name: loadbalance

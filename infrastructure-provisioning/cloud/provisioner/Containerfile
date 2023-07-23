@@ -14,8 +14,8 @@ ENV ARCH=${ARCH:-amd64}
 ENV SOPS_VERSION=${SOPS_VERSION:-v3.7.3}
 ENV KSOPS_VERSION=${KSOPS_VERSION:-3.0.2}
 ENV KUBECTL_VERSION=${KUBECTL_VERSION:-v1.26.0}
-ENV HELM_VERSION=${:-v3.11.0}
-ENV KUSTOMIZE_VERSION=${:-v4.5.7}
+ENV HELM_VERSION=${HELM_VERSION:-v3.11.0}
+ENV KUSTOMIZE_VERSION=${KUSTOMIZE_VERSION:-v4.5.7}
 ENV TALOSCTL_VERSION=${TALOSCTL_VERSION:-v1.2.8}
 ENV XDG_CONFIG_HOME=${HOME}/.config/
 ENV KSOPS_PLUGIN_PATH="${XDG_CONFIG_HOME}/kustomize/plugin/viaduct.ai/v1/ksops/"
@@ -38,7 +38,7 @@ RUN curl -sLo ${APP_PATH}/sops https://github.com/mozilla/sops/releases/download
     chmod a+x ${APP_PATH}/sops
 
 # Install Helm
-RUN curl -sLo- https://get.helm.sh/helm-${HELM_VERSION}}-linux-${ARCH}.tar.gz | \
+RUN curl -sLo- https://get.helm.sh/helm-${HELM_VERSION}-linux-${ARCH}.tar.gz | \
     tar -zxvf - && mv linux-${ARCH}/helm /usr/local/bin/helm && rm -rf linux-${ARCH}
 
 # Install KSOPS

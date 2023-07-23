@@ -1,0 +1,17 @@
+txtOwnerId: homelab
+txtPrefix: txt.
+registry: txt
+domainFilters:
+- homelab.danmanners.com
+
+policy: sync
+interval: 20s
+
+provider: coredns
+
+env:
+- name: ETCD_URLS
+  value: http://10.4.0.41:2379,http://10.4.0.42:2379,http://10.4.0.43:2379
+
+crd:
+  create: true

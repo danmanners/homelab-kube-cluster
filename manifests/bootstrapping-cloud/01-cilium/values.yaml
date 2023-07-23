@@ -113,7 +113,7 @@ installNoConntrackIptablesRules: false
 ipam:
   mode: "cluster-pool"
   operator:
-    clusterPoolIPv4PodCIDR: "10.243.0.0/16"
+    clusterPoolIPv4PodCIDR: "10.42.0.0/16"
     clusterPoolIPv4PodCIDRList: []
     clusterPoolIPv4MaskSize: 24
 

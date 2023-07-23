@@ -1,5 +1,5 @@
-# k8sServiceHost: kube.homelab.danmanners.com
-# k8sServicePort: 6443
+k8sServiceHost: 10.4.0.40
+k8sServicePort: 6443
 
 debug:
   enabled: false
@@ -17,9 +17,16 @@ image:
 # Necessary for Kubernetes v1.24+
 securityContext:
   privileged: true
+  capabilities:
+    ciliumAgent: "{CHOWN,KILL,NET_ADMIN,NET_RAW,IPC_LOCK,SYS_ADMIN,SYS_RESOURCE,DAC_OVERRIDE,FOWNER,SETGID,SETUID}"
+    cleanCiliumState: "{NET_ADMIN,SYS_ADMIN,SYS_RESOURCE}"
+  cgroup:
+    hostRoot: "/sys/fs/cgroup"
+    autoMount:
+      enabled: false
 
 tolerations:
-  - operator: Exists
+- operator: Exists
 
 # Required to be disabled on Raspbian; breaks shit
 l7Proxy: false
@@ -81,14 +88,17 @@ hostServices:
   protocols: tcp,udp
 
 hubble:
-  enabled: true
+  enabled: false
+  # TODO: Fix this. Sad.
   tls:
     auto:
       method: cronJob
   relay:
-    enabled: true
+    enabled: false
+    # TODO: Fix this. Sad.
   ui:
-    enabled: true
+    enabled: false
+    # TODO: Fix this. Sad.
     standalone:
       enabled: false
     rollOutPods: true
@@ -113,8 +123,7 @@ installNoConntrackIptablesRules: false
 ipam:
   mode: "cluster-pool"
   operator:
-    clusterPoolIPv4PodCIDR: "10.244.0.0/16"
-    clusterPoolIPv4PodCIDRList: []
+    clusterPoolIPv4PodCIDRList: ["10.244.0.0/16"]
     clusterPoolIPv4MaskSize: 24
 
 ipMasqAgent:

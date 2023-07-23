@@ -1,0 +1,33 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: kube-system
+
+helmCharts:
+# External DNS
+- name: app-template
+  releaseName: edns
+  namespace: kube-system
+  repo: https://bjw-s.github.io/helm-charts
+  version: 1.5.1
+  valuesFile: values.yaml
+# # CoreDNS
+# - name: coredns
+#   releaseName: dns
+#   namespace: kube-system
+#   repo: https://coredns.github.io/helm
+#   version: 1.24.1
+#   valuesFile: values-coredns.yaml
+# # Bitnami etcd
+# - name: etcd
+#   releaseName: etcd
+#   namespace: kube-system
+#   repo: https://charts.bitnami.com/bitnami
+#   version: 8.12.0
+#   valuesFile: values-etcd.yaml
+
+patches:
+- path: patches/svc-lb-class.yaml
+  target:
+    version: v1
+    kind: Service
+    name: kube-dns

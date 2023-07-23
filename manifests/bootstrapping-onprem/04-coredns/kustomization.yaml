@@ -3,9 +3,10 @@ kind: Kustomization
 namespace: kube-system
 
 helmCharts:
-- name: external-dns
-  releaseName: edns
+- name: coredns
+  releaseName: dns
   namespace: kube-system
-  repo: https://kubernetes-sigs.github.io/external-dns/
-  version: 1.12.1
+  repo: https://coredns.github.io/helm
+  version: 1.24.1
   valuesFile: values.yaml
+

@@ -1,0 +1,40 @@
+isClusterService: false
+rbac:
+  create: true
+
+replicaCount: 2
+serviceType: LoadBalancer
+service:
+  name: coredns-external
+  externalTrafficPolicy: Local
+  annotations:
+    metallb.universe.tf/ip-allocated-from-pool: main-address-pool
+    metallb.universe.tf/loadBalancerIPs: 10.4.240.10
+
+deployment:
+  name: external
+
+servers:
+# https://kubernetes.io/docs/tasks/administer-cluster/dns-custom-nameservers/#coredns-configmap-options
+- port: 53
+  plugins:
+  - name: errors
+  - name: health
+    configBlock: |-
+      lameduck 5s
+  - name: ready
+  - name: prometheus
+    parameters: 0.0.0.0:9153
+  - name: forward
+    parameters: . /etc/resolv.conf
+  - name: etcd
+    parameters: homelab.danmanners.com
+    configBlock: |-
+      stubzones
+      path /skydns
+      endpoint http://10.4.0.40:2379
+  - name: cache
+    parameters: 30
+  - name: loop
+  - name: reload
+  - name: loadbalance

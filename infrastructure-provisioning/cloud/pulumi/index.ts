@@ -18,7 +18,7 @@ const hostIps: keyPulumiValue = {};
 const controlPlaneIps: pulumi.Output<string>[] = [];
 
 // Create the VPC
-const vpc = createVpc(config)
+const vpc = createVpc(config);
 
 // Create Security Groups
 const kubeNodeSecurityGroup = new aws.ec2.SecurityGroup(
@@ -77,7 +77,7 @@ for (let k of config.security_groups.nlb_ingress.egress) {
   });
 }
 
-const iam = iamCreation(config)
+const iam = iamCreation(config);
 
 // Loop through creation of the Kubernetes Control Plane Nodes
 for (let node of config.compute.control_planes) {
@@ -85,14 +85,14 @@ for (let node of config.compute.control_planes) {
     node,
     config.cloud_auth.aws_region,
     config.amis,
-    config.tags,
+    Object.assign(config.tags, { "kubernetes.io/cluster/cloud": "owned" }),
     vpc.privSubnets[node.subnet_name].id,
     [kubeNodeSecurityGroup.id],
     iam.iamInstanceProfile.name,
-    config.user_data.kube
+    null
   );
-  hostIps[node.name] = controlPlaneNode.privateIp
-  controlPlaneIps.push(controlPlaneNode.privateIp)
+  hostIps[node.name] = controlPlaneNode.privateIp;
+  controlPlaneIps.push(controlPlaneNode.privateIp);
 }
 
 // Loop through creation of the Kubernetes Worker Nodes
@@ -102,27 +102,24 @@ for (let node of config.compute.workers) {
     node,
     config.cloud_auth.aws_region,
     config.amis,
-    config.tags,
+    Object.assign(config.tags, { "kubernetes.io/cluster/cloud": "owned" }),
     vpc.privSubnets[node.subnet_name].id,
     [kubeNodeSecurityGroup.id],
     iam.iamInstanceProfile.name,
-    config.user_data.kube
+    null
   );
-  hostIps[node.name] = workerNode.privateIp
+  hostIps[node.name] = workerNode.privateIp;
 }
 
 // Create the Route53 record for the kube cluster domain name
-let aRecord = `${config.general.kube_cp_hostname}.${config.general.domain}`
-new aws.route53.Record(
-  aRecord,
-  {
-    zoneId: vpc.privateHostedZone.zoneId,
-    name: aRecord,
-    type: "A",
-    ttl: 300,
-    records: controlPlaneIps
-  }
-);
+let aRecord = `${config.general.kube_cp_hostname}.${config.general.domain}`;
+new aws.route53.Record(aRecord, {
+  zoneId: vpc.privateHostedZone.zoneId,
+  name: aRecord,
+  type: "A",
+  ttl: 300,
+  records: controlPlaneIps,
+});
 
 /*
 The following section should be left commented **UNLESS** you're troubleshooting!!
@@ -192,8 +189,8 @@ export const IPs: keyPulumiValue = {
 
 // Add the kubernetes hosts private IPs to the pulumi output
 for (let [key, value] of Object.entries(hostIps)) {
-  IPs[key] = value
-};
+  IPs[key] = value;
+}
 
 // for (const [key, value] of Object.entries(pubSubnets)) {
 

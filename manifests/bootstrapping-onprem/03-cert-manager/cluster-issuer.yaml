@@ -1,39 +1,39 @@
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
-  name: acme-prod
+    name: acme-prod
 spec:
-  acme:
-    email: daniel.a.manners@gmail.com
-    preferredChain: ""
-    privateKeySecretRef:
-      name: acme-prod-account-key
-    server: https://acme-v02.api.letsencrypt.org/directory
-    solvers:
-    - dns01:
-        route53:
-          accessKeyID: ENC[AES256_GCM,data:TMR0ieIclkgXpxTGkW4tDDLBt0o=,iv:SkzRY0UyOufJgaaP9xVY77umBZVglTo6yjBnfD19fqY=,tag:L8NnVgCsZMaP+XeRjda6YQ==,type:str]
-          region: us-east-1
-          secretAccessKeySecretRef:
-            key: secret-access-key
-            name: aws-creds
-      selector:
-        dnsZones:
-        - homelab.danmanners.com
-        - danmanners.io
-        - k3s.danmanners.io
+    acme:
+        email: daniel.a.manners@gmail.com
+        preferredChain: ""
+        privateKeySecretRef:
+            name: acme-prod-account-key
+        server: https://acme-v02.api.letsencrypt.org/directory
+        solvers:
+            - dns01:
+                route53:
+                    accessKeyID: ENC[AES256_GCM,data:JeFF1rvAZKVhnzNmmEDFocVbXrk=,iv:7U3IsLDmY1yBSK5KrE+f/MnIFeup8czeJyGKgn11jPU=,tag:kQIsYD7bO5yzllNcRqukcw==,type:str]
+                    region: us-east-1
+                    secretAccessKeySecretRef:
+                        name: aws-creds
+                        key: certmanager
+              selector:
+                dnsZones:
+                    - homelab.danmanners.com
+                    - danmanners.io
+                    - k3s.danmanners.io
 sops:
-  kms:
-  - arn: arn:aws:kms:us-east-1:977656673179:key/7e829b85-6fed-4598-b675-8ebeea105c4c
-    created_at: "2023-02-18T23:58:29Z"
-    enc: AQICAHi1XYvA3EFEGTwFyd0NLI4cRLiZ3o2bNcK2AmDuVl/CEwF3c5+MuwdSSKyWSAzJRClOAAAAfjB8BgkqhkiG9w0BBwagbzBtAgEAMGgGCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQM7ALLn6D7p4tk9zOyAgEQgDvBX62gYI2yRFmxX66bRbaQJv8e8rfxyb+xMYlCpsdv+8r8FQcDllSFV5xw29ffNL9vCu5tSDDMThMFzQ==
-    aws_profile: default
-  gcp_kms: []
-  azure_kv: []
-  hc_vault: []
-  age: []
-  lastmodified: "2023-02-18T23:58:29Z"
-  mac: ENC[AES256_GCM,data:u/n+Uew9GEQAD6igzXGBjwstmWgQ8JFj9cX48PITYPotdOIJont6NtQVXP64+oEpFcuvEW9TAFqfAK9tISkhgiJZcKRLQwcLK0L98Bq4uATdGEFiDWetdR+Od91ecGXfVp4PP6L6fqmaikElDna9t9MEGFHv/zOB1CvI2sB00m8=,iv:jcxQZaEgLPlyWjN4W9qJMDPFmUUg/v7aHvsWkv728nI=,tag:FSQWolDmbEWKHGInG+25Pg==,type:str]
-  pgp: []
-  encrypted_regex: ^(accessKeyID)$
-  version: 3.7.3
+    kms:
+        - arn: arn:aws:kms:us-east-1:977656673179:key/7e829b85-6fed-4598-b675-8ebeea105c4c
+          created_at: "2023-02-18T23:58:29Z"
+          enc: AQICAHi1XYvA3EFEGTwFyd0NLI4cRLiZ3o2bNcK2AmDuVl/CEwF3c5+MuwdSSKyWSAzJRClOAAAAfjB8BgkqhkiG9w0BBwagbzBtAgEAMGgGCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQM7ALLn6D7p4tk9zOyAgEQgDvBX62gYI2yRFmxX66bRbaQJv8e8rfxyb+xMYlCpsdv+8r8FQcDllSFV5xw29ffNL9vCu5tSDDMThMFzQ==
+          aws_profile: default
+    gcp_kms: []
+    azure_kv: []
+    hc_vault: []
+    age: []
+    lastmodified: "2023-07-23T22:28:54Z"
+    mac: ENC[AES256_GCM,data:lfcDFKfBLmVSln24bkQbSxOQgEoTgbLnXYRQE8Cyog0/shjNnRLvZ799y4YDDQwVaC1gSoVp8sI5x5qwjfWbfIvSWIo4S9UDx7CEiVt55MPzcPyHb7MwaIvQ90kd6mN0t/WmY3L5eposxsQPwGPDKMxNwTntsMPkc/LR8XR9Vvs=,iv:8DpjkVuX/Ftnot76C5jcjH8iSkHIjTGBam3ASMUBYK4=,tag:uw/7IytcTMvgVUUM/b/rbA==,type:str]
+    pgp: []
+    encrypted_regex: ^(accessKeyID)$
+    version: 3.7.3

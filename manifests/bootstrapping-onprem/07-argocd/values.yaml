@@ -27,10 +27,10 @@ repoServer:
   # Add the KSOPS plugin
   initContainers:
   - name: install-ksops
-    image: viaductoss/ksops:v4
+    image: viaductoss/ksops:v4.2.1
     command: ["/bin/sh", "-c"]
     args:
-    - echo "Installing KSOPS..."; mv ksops /custom-tools/; mv $GOPATH/bin/kustomize /custom-tools/; echo "Done.";
+    - echo "Installing KSOPS..."; mv ksops /custom-tools/; mv kustomize /custom-tools/; echo "Done.";
     volumeMounts:
     - mountPath: /custom-tools
       name: custom-tools
@@ -44,7 +44,7 @@ repoServer:
     name: custom-tools
     subPath: kustomize
     # Verify this matches a XDG_CONFIG_HOME=/.config env variable
-  - mountPath: /.config/kustomize/plugin/viaduct.ai/v1/ksops/ksops
+  - mountPath: /usr/local/bin/ksops
     name: custom-tools
     subPath: ksops
   - mountPath: "/home/argocd/.aws/credentials"

@@ -1,13 +1,13 @@
----
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: argo
+namespace: argo-workflows
 
 resources:
-  - namespace.yaml
-  - ingress.yaml
-  - service.yaml
-  - https://github.com/argoproj/argo-workflows/manifests/cluster-install?ref=release-3.3
+- ns.yaml
+- sa.yaml
 
-patchesStrategicMerge:
-  - deployment.yaml
+helmCharts:
+- name: argo-workflows
+  releaseName: aw
+  repo: https://argoproj.github.io/argo-helm
+  version: 0.29.1

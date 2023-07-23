@@ -1,4 +1,3 @@
----
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
@@ -8,14 +7,14 @@ spec:
   instances: 2
   primaryUpdateStrategy: unsupervised
   storage:
-    size: 80Gi
-    storageClass: nvme
+    size: 40Gi
+    storageClass: ceph-rbd
   superuserSecret:
     name: postgres-superuser
   monitoring:
     enablePodMonitor: true
   backup:
-    retentionPolicy: 30d
+    retentionPolicy: 5d
     barmanObjectStore:
       wal:
         compression: bzip2
