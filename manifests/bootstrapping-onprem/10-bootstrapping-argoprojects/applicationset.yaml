@@ -1,0 +1,38 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: bootstrappers
+spec:
+  generators:
+  - list:
+      elements:
+      - appName: 00-secrets
+        namespace: kube-system
+      - appName: 01-cilium
+        namespace: kube-system
+      - appName: 02-metallb
+        namespace: metallb-system
+      - appName: 03-cert-manager
+        namespace: kube-system
+      - appName: 04-coredns
+        namespace: kube-system
+      - appName: 05-rookceph
+        namespace: rook-ceph
+      - appName: 06-ingress-nginx
+        namespace: kube-system
+      - appName: 07-argocd
+        namespace: argocd
+      - appName: 08-kube-state-metrics
+        namespace: kube-system
+  template:
+    metadata:
+      name: '{{appName}}'
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/danmanners/homelab-kube-cluster.git
+        targetRevision: main
+        path: manifests/bootstrapping-onprem/{{appName}}
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: '{{namespace}}'

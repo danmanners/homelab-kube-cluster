@@ -3,12 +3,4 @@ kind: Kustomization
 namespace: argocd
 
 resources:
-- 01-cilium.yaml
-- 02-metallb.yaml
-- 03-cert-manager.yaml
-- 04-external-dns.yaml
-- 05-ingress-nginx.yaml
-- 06-traefik.yaml
-- 07-argocd.yaml
-- 08-csi-driver-nfs.yaml
-- 09-kube-prom-stack.yaml
+- applicationset.yaml

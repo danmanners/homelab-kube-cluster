@@ -1,20 +1,19 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: argocd
+  name: qemu-guest-agent
   namespace: argocd
 spec:
   project: default
   source:
-    repoURL: https://github.com/danmanners/homelab-kube-cluster.git
-    path: manifests/bootstrapping-onprem/07-argocd
+    repoURL: "https://github.com/danmanners/homelab-kube-cluster.git"
+    path: manifests/workloads/qemu-guest-agent
     targetRevision: main
   destination:
-    server: https://kubernetes.default.svc
-    namespace: argocd
+    server: "https://kubernetes.default.svc"
+    namespace: kube-system
   syncPolicy:
     automated:
       prune: true
-      selfHeal: true
     syncOptions:
     - CreateNamespace=true
