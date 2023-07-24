@@ -34,16 +34,11 @@ repoServer:
     volumeMounts:
     - mountPath: /custom-tools
       name: custom-tools
-  # Environment Variables
-  env:
-  - name: XDG_CONFIG_HOME
-    value: /.config
   # Volume Work
   volumeMounts:
   - mountPath: /usr/local/bin/kustomize
     name: custom-tools
     subPath: kustomize
-    # Verify this matches a XDG_CONFIG_HOME=/.config env variable
   - mountPath: /usr/local/bin/ksops
     name: custom-tools
     subPath: ksops
