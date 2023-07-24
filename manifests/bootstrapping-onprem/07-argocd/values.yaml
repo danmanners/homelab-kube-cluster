@@ -1,12 +1,5 @@
 configs:
   cm:
-    kustomize.buildOptions: --enable-alpha-plugins --enable-helm
-    url: https://argocd.homelab.danmanners.com
-    # Why in the FUCK is this here? See below!
-    # https://argo-cd.readthedocs.io/en/release-2.4/faq/#why-is-my-application-still-outofsync-immediately-after-a-successful-sync
-    # https://github.com/argoproj/argo-cd/blob/master/docs/operator-manual/argocd-cm.yaml#L235
-    # Thanks a ton to @onedr0p, @toboshii, and @xUnholy for the help in figuring this out!
-    application.instanceLabelKey: argocd.argoproj.io/instance
     # K8s@Home User
     accounts.k8sathome: login
     accounts.k8sathome.enabled: true
@@ -24,6 +17,10 @@ repoServer:
   nodeSelector:
     kubernetes.io/arch: amd64
 
+  # Env
+  env:
+  - name: XDG_CONFIG_HOME
+    value: '/.config'
   # Add the KSOPS plugin
   initContainers:
   - name: install-ksops
@@ -39,7 +36,7 @@ repoServer:
   - mountPath: /usr/local/bin/kustomize
     name: custom-tools
     subPath: kustomize
-  - mountPath: /usr/local/bin/ksops
+  - mountPath: /.config/kustomize/plugin/viaduct.ai/v1/ksops/ksops
     name: custom-tools
     subPath: ksops
   - mountPath: "/home/argocd/.aws/credentials"
@@ -54,6 +51,14 @@ repoServer:
       secretName: aws-creds
 
 server:
+  config:
+    kustomize.buildOptions: "--enable-alpha-plugins --enable-exec"
+    application.instanceLabelKey: argocd.argoproj.io/instance
+    url: https://argocd.homelab.danmanners.com
+    # Why in the FUCK is this here? See below!
+    # https://argo-cd.readthedocs.io/en/release-2.4/faq/#why-is-my-application-still-outofsync-immediately-after-a-successful-sync
+    # https://github.com/argoproj/argo-cd/blob/master/docs/operator-manual/argocd-cm.yaml#L235
+    # Thanks a ton to @onedr0p, @toboshii, and @xUnholy for the help in figuring this out!
   ingress:
     enabled: true
     ingressClassName: nginx
