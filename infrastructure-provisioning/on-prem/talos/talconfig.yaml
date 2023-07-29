@@ -32,6 +32,11 @@ nodes:
     mtu: 1500
     vip:
       ip: 10.4.0.40
+  - interface: eth1
+    dhcp: false
+    addresses:
+    - 10.44.0.41/24
+    mtu: 1500
 - hostname: tcp02.homelab.danmanners.com
   disableSearchDomain: true
   ipAddress: 10.4.0.42
@@ -48,6 +53,11 @@ nodes:
     mtu: 1500
     vip:
       ip: 10.4.0.40
+  - interface: eth1
+    dhcp: false
+    addresses:
+    - 10.44.0.42/24
+    mtu: 1500
 - hostname: tcp03.homelab.danmanners.com
   disableSearchDomain: true
   ipAddress: 10.4.0.43
@@ -64,6 +74,11 @@ nodes:
     mtu: 1500
     vip:
       ip: 10.4.0.40
+  - interface: eth1
+    dhcp: false
+    addresses:
+    - 10.44.0.43/24
+    mtu: 1500
 
 controlPlane:
   patches:

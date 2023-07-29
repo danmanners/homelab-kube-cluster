@@ -1,0 +1,19 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: github
+
+resources:
+- namespace.yaml
+- runners/homelab-kube-cluster.yaml
+- crds
+
+generators:
+- generator.yaml
+
+helmCharts:
+- name: actions-runner-controller
+  releaseName: arc
+  namespace: github
+  repo: https://actions-runner-controller.github.io/actions-runner-controller
+  version: 0.23.3
+  valuesFile: values.yaml

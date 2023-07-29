@@ -1,0 +1,12 @@
+# runnerdeployment.yaml
+apiVersion: actions.summerwind.dev/v1alpha1
+kind: RunnerDeployment
+metadata:
+  name: homelab
+  annotations:
+    argocd.argoproj.io/compare-options: IgnoreExtraneous
+spec:
+  replicas: 1
+  template:
+    spec:
+      repository: danmanners/homelab-kube-cluster

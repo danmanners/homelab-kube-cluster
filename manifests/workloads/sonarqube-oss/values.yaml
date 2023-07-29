@@ -1,4 +1,3 @@
----
 global:
   nameOverride: sonarqube
 
@@ -23,21 +22,21 @@ resources:
     cpu: "4"
 
 envFrom:
-  - secretRef:
-      name: sonarqube-secrets
+- secretRef:
+    name: sonarqube-secrets
 
 initContainers:
   # Set host-level system settings
   init-sysctl:
     image: busybox-image
     command:
-      - /bin/sh
-      - -c
-      - |
-        sysctl -w vm.max_map_count=524288 && \
-        sysctl -w fs.file-max=131072 && \
-        ulimit -n 131072 && \
-        ulimit -u 8192
+    - /bin/sh
+    - -c
+    - |
+      sysctl -w vm.max_map_count=524288 && \
+      sysctl -w fs.file-max=131072 && \
+      ulimit -n 131072 && \
+      ulimit -u 8192
     securityContext:
       privileged: true
       runAsUser: 0
@@ -45,32 +44,32 @@ initContainers:
   init-db:
     image: postgres-init-db
     env:
-      - name: POSTGRES_HOST
-        valueFrom:
-          secretKeyRef:
-            name: sonarqube-secrets
-            key: POSTGRES_HOST
-        # value: "primary-rw.postgres.svc.cluster.local"
-      - name: POSTGRES_SUPER_PASS
-        valueFrom:
-          secretKeyRef:
-            name: postgres-superuser
-            key: password
-      - name: POSTGRES_DB
-        valueFrom:
-          secretKeyRef:
-            name: sonarqube-secrets
-            key: SONAR_POSTGRES_DB
-      - name: POSTGRES_USER
-        valueFrom:
-          secretKeyRef:
-            name: sonarqube-secrets
-            key: SONAR_JDBC_USERNAME
-      - name: POSTGRES_PASS
-        valueFrom:
-          secretKeyRef:
-            name: sonarqube-secrets
-            key: SONAR_JDBC_PASSWORD
+    - name: POSTGRES_HOST
+      valueFrom:
+        secretKeyRef:
+          name: sonarqube-secrets
+          key: POSTGRES_HOST
+          # value: "primary-rw.postgres.svc.cluster.local"
+    - name: POSTGRES_SUPER_PASS
+      valueFrom:
+        secretKeyRef:
+          name: postgres-superuser
+          key: password
+    - name: POSTGRES_DB
+      valueFrom:
+        secretKeyRef:
+          name: sonarqube-secrets
+          key: SONAR_POSTGRES_DB
+    - name: POSTGRES_USER
+      valueFrom:
+        secretKeyRef:
+          name: sonarqube-secrets
+          key: SONAR_JDBC_USERNAME
+    - name: POSTGRES_PASS
+      valueFrom:
+        secretKeyRef:
+          name: sonarqube-secrets
+          key: SONAR_JDBC_PASSWORD
 
 service:
   main:
@@ -86,24 +85,37 @@ service:
 
 ingress:
   main:
-    enabled: false
+    enabled: true
+    ingressClassName: nginx
+    tls:
+    - secretName: sonarqube-cert
+      hosts:
+      - sonarqube.homelab.danmanners.com
+    hosts:
+    - host: sonarqube.homelab.danmanners.com
+      paths:
+      - path: /
+        pathType: Prefix
+        service:
+
+
 
 persistence:
   data:
     enabled: true
-    storageClass: ssd
-    accessMode: ReadWriteMany
+    storageClass: ceph-rbd
+    accessMode: ReadWriteOnce
     mountPath: /opt/sonarqube/data
-    size: 20Gi
+    size: 30Gi
   logs:
     enabled: true
-    storageClass: ssd
-    accessMode: ReadWriteMany
+    storageClass: ceph-rbd
+    accessMode: ReadWriteOnce
     mountPath: /opt/sonarqube/logs
     size: 4Gi
   extensions:
     enabled: true
-    storageClass: ssd
-    accessMode: ReadWriteMany
+    storageClass: ceph-rbd
+    accessMode: ReadWriteOnce
     mountPath: /opt/sonarqube/extensions
     size: 2Gi
