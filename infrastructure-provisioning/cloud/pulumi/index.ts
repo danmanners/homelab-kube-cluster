@@ -1,32 +1,22 @@
 import * as aws from "@pulumi/aws";
-import * as pulumi from "@pulumi/pulumi";
 
-// Kubernetes Nodes
-import { controlPlane, worker } from "./modules/kube-nodes";
-import { bastion } from "./modules/bastion";
-import { iamCreation } from "./modules/iam";
+// Import the module responsible for creating the VPC
 import { createVpc } from "./modules/vpc";
-
-// Keep types in a separate file to keep things clean in this main file
-import { keyPulumiValue } from "./types/types";
 
 // Configuration / Environment Variables
 import * as config from "./vars/environment";
+import { assumeRole } from "@pulumi/aws/config";
+import { output } from "@pulumi/pulumi";
 
-// Pulumi Constants
-const hostIps: keyPulumiValue = {};
-const controlPlaneIps: pulumi.Output<string>[] = [];
-
-// Create the VPC
+// Create a VPC and associated resources
 const vpc = createVpc(config);
 
 // Create Security Groups
-const kubeNodeSecurityGroup = new aws.ec2.SecurityGroup(
-  "kubeNodeSecurityGroup",
+const kubeNodeSecurityGroup = new aws.ec2.SecurityGroup("kubeNodeSecurityGroup",
   {
     description: "Allow TLS inbound traffic",
     vpcId: vpc.id,
-    tags: Object.assign({}, config.tags, { Name: "kube-master" }),
+    tags: Object.assign({}, config.tags, { Name: "ecsIngeress" }),
   }
 );
 
@@ -38,10 +28,7 @@ for (let k of config.security_groups.nlb_ingress.ingress) {
   let toPort: number = 0;
 
   // Check Port Logic
-  if (k.port_start && k.port_end) {
-    fromPort = k.port_start;
-    toPort = k.port_end;
-  } else if (k.port) {
+  if (k.port) {
     fromPort = k.port;
     toPort = k.port;
   }
@@ -77,123 +64,153 @@ for (let k of config.security_groups.nlb_ingress.egress) {
   });
 }
 
-const iam = iamCreation(config);
-
-// Loop through creation of the Kubernetes Control Plane Nodes
-for (let node of config.compute.control_planes) {
-  let controlPlaneNode = controlPlane(
-    node,
-    config.cloud_auth.aws_region,
-    config.amis,
-    Object.assign(config.tags, { "kubernetes.io/cluster/cloud": "owned" }),
-    vpc.privSubnets[node.subnet_name].id,
-    [kubeNodeSecurityGroup.id],
-    iam.iamInstanceProfile.name,
-    null
-  );
-  hostIps[node.name] = controlPlaneNode.privateIp;
-  controlPlaneIps.push(controlPlaneNode.privateIp);
-}
-
-// Loop through creation of the Kubernetes Worker Nodes
-for (let node of config.compute.workers) {
-  // Loop through the workers
-  let workerNode = worker(
-    node,
-    config.cloud_auth.aws_region,
-    config.amis,
-    Object.assign(config.tags, { "kubernetes.io/cluster/cloud": "owned" }),
-    vpc.privSubnets[node.subnet_name].id,
-    [kubeNodeSecurityGroup.id],
-    iam.iamInstanceProfile.name,
-    null
-  );
-  hostIps[node.name] = workerNode.privateIp;
-}
-
-// Create the Route53 record for the kube cluster domain name
-let aRecord = `${config.general.kube_cp_hostname}.${config.general.domain}`;
-new aws.route53.Record(aRecord, {
-  zoneId: vpc.privateHostedZone.zoneId,
-  name: aRecord,
-  type: "A",
-  ttl: 300,
-  records: controlPlaneIps,
+// Determine latest EC2 AMI
+const latestAmi = aws.ec2.getAmiIds({
+  owners: ["591542846629"], // Amazon Owner Account ID
+  filters: [
+    { name: "name", values: ["al2023-ami-ecs-hvm-*"] },
+    { name: "virtualization-type", values: ["hvm"] },
+    { name: "architecture", values: ["arm64"] },
+  ],
 });
 
-/*
-The following section should be left commented **UNLESS** you're troubleshooting!!
-*/
+export const currentAmi = {
+  "latestAmi": latestAmi.then((latestAmi) => latestAmi.ids[0]),
+};
 
-const bastionHost = bastion(
-  config.compute.bastion[0],
-  config.cloud_auth.aws_region,
-  config.network.vpc.cidr_block,
-  config.amis,
-  vpc.id,
-  vpc.pubSubnets[config.compute.bastion[0].subnet_name].id,
-  config.user_data.bastion,
-  config.security_groups.bastion,
-  config.tags
-);
-
-// Create the Route53 record for the Bastion/wireguard Netmaker host
-const bastionNetmaker = new aws.route53.Record(`wg.${config.general.domain}`, {
-  zoneId: config.general.public_hosted_zone,
-  name: `wg.${config.general.domain}`,
-  type: "A",
-  ttl: 300,
-  records: [bastionHost.publicIp],
+// Get the IAM policy document for the role
+const assumeRolePolicy = aws.iam.getPolicyDocument({
+  statements: [{
+    actions: ["sts:AssumeRole"],
+    principals: [{
+      identifiers: ["ec2.amazonaws.com"],
+      type: "Service",
+    }],
+  }],
 });
 
-// Create the Internal Route53 record for the Bastion/wireguard Netmaker host
-const bastionNetmakerInternal = new aws.route53.Record(
-  `wg.${config.general.domain}-internal`,
-  {
-    zoneId: vpc.privateHostedZone.zoneId,
-    name: `wg.${config.general.domain}`,
-    type: "A",
-    ttl: 300,
-    records: [bastionHost.privateIp],
-  }
-);
+// Create the new role
+const ecsNodeRole = new aws.iam.Role("ecsNodeRole", {
+  assumeRolePolicy: assumeRolePolicy.then(assumeRolePolicy => assumeRolePolicy.json),
+  path: "/",
+});
 
-// Create the required subdomain records internal and external
-for (const subdomain of ["dashboard", "api", "broker"]) {
-  const sdext = new aws.route53.Record(
-    `${subdomain}.wg.${config.general.domain}`,
+// Create the IAM Instance Profile
+const ecsNodeInstanceProfile = new aws.iam.InstanceProfile("ecsNodeInstanceProfile", {
+  role: ecsNodeRole.name,
+});
+
+// EC2 Launch Template
+const ecsLaunchTemplate = new aws.ec2.LaunchTemplate("ecs-lt", {
+  namePrefix: "ecs",
+  updateDefaultVersion: true,
+  imageId: latestAmi.then((latestAmi) => latestAmi.ids[0]),
+  instanceType: "t4g.small",
+  // Set disk values
+  blockDeviceMappings: [{
+    deviceName: "/dev/xvda",
+    ebs: {
+      volumeSize: 32,
+    },
+  }],
+  // Enable monitoring
+  monitoring: {
+    enabled: true,
+  },
+  // Set the security group IDs
+  vpcSecurityGroupIds: [kubeNodeSecurityGroup.id],
+  tags: config.tags,
+  iamInstanceProfile: {
+    name: ecsNodeInstanceProfile.name
+  },
+  tagSpecifications: [{
+    resourceType: "instance",
+    tags: Object.assign(config.tags, { Name: "ecsNode" })
+  }],
+});
+
+// EC2 Autoscaling Group
+const autoscalingGroup = new aws.autoscaling.Group("homelab-ecs-scaler", {
+  vpcZoneIdentifiers: [
+    vpc.pubSubnets[config.network.subnets.public[0].name].id,
+    vpc.pubSubnets[config.network.subnets.public[1].name].id,
+  ],
+  desiredCapacity: 1,
+  maxSize: 2,
+  minSize: 1,
+  healthCheckGracePeriod: 180,
+  launchTemplate: {
+    id: ecsLaunchTemplate.id,
+    version: "$Latest",
+  },
+});
+
+// ECS Cluster
+const ecsCluster = new aws.ecs.Cluster("homelab", {
+  name: "homelab",
+  tags: config.tags,
+});
+
+// ECS Capacity Provider
+const ecsCapacityProvider = new aws.ecs.CapacityProvider("capacity", { autoScalingGroupProvider: {
+  autoScalingGroupArn: autoscalingGroup.arn,
+  managedScaling: {
+    status: "ENABLED",
+    maximumScalingStepSize: 1000,
+    minimumScalingStepSize: 1,
+    targetCapacity: 10,
+  },
+}});
+
+// ECS Cluster Capacity Association
+const capProviders = new aws.ecs.ClusterCapacityProviders("homelab", {
+  clusterName: ecsCluster.name,
+  capacityProviders: [ecsCapacityProvider.name],
+});
+
+// Nginx Reverse Proxy Task Definition
+const nginxTaskDefinition = new aws.ecs.TaskDefinition("nginx-reverseproxy", {
+  family: "nginx",
+  networkMode: "host",
+  requiresCompatibilities: ["EC2"],
+  runtimePlatform: {
+    cpuArchitecture: "ARM64",
+    operatingSystemFamily: "LINUX",
+  },
+  containerDefinitions: JSON.stringify([
     {
-      zoneId: config.general.public_hosted_zone,
-      name: `${subdomain}.wg.${config.general.domain}`,
-      type: "CNAME",
-      ttl: 300,
-      records: [bastionNetmaker.fqdn],
-    }
-  );
+      name: "nginx",
+      image: "docker.io/library/nginx:1.25-alpine",
+      cpu: 512,
+      memory: 512,
+      portMappings: [
+        {
+          containerPort: 80,
+          hostPort: 80,
+          protocol: "tcp",
+        },
+        {
+          containerPort: 443,
+          hostPort: 443,
+          protocol: "tcp",
+        },
+      ],
+    },
+  ]),
+});
 
-  const sdin = new aws.route53.Record(
-    `${subdomain}.wg.${config.general.domain}-internal`,
-    {
-      zoneId: vpc.privateHostedZone.zoneId,
-      name: `${subdomain}.wg.${config.general.domain}`,
-      type: "CNAME",
-      ttl: 300,
-      records: [bastionNetmakerInternal.fqdn],
-    }
-  );
-}
-
-export const IPs: keyPulumiValue = {
-  bastionIP: bastionHost.publicIp,
-};
-
-// Add the kubernetes hosts private IPs to the pulumi output
-for (let [key, value] of Object.entries(hostIps)) {
-  IPs[key] = value;
-}
-
-// for (const [key, value] of Object.entries(pubSubnets)) {
-
-export const GitOps_Resources = {
-  "certmanager-noderole": iam.kubeNodeRole.arn,
-};
+// Nginx Reverse Proxy Service Deployment
+const nginxServiceDeployment = new aws.ecs.Service("nginx-reverseproxy", {
+  cluster: ecsCluster.id,
+  taskDefinition: nginxTaskDefinition.arn,
+  launchType: "EC2",
+  desiredCount: 2,
+  orderedPlacementStrategies: [{
+    type: "binpack",
+    field: "cpu",
+  }],
+  // placementConstraints: [{
+  //   type: "memberOf",
+  //   expression: `attribute:ecs.availability-zone in [${config.network.subnets.public[0].az}, ${config.network.subnets.public[1].az}]`,
+  // }],
+});

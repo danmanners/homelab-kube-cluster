@@ -22,3 +22,7 @@ export type Node = {
   root_volume_type: string,
   privateIp?: string | undefined
 }
+
+export type Tags = {
+  [name: string]: string
+}

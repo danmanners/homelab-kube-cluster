@@ -5,7 +5,7 @@ import { NameIdOutputs, keyPulumiValue } from "../types/types";
 
 // Instantiating Constants
 const pubSubnets: NameIdOutputs = {};
-const privSubnets: NameIdOutputs = {};
+// const privSubnets: NameIdOutputs = {};
 const routeTables: keyPulumiValue = {};
 const routeTableRoutes: keyPulumiValue = {};
 
@@ -17,15 +17,15 @@ export function createVpc(config: any) {
         tags: Object.assign({}, config.tags, { Name: config.network.vpc.name }),
     });
 
-    // Private Hosted Zone
-    const privateHostedZone = new aws.route53.Zone("primary", {
-        name: config.general.domain,
-        comment: config.general.domain_comment,
-        vpcs: [{ vpcId: vpc.id, vpcRegion: config.cloud_auth.aws_region }],
-        tags: Object.assign({}, config.tags, {
-            Name: config.general.domain,
-        }),
-    });
+    // // Private Hosted Zone - Disabled for now; only public nodes
+    // const privateHostedZone = new aws.route53.Zone("primary", {
+    //     name: config.general.domain,
+    //     comment: config.general.domain_comment,
+    //     vpcs: [{ vpcId: vpc.id, vpcRegion: config.cloud_auth.aws_region }],
+    //     tags: Object.assign({}, config.tags, {
+    //         Name: config.general.domain,
+    //     }),
+    // });
 
     // Create the DHCP Options
     const dhcpOpts = new aws.ec2.VpcDhcpOptions("cloud.danmanners.com", {
@@ -60,20 +60,20 @@ export function createVpc(config: any) {
         Object.assign({}, (pubSubnets[subnet.name].id = s.id));
     }
 
-    // Create the Private Subnets
-    for (const subnet of config.network.subnets.private) {
-        const s = new aws.ec2.Subnet(subnet.name, {
-            vpcId: vpc.id,
-            cidrBlock: subnet.cidr_block,
-            availabilityZone: `${config.cloud_auth.aws_region}${subnet.az}`,
-            tags: Object.assign({}, config.tags, {
-                Name: subnet.name,
-                "kubernetes.io/role/internal-elb": "1",
-                "kubernetes.io/cluster/homelab-cloud": "shared",
-            }),
-        });
-        privSubnets[subnet.name] = { id: s.id };
-    }
+    // // Create the Private Subnets - Disabled for now; only public nodes
+    // for (const subnet of config.network.subnets.private) {
+    //     const s = new aws.ec2.Subnet(subnet.name, {
+    //         vpcId: vpc.id,
+    //         cidrBlock: subnet.cidr_block,
+    //         availabilityZone: `${config.cloud_auth.aws_region}${subnet.az}`,
+    //         tags: Object.assign({}, config.tags, {
+    //             Name: subnet.name,
+    //             "kubernetes.io/role/internal-elb": "1",
+    //             "kubernetes.io/cluster/homelab-cloud": "shared",
+    //         }),
+    //     });
+    //     privSubnets[subnet.name] = { id: s.id };
+    // }
 
     // Create the Internet Gateway
     const gw = new aws.ec2.InternetGateway("gw", {
@@ -91,16 +91,16 @@ export function createVpc(config: any) {
         }),
     });
 
-    // Create the NAT Gateway
-    const natgw = new aws.ec2.NatGateway("natgw", {
-        allocationId: natgw_eip.id,
-        subnetId: pubSubnets[config.network.subnets.public[0].name].id,
-        privateIp: config.network.subnets.public[0].privateIP,
-        // TODO: figure out how to make this less crap
-        tags: Object.assign({}, config.tags, {
-            Name: `${config.network.vpc.name}-ngw`,
-        }),
-    });
+    // // Create the NAT Gateway - Disabled for now; only public nodes
+    // const natgw = new aws.ec2.NatGateway("natgw", {
+    //     allocationId: natgw_eip.id,
+    //     subnetId: pubSubnets[config.network.subnets.public[0].name].id,
+    //     privateIp: config.network.subnets.public[0].privateIP,
+    //     // TODO: figure out how to make this less crap
+    //     tags: Object.assign({}, config.tags, {
+    //         Name: `${config.network.vpc.name}-ngw`,
+    //     }),
+    // });
 
     // Create the Public Subnet Route Tables
     for (const subnet of config.network.subnets.public) {
@@ -114,17 +114,18 @@ export function createVpc(config: any) {
         routeTables[`${subnet.name}`] = rt.id;
     }
 
-    // Create the Private Subnet Route Tables
-    for (const subnet of config.network.subnets.private) {
-        const rt = new aws.ec2.RouteTable(
-            `${config.network.vpc.name}-${subnet.name}`,
-            {
-                vpcId: vpc.id,
-                tags: Object.assign({}, config.tags, { Name: subnet.name }),
-            }
-        );
-        routeTables[`${subnet.name}`] = rt.id;
-    }
+    // // Create the Private Subnet Route Tables
+    // // - Disabled for now; only public nodes
+    // for (const subnet of config.network.subnets.private) {
+    //     const rt = new aws.ec2.RouteTable(
+    //         `${config.network.vpc.name}-${subnet.name}`,
+    //         {
+    //             vpcId: vpc.id,
+    //             tags: Object.assign({}, config.tags, { Name: subnet.name }),
+    //         }
+    //     );
+    //     routeTables[`${subnet.name}`] = rt.id;
+    // }
 
     // Create the Public Subnet Routes on the previously created Route Tables
     for (const [key, value] of Object.entries(pubSubnets)) {
@@ -136,15 +137,16 @@ export function createVpc(config: any) {
         routeTableRoutes[`${key}-route`] = route.id;
     }
 
-    // Create the Private Subnet Routes on the previously created Route Tables
-    for (const [key, value] of Object.entries(privSubnets)) {
-        const route = new aws.ec2.Route(`${key}-ro`, {
-            routeTableId: routeTables[key],
-            destinationCidrBlock: "0.0.0.0/0",
-            natGatewayId: natgw.id,
-        });
-        routeTableRoutes[`${key}-route`] = route.id;
-    }
+    // // Create the Private Subnet Routes on the previously created Route Tables
+    // // - Disabled for now; only public nodes
+    // for (const [key, value] of Object.entries(privSubnets)) {
+    //     const route = new aws.ec2.Route(`${key}-ro`, {
+    //         routeTableId: routeTables[key],
+    //         destinationCidrBlock: "0.0.0.0/0",
+    //         natGatewayId: natgw.id,
+    //     });
+    //     routeTableRoutes[`${key}-route`] = route.id;
+    // }
 
     // Public Subnet Route Table Associations
     for (const [key, value] of Object.entries(pubSubnets)) {
@@ -154,18 +156,19 @@ export function createVpc(config: any) {
         });
     }
 
-    // Private Subnet Route Table Associations
-    for (const [key, value] of Object.entries(privSubnets)) {
-        new aws.ec2.RouteTableAssociation(`${key}-rta`, {
-            subnetId: value.id,
-            routeTableId: routeTables[key],
-        });
-    }
+    // // Private Subnet Route Table Associations
+    // // - Disabled for now; only public nodes
+    // for (const [key, value] of Object.entries(privSubnets)) {
+    //     new aws.ec2.RouteTableAssociation(`${key}-rta`, {
+    //         subnetId: value.id,
+    //         routeTableId: routeTables[key],
+    //     });
+    // }
 
     return {
         id: vpc.id,                             // VPC ID
-        privSubnets: privSubnets,               // Private Subnets Map
         pubSubnets: pubSubnets,                 // Public Subnets Map
-        privateHostedZone: privateHostedZone,   // ARN of the Route53 PrivateHostedZone
+        // privSubnets: privSubnets,               // Private Subnets Map
+        // privateHostedZone: privateHostedZone,   // ARN of the Route53 PrivateHostedZone
     };
 }

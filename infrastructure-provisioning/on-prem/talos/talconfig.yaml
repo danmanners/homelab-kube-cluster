@@ -21,6 +21,8 @@ nodes:
   ipAddress: 10.4.0.41
   controlPlane: true
   installDisk: /dev/sda
+  nameservers:
+  - 10.3.0.1
   networkInterfaces:
   - interface: eth0
     dhcp: false
@@ -42,6 +44,8 @@ nodes:
   ipAddress: 10.4.0.42
   controlPlane: true
   installDisk: /dev/sda
+  nameservers:
+  - 10.3.0.1
   networkInterfaces:
   - interface: eth0
     dhcp: false
@@ -63,6 +67,8 @@ nodes:
   ipAddress: 10.4.0.43
   controlPlane: true
   installDisk: /dev/sda
+  nameservers:
+  - 10.3.0.1
   networkInterfaces:
   - interface: eth0
     dhcp: false

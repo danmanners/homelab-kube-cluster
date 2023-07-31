@@ -10,4 +10,3 @@
   - S3 Bucket (External Snapshotter)
     - Stretch Goal
 - Remote access for cluster management
-- 

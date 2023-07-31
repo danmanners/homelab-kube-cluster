@@ -33,7 +33,7 @@ export const general = {
   domain: "cloud.danmanners.com",
   kube_cp_hostname: "kube",
   domain_comment: "Internal DNS HostedZone for the cloud cluster",
-  public_hosted_zone: "Z016942938TFLEH1J2FS1"
+  public_hosted_zone: "Z016942938TFLEH1J2FS1",
 };
 
 // VPC Setup and Networking
@@ -217,12 +217,6 @@ export const security_groups = {
         cidr_blocks: ["0.0.0.0/0"],
       },
       {
-        description: "SSH Inbound",
-        port: 22,
-        protocol: "tcp",
-        cidr_blocks: ["0.0.0.0/0"],
-      },
-      {
         description: "HTTP Inbound",
         port: 80,
         protocol: "tcp",
@@ -234,20 +228,26 @@ export const security_groups = {
         protocol: "tcp",
         cidr_blocks: ["0.0.0.0/0"],
       },
-      {
-        description: "Netmaker Ingress",
-        port_start: 51821,
-        port_end: 51830,
-        protocol: "udp",
-        cidr_blocks: ["0.0.0.0/0"],
-      },
-      {
-        description:
-          "All Inbound from Internal Traffic, Wireguard, and On-Prem Networking.",
-        port: -1,
-        protocol: "all",
-        cidr_blocks: ["10.4.0.0/23", network.vpc.cidr_block],
-      },
+      // {
+      //   description: "SSH Inbound",
+      //   port: 22,
+      //   protocol: "tcp",
+      //   cidr_blocks: ["0.0.0.0/0"],
+      // },
+      // {
+      //   description: "Netmaker Ingress",
+      //   port_start: 51821,
+      //   port_end: 51830,
+      //   protocol: "udp",
+      //   cidr_blocks: ["0.0.0.0/0"],
+      // },
+      // {
+      //   description:
+      //     "All Inbound from Internal Traffic, Wireguard, and On-Prem Networking.",
+      //   port: -1,
+      //   protocol: "all",
+      //   cidr_blocks: ["10.4.0.0/23", network.vpc.cidr_block],
+      // },
     ],
     egress: [
       {
@@ -263,5 +263,7 @@ export const security_groups = {
 // Global Tags
 export const tags = {
   environment: "homelab",
-  project_name: "kube-homelab-cloud",
+  project_name: "cloud-homelab",
+  repo_name: "homelab-kube-cluster",
+  github_url: "https://github.com/danmanners/homelab-kube-cluster",
 };
