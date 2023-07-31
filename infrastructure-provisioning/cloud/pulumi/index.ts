@@ -83,7 +83,7 @@ const assumeRolePolicy = aws.iam.getPolicyDocument({
   statements: [{
     actions: ["sts:AssumeRole"],
     principals: [{
-      identifiers: ["ec2.amazonaws.com"],
+      identifiers: ["ecs-tasks.amazonaws.com"],
       type: "Service",
     }],
   }],
@@ -154,8 +154,10 @@ const ecsCluster = new aws.ecs.Cluster("homelab", {
 // ECS Capacity Provider
 const ecsCapacityProvider = new aws.ecs.CapacityProvider("capacity", { autoScalingGroupProvider: {
   autoScalingGroupArn: autoscalingGroup.arn,
+  managedTerminationProtection: "ENABLED",
   managedScaling: {
     status: "ENABLED",
+    instanceWarmupPeriod: 180,
     maximumScalingStepSize: 1000,
     minimumScalingStepSize: 1,
     targetCapacity: 10,
