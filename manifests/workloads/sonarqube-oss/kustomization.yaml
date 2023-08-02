@@ -8,7 +8,7 @@ resources:
 - ingress.yaml
 
 helmCharts:
-- name: kah-common-chart
+- name: app-template
   releaseName: sonarqube
   namespace: sonarqube
   repo: https://bjw-s.github.io/helm-charts
