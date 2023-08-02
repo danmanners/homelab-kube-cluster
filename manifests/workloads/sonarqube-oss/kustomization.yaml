@@ -16,8 +16,8 @@ helmCharts:
   valuesFile: values.yaml
 
 images:
-- name: sonarqube-image
-  newName: sonarqube
+- name: sonarqube-image:replaceme
+  newName: docker.io/library/sonarqube
   newTag: 10.1.0-community
 - name: postgres-init-db
   newName: ghcr.io/onedr0p/postgres-initdb

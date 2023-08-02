@@ -3,6 +3,7 @@ global:
 
 image:
   repository: sonarqube-image
+  tag: replaceme
   pullPolicy: IfNotPresent
 
 nodeSelector:
@@ -97,8 +98,6 @@ ingress:
       - path: /
         pathType: Prefix
         service:
-
-
 
 persistence:
   data:
