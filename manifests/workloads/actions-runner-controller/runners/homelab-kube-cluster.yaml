@@ -8,5 +8,8 @@ metadata:
 spec:
   replicas: 1
   template:
+    metadata:
+      annotations:
+        argocd.argoproj.io/compare-options: IgnoreExtraneous
     spec:
       repository: danmanners/homelab-kube-cluster
