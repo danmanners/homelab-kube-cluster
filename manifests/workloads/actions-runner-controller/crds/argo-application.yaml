@@ -9,7 +9,7 @@ spec:
     namespace: github
   source:
     repoURL: "https://github.com/danmanners/homelab-kube-cluster.git"
-    path: manifests/workloads/actions-runner-controller/crds
+    path: manifests/workloads/actions-runner-controller/crds/github
     targetRevision: main
   project: default
   syncPolicy:
