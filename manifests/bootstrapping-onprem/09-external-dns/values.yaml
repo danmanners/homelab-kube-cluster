@@ -3,6 +3,8 @@ txtPrefix: txt.
 registry: txt
 domainFilters:
 - homelab.danmanners.com
+sources:
+- service
 
 policy: upsert-only
 interval: 30s
@@ -19,14 +21,14 @@ env:
 
 extraVolumeMounts:
 - name: aws-credentials
-  mountPath: /.aws
+  mountPath: /.aws/credentials
   readOnly: true
+  subPath: creds
 
 extraVolumes:
 - name: aws-credentials
-
-secret:
-  secretName: external-dns
+  secret:
+    secretName: external-dns
 
 crd:
   create: true
