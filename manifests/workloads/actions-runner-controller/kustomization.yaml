@@ -5,7 +5,7 @@ namespace: github
 resources:
 - namespace.yaml
 - runners/homelab-kube-cluster.yaml
-- crds
+- crds/argo-application.yaml
 
 generators:
 - generator.yaml
