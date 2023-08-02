@@ -24,6 +24,8 @@ spec:
         namespace: argocd
       - appName: 08-kube-state-metrics
         namespace: kube-system
+      - appName: 09-external-dns
+        namespace: kube-system
   template:
     metadata:
       name: '{{appName}}'

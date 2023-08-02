@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: workloads
+spec:
+  generators:
+  - list:
+      elements:
+      - appName: actions-runner-controller
+        namespace: github
+      - appName: cloudnative-pg
+        namespace: postgres
+      - appName: qemu-guest-agent
+        namespace: kube-system
+      - appName: sonarqube-oss
+        namespace: sonarqube
+  template:
+    metadata:
+      name: '{{appName}}'
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/danmanners/homelab-kube-cluster.git
+        targetRevision: main
+        path: manifests/workloads/{{appName}}
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: '{{namespace}}'
+      syncPolicy:
+        automated:
+          prune: true
+        syncOptions:
+        - CreateNamespace=true
