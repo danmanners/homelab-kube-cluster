@@ -16,6 +16,8 @@ spec:
         namespace: sonarqube
       - appName: node-feature-discovery
         namespace: kube-system
+      - appName: excalidraw
+        namespace: excalidraw
   template:
     metadata:
       name: '{{appName}}'
