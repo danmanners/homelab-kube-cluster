@@ -6,8 +6,6 @@ spec:
   generators:
   - list:
       elements:
-      - appName: 00-secrets
-        namespace: kube-system
       - appName: 01-cilium
         namespace: kube-system
       - appName: 02-metallb

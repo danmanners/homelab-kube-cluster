@@ -9,7 +9,19 @@ helmCharts:
   repo: https://charts.jetstack.io
   version: "v1.12.3"
   valuesInline:
-    installCRDs: true
+    installCRDs: false
+    extraArgs:
+    - --dns01-recursive-nameservers=1.1.1.1:53,9.9.9.9:53
+    - --dns01-recursive-nameservers-only
+    podDnsPolicy: None
+    podDnsConfig:
+      nameservers:
+      - "1.1.1.1"
+      - "9.9.9.9"
+
+resources:
+- ../00-secrets
+- https://github.com/cert-manager/cert-manager/releases/download/v1.12.3/cert-manager.crds.yaml
 
 generators:
 - ksops-generator.yaml
