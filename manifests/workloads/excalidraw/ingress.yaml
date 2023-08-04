@@ -19,7 +19,7 @@ metadata:
   namespace: excalidraw
 spec:
   commonName: excalidraw.homelab.danmanners.com
-  secretName: excalidraw
+  secretName: excalidraw-cert
   dnsNames:
   - excalidraw.homelab.danmanners.com
   issuerRef:
