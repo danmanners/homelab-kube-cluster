@@ -1,21 +1,20 @@
----
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: excalidraw
 
 resources:
-  - namespace.yaml
-  - ingress.yaml
+- namespace.yaml
+- ingress.yaml
 
 helmCharts:
-  - name: kah-common-chart
-    releaseName: excalidraw
-    namespace: excalidraw
-    repo: https://k8s-at-home.com/charts
-    version: 1.2.2
-    valuesFile: values.yaml
+- name: app-template
+  releaseName: excalidraw
+  namespace: excalidraw
+  repo: https://bjw-s.github.io/helm-charts
+  version: 1.5.1
+  valuesFile: values.yaml
 
 images:
-  - name: excalidraw-image
-    newName: ghcr.io/danmanners/excalidraw
-    newTag: v0.12.0
+- name: excalidraw-image:replaceme
+  newName: docker.io/excalidraw/excalidraw
+  newTag: latest
