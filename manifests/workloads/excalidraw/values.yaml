@@ -1,13 +1,16 @@
----
 global:
   nameOverride: excalidraw
 
 controller:
-  replicas: 3
+  replicas: 2
 
 image:
   repository: excalidraw-image
+  tag: replaceme
   pullPolicy: IfNotPresent
+
+nodeSelector:
+  kubernetes.io/arch: amd64
 
 service:
   main:
@@ -15,8 +18,19 @@ service:
     type: ClusterIP
     ports:
       http:
-        port: 8080
+        port: 80
 
 ingress:
   main:
-    enabled: false
+    enabled: true
+    ingressClassName: nginx
+    tls:
+    - secretName: excalidraw-cert
+      hosts:
+      - excalidraw.homelab.danmanners.com
+    hosts:
+    - host: excalidraw.homelab.danmanners.com
+      paths:
+      - path: /
+        pathType: Prefix
+        service:

@@ -1,31 +1,11 @@
----
 kind: Kustomization
 namespace: kube-system
 
 helmCharts:
-  - name: node-feature-discovery
-    releaseName: node-feature-discovery
-    repo: https://kubernetes-sigs.github.io/node-feature-discovery/charts
-    version: "0.13.3"
-    valuesInline:
-      master:
-        affinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            - weight: 100
-              podAffinityTerm:
-                topologyKey: topology.kubernetes.io/zone
-                labelSelector:
-                  matchExpressions:
-                  - key: security
-                    operator: In
-                    values:
-                    - S2
-      # worker:
-      #   tolerations:
-      #     - key: "node-role.kubernetes.io/cloud"
-      #       operator: "Equal"
-      #       value: ""
-      #       effect: "NoSchedule"
+- name: node-feature-discovery
+  releaseName: node-feature-discovery
+  repo: https://kubernetes-sigs.github.io/node-feature-discovery/charts
+  version: "0.13.3"
 
 resources:
-  - nfd-worker-conf-cm.yaml
+- nfd-worker-conf-cm.yaml

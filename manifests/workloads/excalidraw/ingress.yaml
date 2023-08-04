@@ -1,71 +1,27 @@
----
 apiVersion: v1
 kind: Service
 metadata:
-  name: whiteboard-danmanners-extname
+  name: excalidraw-extname
   annotations:
-    external-dns.alpha.kubernetes.io/hostname: whiteboard.danmanners.com
+    external-dns.alpha.kubernetes.io/hostname: excalidraw.homelab.danmanners.com
     external-dns.alpha.kubernetes.io/ttl: "300"
   labels:
     app.kubernetes.io/name: excalidraw
 spec:
   type: ExternalName
-  externalName: kube.danmanners.com
+  externalName: nginx.homelab.danmanners.com
   sessionAffinity: None
 ---
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: excalidraw
+  name: excalidraw-cert
   namespace: excalidraw
 spec:
-  commonName: whiteboard.danmanners.com
+  commonName: excalidraw.homelab.danmanners.com
   secretName: excalidraw
   dnsNames:
-    - whiteboard.danmanners.com
+  - excalidraw.homelab.danmanners.com
   issuerRef:
     name: acme-prod
     kind: ClusterIssuer
----
-apiVersion: traefik.containo.us/v1alpha1
-kind: IngressRoute
-metadata:
-  name: excalidraw-web
-  namespace: excalidraw
-spec:
-  entryPoints:
-    - web
-  routes:
-    - match: Host(`whiteboard.danmanners.com`)
-      kind: Rule
-      services:
-        - name: excalidraw
-          port: http
-      middlewares:
-        - name: http-https-redirectscheme
-          namespace: kube-system
-    - match: Host(`danmanners.com`)
-      kind: Rule
-      services:
-        - name: excalidraw
-          port: http
-      middlewares:
-        - name: http-https-redirectscheme
-          namespace: kube-system
----
-apiVersion: traefik.containo.us/v1alpha1
-kind: IngressRoute
-metadata:
-  name: excalidraw-websecure
-  namespace: excalidraw
-spec:
-  entryPoints:
-    - websecure
-  routes:
-    - match: Host(`whiteboard.danmanners.com`)
-      kind: Rule
-      services:
-        - name: excalidraw
-          port: http
-  tls:
-    secretName: excalidraw
