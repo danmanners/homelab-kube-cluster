@@ -1,0 +1,5 @@
+dockerRegistryMirror: https://core.harbor.homelab.danmanners.com/docker.io
+image:
+  repository: core.harbor.homelab.danmanners.com/docker.io/summerwind/actions-runner-controller
+  actionsRunnerImageRepositoryAndTag: core.harbor.homelab.danmanners.com/docker.io/summerwind/actions-runner:latest
+  dindSidecarRepositoryAndTag: core.harbor.homelab.danmanners.com/docker.io/library/docker:dind
