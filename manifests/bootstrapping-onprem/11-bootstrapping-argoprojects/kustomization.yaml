@@ -4,4 +4,13 @@ namespace: argocd
 
 resources:
 - applicationset.yaml
-- argo-harbor.yaml
+- argo-harbor-helm.yaml
+- argo-harbor-kustomize.yaml
+
+patches:
+- target:
+    kind: Ingress
+    name: ingress
+  patch: |
+    - op: remove
+      path: /metadata/annotations/nginx.ingress.kubernetes.io~1auth-snippet
