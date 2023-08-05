@@ -1,3 +1,16 @@
 namespace: kube-system
 resources:
 - https://github.com/danmanners/qemu-guest-agent/kubernetes?ref=main
+
+patches:
+- patch: |-
+    apiVersion: apps/v1
+    kind: DaemonSet
+    metadata:
+      name: qemu-guest-agent
+      namespace: kube-system
+    spec:
+      template:
+        spec:
+          nodeSelector:
+            feature.node.kubernetes.io/cpu-cpuid.HYPERVISOR: True

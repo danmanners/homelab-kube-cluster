@@ -85,6 +85,48 @@ nodes:
     addresses:
     - 10.44.0.43/24
     mtu: 1500
+- hostname: minipc01.homelab.danmanners.com
+  disableSearchDomain: true
+  ipAddress: 10.4.0.44
+  controlPlane: false
+  installDisk: /dev/sda
+  nameservers:
+  - 10.3.0.1
+  networkInterfaces:
+  - interface: eth0
+    dhcp: false
+    addresses:
+    - 10.4.0.44/23
+    routes:
+    - network: 0.0.0.0/0
+      gateway: 10.4.0.1
+    mtu: 1500
+  - interface: eth1
+    dhcp: false
+    addresses:
+    - 10.44.0.44/24
+    mtu: 1500
+- hostname: minipc02.homelab.danmanners.com
+  disableSearchDomain: true
+  ipAddress: 10.4.0.45
+  controlPlane: false
+  installDisk: /dev/sda
+  nameservers:
+  - 10.3.0.1
+  networkInterfaces:
+  - interface: eth0
+    dhcp: false
+    addresses:
+    - 10.4.0.45/23
+    routes:
+    - network: 0.0.0.0/0
+      gateway: 10.4.0.1
+    mtu: 1500
+  - interface: eth1
+    dhcp: false
+    addresses:
+    - 10.44.0.45/24
+    mtu: 1500
 
 controlPlane:
   patches:
