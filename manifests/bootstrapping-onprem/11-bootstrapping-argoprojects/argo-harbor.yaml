@@ -1,0 +1,60 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: harbor
+  namespace: argocd
+spec:
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: argocd
+  source:
+    repoURL: "https://github.com/danmanners/homelab-kube-cluster.git"
+    path: manifests/bootstrapping-onprem/10-harbor/
+    targetRevision: main
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
+  ignoreDifferences:
+  # We need to ignore all of the TLS Certs and Checksum Secrets
+  # If you don't do this, every time kustomize runs it will
+  # update the certs and subsequent checksums and cause a
+  # sync error while simultaneously restarting the harbor pods
+  # TLS Certs - Harbor Core
+  - group: v1
+    kind: Secret
+    name: harbor-core
+    jsonPointers:
+    - /data/CSRF_KEY
+    - /data/secret
+    - /data/tls.crt
+    - /data/tls.key
+  # Secrets - Harbor Job Service
+  - group: v1
+    kind: Secret
+    name: harbor-jobservice
+    jsonPointers:
+    - /data/JOBSERVICE_SECRET
+  # TLS Certs - Harbor Notary Server
+  - group: v1
+    kind: Secret
+    name: harbor-notary-server
+    jsonPointers:
+    - /data/ca.crt
+    - /data/tls.crt
+    - /data/tls.key
+  # Secrets - Harbor Registry Secret
+  - group: v1
+    kind: Secret
+    name: harbor-registry
+    jsonPointers:
+    - /data/REGISTRY_HTTP_SECRET
+  # Secrets - Harbor Registry HTPasswd
+  - group: v1
+    kind: Secret
+    name: harbor-registry-htpasswd
+    jsonPointers:
+    - /data/REGISTRY_HTPASSWD

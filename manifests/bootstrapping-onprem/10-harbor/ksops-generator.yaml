@@ -1,6 +1,6 @@
 apiVersion: viaduct.ai/v1
 kind: ksops
 metadata:
-  name: cluster-issuer
+  name: harbor-secrets
 files:
-- cluster-issuer.yaml
+- harbor-secrets.yaml

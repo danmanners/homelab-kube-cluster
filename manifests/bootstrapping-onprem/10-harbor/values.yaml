@@ -1,0 +1,52 @@
+expose:
+  type: ingress
+  tls:
+    certSource: secret
+    secret:
+      secretName: harbor-cert
+      notarySecretName: harbor-cert
+  ingress:
+    className: nginx
+    hosts:
+      core: core.harbor.homelab.danmanners.com
+      notary: notary.harbor.homelab.danmanners.com
+
+externalURL: https://core.harbor.homelab.danmanners.com
+
+internalTLS:
+  enabled: false # Need to document pre-generation of certificates
+  certSource: auto
+
+ipFamily:
+  ipv4:
+    enabled: true
+  ipv6:
+    enabled: false
+
+persistence:
+  persistentVolumeClaim:
+    registry:
+      storageClass: ceph-rbd
+      accessMode: ReadWriteOnce
+      size: 100Gi
+    jobservice:
+      jobLog:
+        storageClass: ceph-rbd
+        accessMode: ReadWriteOnce
+        size: 2Gi
+    database:
+      storageClass: ceph-rbd
+      accessMode: ReadWriteOnce
+      size: 4Gi
+    redis:
+      storageClass: ceph-rbd
+      accessMode: ReadWriteOnce
+      size: 4Gi
+    trivy:
+      storageClass: ceph-rbd
+      accessMode: ReadWriteOnce
+      size: 8Gi
+
+existingSecretSecretKey: harbor-creds
+existingSecretAdminPassword: harbor-creds
+existingSecretAdminPasswordKey: HARBOR_ADMIN_PASSWORD
