@@ -1,4 +1,14 @@
-dockerRegistryMirror: https://core.harbor.homelab.danmanners.com/docker.io
+# dockerRegistryMirror: https://core.harbor.homelab.danmanners.com/docker.io/
+#
+# Can't get DinD registry mirroring to work...for now
+# - https://github.com/boot2docker/boot2docker/issues/1303
+# - https://github.com/moby/moby/pull/34319
+# - https://docs.docker.com/engine/reference/commandline/dockerd/
+# Actual Error:
+# ➜ kubectl logs -n github homelab-*** -fc docker
+# Status: invalid argument "https://core.harbor.homelab.danmanners.com/docker.io" for "--registry-mirror" flag: invalid mirror: path, query, or fragment at end of the URI "https://core.harbor.homelab.danmanners.com/docker.io"
+# See 'dockerd --help'., Code: 125
+#
 image:
   repository: core.harbor.homelab.danmanners.com/docker.io/summerwind/actions-runner-controller
   actionsRunnerImageRepositoryAndTag: core.harbor.homelab.danmanners.com/docker.io/summerwind/actions-runner:latest
