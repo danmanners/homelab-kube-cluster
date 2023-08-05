@@ -18,40 +18,40 @@ This project aims to utilize industry-standard tooling and practices in order to
 
 ## 💡 Current Tech Stack
 
-| Name                                                                     | Description                                                                   |
-| ------------------------------------------------------------------------ | ----------------------------------------------------------------------------- |
-| [ArgoCD](https://argoproj.github.io/cd/)                                 | GitOps for Kubernetes                                                         |
-| [AWS](https://aws.amazon.com/)                                           | Cloud Provider                                                                |
-| [Blocky](https://github.com/0xERR0R/blocky)                              | Fast and lightweight DNS proxy as ad-blocker                                  |
-| [Buildah](https://github.com/containers/buildah/)                        | Container Building                                                            |
-| [Cert-Manager](https://cert-manager.io/docs/)                            | Certificate Manager                                                           |
-| [Cilium](https://cilium.io/)                                             | CNI utilizing eBPF for Observability and Security                             |
-| [CloudNativePG](https://cloudnative-pg.io/)                              | Kubernetes operator covering lifecycle of HA PostgreSQL Clusters              |
-| [CSI-Driver-NFS](https://github.com/kubernetes-csi/csi-driver-nfs)       | Kubernetes NFS Driver for persistent storage                                  |
-| [Dex IDP](https://dexidp.io/)                                            | Federated OIDC                                                                |
-| [External-DNS](https://github.com/kubernetes-sigs/external-dns)          | Configure and manage External DNS servers                                     |
-| [GitHub](https://github.com/)                                            | Popular Code Management through Git                                           |
-| [Grafana](https://grafana.com/)                                          | Metrics Visualization                                                         |
-| [Helm](https://helm.sh/)                                                 | Kubernetes Package Management                                                 |
-| [Jenkins](https://www.jenkins.io/)                                       | Open-Source Automation Server                                                 |
-| [Kubernetes](https://kubernetes.io/)                                     | Container Orchestration                                                       |
-| [Let's Encrypt](https://letsencrypt.org/)                                | Free TLS certificates                                                         |
-| [Maddy](https://github.com/foxcpp/maddy)                                 | Composable all-in-one mail server                                             |
-| [MetalLB](https://metallb.universe.tf/)                                  | Kubernetes bare-metal Load Balancer                                           |
-| [Mozilla SOPS](https://github.com/mozilla/sops)                          | Simple/Flexible Tool                                                          |
-| [Podman](https://github.com/containers/podman/)                          | Container and Pod management                                                  |
-| [Prometheus](https://prometheus.io/)                                     | Metrics and Data Collection                                                   |
-| [Python](https://www.python.org/)                                        | Python Programming Language                                                   |
-| [Raspberry Pi](https://www.raspberrypi.org/)                             | Baremetal ARM SoC Hardware!                                                   |
-| [SonarQube](https://www.sonarqube.org/)                                  | Static code analysis                                                          |
-| [Sonatype Nexus-OSS](https://www.sonatype.com/products/nexus-repository) | Manage binaries and build artifacts                                           |
-| [Tekton](https://tekton.dev/)                                            | Cloud-Native CI/CD                                                            |
-| [Ubuntu](https://ubuntu.com/)                                            | Operating System                                                              |
-| [Uptime Kuma](https://github.com/louislam/uptime-kuma)                   | Fancy self-hosted system monitoring                                           |
-| [WikiJS](https://js.wiki/)                                               | Open-Source Wiki/Documentation Service                                        |
+| Name                                                                     | Description                                                      |
+| ------------------------------------------------------------------------ | ---------------------------------------------------------------- |
+| [ArgoCD](https://argoproj.github.io/cd/)                                 | GitOps for Kubernetes                                            |
+| [AWS](https://aws.amazon.com/)                                           | Cloud Provider                                                   |
+| [Blocky](https://github.com/0xERR0R/blocky)                              | Fast and lightweight DNS proxy as ad-blocker                     |
+| [Buildah](https://github.com/containers/buildah/)                        | Container Building                                               |
+| [Cert-Manager](https://cert-manager.io/docs/)                            | Certificate Manager                                              |
+| [Cilium](https://cilium.io/)                                             | CNI utilizing eBPF for Observability and Security                |
+| [CloudNativePG](https://cloudnative-pg.io/)                              | Kubernetes operator covering lifecycle of HA PostgreSQL Clusters |
+| [CSI-Driver-NFS](https://github.com/kubernetes-csi/csi-driver-nfs)       | Kubernetes NFS Driver for persistent storage                     |
+| [Dex IDP](https://dexidp.io/)                                            | Federated OIDC                                                   |
+| [External-DNS](https://github.com/kubernetes-sigs/external-dns)          | Configure and manage External DNS servers                        |
+| [GitHub](https://github.com/)                                            | Popular Code Management through Git                              |
+| [Grafana](https://grafana.com/)                                          | Metrics Visualization                                            |
+| [Harbor](https://goharbor.io/)                                           | Open Source Container Registry                                   |
+| [Helm](https://helm.sh/)                                                 | Kubernetes Package Management                                    |
+| [Jenkins](https://www.jenkins.io/)                                       | Open-Source Automation Server                                    |
+| [Kubernetes](https://kubernetes.io/)                                     | Container Orchestration                                          |
+| [Let's Encrypt](https://letsencrypt.org/)                                | Free TLS certificates                                            |
+| [Maddy](https://github.com/foxcpp/maddy)                                 | Composable all-in-one mail server                                |
+| [MetalLB](https://metallb.universe.tf/)                                  | Kubernetes bare-metal Load Balancer                              |
+| [Mozilla SOPS](https://github.com/mozilla/sops)                          | Simple/Flexible Tool                                             |
+| [Podman](https://github.com/containers/podman/)                          | Container and Pod management                                     |
+| [Prometheus](https://prometheus.io/)                                     | Metrics and Data Collection                                      |
+| [Python](https://www.python.org/)                                        | Python Programming Language                                      |
+| [Raspberry Pi](https://www.raspberrypi.org/)                             | Baremetal ARM SoC Hardware!                                      |
+| [SonarQube](https://www.sonarqube.org/)                                  | Static code analysis                                             |
+| [Sonatype Nexus-OSS](https://www.sonatype.com/products/nexus-repository) | Manage binaries and build artifacts                              |
+| [Tekton](https://tekton.dev/)                                            | Cloud-Native CI/CD                                               |
+| [Ubuntu](https://ubuntu.com/)                                            | Operating System                                                 |
+| [Uptime Kuma](https://github.com/louislam/uptime-kuma)                   | Fancy self-hosted system monitoring                              |
+| [WikiJS](https://js.wiki/)                                               | Open-Source Wiki/Documentation Service                           |
 
 ## Deployment Order of Operations
-
 
 ## Identifying Problems, Troubleshooting Steps, and more
 
@@ -96,7 +96,7 @@ This README redesign was inspired by several other homelab repos, individuals, a
 
 ### Communities
 
------
+---
 
 #### The DevOps Lounge
 
