@@ -13,4 +13,4 @@ patches:
       template:
         spec:
           nodeSelector:
-            feature.node.kubernetes.io/cpu-cpuid.HYPERVISOR: True
+            feature.node.kubernetes.io/cpu-cpuid.HYPERVISOR: "true"
