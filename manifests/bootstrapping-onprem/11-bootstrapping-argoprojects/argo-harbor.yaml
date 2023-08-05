@@ -58,3 +58,34 @@ spec:
     name: harbor-registry-htpasswd
     jsonPointers:
     - /data/REGISTRY_HTPASSWD
+  # Checksums
+  - group: apps/v1
+    kind: Deployment
+    name: harbor-core
+    jsonPointers:
+    - /spec/template/metadata/annotations/"checksum/secret"
+    - /spec/template/metadata/annotations/"checksum/secret-jobservice"
+  - group: apps/v1
+    kind: Deployment
+    name: harbor-jobservice
+    jsonPointers:
+    - /spec/template/metadata/annotations/"checksum/secret"
+    - /spec/template/metadata/annotations/"checksum/secret-core"
+  - group: apps/v1
+    kind: Deployment
+    name: harbor-notary-server
+    jsonPointers:
+    - /spec/template/metadata/annotations/"checksum/secret"
+    - /spec/template/metadata/annotations/"checksum/secret-core"
+  - group: apps/v1
+    kind: Deployment
+    name: harbor-notary-signer
+    jsonPointers:
+    - /spec/template/metadata/annotations/"checksum/secret"
+  - group: apps/v1
+    kind: Deployment
+    name: harbor-registry
+    jsonPointers:
+    - /spec/template/metadata/annotations/"checksum/secret"
+    - /spec/template/metadata/annotations/"checksum/secret-core"
+    - /spec/template/metadata/annotations/"checksum/secret-jobservice"
