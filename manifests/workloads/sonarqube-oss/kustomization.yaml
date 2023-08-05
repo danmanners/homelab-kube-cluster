@@ -17,12 +17,12 @@ helmCharts:
 
 images:
 - name: sonarqube-image:replaceme
-  newName: docker.io/library/sonarqube
+  newName: core.harbor.homelab.danmanners.com/docker.io/library/sonarqube
   newTag: 10.1.0-community
 - name: postgres-init-db
-  newName: ghcr.io/onedr0p/postgres-initdb
+  newName: core.harbor.homelab.danmanners.com/ghcr.io/onedr0p/postgres-initdb
   newTag: "14.8"
 - name: busybox-image
-  newName: docker.io/library/busybox
+  newName: core.harbor.homelab.danmanners.com/docker.io/library/busybox
   newTag: stable
 
