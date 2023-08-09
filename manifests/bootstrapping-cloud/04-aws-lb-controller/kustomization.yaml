@@ -8,7 +8,7 @@ helmCharts:
   releaseName: aws-load-balancer-controller
   namespace: kube-system
   repo: https://aws.github.io/eks-charts
-  version: 1.4.8
+  version: 1.5.5
   valuesFile: values.yaml
 
 resources:
