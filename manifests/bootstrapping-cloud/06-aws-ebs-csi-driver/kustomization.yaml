@@ -8,7 +8,7 @@ helmCharts:
   releaseName: aws-ebs-csi-driver
   namespace: kube-system
   repo: https://kubernetes-sigs.github.io/aws-ebs-csi-driver
-  version: "2.17.1"
+  version: "2.22.0"
   valuesInline:
     serviceAccount:
       annotations:
