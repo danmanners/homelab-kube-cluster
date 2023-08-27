@@ -177,7 +177,7 @@ tls:
   enabled: true
   secretsBackend: local
 tunnel: "vxlan"
-disableEndpointCRD: "false"
+disableEndpointCRD: false
 wellKnownIdentities:
   enabled: false
 operator:
