@@ -4,8 +4,8 @@ namespace: argocd
 
 resources:
 - applicationset.yaml
-- argo-harbor-helm.yaml
-- argo-harbor-kustomize.yaml
+# - argo-harbor-helm.yaml
+# - argo-harbor-kustomize.yaml
 
 patches:
 - target:
