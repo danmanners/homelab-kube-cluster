@@ -1,8 +1,7 @@
 clusterName: opcluster
 
-talosVersion: v1.4.6
-kubernetesVersion: 1.26.7
-# kubernetesVersion: 1.27.2 # Seems broken AF. Sad.
+talosVersion: v1.5.1
+kubernetesVersion: 1.28.0
 endpoint: "https://opcluster.homelab.danmanners.com:6443"
 
 cniConfig:
