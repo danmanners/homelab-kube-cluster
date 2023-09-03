@@ -4,6 +4,11 @@ metadata:
   name: harbor-core-internal-tls
 spec:
   secretName: harbor-core-internal-tls
+  usages:
+  - digital signature
+  - key encipherment
+  - server auth
+  - client auth
   dnsNames:
   - harbor-core
   - harbor-portal
@@ -17,6 +22,11 @@ metadata:
   name: harbor-jobservice-internal-tls
 spec:
   secretName: harbor-jobservice-internal-tls
+  usages:
+  - digital signature
+  - key encipherment
+  - server auth
+  - client auth
   dnsNames:
   - harbor-jobservice
   issuerRef:
@@ -29,6 +39,11 @@ metadata:
   name: harbor-registry-internal-tls
 spec:
   secretName: harbor-registry-internal-tls
+  usages:
+  - digital signature
+  - key encipherment
+  - server auth
+  - client auth
   dnsNames:
   - harbor-registry
   issuerRef:
@@ -41,6 +56,11 @@ metadata:
   name: harbor-portal-internal-tls
 spec:
   secretName: harbor-portal-internal-tls
+  usages:
+  - digital signature
+  - key encipherment
+  - server auth
+  - client auth
   dnsNames:
   - harbor-portal
   issuerRef:
@@ -53,6 +73,11 @@ metadata:
   name: harbor-trivy-internal-tls
 spec:
   secretName: harbor-trivy-internal-tls
+  usages:
+  - digital signature
+  - key encipherment
+  - server auth
+  - client auth
   dnsNames:
   - harbor-trivy
   issuerRef:
