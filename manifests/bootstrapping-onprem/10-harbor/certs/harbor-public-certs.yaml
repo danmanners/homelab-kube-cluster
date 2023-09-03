@@ -1,14 +1,15 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: harbor-cert
+  name: harbor-public-cert
 spec:
-  commonName: harbor.homelab.danmanners.com
+  commonName: core.harbor.homelab.danmanners.com
   secretName: harbor-cert
   dnsNames:
   - harbor.homelab.danmanners.com
   - core.harbor.homelab.danmanners.com
   - notary.harbor.homelab.danmanners.com
+  - internal.harbor.homelab.danmanners.com
   issuerRef:
     name: acme-prod
     kind: ClusterIssuer
