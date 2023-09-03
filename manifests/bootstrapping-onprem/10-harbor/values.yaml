@@ -29,6 +29,8 @@ internalTLS:
 
 # Generate secrets on MacOS with this command; based on https://gist.github.com/earthgecko/3089509:
 # LC_CTYPE=C LANG=C cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 16 | head -n 1
+# on Linux, it should simply be:
+# cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 16 | head -n 1
 # Use 'fold -w 16' for secrets, and '32' for the xsrfKey
 core:
   secret: YhZkafJx56lQU3vy
