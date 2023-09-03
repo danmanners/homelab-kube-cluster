@@ -3,10 +3,10 @@ kind: Certificate
 metadata:
   name: harbor-core-internal-tls
 spec:
-  commonName: harbor-core-internal-tls
+  commonName: harbor-core
   secretName: harbor-core-internal-tls
   dnsNames:
-  - harbor-core-internal-tls
+  - harbor-core
   issuerRef:
     kind: Issuer
     name: harbor-internal-ca-issuer
@@ -16,10 +16,10 @@ kind: Certificate
 metadata:
   name: harbor-jobservice-internal-tls
 spec:
-  commonName: harbor-jobservice-internal-tls
+  commonName: harbor-jobservice
   secretName: harbor-jobservice-internal-tls
   dnsNames:
-  - harbor-jobservice-internal-tls
+  - harbor-jobservice
   issuerRef:
     kind: Issuer
     name: harbor-internal-ca-issuer
@@ -29,10 +29,10 @@ kind: Certificate
 metadata:
   name: harbor-registry-internal-tls
 spec:
-  commonName: harbor-registry-internal-tls
+  commonName: harbor-registry
   secretName: harbor-registry-internal-tls
   dnsNames:
-  - harbor-registry-internal-tls
+  - harbor-registry
   issuerRef:
     kind: Issuer
     name: harbor-internal-ca-issuer
@@ -42,10 +42,10 @@ kind: Certificate
 metadata:
   name: harbor-portal-internal-tls
 spec:
-  commonName: harbor-portal-internal-tls
+  commonName: harbor-portal
   secretName: harbor-portal-internal-tls
   dnsNames:
-  - harbor-portal-internal-tls
+  - harbor-portal
   issuerRef:
     kind: Issuer
     name: harbor-internal-ca-issuer
@@ -55,10 +55,10 @@ kind: Certificate
 metadata:
   name: harbor-trivy-internal-tls
 spec:
-  commonName: harbor-trivy-internal-tls
+  commonName: harbor-trivy
   secretName: harbor-trivy-internal-tls
   dnsNames:
-  - harbor-trivy-internal-tls
+  - harbor-trivy
   issuerRef:
     kind: Issuer
     name: harbor-internal-ca-issuer
