@@ -36,7 +36,7 @@ internalTLS:
 core:
   secret: YhZkafJx56lQU3vy
   secretName: harbor-token-ca-secret
-  xsrfKey: Rk1LrhFBpglNi8ZtnpMNjhCmiFGVLKEK
+  # xsrfKey: Rk1LrhFBpglNi8ZtnpMNjhCmiFGVLKEK
 jobservice:
   secret: xh5bbKhL4GyUy8Mw
 registry:
