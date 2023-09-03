@@ -3,15 +3,10 @@ kind: Certificate
 metadata:
   name: harbor-core-internal-tls
 spec:
-  commonName: harbor-core
   secretName: harbor-core-internal-tls
-  usages:
-  # - digital signature
-  # - key encipherment
-  - server auth
-  - client auth
   dnsNames:
   - harbor-core
+  - harbor-portal
   issuerRef:
     kind: Issuer
     name: harbor-internal-ca-issuer
@@ -21,13 +16,7 @@ kind: Certificate
 metadata:
   name: harbor-jobservice-internal-tls
 spec:
-  commonName: harbor-jobservice
   secretName: harbor-jobservice-internal-tls
-  usages:
-  # - digital signature
-  # - key encipherment
-  - server auth
-  - client auth
   dnsNames:
   - harbor-jobservice
   issuerRef:
@@ -39,13 +28,7 @@ kind: Certificate
 metadata:
   name: harbor-registry-internal-tls
 spec:
-  commonName: harbor-registry
   secretName: harbor-registry-internal-tls
-  usages:
-  # - digital signature
-  # - key encipherment
-  - server auth
-  - client auth
   dnsNames:
   - harbor-registry
   issuerRef:
@@ -57,13 +40,7 @@ kind: Certificate
 metadata:
   name: harbor-portal-internal-tls
 spec:
-  commonName: harbor-portal
   secretName: harbor-portal-internal-tls
-  usages:
-  # - digital signature
-  # - key encipherment
-  - server auth
-  - client auth
   dnsNames:
   - harbor-portal
   issuerRef:
@@ -75,13 +52,7 @@ kind: Certificate
 metadata:
   name: harbor-trivy-internal-tls
 spec:
-  commonName: harbor-trivy
   secretName: harbor-trivy-internal-tls
-  usages:
-  # - digital signature
-  # - key encipherment
-  - server auth
-  - client auth
   dnsNames:
   - harbor-trivy
   issuerRef:

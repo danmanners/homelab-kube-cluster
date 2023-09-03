@@ -16,6 +16,7 @@ expose:
 
 internalTLS:
   enabled: true # Using Cert-Manager for internal certs
+  # certSource: auto
   certSource: secret # Default: auto
   core:
     secretName: harbor-core-internal-tls
@@ -36,15 +37,15 @@ internalTLS:
 core:
   secret: YhZkafJx56lQU3vy
   secretName: harbor-token-ca-secret
-  # xsrfKey: Rk1LrhFBpglNi8ZtnpMNjhCmiFGVLKEK
+  xsrfKey: dwwCm08DxpQQhYChKT0foRjDdwZM8xYm
 jobservice:
   secret: xh5bbKhL4GyUy8Mw
 registry:
   secret: 23rBD7yi9jncZ9d4
-  # credentials:
-  # Generate this with:
-  # htpasswd -nbBC10 username password | tr -d ':\n'
-  # htpasswdString: harbor_registry_user:$2a$10$6tNf40P.g4i75TOMYl/1OOrwgiW1vk4CGUmBOq5rWCjWkGStX97lO
+  credentials:
+    # Generate this with:
+    # htpasswd -nbBC10 username password | tr -d '\n'
+    htpasswdString: harbor_registry_user:$2y$10$Tmg75VWdGknjlXGMIGW/D.7dmnfGJQKKoAHOuMqesPQZZE3Qjkbui
 notary:
   secretName: harbor-notary-signer
 
