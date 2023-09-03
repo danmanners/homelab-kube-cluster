@@ -1,0 +1,64 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: harbor-core-internal-tls
+spec:
+  commonName: harbor-core-internal-tls
+  secretName: harbor-core-internal-tls
+  dnsNames:
+  - harbor-core-internal-tls
+  issuerRef:
+    kind: Issuer
+    name: harbor-internal-ca-issuer
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: harbor-jobservice-internal-tls
+spec:
+  commonName: harbor-jobservice-internal-tls
+  secretName: harbor-jobservice-internal-tls
+  dnsNames:
+  - harbor-jobservice-internal-tls
+  issuerRef:
+    kind: Issuer
+    name: harbor-internal-ca-issuer
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: harbor-registry-internal-tls
+spec:
+  commonName: harbor-registry-internal-tls
+  secretName: harbor-registry-internal-tls
+  dnsNames:
+  - harbor-registry-internal-tls
+  issuerRef:
+    kind: Issuer
+    name: harbor-internal-ca-issuer
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: harbor-portal-internal-tls
+spec:
+  commonName: harbor-portal-internal-tls
+  secretName: harbor-portal-internal-tls
+  dnsNames:
+  - harbor-portal-internal-tls
+  issuerRef:
+    kind: Issuer
+    name: harbor-internal-ca-issuer
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: harbor-trivy-internal-tls
+spec:
+  commonName: harbor-trivy-internal-tls
+  secretName: harbor-trivy-internal-tls
+  dnsNames:
+  - harbor-trivy-internal-tls
+  issuerRef:
+    kind: Issuer
+    name: harbor-internal-ca-issuer

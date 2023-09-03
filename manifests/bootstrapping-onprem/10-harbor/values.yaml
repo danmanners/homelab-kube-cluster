@@ -14,8 +14,18 @@ expose:
 externalURL: https://core.harbor.homelab.danmanners.com
 
 internalTLS:
-  enabled: true # Need to document pre-generation of certificates
-  certSource: auto # Default: auto; maybe secret eventually?
+  enabled: true # Using Cert-Manager for internal certs
+  certSource: secret # Default: auto
+  core:
+    secretName: harbor-core-internal-tls
+  jobservice:
+    secretName: harbor-jobservice-internal-tls
+  registry:
+    secretName: harbor-registry-internal-tls
+  portal:
+    secretName: harbor-portal-internal-tls
+  trivy:
+    secretName: harbor-trivy-internal-tls
 
 core:
   secretName: harbor-token-ca-secret

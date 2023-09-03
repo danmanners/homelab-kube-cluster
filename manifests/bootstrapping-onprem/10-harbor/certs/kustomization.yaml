@@ -3,6 +3,8 @@ kind: Kustomization
 namespace: kube-system
 
 resources:
+- harbor-internal-ca.yaml
+- harbor-internal-certs.yaml
 - harbor-public-certs.yaml
 - harbor-notary-ca.yaml
 - harbor-notary-certs.yaml
