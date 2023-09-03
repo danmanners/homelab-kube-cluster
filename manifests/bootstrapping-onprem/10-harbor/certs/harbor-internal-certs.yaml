@@ -6,8 +6,8 @@ spec:
   commonName: harbor-core
   secretName: harbor-core-internal-tls
   usages:
-  - digital signature
-  - key encipherment
+  # - digital signature
+  # - key encipherment
   - server auth
   - client auth
   dnsNames:
@@ -24,8 +24,8 @@ spec:
   commonName: harbor-jobservice
   secretName: harbor-jobservice-internal-tls
   usages:
-  - digital signature
-  - key encipherment
+  # - digital signature
+  # - key encipherment
   - server auth
   - client auth
   dnsNames:
@@ -42,8 +42,8 @@ spec:
   commonName: harbor-registry
   secretName: harbor-registry-internal-tls
   usages:
-  - digital signature
-  - key encipherment
+  # - digital signature
+  # - key encipherment
   - server auth
   - client auth
   dnsNames:
@@ -60,8 +60,8 @@ spec:
   commonName: harbor-portal
   secretName: harbor-portal-internal-tls
   usages:
-  - digital signature
-  - key encipherment
+  # - digital signature
+  # - key encipherment
   - server auth
   - client auth
   dnsNames:
@@ -78,8 +78,8 @@ spec:
   commonName: harbor-trivy
   secretName: harbor-trivy-internal-tls
   usages:
-  - digital signature
-  - key encipherment
+  # - digital signature
+  # - key encipherment
   - server auth
   - client auth
   dnsNames:
