@@ -1,31 +1,24 @@
 # https://cert-manager.io/docs/configuration/selfsigned/#bootstrapping-ca-issuers
 apiVersion: cert-manager.io/v1
-kind: Issuer
-metadata:
-  name: harbor-selfsigned
-spec:
-  selfSigned: {}
----
-apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: harbor-selfsigned
+  name: harbor-token-ca
 spec:
   isCA: true
-  commonName: harbor-selfsigned
-  secretName: harbor-ca-secret
+  commonName: harbor-token-ca
+  secretName: harbor-token-ca-secret
   privateKey:
     algorithm: ECDSA
     size: 256
   issuerRef:
-    name: harbor-selfsigned
-    kind: Issuer
+    name: selfsigned-issuer
+    kind: ClusterIssuer
     group: cert-manager.io
 ---
 apiVersion: cert-manager.io/v1
 kind: Issuer
 metadata:
-  name: my-ca-issuer
+  name: harbor-token-ca-issuer
 spec:
   ca:
-    secretName: harbor-ca-secret
+    secretName: harbor-token-ca-secret

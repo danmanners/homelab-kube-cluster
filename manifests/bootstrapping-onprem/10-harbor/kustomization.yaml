@@ -4,6 +4,15 @@ namespace: kube-system
 
 resources:
 - networking
+- certs
 
 generators:
 - ksops-generator.yaml
+
+helmCharts:
+- name: harbor
+  releaseName: harbor
+  namespace: kube-system
+  repo: https://helm.goharbor.io
+  version: 1.12.3
+  valuesFile: values.yaml

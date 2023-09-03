@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: harbor-notary-signer
+spec:
+  commonName: harbor-notary-signer
+  secretName: harbor-notary-signer
+  dnsNames:
+  - harbor-notary-signer
+  issuerRef:
+    kind: Issuer
+    name: harbor-notary-ca-issuer

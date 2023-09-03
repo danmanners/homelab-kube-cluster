@@ -24,6 +24,8 @@ spec:
         namespace: kube-system
       - appName: 09-external-dns
         namespace: kube-system
+      - appName: 10-harbor
+        namespace: kube-system
   template:
     metadata:
       name: '{{appName}}'

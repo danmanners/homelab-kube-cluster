@@ -3,4 +3,7 @@ kind: Kustomization
 namespace: kube-system
 
 resources:
-- cert-manager
+- core-certs.yaml
+- harbor-notary-ca.yaml
+- harbor-notary-certs.yaml
+- harbor-token-ca.yaml

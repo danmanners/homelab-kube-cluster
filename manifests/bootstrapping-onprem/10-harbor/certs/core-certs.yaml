@@ -3,7 +3,7 @@ kind: Certificate
 metadata:
   name: harbor-core-certs
 spec:
-  commonName: harbor.homelab.danmanners.com
+  commonName: core.harbor.homelab.danmanners.com
   secretName: harbor-cert
   dnsNames:
   - harbor.homelab.danmanners.com

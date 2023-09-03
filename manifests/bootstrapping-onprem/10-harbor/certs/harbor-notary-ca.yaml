@@ -1,0 +1,24 @@
+# https://cert-manager.io/docs/configuration/selfsigned/#bootstrapping-ca-issuers
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: harbor-notary-ca
+spec:
+  isCA: true
+  commonName: harbor-notary-ca
+  secretName: harbor-notary-ca-secret
+  privateKey:
+    algorithm: ECDSA
+    size: 256
+  issuerRef:
+    name: selfsigned-issuer
+    kind: ClusterIssuer
+    group: cert-manager.io
+---
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: harbor-notary-ca-issuer
+spec:
+  ca:
+    secretName: harbor-notary-ca-secret

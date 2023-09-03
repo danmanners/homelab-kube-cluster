@@ -14,8 +14,14 @@ expose:
 externalURL: https://core.harbor.homelab.danmanners.com
 
 internalTLS:
-  enabled: false # Need to document pre-generation of certificates
-  certSource: auto
+  enabled: true # Need to document pre-generation of certificates
+  certSource: auto # Default: auto; maybe secret eventually?
+
+core:
+  secretName: harbor-token-ca-secret
+
+notary:
+  secretName: harbor-notary-signer
 
 ipFamily:
   ipv4:

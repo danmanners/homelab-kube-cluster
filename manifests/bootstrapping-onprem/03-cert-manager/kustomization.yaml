@@ -21,6 +21,7 @@ helmCharts:
 
 resources:
 - ../00-secrets
+- self-signed-cluster-issuer.yaml
 - https://github.com/cert-manager/cert-manager/releases/download/v1.12.3/cert-manager.crds.yaml
 
 generators:
