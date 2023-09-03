@@ -27,9 +27,15 @@ internalTLS:
   trivy:
     secretName: harbor-trivy-internal-tls
 
+# Generate secrets on MacOS with this command; based on https://gist.github.com/earthgecko/3089509:
+# LC_CTYPE=C LANG=C cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 16 | head -n 1
 core:
+  secret: YhZkafJx56lQU3vy
   secretName: harbor-token-ca-secret
-
+jobservice:
+  secret: xh5bbKhL4GyUy8Mw
+registry:
+  secret: 23rBD7yi9jncZ9d4
 notary:
   secretName: harbor-notary-signer
 
