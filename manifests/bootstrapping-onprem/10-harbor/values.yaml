@@ -1,3 +1,6 @@
+externalURL: https://core.harbor.homelab.danmanners.com
+logLevel: debug
+
 expose:
   type: ingress
   tls:
@@ -10,8 +13,6 @@ expose:
     hosts:
       core: core.harbor.homelab.danmanners.com
       notary: notary.harbor.homelab.danmanners.com
-
-externalURL: https://core.harbor.homelab.danmanners.com
 
 internalTLS:
   enabled: true # Using Cert-Manager for internal certs
@@ -40,6 +41,10 @@ jobservice:
   secret: xh5bbKhL4GyUy8Mw
 registry:
   secret: 23rBD7yi9jncZ9d4
+  credentials:
+    # Generate this with:
+    # htpasswd -nbBC10 username password | tr -d ':\n'
+    htpasswdString: harbor_registry_user:$2a$10$6tNf40P.g4i75TOMYl/1OOrwgiW1vk4CGUmBOq5rWCjWkGStX97lO
 notary:
   secretName: harbor-notary-signer
 
