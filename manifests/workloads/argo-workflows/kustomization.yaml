@@ -4,10 +4,11 @@ namespace: argo-workflows
 
 resources:
 - ns.yaml
-- sa.yaml
+- networking
 
 helmCharts:
 - name: argo-workflows
   releaseName: aw
   repo: https://argoproj.github.io/argo-helm
   version: 0.33.1
+  valuesFile: values.yaml

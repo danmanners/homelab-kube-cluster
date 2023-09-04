@@ -1,0 +1,31 @@
+crds:
+  install: true
+  keep: true
+
+workflow:
+  rbac:
+    create: true
+  serviceAccount:
+    create: true
+
+controller:
+  image:
+    registry: core.harbor.homelab.danmanners.io/quay.io
+
+executor:
+  image:
+    registry: core.harbor.homelab.danmanners.io/quay.io
+
+server:
+  enabled: true
+  image:
+    registry: core.harbor.homelab.danmanners.io/quay.io
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    hosts:
+    - workflows.homelab.danmanners.com
+    tls:
+    - secretName: workflows-cert
+      hosts:
+      - workflows.homelab.danmanners.com

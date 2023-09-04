@@ -1,7 +1,0 @@
-apiVersion: v1
-kind: Secret
-metadata:
-  name: danmanners-service-account-token
-  annotations:
-    kubernetes.io/service-account.name: danmanners
-type: kubernetes.io/service-account-token

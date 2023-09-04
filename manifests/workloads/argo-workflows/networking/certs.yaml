@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: workflows-cert
+spec:
+  commonName: workflows.homelab.danmanners.com
+  secretName: workflows-cert
+  dnsNames:
+  - workflows.homelab.danmanners.com
+  issuerRef:
+    name: acme-prod
+    kind: ClusterIssuer

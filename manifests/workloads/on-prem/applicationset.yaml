@@ -18,6 +18,8 @@ spec:
         namespace: kube-system
       - appName: excalidraw
         namespace: excalidraw
+      - appName: argo-workflows
+        namespace: argo-workflows
   template:
     metadata:
       name: '{{appName}}'
