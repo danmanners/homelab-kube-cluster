@@ -2,6 +2,9 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: kube-system
 
+resources:
+- route53-sync.yaml
+
 helmCharts:
 # https://artifacthub.io/packages/helm/external-dns/external-dns/1.12.0
 - name: external-dns
