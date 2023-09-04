@@ -1,5 +1,5 @@
 # Changing the container path to add 'docker.io/library/'
-FROM docker.io/library/node:16-alpine AS build
+FROM docker.io/library/node:20-alpine AS build
 
 WORKDIR /opt/node_app
 
