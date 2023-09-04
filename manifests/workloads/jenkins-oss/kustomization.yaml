@@ -19,4 +19,4 @@ helmCharts:
 images:
   - name: jenkins-container-image
     newName: docker.io/jenkins/jenkins
-    newTag: 2.346.3-lts
+    newTag: 2.414.1-lts
