@@ -8,7 +8,7 @@ helmCharts:
     releaseName: dex
     namespace: dex
     repo: https://charts.dexidp.io
-    version: "0.10.0"
+    version: "0.15.3"
     valuesFile: values.yaml
 
 resources:
