@@ -12,6 +12,7 @@ spec:
   dnsNames:
   - harbor-core
   - harbor-portal
+  - 127.0.0.1
   issuerRef:
     kind: Issuer
     name: harbor-internal-ca-issuer
