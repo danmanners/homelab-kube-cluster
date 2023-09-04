@@ -7,4 +7,4 @@ helmCharts:
   releaseName: ksm
   namespace: kube-system
   repo: https://prometheus-community.github.io/helm-charts
-  version: "5.10.1"
+  version: "5.12.1"
