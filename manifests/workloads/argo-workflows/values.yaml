@@ -10,19 +10,19 @@ workflow:
 
 controller:
   image:
-    registry: core.harbor.homelab.danmanners.io/quay.io'
+    registry: core.harbor.homelab.danmanners.com/quay.io'
   workflowNamespaces:
   - default
   - workflows
 
 executor:
   image:
-    registry: core.harbor.homelab.danmanners.io/quay.io
+    registry: core.harbor.homelab.danmanners.com/quay.io
 
 server:
   enabled: true
   image:
-    registry: core.harbor.homelab.danmanners.io/quay.io
+    registry: core.harbor.homelab.danmanners.com/quay.io
   ingress:
     enabled: true
     ingressClassName: nginx
