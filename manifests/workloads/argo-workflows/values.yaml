@@ -10,7 +10,7 @@ workflow:
 
 controller:
   image:
-    registry: core.harbor.homelab.danmanners.com/quay.io'
+    registry: core.harbor.homelab.danmanners.com/quay.io
   workflowNamespaces:
   - default
   - workflows
