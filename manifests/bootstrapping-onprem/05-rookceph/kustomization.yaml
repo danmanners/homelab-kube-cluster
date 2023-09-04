@@ -14,5 +14,5 @@ helmCharts:
   releaseName: rcc
   namespace: rook-ceph
   repo: https://charts.rook.io/release
-  version: v1.12.1
+  version: v1.12.3
   valuesFile: rcc-values.yaml
