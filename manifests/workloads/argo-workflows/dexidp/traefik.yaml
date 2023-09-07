@@ -1,4 +1,3 @@
----
 apiVersion: v1
 kind: Service
 metadata:
@@ -14,35 +13,22 @@ spec:
   externalName: kube.danmanners.com
   sessionAffinity: None
 ---
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  name: dex-danmanners-cert
-spec:
-  commonName: dex.danmanners.com
-  secretName: dex-danmanners-cert
-  dnsNames:
-    - dex.danmanners.com
-  issuerRef:
-    name: acme-prod
-    kind: ClusterIssuer
----
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
   name: dex-danmanners-cert-web
 spec:
   entryPoints:
-    - web
+  - web
   routes:
-    - match: Host(`dex.danmanners.com`)
-      kind: Rule
-      services:
-        - name: dex
-          port: 5556
-      middlewares:
-        - name: http-https-redirectscheme
-          namespace: kube-system
+  - match: Host(`dex.danmanners.com`)
+    kind: Rule
+    services:
+    - name: dex
+      port: 5556
+    middlewares:
+    - name: http-https-redirectscheme
+      namespace: kube-system
 ---
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
@@ -50,12 +36,12 @@ metadata:
   name: dex-danmanners-cert-websecure
 spec:
   entryPoints:
-    - websecure
+  - websecure
   routes:
-    - match: Host(`dex.danmanners.com`)
-      kind: Rule
-      services:
-        - name: dex
-          port: 5556
+  - match: Host(`dex.danmanners.com`)
+    kind: Rule
+    services:
+    - name: dex
+      port: 5556
   tls:
     secretName: dex-danmanners-cert

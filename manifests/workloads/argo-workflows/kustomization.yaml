@@ -1,14 +1,17 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-# namespace: argo-workflows
 
 resources:
 - ns.yaml
 - networking
+- dexidp
+
+# generators:
+# - secrets-generator.yaml
 
 helmCharts:
 - name: argo-workflows
-  releaseName: aw
+  releaseName: argo-workflows
   namespace: argo-workflows
   repo: https://argoproj.github.io/argo-helm
   version: 0.33.1

@@ -1,0 +1,40 @@
+image:
+  repository: core.harbor.homelab.danmanners.com/ghcr.io/dexidp/dex
+
+https:
+  enabled: true
+
+serviceAccount:
+  create: true
+
+ingress:
+  enabled: true
+  className: nginx
+  hosts:
+  - host: dex.homelab.danmanners.com
+    paths:
+    - path: /
+      pathType: ImplementationSpecific
+  tls:
+  - hosts:
+    - dex.homelab.danmanners.com
+    secretName: dex-tls
+
+envFrom:
+- secretRef:
+    name: dex-config
+
+server:
+  config:
+    dex.config: |
+      connectors:
+      - type: github
+        id: github
+        name: GitHub
+        config:
+          # Credentials can be string literals or pulled from the environment.
+          clientID: $GITHUB_CLIENT_ID
+          clientSecret: $GITHUB_CLIENT_SECRET
+          redirectURI: https://dex.homelab.danmanners.com/dex/callback
+          orgs:
+          - name: goodmannershosting
