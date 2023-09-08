@@ -7,6 +7,9 @@ resources:
 - ../00-secrets
 - networking
 
+generators:
+- secrets-generator.yaml
+
 helmCharts:
 - name: argo-cd
   releaseName: argo-cd
