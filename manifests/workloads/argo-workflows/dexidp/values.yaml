@@ -4,6 +4,9 @@ image:
 https:
   enabled: true
 
+grpc:
+  enabled: false
+
 serviceAccount:
   create: true
 
@@ -14,27 +17,44 @@ ingress:
   - host: dex.homelab.danmanners.com
     paths:
     - path: /
-      pathType: ImplementationSpecific
+      pathType: Prefix
   tls:
   - hosts:
     - dex.homelab.danmanners.com
-    secretName: dex-tls
+    secretName: workflows-dex-cert
 
 envFrom:
 - secretRef:
     name: dex-config
 
-server:
-  config:
-    dex.config: |
-      connectors:
-      - type: github
-        id: github
-        name: GitHub
-        config:
-          # Credentials can be string literals or pulled from the environment.
-          clientID: $GITHUB_CLIENT_ID
-          clientSecret: $GITHUB_CLIENT_SECRET
-          redirectURI: https://dex.homelab.danmanners.com/dex/callback
-          orgs:
-          - name: goodmannershosting
+volumes:
+- name: ssl
+  secret:
+    secretName: dexidp-internal-tls
+
+volumeMounts:
+- name: ssl
+  mountPath: /etc/dex/ssl
+  readOnly: true
+
+config:
+  issuer: https://dex.homelab.danmanners.com/dex
+  inCluster: true
+  storage:
+    type: memory
+  web:
+    http: 0.0.0.0:5556
+    https: 0.0.0.0:5554
+    tlsClientCA: /etc/dex/ssl/ca.crt
+    tlsCert: /etc/dex/ssl/tls.crt
+    tlsKey: /etc/dex/ssl/tls.key
+  connectors:
+  - type: github
+    id: github
+    name: GitHub
+    config:
+      clientID: $GITHUB_CLIENT_ID
+      clientSecret: $GITHUB_CLIENT_SECRET
+      redirectURI: https://dex.homelab.danmanners.com/dex/callback
+      orgs:
+      - name: goodmannershosting

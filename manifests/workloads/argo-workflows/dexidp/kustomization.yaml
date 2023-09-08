@@ -11,7 +11,9 @@ helmCharts:
   valuesFile: values.yaml
 
 resources:
+- ca.yaml
 - certs.yaml
+- external-dns.yaml
 
 generators:
 - secrets-generator.yaml

@@ -1,0 +1,30 @@
+# https://cert-manager.io/docs/configuration/selfsigned/#bootstrapping-ca-issuers
+# Internal CA for Dex
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: dexidp-ca
+spec:
+  isCA: true
+  commonName: dexidp-ca
+  secretName: dexidp-ca-secret
+  privateKey:
+    algorithm: ECDSA
+    size: 256
+  usages:
+  - digital signature
+  - key encipherment
+  - server auth
+  - client auth
+  issuerRef:
+    name: selfsigned-issuer
+    kind: ClusterIssuer
+    group: cert-manager.io
+---
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: dexidp-ca-issuer
+spec:
+  ca:
+    secretName: dexidp-ca-secret
