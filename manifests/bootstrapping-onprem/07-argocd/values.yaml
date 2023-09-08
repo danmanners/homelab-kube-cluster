@@ -1,5 +1,6 @@
 configs:
   cm:
+    admin.enabled: false
     # K8s@Home User
     accounts.k8sathome: login
     accounts.k8sathome.enabled: true
