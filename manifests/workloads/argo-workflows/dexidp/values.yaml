@@ -74,5 +74,5 @@ config:
       clientID: $GITHUB_CLIENT_ID
       clientSecret: $GITHUB_CLIENT_SECRET
       redirectURI: https://dex.homelab.danmanners.com/dex/workflows/callback
-      # orgs:
-      # - name: goodmannershosting
+      orgs:
+      - name: goodmannershosting
