@@ -23,9 +23,22 @@ ingress:
     - dex.homelab.danmanners.com
     secretName: workflows-dex-cert
 
-envFrom:
-- secretRef:
-    name: dex-config
+envVars:
+- name: GITHUB_CLIENT_ID
+  valueFrom:
+    secretKeyRef:
+      name: dex-config
+      key: GITHUB_CLIENT_ID
+- name: GITHUB_CLIENT_SECRET
+  valueFrom:
+    secretKeyRef:
+      name: dex-config
+      key: GITHUB_CLIENT_SECRET
+
+
+# envFrom:
+# - secretRef:
+#     name: dex-config
 
 volumes:
 - name: ssl
@@ -38,16 +51,26 @@ volumeMounts:
   readOnly: true
 
 config:
-  issuer: https://dex.homelab.danmanners.com/dex
+  logger:
+    level: "debug"
+    format: "json"
+  issuer: https://dex.homelab.danmanners.com/dex/workflows
   inCluster: true
   storage:
-    type: memory
+    type: kubernetes
+    config:
+      inCluster: true
   web:
     http: 0.0.0.0:5556
     https: 0.0.0.0:5554
     tlsClientCA: /etc/dex/ssl/ca.crt
     tlsCert: /etc/dex/ssl/tls.crt
     tlsKey: /etc/dex/ssl/tls.key
+  frontend:
+    theme: "dark"
+  oauth2:
+    responseTypes: ["code", "token", "id_token"]
+    skipApprovalScreen: true
   connectors:
   - type: github
     id: github
@@ -55,6 +78,6 @@ config:
     config:
       clientID: $GITHUB_CLIENT_ID
       clientSecret: $GITHUB_CLIENT_SECRET
-      redirectURI: https://dex.homelab.danmanners.com/dex/callback
-      orgs:
-      - name: goodmannershosting
+      redirectURI: https://dex.homelab.danmanners.com/dex/workflows/callback
+      # orgs:
+      # - name: goodmannershosting

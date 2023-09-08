@@ -24,7 +24,6 @@ server:
   extraArgs:
   - --auth-mode=sso
   - --secure
-  # - --insecure-skip-verify
   image:
     registry: core.harbor.homelab.danmanners.com/quay.io
   ingress:
@@ -38,11 +37,11 @@ server:
       - workflows.homelab.danmanners.com
   sso:
     enabled: true
-    issuer: https://dex.homelab.danmanners.com/dex
+    issuer: https://dex.homelab.danmanners.com/dex/workflows
     redirectUrl: https://workflows.homelab.danmanners.com/oauth2/callback
-    sessionExpiry: "24h"
+    sessionExpiry: "12h"
     rbac:
-      enabled: false
+      enabled: true
     clientId:
       name: dex-config
       key: GITHUB_CLIENT_ID
@@ -53,6 +52,16 @@ server:
   extraEnv:
   - name: SSL_CERT_FILE
     value: "/etc/ssl/certs/ca.crt"
+  - name: GITHUB_CLIENT_ID
+    valueFrom:
+      secretKeyRef:
+        name: dex-config
+        key: GITHUB_CLIENT_ID
+  - name: GITHUB_CLIENT_SECRET
+    valueFrom:
+      secretKeyRef:
+        name: dex-config
+        key: GITHUB_CLIENT_SECRET
 
   volumes:
   - name: ssl

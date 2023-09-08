@@ -6,9 +6,6 @@ resources:
 - networking
 - dexidp
 
-# generators:
-# - secrets-generator.yaml
-
 helmCharts:
 - name: argo-workflows
   releaseName: argo-workflows
