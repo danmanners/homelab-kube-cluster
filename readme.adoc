@@ -1,0 +1,177 @@
+= Dan Manners' Homelab
+
+____
+All of the readme's are in a state of flux at this moment.
+I'm working on refactoring much of the repository, but I'm happy to answer any questions in the https://discord.gg/k8s-at-home[k8s@Home Discord server] or on Discord!
+Feel free to reach me at `danmanners` with any questions or at link:mailto:daniel.a.manners@gmail.com[daniel.a.manners@gmail.com]!
+____
+
+Current status: *BETA* (but is highly stable)
+
+This project aims to utilize industry-standard tooling and practices in order to both perform it's functions and act as a repository for people to reference for their own learning and work.
+
+== 🔍 Features
+
+* [x] Easy to replicate GitOps
+* [x] Modularity; make it easy to add/remove components
+* [x] Hybrid Multi-Cloud
+* [x] External DNS updates
+* [x] Automagic cert management
+* [x] In-Cluster Container Registry
+* [ ] Monitoring and alerting 🚧
+
+== 💡 Current Tech Stack
+
+|===
+| Name | Description
+
+| https://argoproj.github.io/cd/[ArgoCD]
+| GitOps for Kubernetes
+
+| https://aws.amazon.com/[AWS]
+| Cloud Provider
+
+| https://github.com/0xERR0R/blocky[Blocky]
+| Fast and lightweight DNS proxy as ad-blocker
+
+| https://github.com/containers/buildah/[Buildah]
+| Container Building
+
+| https://cert-manager.io/docs/[Cert-Manager]
+| Certificate Manager
+
+| https://cilium.io/[Cilium]
+| CNI utilizing eBPF for Observability and Security
+
+| https://cloudnative-pg.io/[CloudNativePG]
+| Kubernetes operator covering lifecycle of HA PostgreSQL Clusters
+
+| https://github.com/kubernetes-csi/csi-driver-nfs[CSI-Driver-NFS]
+| Kubernetes NFS Driver for persistent storage
+
+| https://dexidp.io/[Dex IDP]
+| Federated OIDC
+
+| https://github.com/kubernetes-sigs/external-dns[External-DNS]
+| Configure and manage External DNS servers
+
+| https://github.com/[GitHub]
+| Popular Code Management through Git
+
+| https://grafana.com/[Grafana]
+| Metrics Visualization
+
+| https://goharbor.io/[Harbor]
+| Open Source Container Registry
+
+| https://helm.sh/[Helm]
+| Kubernetes Package Management
+
+| https://www.jenkins.io/[Jenkins]
+| Open-Source Automation Server
+
+| https://kubernetes.io/[Kubernetes]
+| Container Orchestration
+
+| https://letsencrypt.org/[Let's Encrypt]
+| Free TLS certificates
+
+| https://github.com/foxcpp/maddy[Maddy]
+| Composable all-in-one mail server
+
+| https://metallb.universe.tf/[MetalLB]
+| Kubernetes bare-metal Load Balancer
+
+| https://github.com/mozilla/sops[Mozilla SOPS]
+| Simple/Flexible Tool
+
+| https://github.com/containers/podman/[Podman]
+| Container and Pod management
+
+| https://prometheus.io/[Prometheus]
+| Metrics and Data Collection
+
+| https://www.python.org/[Python]
+| Python Programming Language
+
+| https://www.raspberrypi.org/[Raspberry Pi]
+| Baremetal ARM SoC Hardware!
+
+| https://www.sonarqube.org/[SonarQube]
+| Static code analysis
+
+| https://www.sonatype.com/products/nexus-repository[Sonatype Nexus-OSS]
+| Manage binaries and build artifacts
+
+| https://tekton.dev/[Tekton]
+| Cloud-Native CI/CD
+
+| https://ubuntu.com/[Ubuntu]
+| Operating System
+
+| https://github.com/louislam/uptime-kuma[Uptime Kuma]
+| Fancy self-hosted system monitoring
+
+| https://js.wiki/[WikiJS]
+| Open-Source Wiki/Documentation Service
+|===
+
+== Deployment Order of Operations
+
+== Identifying Problems, Troubleshooting Steps, and more
+
+Below are a few things that may be beneficial to you when troubleshooting or getting things up and operational
+
+=== Traffic is not getting from the edge (cloud) nodes to the on-prem cluster networking
+
+You can validate that your remote traffic is or isn't making it on site by using `dig` inside of the link:[netshoot container]
+
+[,bash]
+----
+kubectl run temp-troubleshooting \
+  --rm -it -n default \
+  --overrides='{"apiVersion":"v1","spec":{"nodeSelector":{"kubernetes.io/hostname":"talos-aws-grav01"}}}' \
+  --pod-running-timeout 3m \
+  --image=docker.io/nicolaka/netshoot:latest \
+  --command -- /bin/bash
+----
+
+Then, you can validate that you can reach CoreDNS or another pod/service IP from your remote node.
+
+If you can prove it is not working, you may want to restart all of Cilium:
+
+[,bash]
+----
+kubectl rollout restart -n kube-system daemonset cilium
+----
+
+== To-Do Items
+
+* Ensure that *ALL* services are tagged for the appropriate hardware (`arm64` or `amd64`) to ensure runtime success
+ ** Alternatively, ensure that all containers are built for multi-architecture.
+* Ensure that *ALL* application and service subdirectories have READMEs explaining what they're doing and what someone else may need to modify for their own environment
+
+== Gratitude and Thanks
+
+This README redesign was inspired by several other homelab repos, individuals, and communities.
+
+=== Individuals
+
+* https://github.com/zimmertr/TKS[zimmertr/TKS]
+* https://github.com/onedr0p/home-ops/[onedr0p/home-ops]
+* https://github.com/khuedoan/homelab[khuedoan/homelab]
+
+=== Communities
+
+'''
+
+==== The DevOps Lounge
+
+image::https://img.shields.io/discord/611083841792376843?style=for-the-badge&label=discord&logo=discord&logoColor=white[Discord,link=https://discord.gg/devopslounge]
+
+==== K8s-at-Home
+
+image::https://img.shields.io/discord/673534664354430999?style=for-the-badge&label=discord&logo=discord&logoColor=white[Discord,link=https://discord.gg/k8s-at-home]
+
+Without the inspiration and help of these individuals and communities, I don't think my own project would be nearly as far.
+Make sure to check out their projects as well!
