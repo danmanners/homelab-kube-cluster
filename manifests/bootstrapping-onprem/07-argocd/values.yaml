@@ -14,8 +14,6 @@ configs:
         config:
           clientID: 9cf61427330f61ebc1e8
           clientSecret: $github-oauth:dex.github.clientID
-          orgs:
-          - name: goodmannershosting
   rbac:
     policy.default: role:readonly
   params:
