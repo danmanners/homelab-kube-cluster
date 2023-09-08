@@ -22,8 +22,8 @@ executor:
 server:
   enabled: true
   extraArgs:
-  - --auth-mode=sso
   - --secure
+  - --auth-mode=sso
   image:
     registry: core.harbor.homelab.danmanners.com/quay.io
   ingress:
@@ -37,33 +37,33 @@ server:
       - workflows.homelab.danmanners.com
   sso:
     enabled: true
-    issuer: https://dex.homelab.danmanners.com/dex/workflows
+    issuer: https://argocd.homelab.danmanners.com/api/dex
     redirectUrl: https://workflows.homelab.danmanners.com/oauth2/callback
-    sessionExpiry: "12h"
+    sessionExpiry: 240h
     rbac:
       enabled: true
 
-  extraEnv:
-  - name: SSL_CERT_FILE
-    value: "/etc/ssl/certs/ca.crt"
-  - name: GITHUB_CLIENT_ID
-    valueFrom:
-      secretKeyRef:
-        name: argo-server-sso
-        key: GITHUB_CLIENT_ID
-  - name: GITHUB_CLIENT_SECRET
-    valueFrom:
-      secretKeyRef:
-        name: argo-server-sso
-        key: GITHUB_CLIENT_SECRET
+  # extraEnv:
+  # - name: SSL_CERT_FILE
+  #   value: "/etc/ssl/certs/ca.crt"
+  # - name: GITHUB_CLIENT_ID
+  #   valueFrom:
+  #     secretKeyRef:
+  #       name: argo-server-sso
+  #       key: GITHUB_CLIENT_ID
+  # - name: GITHUB_CLIENT_SECRET
+  #   valueFrom:
+  #     secretKeyRef:
+  #       name: argo-server-sso
+  #       key: GITHUB_CLIENT_SECRET
 
-  volumes:
-  - name: ssl
-    secret:
-      secretName: dexidp-internal-tls
+  # volumes:
+  # - name: ssl
+  #   secret:
+  #     secretName: dexidp-internal-tls
 
-  volumeMounts:
-  - name: ssl
-    mountPath: /etc/ssl/certs/ca.crt
-    subPath: ca.crt
-    readOnly: true
+  # volumeMounts:
+  # - name: ssl
+  #   mountPath: /etc/ssl/certs/ca.crt
+  #   subPath: ca.crt
+  #   readOnly: true

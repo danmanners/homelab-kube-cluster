@@ -17,6 +17,13 @@ configs:
           clientSecret: $github-oauth:dex.github.clientSecret
           orgs:
             - name: GoodMannersHosting
+      staticClients:
+        - id: argo-workflows-sso
+          name: Argo Workflow
+          redirectURIs:
+            - https://workflows.homelab.danmanners.com/oauth2/callback
+          secretEnv: ARGO_WORKFLOWS_SSO_CLIENT_SECRET
+
   rbac:
     policy.default: role:readonly
     policy.csv: |

@@ -4,7 +4,10 @@ kind: Kustomization
 resources:
 - ns.yaml
 - networking
-- dexidp
+# - dexidp
+
+generators:
+- secrets-generator.yaml
 
 helmCharts:
 - name: argo-workflows
