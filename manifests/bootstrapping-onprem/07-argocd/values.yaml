@@ -5,6 +5,17 @@ configs:
     accounts.k8sathome.enabled: true
     # URL Configuration
     url: https://argocd.homelab.danmanners.com
+    # Dex Config
+    dex.config: |
+      connectors:
+      - type: github
+        id: github
+        name: GitHub
+        config:
+          clientID: $github-oauth:dex.github.clientID
+          clientSecret: $github-oauth:dex.github.clientID
+          orgs:
+          - name: goodmannershosting
   rbac:
     policy.default: role:readonly
   params:
@@ -12,17 +23,6 @@ configs:
   secret:
     extra:
       accounts.k8sathome.password: $2a$10$rue.sIWbmaMzDZ/pdbj/A.52KLOpe31cjqFQvaMcLLgYEi5u/J13C
-  dex.config: |
-    connectors:
-    - type: github
-      id: github
-      name: GitHub
-      config:
-        clientID: $github-oauth:dex.github.clientID
-        clientSecret: $github-oauth:dex.github.clientID
-        orgs:
-        - name: goodmannershosting
-
 repoServer:
   # Until KSOPS setup logic is re-written, this can only run
   # on amd64 nodes.
