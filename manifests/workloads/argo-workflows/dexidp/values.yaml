@@ -27,18 +27,13 @@ envVars:
 - name: GITHUB_CLIENT_ID
   valueFrom:
     secretKeyRef:
-      name: dex-config
-      key: GITHUB_CLIENT_ID
+      name: argo-server-sso
+      key: client-id
 - name: GITHUB_CLIENT_SECRET
   valueFrom:
     secretKeyRef:
-      name: dex-config
-      key: GITHUB_CLIENT_SECRET
-
-
-# envFrom:
-# - secretRef:
-#     name: dex-config
+      name: argo-server-sso
+      key: client-secret
 
 volumes:
 - name: ssl
