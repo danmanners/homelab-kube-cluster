@@ -10,5 +10,5 @@ helmCharts:
     image:
       repository: core.harbor.homelab.danmanners.com/registry.k8s.io/nfd/node-feature-discovery
 
-# resources:
-# - nfd-worker-conf-cm.yaml
+resources:
+- https://raw.githubusercontent.com/kubernetes-sigs/node-feature-discovery/release-0.14/deployment/helm/node-feature-discovery/crds/nfd-api-crds.yaml
