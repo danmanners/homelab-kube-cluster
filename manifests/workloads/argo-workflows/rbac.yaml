@@ -75,12 +75,15 @@ rules:
   apiGroups:
   - argoproj.io
   resources:
+  - cronworkflows
+  - eventbus
   - eventsources
   - sensors
-  - workflows
   - workfloweventbindings
+  - workflows
+  - workflowtaskresults
+  - workflowtasksets
   - workflowtemplates
-  - cronworkflows
   - clusterworkflowtemplates
 ---
 apiVersion: rbac.authorization.k8s.io/v1
