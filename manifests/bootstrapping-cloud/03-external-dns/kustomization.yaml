@@ -11,5 +11,5 @@ helmCharts:
   releaseName: external-dns
   namespace: kube-system
   repo: https://kubernetes-sigs.github.io/external-dns/
-  version: 1.13.0
+  version: 1.13.1
   valuesFile: aws-values.yaml
