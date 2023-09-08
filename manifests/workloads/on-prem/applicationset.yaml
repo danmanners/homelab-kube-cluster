@@ -20,6 +20,8 @@ spec:
         namespace: excalidraw
       - appName: argo-workflows
         namespace: argo-workflows
+      - appName: argo-events
+        namespace: argo-events
   template:
     metadata:
       name: '{{appName}}'

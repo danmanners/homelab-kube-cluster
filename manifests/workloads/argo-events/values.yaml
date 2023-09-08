@@ -1,0 +1,6 @@
+crds:
+  install: false
+
+global:
+  image:
+    repository: core.harbor.homelab.danmanners.com/quay.io/argoproj/argo-events

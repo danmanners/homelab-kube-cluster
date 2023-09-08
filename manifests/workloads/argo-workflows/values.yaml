@@ -21,6 +21,13 @@ executor:
 
 server:
   enabled: true
+  rbac:
+    create: true
+  serviceAccount:
+    annotations:
+      workflows.argoproj.io/rbac-rule: "'GoodMannersHosting:admins' in groups"
+      workflows.argoproj.io/rbac-rule-precedence: "1"
+      workflows.argoproj.io/service-account-token.name: admin-user.service-account-token
   extraArgs:
   - --secure
   - --auth-mode=sso
@@ -40,8 +47,17 @@ server:
     issuer: https://argocd.homelab.danmanners.com/api/dex
     redirectUrl: https://workflows.homelab.danmanners.com/oauth2/callback
     sessionExpiry: 240h
+    scopes:
+    - email
+    userInfoGroupsField: memberof
     rbac:
       enabled: true
+    clientId:
+      name: argo-server-sso
+      key: client-id
+    clientSecret:
+      name: argo-server-sso
+      key: client-secret
 
   # extraEnv:
   # - name: SSL_CERT_FILE

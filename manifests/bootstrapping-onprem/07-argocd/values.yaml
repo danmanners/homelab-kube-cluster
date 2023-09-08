@@ -18,11 +18,11 @@ configs:
           orgs:
             - name: GoodMannersHosting
       staticClients:
-        - id: argo-workflows-sso
-          name: Argo Workflow
+        - name: Argo Workflow
+          id: argo-workflows-sso
+          secretEnv: ARGO_WORKFLOWS_SSO_CLIENT_SECRET
           redirectURIs:
             - https://workflows.homelab.danmanners.com/oauth2/callback
-          secretEnv: ARGO_WORKFLOWS_SSO_CLIENT_SECRET
 
   rbac:
     policy.default: role:readonly

@@ -3,6 +3,8 @@ kind: Kustomization
 
 resources:
 - ns.yaml
+- sa.yaml
+- rbac.yaml
 - networking
 # - dexidp
 

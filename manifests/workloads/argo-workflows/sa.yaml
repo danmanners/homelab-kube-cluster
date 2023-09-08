@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: admin-user
+  namespace: argo-workflows
+  annotations:
+    workflows.argoproj.io/rbac-rule: "'GoodMannersHosting:admins' in groups"
+    workflows.argoproj.io/rbac-rule-precedence: "1"
+    workflows.argoproj.io/service-account-token.name: admin-user.service-account-token
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: admin-user.service-account-token
+  namespace: argo-workflows
+  annotations:
+    kubernetes.io/service-account.name: admin-user
+type: kubernetes.io/service-account-token
