@@ -105,3 +105,17 @@ server:
     - secretName: argocd-cert
       hosts:
       - argocd.homelab.danmanners.com
+
+dex:
+  env:
+  - name: ARGO_WORKFLOWS_SSO_CLIENT_ID
+    valueFrom:
+      secretKeyRef:
+        name: argo-workflows-sso
+        key: client-id
+  - name: ARGO_WORKFLOWS_SSO_CLIENT_SECRET
+    valueFrom:
+      secretKeyRef:
+        name: argo-workflows-sso
+        key: client-secret
+
