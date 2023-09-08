@@ -1,0 +1,29 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: dexidp-internal-tls
+spec:
+  secretName: dexidp-internal-tls
+  usages:
+  - digital signature
+  - key encipherment
+  - server auth
+  - client auth
+  dnsNames:
+  - dex.argo-workflows.svc
+  - dex.argo-workflows.svc.cluster.local
+  issuerRef:
+    kind: Issuer
+    name: dexidp-ca-issuer
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: workflows-dex-cert
+spec:
+  secretName: workflows-dex-cert
+  dnsNames:
+  - dex.homelab.danmanners.com
+  issuerRef:
+    name: acme-prod
+    kind: ClusterIssuer

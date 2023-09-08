@@ -14,7 +14,7 @@ controller:
   publishService:
     enabled: false # TODO: Maybe turn this on later??
   kind: Deployment # DaemonSet??
-  replicaCount: 2
+  replicaCount: 3
   minAvailable: 1
   resources:
     requests:

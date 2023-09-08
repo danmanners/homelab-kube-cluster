@@ -1,0 +1,19 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: argo-workflows
+
+helmCharts:
+- name: dex
+  releaseName: dex
+  namespace: argo-workflows
+  repo: https://charts.dexidp.io
+  version: "0.15.3"
+  valuesFile: values.yaml
+
+resources:
+- ca.yaml
+- certs.yaml
+- external-dns.yaml
+
+generators:
+- secrets-generator.yaml

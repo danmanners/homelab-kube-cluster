@@ -10,8 +10,5 @@ helmCharts:
   version: "4.7.1"
   valuesFile: values.yaml
 
-# resources:
-# - service.yaml
-
 patches:
 - path: patches/ingress-nginx-controller.yaml

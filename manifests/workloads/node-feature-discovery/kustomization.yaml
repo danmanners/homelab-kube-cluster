@@ -6,6 +6,9 @@ helmCharts:
   releaseName: node-feature-discovery
   repo: https://kubernetes-sigs.github.io/node-feature-discovery/charts
   version: "0.14.0"
+  valuesInline:
+    image:
+      repository: core.harbor.homelab.danmanners.com/registry.k8s.io/nfd/node-feature-discovery
 
-resources:
-- nfd-worker-conf-cm.yaml
+# resources:
+# - nfd-worker-conf-cm.yaml

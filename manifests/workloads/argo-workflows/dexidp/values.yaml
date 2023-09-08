@@ -1,0 +1,78 @@
+image:
+  repository: core.harbor.homelab.danmanners.com/ghcr.io/dexidp/dex
+
+https:
+  enabled: true
+
+grpc:
+  enabled: false
+
+serviceAccount:
+  create: true
+
+ingress:
+  enabled: true
+  className: nginx
+  hosts:
+  - host: dex.homelab.danmanners.com
+    paths:
+    - path: /
+      pathType: Prefix
+  tls:
+  - hosts:
+    - dex.homelab.danmanners.com
+    secretName: workflows-dex-cert
+
+envVars:
+- name: GITHUB_CLIENT_ID
+  valueFrom:
+    secretKeyRef:
+      name: argo-server-sso
+      key: client-id
+- name: GITHUB_CLIENT_SECRET
+  valueFrom:
+    secretKeyRef:
+      name: argo-server-sso
+      key: client-secret
+
+volumes:
+- name: ssl
+  secret:
+    secretName: dexidp-internal-tls
+
+volumeMounts:
+- name: ssl
+  mountPath: /etc/dex/ssl
+  readOnly: true
+
+config:
+  logger:
+    level: "debug"
+    format: "json"
+  issuer: https://dex.homelab.danmanners.com/dex/workflows
+  inCluster: true
+  storage:
+    type: kubernetes
+    config:
+      inCluster: true
+  web:
+    http: 0.0.0.0:5556
+    https: 0.0.0.0:5554
+    tlsClientCA: /etc/dex/ssl/ca.crt
+    tlsCert: /etc/dex/ssl/tls.crt
+    tlsKey: /etc/dex/ssl/tls.key
+  frontend:
+    theme: "dark"
+  oauth2:
+    responseTypes: ["code", "token", "id_token"]
+    skipApprovalScreen: true
+  connectors:
+  - type: github
+    id: github
+    name: GitHub
+    config:
+      clientID: $GITHUB_CLIENT_ID
+      clientSecret: $GITHUB_CLIENT_SECRET
+      redirectURI: https://dex.homelab.danmanners.com/dex/workflows/callback
+      orgs:
+      - name: goodmannershosting
