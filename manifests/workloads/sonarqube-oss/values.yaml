@@ -12,9 +12,9 @@ nodeSelector:
 termination:
   gracePeriodSeconds: 180
 
-podSecurityContext:
-  fsGroup: 1000
-  runAsUser: 1000
+# podSecurityContext:
+#   runAsUser: 1000
+#   fsGroup: 1000
 
 resources:
   requests:
