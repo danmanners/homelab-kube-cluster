@@ -3,6 +3,7 @@ global:
 
 image:
   repository: jenkins-container-image
+  tag: latest
   pullPolicy: IfNotPresent
 
 nodeSelector:
@@ -65,7 +66,7 @@ persistence:
   jenkins-home:
     enabled: true
     storageClass: ceph-rbd
-    accessMode: ReadWriteMany
+    accessMode: ReadWriteOnce
     mountPath: /var/jenkins_home
     subPath: jenkins-volume
     size: 20Gi
