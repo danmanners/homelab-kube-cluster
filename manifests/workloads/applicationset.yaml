@@ -22,6 +22,8 @@ spec:
         namespace: argo-workflows
       - appName: argo-events
         namespace: argo-events
+      - appName: jenkins-oss
+        namespace: jenkins
   template:
     metadata:
       name: '{{appName}}'

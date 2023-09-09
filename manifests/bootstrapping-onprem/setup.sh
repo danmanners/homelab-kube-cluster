@@ -20,7 +20,7 @@ function help() {
 if [[ $# -eq 1 ]]; then
     for item in $(whereami); do
         if [[ $1 == "build" ]]; then
-            kbaph $item             
+            kbaph $item
         elif [[ $1 == "apply" ]]; then
             kbaph $item | kubectl apply -f -
         else

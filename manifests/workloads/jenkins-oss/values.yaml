@@ -1,4 +1,3 @@
----
 global:
   nameOverride: jenkins
 
@@ -27,9 +26,9 @@ initContainers:
     image: docker.io/library/busybox:stable
     command: ["sh", "-c", "chown -R 1000:1000 /var/jenkins_home"]
     volumeMounts:
-      - name: jenkins-home
-        mountPath: /var/jenkins_home
-        subPath: jenkins-volume
+    - name: jenkins-home
+      mountPath: /var/jenkins_home
+      subPath: jenkins-volume
 
 service:
   main:
@@ -49,13 +48,24 @@ service:
 
 ingress:
   main:
-    enabled: false
+    enabled: true
+    ingressClassName: nginx
+    tls:
+    - secretName: jenkins-cert
+      hosts:
+      - jenkins.homelab.danmanners.com
+    hosts:
+    - host: jenkins.homelab.danmanners.com
+      paths:
+      - path: /
+        pathType: Prefix
+        service:
 
 persistence:
   jenkins-home:
     enabled: true
-    storageClass: hdd
+    storageClass: ceph-rbd
     accessMode: ReadWriteMany
     mountPath: /var/jenkins_home
     subPath: jenkins-volume
-    size: 16Gi
+    size: 20Gi
