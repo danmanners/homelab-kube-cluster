@@ -27,14 +27,34 @@ configs:
   rbac:
     policy.default: role:readonly
     policy.csv: |
-      p, role:org-admin, applications, *, */*, allow
-      p, role:org-admin, clusters, get, *, allow
-      p, role:org-admin, repositories, *, *, allow
-      p, role:org-admin, projects, *, *, allow
-      p, role:org-admin, logs, get, *, allow
+      p, role:org-admin, applications, create, */*, allow
+      p, role:org-admin, applications, update, */*, allow
+      p, role:org-admin, applications, delete, */*, allow
+      p, role:org-admin, applications, sync, */*, allow
+      p, role:org-admin, applications, override, */*, allow
+      p, role:org-admin, applications, action/*, */*, allow
+      p, role:org-admin, applicationsets, get, */*, allow
+      p, role:org-admin, applicationsets, create, */*, allow
+      p, role:org-admin, applicationsets, update, */*, allow
+      p, role:org-admin, applicationsets, delete, */*, allow
+      p, role:org-admin, certificates, create, *, allow
+      p, role:org-admin, certificates, update, *, allow
+      p, role:org-admin, certificates, delete, *, allow
+      p, role:org-admin, clusters, create, *, allow
+      p, role:org-admin, clusters, update, *, allow
+      p, role:org-admin, clusters, delete, *, allow
+      p, role:org-admin, repositories, create, *, allow
+      p, role:org-admin, repositories, update, *, allow
+      p, role:org-admin, repositories, delete, *, allow
+      p, role:org-admin, projects, create, *, allow
+      p, role:org-admin, projects, update, *, allow
+      p, role:org-admin, projects, delete, *, allow
+      p, role:org-admin, accounts, update, *, allow
+      p, role:org-admin, gpgkeys, create, *, allow
+      p, role:org-admin, gpgkeys, delete, *, allow
       p, role:org-admin, exec, create, */*, allow
 
-      g, goodmannershosting:*, role:org-admin
+      g, GoodMannersHosting:admins, role:org-admin
 
   params:
     server.insecure: "true"
