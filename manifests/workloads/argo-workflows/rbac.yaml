@@ -3,77 +3,27 @@ kind: ClusterRole
 metadata:
   name: goodmannershosting-admins
 rules:
-- verbs:
-  - get
-  - watch
-  - list
-  apiGroups:
-  - ''
-  resources:
-  - configmaps
-  - events
-- verbs:
-  - get
-  - list
-  - watch
-  - delete
-  apiGroups:
-  - ''
-  resources:
-  - pods
-- verbs:
-  - get
-  - list
-  apiGroups:
-  - ''
-  resources:
-  - pods/log
-- verbs:
-  - get
-  apiGroups:
-  - ''
-  resources:
-  - secrets
-  resourceNames:
-  - sso
-- verbs:
-  - create
-  apiGroups:
-  - ''
-  resources:
-  - secrets
-- verbs:
-  - get
-  - list
-  - watch
-  apiGroups:
-  - ''
-  resources:
-  - serviceaccounts
-- verbs:
-  - get
-  apiGroups:
-  - ''
-  resources:
-  - secrets
-- verbs:
-  - watch
-  - create
-  - patch
-  apiGroups:
-  - ''
-  resources:
-  - events
-- verbs:
-  - create
-  - get
-  - list
-  - watch
-  - update
-  - patch
-  - delete
-  apiGroups:
-  - argoproj.io
+- verbs: [get, watch, list]
+  apiGroups: [""]
+  resources: [configmaps, events]
+- verbs: [get, watch, list, delete]
+  apiGroups: [""]
+  resources: [pods]
+- verbs: [get, list]
+  apiGroups: [""]
+  resources: [pods/log]
+- verbs: [get, create]
+  apiGroups: [""]
+  resources: [secrets]
+  resourceNames: [sso]
+- verbs: [get, list, watch]
+  apiGroups: [""]
+  resources: [serviceaccounts]
+- verbs: [create, watch, patch]
+  apiGroups: [""]
+  resources: [events]
+- verbs: [create, get, list, watch, update, patch, delete]
+  apiGroups: [argoproj.io]
   resources:
   - cronworkflows
   - eventbus
