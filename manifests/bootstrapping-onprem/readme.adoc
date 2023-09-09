@@ -1,0 +1,29 @@
+= Bootstrapping Services On-Prem
+
+The bootstrapping services are listed in the order they must be deployed. These are core services that are required for the rest of the platform to function.
+
+To get started, you will need to have a few things in place:
+
+.Components
+
+* A Kubernetes Cluster that has been instantiated
+* Kustomize
+* Helm
+* SOPS and KSOPS
+** The AWS Decryption Key for SOPS/KSOPS
+
+== Rendering the Kubernetes Manifests
+
+Utilizing `Kustomize`, `Helm`, and `KSOPS`, you can render the Kubernetes manifests for the services we want to deploy. 
+
+[source,bash]
+----
+./setup build
+----
+
+Once you confirm that the manifests have been rendered correctly, you can deploy them to your Kubernetes cluster.
+
+[source,bash]
+----
+./setup apply
+----

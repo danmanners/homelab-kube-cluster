@@ -2,8 +2,8 @@
 
 > All of the readme's are in a state of flux at this moment. I'm working on refactoring much of the repository, but I'm happy to answer any questions in the [k8s@Home Discord server](https://discord.gg/k8s-at-home) or on Discord! Feel free to reach me at `danmanners` with any questions or at [daniel.a.manners@gmail.com](mailto:daniel.a.manners@gmail.com)!
 
-Current status: **BETA** (but is highly stable)
-
+Current status:
+  
 This project aims to utilize industry-standard tooling and practices in order to both perform it's functions and act as a repository for people to reference for their own learning and work.
 
 ## 🔍 Features

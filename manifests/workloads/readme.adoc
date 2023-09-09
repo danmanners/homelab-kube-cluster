@@ -1,0 +1,5 @@
+= Kubernetes Workloads
+
+The `manifests/workloads` directory contains non-critical services and workloads that are not core functionality of the application. These services *are not required* for the cluster itself to function.
+
+Instead, the directories at this path contain services that extend the functionality of the cluster and/or deploy various dedicated services that are not part of the core cluster functionality.

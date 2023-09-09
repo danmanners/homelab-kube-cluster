@@ -1,3 +1,0 @@
-# VyOS Config
-
-The [`router-config.conf`](router-config.conf) file is my current config for VyOS on my home router. This handles my LAN, Homelab Network, and WAN config.
