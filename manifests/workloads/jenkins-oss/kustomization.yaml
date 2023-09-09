@@ -17,6 +17,6 @@ helmCharts:
   valuesFile: values.yaml
 
 images:
-- name: jenkins-container-image
-  newName: docker.io/jenkins/jenkins
+- name: jenkins-container-image:latest
+  newName: core.harbor.homelab.danmanners.com/docker.io/jenkins/jenkins
   newTag: 2.414.1-lts
