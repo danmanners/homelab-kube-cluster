@@ -3,12 +3,12 @@ kind: Kustomization
 
 resources:
 # renovate: datasource=github-releases depName=actions/actions-runner-controller
-- https://raw.githubusercontent.com/actions/actions-runner-controller/actions-runner-controller-0.23.3/charts/actions-runner-controller/crds/actions.summerwind.dev_horizontalrunnerautoscalers.yaml
+- https://raw.githubusercontent.com/actions/actions-runner-controller/v0.27.5/charts/actions-runner-controller/crds/actions.summerwind.dev_horizontalrunnerautoscalers.yaml
 # renovate: datasource=github-releases depName=actions/actions-runner-controller
-- https://raw.githubusercontent.com/actions/actions-runner-controller/actions-runner-controller-0.23.3/charts/actions-runner-controller/crds/actions.summerwind.dev_runnerdeployments.yaml
+- https://raw.githubusercontent.com/actions/actions-runner-controller/v0.27.5/charts/actions-runner-controller/crds/actions.summerwind.dev_runnerdeployments.yaml
 # renovate: datasource=github-releases depName=actions/actions-runner-controller
-- https://raw.githubusercontent.com/actions/actions-runner-controller/actions-runner-controller-0.23.3/charts/actions-runner-controller/crds/actions.summerwind.dev_runnerreplicasets.yaml
+- https://raw.githubusercontent.com/actions/actions-runner-controller/v0.27.5/charts/actions-runner-controller/crds/actions.summerwind.dev_runnerreplicasets.yaml
 # renovate: datasource=github-releases depName=actions/actions-runner-controller
-- https://raw.githubusercontent.com/actions/actions-runner-controller/actions-runner-controller-0.23.3/charts/actions-runner-controller/crds/actions.summerwind.dev_runners.yaml
+- https://raw.githubusercontent.com/actions/actions-runner-controller/v0.27.5/charts/actions-runner-controller/crds/actions.summerwind.dev_runners.yaml
 # renovate: datasource=github-releases depName=actions/actions-runner-controller
-- https://raw.githubusercontent.com/actions/actions-runner-controller/actions-runner-controller-0.23.3/charts/actions-runner-controller/crds/actions.summerwind.dev_runnersets.yaml
+- https://raw.githubusercontent.com/actions/actions-runner-controller/v0.27.5/charts/actions-runner-controller/crds/actions.summerwind.dev_runnersets.yaml
