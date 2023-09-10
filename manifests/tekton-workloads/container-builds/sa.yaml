@@ -1,7 +1,0 @@
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: tekton-user
-  namespace: tekton-pipelines
-secrets:
-  - name: ghcr-io

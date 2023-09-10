@@ -18,11 +18,11 @@ spec:
         namespace: rook-ceph
       - appName: 06-ingress-nginx
         namespace: kube-system
-      - appName: 07-argocd
-        namespace: argocd
-      - appName: 08-kube-state-metrics
+      - appName: 07-external-dns
         namespace: kube-system
-      - appName: 09-external-dns
+      - appName: 08-argocd
+        namespace: argocd
+      - appName: 09-kube-state-metrics
         namespace: kube-system
       - appName: 10-harbor
         namespace: kube-system
