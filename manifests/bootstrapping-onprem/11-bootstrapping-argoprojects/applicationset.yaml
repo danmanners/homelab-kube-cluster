@@ -22,7 +22,7 @@ spec:
         namespace: kube-system
       - appName: 08-argocd
         namespace: argocd
-      - appName: 09-kube-state-metrics
+      - appName: 09-kube-prom-stack
         namespace: kube-system
       - appName: 10-harbor
         namespace: kube-system
