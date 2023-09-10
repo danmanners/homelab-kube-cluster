@@ -23,11 +23,11 @@ grafana:
     annotations:
       cert-manager.io/cluster-issuer: acme-prod
     hosts:
-    - grafana.cloud.danmanners.com
+    - grafana.homelab.danmanners.com
     tls:
     - secretName: grafana-cert
       hosts:
-      - grafana.cloud.danmanners.com
+      - grafana.homelab.danmanners.com
 
 
 kubelet:
@@ -38,29 +38,6 @@ kubelet:
       sourceLabels:
       - node
       targetLabel: instance
-
-# kubeControllerManager:
-#   enabled: true
-#   endpoints:
-#     - 10.200.0.51
-#     - 10.200.0.52
-#     - 10.200.0.53
-# kubeScheduler:
-#   enabled: true
-#   endpoints:
-#     - 10.200.0.51
-#     - 10.200.0.52
-#     - 10.200.0.53
-# kubeEtcd:
-#   enabled: true
-#   endpoints:
-#     - 10.200.0.51
-#     - 10.200.0.52
-#     - 10.200.0.53
-#   service:
-#     enabled: true
-#     port: 2381
-#     targetPort: 2381
 
 nodeExporter:
   serviceMonitor:
@@ -78,8 +55,8 @@ prometheus:
     serviceMonitorSelectorNilUsesHelmValues: false
     podMonitorSelectorNilUsesHelmValues: false
     probeSelectorNilUsesHelmValues: false
-    retention: 7d
-    retentionSize: "9GB"
+    retention: 10d
+    retentionSize: "10GB"
     walCompression: true
     resources:
       requests:
@@ -87,8 +64,8 @@ prometheus:
     storageSpec:
       volumeClaimTemplate:
         spec:
-          storageClassName: "gp3-xfs"
+          storageClassName: "ceph-rbd"
           resources:
             requests:
-              storage: 20Gi
+              storage: 30Gi
 

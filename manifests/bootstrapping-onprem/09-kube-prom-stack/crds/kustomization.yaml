@@ -6,11 +6,19 @@ commonAnnotations:
   argocd.argoproj.io/sync-options: Replace=true
 
 resources:
+# renovate: datasource=github-releases depName=prometheus-operator/prometheus-operator
 - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.63.0/example/prometheus-operator-crd/monitoring.coreos.com_alertmanagerconfigs.yaml
+# renovate: datasource=github-releases depName=prometheus-operator/prometheus-operator
 - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.63.0/example/prometheus-operator-crd/monitoring.coreos.com_alertmanagers.yaml
+# renovate: datasource=github-releases depName=prometheus-operator/prometheus-operator
 - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.63.0/example/prometheus-operator-crd/monitoring.coreos.com_podmonitors.yaml
+# renovate: datasource=github-releases depName=prometheus-operator/prometheus-operator
 - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.63.0/example/prometheus-operator-crd/monitoring.coreos.com_probes.yaml
+# renovate: datasource=github-releases depName=prometheus-operator/prometheus-operator
 - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.63.0/example/prometheus-operator-crd/monitoring.coreos.com_prometheuses.yaml
+# renovate: datasource=github-releases depName=prometheus-operator/prometheus-operator
 - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.63.0/example/prometheus-operator-crd/monitoring.coreos.com_prometheusrules.yaml
+# renovate: datasource=github-releases depName=prometheus-operator/prometheus-operator
 - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.63.0/example/prometheus-operator-crd/monitoring.coreos.com_servicemonitors.yaml
+# renovate: datasource=github-releases depName=prometheus-operator/prometheus-operator
 - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.63.0/example/prometheus-operator-crd/monitoring.coreos.com_thanosrulers.yaml
