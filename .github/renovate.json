@@ -3,7 +3,7 @@
   "extends": ["config:base"],
   "regexManagers": [
     {
-      "fileMatch": ["(^|/)\\.github/workflows/.+\\.ya?ml"],
+      "fileMatch": ["kustomization.ya??ml$"],
       "matchStrings": [
         "datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)\n.*(?<currentValue>v[0-9.]+)"
       ],
