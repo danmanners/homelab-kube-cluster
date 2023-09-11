@@ -1,0 +1,6 @@
+apiVersion: viaduct.ai/v1
+kind: ksops
+metadata:
+  name: github-secrets
+files:
+- secrets/github-app.yaml

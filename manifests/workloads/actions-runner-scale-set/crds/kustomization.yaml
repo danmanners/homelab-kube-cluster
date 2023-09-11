@@ -1,0 +1,13 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: github-rss
+
+resources:
+# renovate: datasource=github-releases depName=actions/actions-runner-controller
+- https://raw.githubusercontent.com/actions/actions-runner-controller/gha-runner-scale-set-0.5.0/charts/gha-runner-scale-set-controller/crds/actions.github.com_autoscalingrunnersets.yaml
+# renovate: datasource=github-releases depName=actions/actions-runner-controller
+- https://raw.githubusercontent.com/actions/actions-runner-controller/gha-runner-scale-set-0.5.0/charts/gha-runner-scale-set-controller/crds/actions.github.com_autoscalinglisteners.yaml
+# renovate: datasource=github-releases depName=actions/actions-runner-controller
+- https://raw.githubusercontent.com/actions/actions-runner-controller/gha-runner-scale-set-0.5.0/charts/gha-runner-scale-set-controller/crds/actions.github.com_ephemeralrunnersets.yaml
+# renovate: datasource=github-releases depName=actions/actions-runner-controller
+- https://raw.githubusercontent.com/actions/actions-runner-controller/gha-runner-scale-set-0.5.0/charts/gha-runner-scale-set-controller/crds/actions.github.com_ephemeralrunners.yaml

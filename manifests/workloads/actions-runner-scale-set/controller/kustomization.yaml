@@ -1,0 +1,11 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: github-rss
+
+helmCharts:
+- name: gha-runner-scale-set-controller
+  releaseName: rss-controller
+  namespace: github
+  repo: https://danmanners.github.io/gha-scale-set-helm
+  version: 0.5.0
+  valuesFile: values.yaml

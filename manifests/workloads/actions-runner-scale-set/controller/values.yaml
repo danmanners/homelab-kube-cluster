@@ -1,0 +1,3 @@
+fullnameOverride: rssc
+image:
+  repository: core.harbor.homelab.danmanners.com/ghcr.io/actions/gha-runner-scale-set-controller

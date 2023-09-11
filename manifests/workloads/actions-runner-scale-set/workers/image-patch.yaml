@@ -1,0 +1,14 @@
+apiVersion: builtin
+kind: HelmChartInflationGenerator
+metadata:
+  name: danmanners.homelab-kube-repo
+  namespace: github-rss
+releaseNamespace: github-rss
+repo: https://danmanners.github.io/gha-scale-set-helm
+name: gha-runner-scale-set
+version: 0.5.0
+valuesMerge: merge
+valuesInline:
+  controllerServiceAccount:
+    name: github-rss-controller
+    namespace: github-rsss
