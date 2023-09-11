@@ -12,6 +12,7 @@ helmCharts:
 
 resources:
 - ns.yaml
+- external-dns.yaml
 
 components:
 - crds
