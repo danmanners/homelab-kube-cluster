@@ -6,9 +6,10 @@ resources:
 - namespace.yaml
 - controller
 - crds
+- workers
 
-generators:
-- generator.yaml
+# generators:
+# - generator.yaml
 
 components:
-- workers
+- secrets

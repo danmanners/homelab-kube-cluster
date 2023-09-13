@@ -11,11 +11,10 @@ valuesInline:
   githubConfigUrl: https://github.com/danmanners/homelab-kube-cluster
   # githubConfigSecret: controller-manager
   githubConfigSecret:
-    github_app_id: "test"
-    github_app_installation_id: "test"
+    github_app_id: "fake"
+    github_app_installation_id: "fake"
     github_app_private_key: |
-      ====key file?
-      === ==end key
+      fake key here
 
   controllerServiceAccount:
     name: github-rss-controller
