@@ -8,7 +8,7 @@ helmCharts:
   releaseName: rc
   namespace: rook-ceph
   repo: https://charts.rook.io/release
-  version: v1.12.3
+  version: v1.12.4
   valuesInline:
     rook-ceph-operator-5b6cdbf66-mvs7f: true
 - name: rook-ceph-cluster
