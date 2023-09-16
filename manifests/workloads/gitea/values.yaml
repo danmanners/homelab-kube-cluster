@@ -26,7 +26,6 @@ ingress:
     paths:
     - path: /
       pathType: Prefix
-
   tls:
   - secretName: gitea-cert
     hosts:
