@@ -4,3 +4,4 @@ metadata:
   name: gitdb-secrets
 files:
 - secrets/git-cluster-secret.yaml
+- secrets/gitea-db-creds.yaml
