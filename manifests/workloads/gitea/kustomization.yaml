@@ -17,3 +17,13 @@ helmCharts:
   repo: https://dl.gitea.io/charts
   version: 9.4.0
   valuesFile: values.yaml
+
+patches:
+- patch: |
+    apiVersion: v1
+    kind: Service
+    metadata:
+      name: gitea-ssh
+      namespace: git
+    spec:
+      loadBalancerClass: metallb

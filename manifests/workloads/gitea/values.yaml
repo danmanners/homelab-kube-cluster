@@ -6,7 +6,10 @@ persistence:
   storageClass: ceph-rbd
 
 service:
+  http:
+    type: ClusterIP
   ssh:
+    type: LoadBalancer
     annotations:
       metallb.universe.tf/allow-shared-ip: "globalingress-10.4.240.2"
       metallb.universe.tf/loadBalancerIPs: 10.4.240.2
