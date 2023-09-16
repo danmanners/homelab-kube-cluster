@@ -41,12 +41,15 @@ gitea:
   - name: GITEA__DATABASE__NAME
     value: gitea
   - name: GITEA__DATABASE__USER
-    value: gitdbadmin
+    valueFrom:
+      secretKeyRef:
+        name: gitdb-user-creds
+        key: GITEA_DB_USERNAME
   - name: GITEA__DATABASE__PASSWD
     valueFrom:
       secretKeyRef:
-        name: postgres-secret
-        key: password
+        name: gitdb-user-creds
+        key: GITEA_DB_PASSWORD
 
 postgresql-ha:
   enabled: false
