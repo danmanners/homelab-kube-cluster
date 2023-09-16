@@ -8,3 +8,6 @@ helmCharts:
   namespace: postgres
   repo: https://cloudnative-pg.github.io/charts
   version: 0.18.2
+  valuesInline:
+    monitoring:
+      podMonitorEnabled: true
