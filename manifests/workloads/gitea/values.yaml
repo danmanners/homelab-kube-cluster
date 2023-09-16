@@ -35,7 +35,7 @@ gitea:
     APP_NAME: "Not Your Mommas's GitHub"
   additionalConfigFromEnvs:
   - name: GITEA__DATABASE__DB_TYPE
-    value: postgresql
+    value: postgres
   - name: GITEA__DATABASE__HOST
     value: gitdb-rw.git.svc.cluster.local:5432
   - name: GITEA__DATABASE__NAME

@@ -12,7 +12,7 @@ components:
 helmCharts:
 - name: gitea
   releaseName: gitea
-  namespace: gitea
+  namespace: git
   repo: https://dl.gitea.io/charts
   version: 9.4.0
   valuesFile: values.yaml
