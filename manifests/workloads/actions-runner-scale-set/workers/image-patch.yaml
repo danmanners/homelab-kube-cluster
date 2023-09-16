@@ -6,7 +6,7 @@ metadata:
 releaseNamespace: github-rss
 repo: https://danmanners.github.io/gha-scale-set-helm
 name: gha-runner-scale-set
-version: 0.5.0
+version: 0.6.0
 valuesMerge: merge
 valuesInline:
   controllerServiceAccount:

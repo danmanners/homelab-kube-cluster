@@ -49,6 +49,7 @@ controller:
     ##
     appProtocol: true
     annotations:
+      metallb.universe.tf/allow-shared-ip: "globalingress-10.4.240.2"
       metallb.universe.tf/loadBalancerIPs: 10.4.240.2
     labels: {}
     enableHttp: true

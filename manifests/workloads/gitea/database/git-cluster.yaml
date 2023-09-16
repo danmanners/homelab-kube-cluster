@@ -1,0 +1,15 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: gitdb
+  namespace: git
+spec:
+  instances: 2
+  primaryUpdateStrategy: unsupervised
+  storage:
+    size: 30Gi
+    storageClass: ceph-rbd
+  superuserSecret:
+    name: gitdb-superuser
+  monitoring:
+    enablePodMonitor: true

@@ -1,0 +1,35 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: gitea-init-db
+spec:
+  template:
+    spec:
+      containers:
+      - name: init-db
+        image: postgres-init-db
+        env:
+        - name: POSTGRES_DB
+          value: gitea
+        - name: POSTGRES_HOST
+          valueFrom:
+            secretKeyRef:
+              name: gitdb-user-creds
+              key: POSTGRES_HOST
+        - name: POSTGRES_SUPER_PASS
+          valueFrom:
+            secretKeyRef:
+              name: gitdb-superuser
+              key: password
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: gitdb-user-creds
+              key: GITEA_DB_USERNAME
+        - name: POSTGRES_PASS
+          valueFrom:
+            secretKeyRef:
+              name: gitdb-user-creds
+              key: GITEA_DB_PASSWORD
+      restartPolicy: Never
+  backoffLimit: 4

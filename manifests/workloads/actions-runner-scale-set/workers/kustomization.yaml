@@ -7,11 +7,11 @@ namespace: github-rss
 generators:
 - helm-charts/danmanners.homelab-kube-repo.yaml
 
-patches:
-- patch: |-
-    $patch: delete
-    kind: Secret
-    apiVersion: v1
-    metadata:
-      name: danmanners.homelab-kube-repo-gha-rs-github-secret
-      namespace: github-rss
+# patches:
+# - patch: |-
+#     $patch: delete
+#     kind: Secret
+#     apiVersion: v1
+#     metadata:
+#       name: danmanners.homelab-kube-repo-gha-rs-github-secret
+#       namespace: github-rss
