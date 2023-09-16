@@ -4,6 +4,7 @@ keys/
 inventory/turing-pi
 .terraform/
 charts/
+.tests/
 
 # Files
 *.pem
