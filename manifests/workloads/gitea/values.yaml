@@ -53,6 +53,9 @@ gitea:
       secretKeyRef:
         name: gitdb-user-creds
         key: GITEA_DB_PASSWORD
+  # SERVICE CONFIGURATION
+  - name: DISABLE_REGISTRATION
+    value: "true"
 
 postgresql-ha:
   enabled: false
