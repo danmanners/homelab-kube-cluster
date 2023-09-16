@@ -4,6 +4,9 @@ global:
   imageRegistry: core.harbor.homelab.danmanners.com/docker.io
   storageClass: ceph-rbd
 
+# image:
+#   rootless: false
+
 persistence:
   storageClass: cephfs
   size: 40Gi
@@ -20,6 +23,9 @@ gitea:
     existingSecret: gitea-creds
   config:
     APP_NAME: "Not Your Mommas's GitHub"
+    # server:
+    #   SSH_PORT: 2222
+    #   SSH_LISTEN_PORT: 2222
     cron.GIT_GC_REPOS:
       ENABLED: false
   additionalConfigSources:
