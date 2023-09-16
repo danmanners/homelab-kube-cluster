@@ -1,0 +1,35 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: gitea-runner
+  namespace: git
+  labels:
+    gitea-runner: ''
+spec:
+  backoffLimit: 5
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+      - name: fetch-runner-token
+        image: docker.io/library/alpine:latest
+        command: ["ash", "-c"]
+        args:
+        - |
+          apk add --no-cache curl 2>&1 >/dev/null
+          export ARCH=$(uname -m | awk '{print ($1=="x86_64" ? "amd64" : ($1=="aarch64" ? "arm64" : "unknown"))}')
+          curl -sLO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/${ARCH}/kubectl" 2>&1 >/dev/null
+          chmod +x ./kubectl 2>&1 >/dev/null
+          ./kubectl exec -n git deployments/gitea -c gitea -- gitea actions grt
+        resources: {}
+      serviceAccountName: grt
+      securityContext: {}
+      tolerations:
+      - key: node.kubernetes.io/not-ready
+        operator: Exists
+        effect: NoExecute
+        tolerationSeconds: 300
+      - key: node.kubernetes.io/unreachable
+        operator: Exists
+        effect: NoExecute
+        tolerationSeconds: 300

@@ -1,0 +1,36 @@
+= Gitea Runners
+
+WARNING: BE EXTREMELY CAREFUL; this RBAC is not locked down well and a malicious actor could do malicious things.
+
+This is a proof of concept and should not be used in production.
+
+The goal of this is to allow a Gitea pod to create a runner registration token and then use that token to register itself. This is not secure in any way and, I cannot stress this enough, **should not be used in production**.
+
+Thar be dragons here; you have been warned.
+
+== You've made it this far...
+
+Fine, you want to mess around? Here's what you should do.
+
+* Deploy the Kustomization file.
+
+[source,bash]
+----
+kustomize build . | kubectl apply -f -
+----
+
+This will deploy the following:
+
+- RBAC for the Gitea Pod to fetch the runner registration token
+- A Job to validate that the RBAC is working
+    - If there is a token output, then the job ran successfully.
+- A PersistentVolumeClaim for the runner workspace
+- The Runner Pod with DinD baked in
+
+* Navigate to the Gitea instance and confirm that the runner is registered
+
+Navigate to your Gitea instance, login as an administrator, navigate to the Administrative Runners section, confirm that the runner is registered and online.
+
+== What isn't working?
+
+So far, this deployment will not de-register the runner if and when it is deleted. As of now, I can't find any way to de-register runners other than through the Gitea UI.

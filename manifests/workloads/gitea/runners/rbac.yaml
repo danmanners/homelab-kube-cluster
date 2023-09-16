@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: grt
+  namespace: git
+---
+apiVersion: v1
+kind: Secret
+type: kubernetes.io/service-account-token
+metadata:
+  name: grt.service-account-token
+  namespace: git
+  annotations:
+    kubernetes.io/service-account.name: grt
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: gitea-runner-token
+  namespace: git
+rules:
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["get", "list"]
+- apiGroups: ["apps"]
+  resources: ["deployments"]
+  verbs: ["get", "list"]
+- apiGroups: [""]
+  resources: ["pods/exec"]
+  verbs: ["create"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: grt
+  namespace: git
+subjects:
+- name: grt
+  namespace: git
+  kind: ServiceAccount
+roleRef:
+  kind: Role
+  name: gitea-runner-token
+  apiGroup: rbac.authorization.k8s.io
+
