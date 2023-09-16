@@ -1,15 +1,47 @@
-replicaCount: 1
+replicaCount: 2
 
 global:
   imageRegistry: core.harbor.homelab.danmanners.com/docker.io
   storageClass: ceph-rbd
 
 persistence:
-  storageClass: ceph-rbd
+  storageClass: cephfs
   size: 40Gi
+  accessModes:
+  - ReadWriteMany
 
 strategy:
-  type: Recreate
+  type: RollingUpdate
+  maxUnavailable: 1
+  # type: Recreate
+
+gitea:
+  admin:
+    existingSecret: gitea-creds
+  config:
+    APP_NAME: "Not Your Mommas's GitHub"
+    cron.GIT_GC_REPOS:
+      ENABLED: false
+  additionalConfigSources:
+  - configMap:
+      name: gitea-app-ini-plaintext
+  additionalConfigFromEnvs:
+  - name: GITEA__DATABASE__DB_TYPE
+    value: postgres
+  - name: GITEA__DATABASE__HOST
+    value: gitdb-rw.git.svc.cluster.local:5432
+  - name: GITEA__DATABASE__NAME
+    value: gitea
+  - name: GITEA__DATABASE__USER
+    valueFrom:
+      secretKeyRef:
+        name: gitdb-user-creds
+        key: GITEA_DB_USERNAME
+  - name: GITEA__DATABASE__PASSWD
+    valueFrom:
+      secretKeyRef:
+        name: gitdb-user-creds
+        key: GITEA_DB_PASSWORD
 
 service:
   http:
@@ -36,32 +68,6 @@ ingress:
   - secretName: gitea-cert
     hosts:
     - git.homelab.danmanners.com
-
-gitea:
-  admin:
-    existingSecret: gitea-creds
-  config:
-    APP_NAME: "Not Your Mommas's GitHub"
-  additionalConfigSources:
-  - configMap:
-      name: gitea-app-ini-plaintext
-  additionalConfigFromEnvs:
-  - name: GITEA__DATABASE__DB_TYPE
-    value: postgres
-  - name: GITEA__DATABASE__HOST
-    value: gitdb-rw.git.svc.cluster.local:5432
-  - name: GITEA__DATABASE__NAME
-    value: gitea
-  - name: GITEA__DATABASE__USER
-    valueFrom:
-      secretKeyRef:
-        name: gitdb-user-creds
-        key: GITEA_DB_USERNAME
-  - name: GITEA__DATABASE__PASSWD
-    valueFrom:
-      secretKeyRef:
-        name: gitdb-user-creds
-        key: GITEA_DB_PASSWORD
 
 postgresql-ha:
   enabled: false
