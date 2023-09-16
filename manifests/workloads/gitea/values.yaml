@@ -4,6 +4,7 @@ global:
 
 persistence:
   storageClass: ceph-rbd
+  size: 40Gi
 
 service:
   http:
@@ -36,6 +37,9 @@ gitea:
     existingSecret: gitea-creds
   config:
     APP_NAME: "Not Your Mommas's GitHub"
+  additionalConfigSources:
+  - configMap:
+      name: gitea-app-ini-plaintext
   additionalConfigFromEnvs:
   - name: GITEA__DATABASE__DB_TYPE
     value: postgres
@@ -53,9 +57,6 @@ gitea:
       secretKeyRef:
         name: gitdb-user-creds
         key: GITEA_DB_PASSWORD
-  # SERVICE CONFIGURATION
-  - name: DISABLE_REGISTRATION
-    value: "true"
 
 postgresql-ha:
   enabled: false

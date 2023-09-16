@@ -5,6 +5,7 @@ namespace: git
 resources:
 - namespace.yaml
 - external-dns.yaml
+- app.ini.yaml
 
 components:
 - database

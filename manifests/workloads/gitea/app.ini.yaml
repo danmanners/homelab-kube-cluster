@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gitea-app-ini-plaintext
+data:
+  cron.archive_cleanup: |
+    ENABLED=true
+  actions: |
+    ENABLED=true
+  markup: |
+    ENABLED=true
+  service: |
+    DISABLE_REGISTRATION=true
+    ENABLE_BASIC_AUTHENTICATION=false
