@@ -1,3 +1,5 @@
+replicaCount: 1
+
 global:
   imageRegistry: core.harbor.homelab.danmanners.com/docker.io
   storageClass: ceph-rbd
@@ -5,6 +7,9 @@ global:
 persistence:
   storageClass: ceph-rbd
   size: 40Gi
+
+strategy:
+  type: Recreate
 
 service:
   http:
