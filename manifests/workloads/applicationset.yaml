@@ -8,22 +8,24 @@ spec:
       elements:
       - appName: actions-runner-controller
         namespace: github
-      - appName: cloudnative-pg
-        namespace: postgres
-      - appName: qemu-guest-agent
-        namespace: kube-system
-      - appName: sonarqube-oss
-        namespace: sonarqube
-      - appName: node-feature-discovery
-        namespace: kube-system
-      - appName: excalidraw
-        namespace: excalidraw
       - appName: argo-workflows
         namespace: argo-workflows
       - appName: argo-events
         namespace: argo-events
+      - appName: cloudnative-pg
+        namespace: postgres
+      - appName: excalidraw
+        namespace: excalidraw
+      - appName: gitea
+        namespace: git
       - appName: jenkins-oss
         namespace: jenkins
+      - appName: node-feature-discovery
+        namespace: kube-system
+      - appName: qemu-guest-agent
+        namespace: kube-system
+      - appName: sonarqube-oss
+        namespace: sonarqube
   template:
     metadata:
       name: '{{appName}}'
