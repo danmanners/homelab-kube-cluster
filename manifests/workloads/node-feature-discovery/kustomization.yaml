@@ -12,4 +12,4 @@ helmCharts:
 
 resources:
 # renovate: datasource=github-releases depName=kubernetes-sigs/node-feature-discovery
-- https://raw.githubusercontent.com/kubernetes-sigs/node-feature-discovery/release-0.14/deployment/helm/node-feature-discovery/crds/nfd-api-crds.yaml
+- https://raw.githubusercontent.com/kubernetes-sigs/node-feature-discovery/v0.14.1/deployment/helm/node-feature-discovery/crds/nfd-api-crds.yaml
