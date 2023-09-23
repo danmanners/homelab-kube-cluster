@@ -19,7 +19,7 @@ helmCharts:
 images:
 - name: jenkins-container-image:latest
   newName: core.harbor.homelab.danmanners.com/docker.io/jenkins/jenkins
-  newTag: 2.414.1-lts
+  newTag: 2.414.2-lts
 - name: busybox-image
   newName: core.harbor.homelab.danmanners.com/docker.io/library/busybox
   newTag: stable
