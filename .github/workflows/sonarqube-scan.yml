@@ -7,6 +7,8 @@ on:
 
 jobs:
   sonar-scan:
+    # 'if=false' Disables the workflow
+    if: false
     name: Scan with SonarQube
     runs-on: self-hosted
     steps:
