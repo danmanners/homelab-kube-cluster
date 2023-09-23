@@ -1,4 +1,4 @@
-replicaCount: 2
+replicaCount: 1 # Without a RWX storageclass, we can't run more than one replica. RIParoni-Pepperoni.
 
 global:
   imageRegistry: core.harbor.homelab.danmanners.com/docker.io
@@ -8,24 +8,20 @@ global:
 #   rootless: false
 
 persistence:
-  storageClass: cephfs
-  size: 40Gi
+  storageClass: ceph-rbd
+  size: 60Gi
   accessModes:
-  - ReadWriteMany
+  - ReadWriteOnce
 
 strategy:
-  type: RollingUpdate
-  maxUnavailable: 1
-  # type: Recreate
+  type: Recreate # Cant use RollingUpdate because we only have one replica.
+  maxUnavailable: 0 # Can't use 1 because we only have one replica.
 
 gitea:
   admin:
     existingSecret: gitea-creds
   config:
     APP_NAME: "Not Your Mommas's GitHub"
-    # server:
-    #   SSH_PORT: 2222
-    #   SSH_LISTEN_PORT: 2222
     cron.GIT_GC_REPOS:
       ENABLED: false
   additionalConfigSources:

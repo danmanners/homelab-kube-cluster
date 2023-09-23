@@ -7,3 +7,14 @@ resources:
 - pod.yaml
 - pvc.yaml
 - rbac-test-job.yaml
+
+images:
+- name: init-container-image
+  newName: core.harbor.homelab.danmanners.com/docker.io/library/alpine
+  newTag: latest
+- name: runner-image
+  newName: core.harbor.homelab.danmanners.com/docker.io/gitea/act_runner
+  newTag: nightly
+- name: docker-daemon-image
+  newName: core.harbor.homelab.danmanners.com/docker.io/library/docker
+  newTag: 23.0.6-dind

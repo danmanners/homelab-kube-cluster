@@ -1,7 +1,7 @@
 clusterName: opcluster
 
-talosVersion: v1.5.1
-kubernetesVersion: 1.28.0
+talosVersion: v1.5.2
+kubernetesVersion: 1.28.2
 endpoint: "https://opcluster.homelab.danmanners.com:6443"
 
 cniConfig:

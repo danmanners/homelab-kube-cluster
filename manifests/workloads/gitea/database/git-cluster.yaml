@@ -7,7 +7,7 @@ spec:
   instances: 2
   primaryUpdateStrategy: unsupervised
   storage:
-    size: 30Gi
+    size: 40Gi
     storageClass: ceph-rbd
   superuserSecret:
     name: gitdb-superuser
