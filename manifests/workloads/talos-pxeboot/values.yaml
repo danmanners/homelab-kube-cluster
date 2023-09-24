@@ -1,0 +1,69 @@
+global:
+  nameOverride: pxe
+
+controller:
+  replicas: 1
+
+probes:
+  liveness:
+    enabled: false
+  readiness:
+    enabled: false
+  startup:
+    enabled: false
+
+image:
+  repository: pxe
+  tag: replaceme
+  pullPolicy: IfNotPresent
+
+nodeSelector:
+  kubernetes.io/arch: amd64
+
+service:
+  main:
+    enabled: false
+  web:
+    type: ClusterIP
+    ports:
+      http:
+        protocol: TCP
+        port: 80
+      webapp:
+        protocol: TCP
+        port: 3000
+  tftp:
+    type: LoadBalancer
+    externalTrafficPolicy: Local
+    annotations:
+      metallb.universe.tf/loadBalancerIPs: 10.4.240.5
+    ports:
+      tftp:
+        protocol: UDP
+        port: 69
+
+ingress:
+  web:
+    enabled: true
+    ingressClassName: nginx
+    annotations:
+      cert-manager.io/cluster-issuer: acme-prod
+      nginx.ingress.kubernetes.io/proxy-body-size: 2g
+    tls:
+    - secretName: pxe-cert
+      hosts:
+      - pxe-web.homelab.danmanners.com
+      - pxe.homelab.danmanners.com
+    hosts:
+    - host: pxe-web.homelab.danmanners.com
+      paths:
+      - path: /
+        service:
+          name: web
+          port: 3000
+    - host: pxe.homelab.danmanners.com
+      paths:
+      - path: /
+        service:
+          name: web
+          port: 80
