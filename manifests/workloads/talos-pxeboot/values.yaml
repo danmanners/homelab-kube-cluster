@@ -20,6 +20,20 @@ image:
 nodeSelector:
   kubernetes.io/arch: amd64
 
+persistence:
+  config:
+    enabled: true
+    storageClass: ceph-rbd
+    accessMode: ReadWriteOnce
+    size: 2Gi
+  assets:
+    enabled: true
+    storageClass: ceph-rbd
+    accessMode: ReadWriteOnce
+    size: 10Gi
+
+  # assets:
+
 service:
   main:
     enabled: false
@@ -49,6 +63,9 @@ ingress:
     annotations:
       cert-manager.io/cluster-issuer: acme-prod
       nginx.ingress.kubernetes.io/proxy-body-size: 2g
+      nginx.ingress.kubernetes.io/auth-type: basic
+      nginx.ingress.kubernetes.io/auth-secret: basic-auth
+      nginx.ingress.kubernetes.io/auth-realm: 'Authentication Required - dan'
     tls:
     - secretName: pxe-cert
       hosts:
@@ -59,11 +76,11 @@ ingress:
       paths:
       - path: /
         service:
-          name: web
+          name: pxe-web
           port: 3000
     - host: pxe.homelab.danmanners.com
       paths:
       - path: /
         service:
-          name: web
+          name: pxe-web
           port: 80

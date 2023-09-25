@@ -4,6 +4,7 @@ namespace: pxeboot
 
 resources:
 - namespace.yaml
+- ingress-basicauth.yaml
 
 helmCharts:
 - name: app-template

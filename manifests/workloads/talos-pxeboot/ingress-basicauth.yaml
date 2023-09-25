@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: basic-auth
+type: Opaque
+stringData:
+  auth: dan:$apr1$k1ha5bZo$KqTUKILfaTPmjml1bf7Cq.
