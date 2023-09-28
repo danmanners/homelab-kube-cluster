@@ -7,5 +7,5 @@ helmCharts:
   releaseName: rss-controller
   namespace: github
   repo: https://danmanners.github.io/gha-scale-set-helm
-  version: 0.6.0
+  version: 0.6.1
   valuesFile: values.yaml
