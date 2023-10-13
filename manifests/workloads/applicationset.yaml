@@ -8,24 +8,37 @@ spec:
       elements:
       - appName: actions-runner-controller
         namespace: github
+        targetRev: main
       - appName: argo-workflows
         namespace: argo-workflows
+        targetRev: main
       - appName: argo-events
         namespace: argo-events
+        targetRev: main
       - appName: cloudnative-pg
         namespace: postgres
+        targetRev: main
       - appName: excalidraw
         namespace: excalidraw
+        targetRev: main
       - appName: gitea
         namespace: git
+        targetRev: main
       - appName: jenkins-oss
         namespace: jenkins
+        targetRev: main
       - appName: node-feature-discovery
         namespace: kube-system
+        targetRev: main
       - appName: qemu-guest-agent
         namespace: kube-system
+        targetRev: main
       - appName: sonarqube-oss
         namespace: sonarqube
+        targetRev: main
+      - appName: talos-pxeboot
+        namespace: pxeboot
+        targetRev: pxeboot
   template:
     metadata:
       name: '{{appName}}'
@@ -33,7 +46,7 @@ spec:
       project: default
       source:
         repoURL: https://github.com/danmanners/homelab-kube-cluster.git
-        targetRevision: main
+        targetRevision: '{{targetRev}}'
         path: manifests/workloads/{{appName}}
       destination:
         server: https://kubernetes.default.svc
