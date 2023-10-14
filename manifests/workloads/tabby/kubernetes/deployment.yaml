@@ -22,7 +22,7 @@ spec:
           valueFrom:
             configMapKeyRef:
               key: model
-              name: tabby-configmap
+              name: tabby-config
         ports:
         - containerPort: 8080
         volumeMounts:

@@ -39,6 +39,9 @@ spec:
       - appName: talos-pxeboot
         namespace: pxeboot
         targetRev: pxeboot
+      - appName: tabby
+        namespace: default
+        targetRev: main
   template:
     metadata:
       name: '{{appName}}'
