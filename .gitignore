@@ -24,9 +24,6 @@ gitleaks*
 provider.tf
 backend.tf
 
-# Don't accidentally commit K3s files!!
-config.yaml
-
 # Python Directory
 .env/
 

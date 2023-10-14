@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tabby-init-script
+data:
+  init.sh: |
+    #!/bin/bash
+
+    # Set the model to clone
+    model="${1:-StarCoder-1B}"
+
+    # Directory echo
+    du -d 1 /data
+
+    # Check if the model exists locally
+    if [ -d /data/${model} ]; then
+      echo "Model already exists, skipping"
+    else
+      echo "Model does not exist, cloning"
+      git clone --depth=1 --progress https://huggingface.co/TabbyML/${model}.git /data/${model}
+    fi
+
+    # Change to the model directory
+    cd /data/${model}
+
+    # Ensure the model is using the latest data
+    git lfs fetch

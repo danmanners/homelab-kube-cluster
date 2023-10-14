@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: tabby-deployment
+spec:
+  runtimeClassName: nvidia
+  containers:
+  - name: tabby-container
+    image: core.harbor.homelab.danmanners.com/docker.io/tabbyml/tabby:0.3.0
+    ports:
+    - containerPort: 8080
+    volumeMounts:
+    - name: tabby-volume
+      mountPath: /data
+    command: ["sleep", "14400"]
+    # args: ["serve", "--model", "TabbyML/CodeLlama-7B", "--device", "cuda"]
+    resources:
+      limits:
+        nvidia.com/gpu: 1
+        cpu: 6
+        memory: 24Gi
+      requests:
+        nvidia.com/gpu: 1
+        cpu: 2
+        memory: 4Gi
+  volumes:
+  - name: tabby-volume
+    persistentVolumeClaim:
+      claimName: tabby-pvc
