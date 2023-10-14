@@ -1,5 +1,4 @@
 clusterName: opcluster
-
 talosVersion: v1.5.2
 kubernetesVersion: 1.28.2
 endpoint: "https://opcluster.homelab.danmanners.com:6443"
@@ -126,6 +125,54 @@ nodes:
     addresses:
     - 10.44.0.45/24
     mtu: 1500
+- hostname: gpu.homelab.danmanners.com
+  disableSearchDomain: true
+  ipAddress: 10.4.0.46
+  controlPlane: false
+  installDisk: /dev/nvme0n1
+  nameservers:
+  - 10.3.0.1
+  networkInterfaces:
+  - interface: enp0s31f6
+    dhcp: false
+    addresses:
+    - 10.4.0.46/23
+    routes:
+    - network: 0.0.0.0/0
+      gateway: 10.4.0.1
+    mtu: 1500
+  - interface: enp2s0
+    dhcp: false
+    addresses:
+    - 10.44.0.46/24
+    mtu: 1500
+  patches:
+  # Get the URL from https://factory.talos.dev/
+  - |-
+    - op: add
+      path: /machine/install/extensions
+      value:
+        - image: ghcr.io/siderolabs/nonfree-kmod-nvidia:535.54.03-v1.5.3
+        - image: ghcr.io/siderolabs/nvidia-container-toolkit:535.54.03-v1.13.5
+  - |-
+    - op: add
+      path: /machine/install/image
+      value:
+        factory.talos.dev/installer/b1098363304e029b232b29d08600aca1bfd42941a1d9a06f44748bb13549b106:v1.5.3
+  - |-
+    - op: add
+      path: /machine/kernel
+      value:
+        modules:
+          - name: nvidia
+          - name: nvidia_uvm
+          - name: nvidia_drm
+          - name: nvidia_modeset
+  - |-
+    - op: add
+      path: /machine/sysctls
+      value:
+        net.core.bpf_jit_harden: 1
 
 controlPlane:
   patches:

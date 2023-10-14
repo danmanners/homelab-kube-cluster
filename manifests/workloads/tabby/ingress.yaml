@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: tabby
+  annotations:
+    cert-manager.io/cluster-issuer: acme-prod
+    nginx.ingress.kubernetes.io/proxy-body-size: 32m
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: tabby.homelab.danmanners.com
+    http:
+      paths:
+      - backend:
+          service:
+            name: tabby
+            port:
+              number: 8080
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - tabby.homelab.danmanners.com
+    secretName: tabby-cert
