@@ -1,0 +1,12 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: kube-system
+
+helmCharts:
+- name: nvidia-device-plugin
+  releaseName: nvidia-device-plugin
+  namespace: kube-system
+  repo: https://nvidia.github.io/k8s-device-plugin
+  version: 0.14.1
+  valuesInline:
+    runtimeClassName: nvidia

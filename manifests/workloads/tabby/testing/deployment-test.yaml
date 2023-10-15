@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tabby-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tabby
+  template:
+    metadata:
+      labels:
+        app: tabby
+    spec:
+      # initContainers:
+      # - name: tabby-init
+      #   image: core.harbor.homelab.danmanners.com/docker.io/bitnami/git:2.42.0
+      #   env:
+      #   - name: GIT_LFS_SKIP_SMUDGE
+      #     value: "1"
+      #   - name: MODEL
+      #     value: "StarCoder-1B"
+      #   command: ["bash"]
+      #   args: ["-c", "/scripts/init.sh", "$(MODEL)"]
+      #   volumeMounts:
+      #   - name: tabby-volume
+      #     mountPath: /data
+      #   - name: init-script
+      #     mountPath: /scripts
+      runtimeClassName: nvidia
+      containers:
+      - name: tabby-container
+        image: core.harbor.homelab.danmanners.com/docker.io/tabbyml/tabby:0.3.0
+        env:
+        - name: MODEL
+          # value: StarCoder-1B
+          valueFrom:
+            configMapKeyRef:
+              key: model
+              name: tabby-configmap
+
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+        - name: tabby-volume
+          mountPath: /data
+        args: ["serve", "--model", "TabbyML/$(MODEL)", "--device", "cuda"]
+        # args: ["serve", "--model", "/data/$(MODEL)", "--device", "cuda"]
+        resources:
+          limits:
+            nvidia.com/gpu: 1
+            cpu: 7
+            memory: 28Gi
+          requests:
+            nvidia.com/gpu: 1
+            cpu: 1
+            memory: 4Gi
+      volumes:
+      - name: tabby-volume
+        persistentVolumeClaim:
+          claimName: tabby-pvc
+      # - name: init-script
+      #   configMap:
+      #     name: tabby-init-script
+      #     defaultMode: 0744

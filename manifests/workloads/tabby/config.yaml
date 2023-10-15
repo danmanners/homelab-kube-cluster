@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tabby-config
+data:
+  # model: StarCoder-1B
+  # model: StarCoder-3B
+  model: StarCoder-7B

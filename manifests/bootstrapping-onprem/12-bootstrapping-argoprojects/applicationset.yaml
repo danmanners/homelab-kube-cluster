@@ -26,6 +26,8 @@ spec:
         namespace: kube-system
       - appName: 10-harbor
         namespace: kube-system
+      - appName: 11-runtimes
+        namespace: kube-system
   template:
     metadata:
       name: '{{appName}}'

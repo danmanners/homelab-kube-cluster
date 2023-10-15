@@ -4,3 +4,4 @@ opcluster-tcp03.homelab.danmanners.com.yaml
 talosconfig
 opcluster-minipc01.homelab.danmanners.com.yaml
 opcluster-minipc02.homelab.danmanners.com.yaml
+opcluster-gpu.homelab.danmanners.com.yaml

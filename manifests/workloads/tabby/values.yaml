@@ -1,0 +1,90 @@
+global:
+  nameOverride: tabby
+
+defaultPodOptions:
+  runtimeClassName: nvidia
+
+controllers:
+  main:
+    replicas: 1
+    type: deployment
+    strategy: Recreate
+    containers:
+      main:
+        nameOverride: tabby
+        image:
+          repository: tabby
+          tag: replaceme
+          pullPolicy: IfNotPresent
+        env:
+          RUNTIME: "nvidia"
+          NVIDIA_DRIVER_CAPABILITIES: "all"
+          NVIDIA_VISIBLE_DEVICES: "all"
+          MODEL:
+            configMapKeyRef:
+              key: model
+              name: tabby-config
+        command: ["/opt/tabby/bin/tabby"]
+        args: ["serve", "--model", "TabbyML/$(MODEL)", "--device", "cuda"]
+        ports:
+        - containerPort: 8080
+        resources:
+          limits:
+            nvidia.com/gpu: 1
+            cpu: 7
+            memory: 28Gi
+          requests:
+            nvidia.com/gpu: 1
+            cpu: 1
+            memory: 4Gi
+        probes:
+          readiness:
+            enabled: false
+          startup:
+            enabled: false
+          liveness:
+            enabled: false # Need to get this working
+            custom: false
+            type: TCP
+            spec:
+              initialDelaySeconds: 120
+              periodSeconds: 30
+              timeoutSeconds: 1
+              failureThreshold: 3
+
+
+service:
+  main:
+    enabled: true
+    ports:
+      http:
+        port: 8080
+
+ingress:
+  main:
+    enabled: true
+    className: nginx
+    annotations:
+      cert-manager.io/cluster-issuer: acme-prod
+      nginx.ingress.kubernetes.io/proxy-body-size: 32m
+    tls:
+    - secretName: tabby-cert
+      hosts:
+      - tabby.homelab.danmanners.com
+    hosts:
+    - host: tabby.homelab.danmanners.com
+      paths:
+      - path: /
+        service:
+          name: tabby
+          port: 8080
+
+persistence:
+  data:
+    enabled: true
+    storageClass: ceph-rbd
+    accessMode: ReadWriteOnce
+    size: 200Gi
+    globalMounts:
+    - path: /data
+      readOnly: false
