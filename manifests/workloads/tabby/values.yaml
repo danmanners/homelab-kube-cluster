@@ -20,9 +20,7 @@ controllers:
           RUNTIME: "nvidia"
           NVIDIA_DRIVER_CAPABILITIES: "all"
           NVIDIA_VISIBLE_DEVICES: "all"
-        envFrom:
-        - name: MODEL
-          valueFrom:
+          MODEL:
             configMapKeyRef:
               key: model
               name: tabby-config
@@ -40,8 +38,12 @@ controllers:
             cpu: 1
             memory: 4Gi
         probes:
+          readiness:
+            enabled: false
+          startup:
+            enabled: false
           liveness:
-            enabled: true
+            enabled: false # Need to get this working
             custom: false
             type: TCP
             spec:
@@ -49,6 +51,7 @@ controllers:
               periodSeconds: 30
               timeoutSeconds: 1
               failureThreshold: 3
+
 
 service:
   main:
@@ -60,7 +63,7 @@ service:
 ingress:
   main:
     enabled: true
-    ingressClassName: nginx
+    className: nginx
     annotations:
       cert-manager.io/cluster-issuer: acme-prod
       nginx.ingress.kubernetes.io/proxy-body-size: 32m
@@ -73,7 +76,7 @@ ingress:
       paths:
       - path: /
         service:
-          name: tabby-web
+          name: tabby
           port: 8080
 
 persistence:
@@ -85,4 +88,3 @@ persistence:
     globalMounts:
     - path: /data
       readOnly: false
-
