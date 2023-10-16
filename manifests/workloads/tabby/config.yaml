@@ -5,4 +5,7 @@ metadata:
 data:
   # model: StarCoder-1B
   # model: StarCoder-3B
-  model: StarCoder-7B
+  # model: StarCoder-7B
+  # model: Codegen25-7B # Broken
+  # model: CodeLlama-13B # Not enough memory
+  model: CodeLlama-7B
