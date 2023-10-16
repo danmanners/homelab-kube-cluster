@@ -1,0 +1,21 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: webssh
+
+resources:
+- namespace.yaml
+- external-dns.yaml
+- ingress-basicauth.yaml
+
+helmCharts:
+- name: app-template
+  releaseName: webssh
+  namespace: webssh
+  repo: https://bjw-s.github.io/helm-charts
+  version: 2.0.3
+  valuesFile: values.yaml
+
+images:
+- name: webssh:replaceme
+  newName: core.harbor.homelab.danmanners.com/library/huashengdun/webssh@sha256
+  newTag: 10ff02db82a9f6055ba9ea94d5d1affed7794a5908b95d1402d67447ec133761

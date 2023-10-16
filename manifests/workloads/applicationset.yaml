@@ -42,6 +42,9 @@ spec:
       - appName: tabby
         namespace: default
         targetRev: main
+      - appName: webssh
+        namespace: webssh
+        targetRev: main
   template:
     metadata:
       name: '{{appName}}'

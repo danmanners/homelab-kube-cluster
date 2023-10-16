@@ -1,0 +1,59 @@
+global:
+  nameOverride: webssh
+
+defaultPodOptions:
+  runtimeClassName: nvidia
+
+controllers:
+  main:
+    replicas: 2
+    type: deployment
+    strategy: Recreate
+    containers:
+      main:
+        nameOverride: webssh
+        image:
+          repository: webssh
+          tag: replaceme
+          pullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8888
+        probes:
+          readiness:
+            enabled: false
+          startup:
+            enabled: false
+          liveness:
+            enabled: false # Need to get this working
+
+service:
+  main:
+    enabled: true
+    ports:
+      http:
+        port: 8888
+
+ingress:
+  main:
+    enabled: true
+    className: nginx
+    annotations:
+      cert-manager.io/cluster-issuer: acme-prod
+      nginx.ingress.kubernetes.io/auth-type: basic
+      nginx.ingress.kubernetes.io/auth-secret: basic-auth
+      nginx.ingress.kubernetes.io/auth-realm: 'Authentication Required'
+    tls:
+    - secretName: webssh-cert
+      hosts:
+      - webssh.homelab.danmanners.com
+    hosts:
+    - host: webssh.homelab.danmanners.com
+      paths:
+      - path: /
+        service:
+          name: webssh
+          port: 8888
+
+persistence:
+  data:
+    enabled: false
