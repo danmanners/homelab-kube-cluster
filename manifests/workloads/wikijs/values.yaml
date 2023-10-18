@@ -1,66 +1,96 @@
----
 global:
   nameOverride: wikijs
 
-image:
-  repository: ghcr.io/linuxserver/wikijs
-  tag: "2.5.300"
-  pullPolicy: IfNotPresent
-
-initContainers:
-  init-db:
-    image: ghcr.io/onedr0p/postgres-initdb:14.8
-    env:
-      - name: POSTGRES_HOST
-        value: "primary-rw.postgres.svc.cluster.local"
-      - name: POSTGRES_DB
-        value: wikijs
-      - name: POSTGRES_SUPER_PASS
-        valueFrom:
-          secretKeyRef:
-            name: postgres-superuser
-            key: password
-      - name: POSTGRES_USER
-        valueFrom:
-          secretKeyRef:
-            name: db-secrets
-            key: POSTGRES_USERNAME
-      - name: POSTGRES_PASS
-        valueFrom:
-          secretKeyRef:
-            name: db-secrets
-            key: POSTGRES_PASSWORD
-
-env:
-  TZ: America/New_York
-  DB_TYPE: "postgres"
-  DB_NAME: "wikijs"
-  DB_HOST: "primary-rw.postgres.svc.cluster.local"
-  DB_PORT: "5432"
-  DB_USER:
-    valueFrom:
-      secretKeyRef:
-        name: db-secrets
-        key: POSTGRES_USERNAME
-  DB_PASS:
-    valueFrom:
-      secretKeyRef:
-        name: db-secrets
-        key: POSTGRES_PASSWORD
+controllers:
+  main:
+    replicas: 1
+    type: deployment
+    strategy: Recreate
+    containers:
+      main:
+        nameOverride: wikijs
+        image:
+          repository: core.harbor.homelab.danmanners.com/ghcr.io/linuxserver/wikijs
+          tag: "2.5.300"
+          pullPolicy: IfNotPresent
+        env:
+          TZ: America/New_York
+          DB_TYPE: "postgres"
+          DB_NAME: "wikijs"
+          DB_HOST: "primary-rw.postgres.svc.cluster.local"
+          DB_PORT: "5432"
+          DB_USER:
+            secretKeyRef:
+              name: db-secrets
+              key: POSTGRES_USERNAME
+          DB_PASS:
+            secretKeyRef:
+              name: db-secrets
+              key: POSTGRES_PASSWORD
+        ports:
+        - containerPort: 3000
+        initContainers:
+          init-db:
+            image: core.harbor.homelab.danmanners.com/ghcr.io/onedr0p/postgres-initdb:14.8
+            env:
+            - name: POSTGRES_HOST
+              value: "primary-rw.postgres.svc.cluster.local"
+            - name: POSTGRES_DB
+              value: wikijs
+            - name: POSTGRES_SUPER_PASS
+              secretKeyRef:
+                name: postgres-superuser
+                key: password
+            - name: POSTGRES_USER
+              secretKeyRef:
+                name: db-secrets
+                key: POSTGRES_USERNAME
+            - name: POSTGRES_PASS
+              secretKeyRef:
+                name: db-secrets
+                key: POSTGRES_PASSWORD
+            - name: POSTGRES_PORT
+              value: "5432"
+        probes:
+          readiness:
+            enabled: false
+          startup:
+            enabled: false
+          liveness:
+            enabled: false
 
 service:
   main:
+    enabled: true
     ports:
       http:
         port: 3000
 
 ingress:
   main:
-    enabled: false
+    enabled: true
+    className: nginx
+    annotations:
+      cert-manager.io/cluster-issuer: acme-prod
+      nginx.ingress.kubernetes.io/proxy-body-size: 64m
+    tls:
+    - secretName: wikijs-cert
+      hosts:
+      - wikijs.homelab.danmanners.com
+    hosts:
+    - host: wikijs.homelab.danmanners.com
+      paths:
+      - path: /
+        service:
+          name: wikijs
+          port: 8080
 
 persistence:
   data:
     enabled: true
-    storageClass: ssd
-    accessMode: ReadWriteMany
+    storageClass: ceph-rbd
+    accessMode: ReadWriteOnce
     size: 4Gi
+    globalMounts:
+    - path: /data
+      readOnly: false
