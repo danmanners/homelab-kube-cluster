@@ -1,9 +1,6 @@
 global:
   nameOverride: webssh
 
-defaultPodOptions:
-  runtimeClassName: nvidia
-
 controllers:
   main:
     replicas: 2
