@@ -1,0 +1,20 @@
+kubeVersion: 1.28
+namespace: kube-system
+
+image:
+  registry: core.harbor.homelab.danmanners.com/docker.io
+
+ingress:
+  enabled: false
+  ingressClassName: nginx
+
+createController: true
+secretName: sealed-secrets-key
+
+metrics:
+  serviceMonitor:
+    enabled: true
+    namespace: monitoring
+  dashboards:
+    create: true
+    namespace: monitoring

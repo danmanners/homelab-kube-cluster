@@ -1,0 +1,7 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: kube-system
+
+resources:
+# renovate: datasource=github-releases depName=bitnami-labs/sealed-secrets
+- https://raw.githubusercontent.com/bitnami-labs/sealed-secrets/release/v0.24.2/helm/sealed-secrets/crds/bitnami.com_sealedsecrets.yaml

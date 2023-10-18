@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: sealed-secrets
+  namespace: argocd
+spec:
+  destination:
+    namespace: kube-system
+    server: https://kubernetes.default.svc
+  project: default
+  sources:
+  # Git Repo Deployment
+  - path: manifests/bootstrapping-onprem/sealed-secrets
+    repoURL: https://github.com/danmanners/homelab-kube-cluster.git
+    targetRevision: main
+    # Helm Repo Ref
+  - repoURL: https://github.com/danmanners/homelab-kube-cluster.git
+    targetRevision: main
+    ref: values
+    # Helm Chart Deployment
+  - chart: sealed-secrets
+    repoURL: https://bitnami-labs.github.io/sealed-secrets
+    targetRevision: 2.13.1
+    helm:
+      valueFiles:
+      - $values/manifests/bootstrapping-onprem/sealed-secrets/values.yaml
+  syncPolicy:
+    automated:
+      prune: true
+    syncOptions:
+    - CreateNamespace=true
