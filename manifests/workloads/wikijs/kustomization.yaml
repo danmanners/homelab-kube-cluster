@@ -2,14 +2,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: wikijs
 
-helmCharts:
-- name: app-template
-  releaseName: wikijs
-  namespace: wikijs
-  repo: https://bjw-s.github.io/helm-charts
-  version: 2.0.3
-  valuesFile: values.yaml
-
 resources:
 - namespace.yaml
+- application.yaml
 - db-secrets.sealed.yaml
