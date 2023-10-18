@@ -6,6 +6,31 @@ controllers:
     replicas: 1
     type: deployment
     strategy: Recreate
+    initContainers:
+      init-db:
+        image:
+          repository: core.harbor.homelab.danmanners.com/ghcr.io/onedr0p/postgres-initdb
+          tag: "14.8"
+          imagePullPolicy: IfNotPresent
+        env:
+        - name: POSTGRES_HOST
+          value: "primary-rw.postgres.svc.cluster.local"
+        - name: POSTGRES_DB
+          value: wikijs
+        - name: POSTGRES_SUPER_PASS
+          secretKeyRef:
+            name: postgres-superuser
+            key: password
+        - name: POSTGRES_USER
+          secretKeyRef:
+            name: db-secrets
+            key: POSTGRES_USERNAME
+        - name: POSTGRES_PASS
+          secretKeyRef:
+            name: db-secrets
+            key: POSTGRES_PASSWORD
+        - name: POSTGRES_PORT
+          value: "5432"
     containers:
       main:
         nameOverride: wikijs
@@ -29,28 +54,6 @@ controllers:
               key: POSTGRES_PASSWORD
         ports:
         - containerPort: 3000
-        initContainers:
-          init-db:
-            image: core.harbor.homelab.danmanners.com/ghcr.io/onedr0p/postgres-initdb:14.8
-            env:
-            - name: POSTGRES_HOST
-              value: "primary-rw.postgres.svc.cluster.local"
-            - name: POSTGRES_DB
-              value: wikijs
-            - name: POSTGRES_SUPER_PASS
-              secretKeyRef:
-                name: postgres-superuser
-                key: password
-            - name: POSTGRES_USER
-              secretKeyRef:
-                name: db-secrets
-                key: POSTGRES_USERNAME
-            - name: POSTGRES_PASS
-              secretKeyRef:
-                name: db-secrets
-                key: POSTGRES_PASSWORD
-            - name: POSTGRES_PORT
-              value: "5432"
         probes:
           readiness:
             enabled: false
