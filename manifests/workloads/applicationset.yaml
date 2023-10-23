@@ -36,6 +36,9 @@ spec:
       - appName: sonarqube-oss
         namespace: sonarqube
         targetRev: main
+      - appName: spiderfoot
+        namespace: osint
+        targetRev: main
       - appName: talos-pxeboot
         namespace: pxeboot
         targetRev: pxeboot

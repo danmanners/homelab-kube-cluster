@@ -1,0 +1,21 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: osint
+
+resources:
+- namespace.yaml
+- external-dns.yaml
+- ingress-basicauth.yaml
+
+helmCharts:
+- name: app-template
+  releaseName: osint
+  namespace: osint
+  repo: https://bjw-s.github.io/helm-charts
+  version: 2.0.3
+  valuesFile: values.yaml
+
+images:
+- name: spiderfoot:replaceme
+  newName: core.harbor.homelab.danmanners.com/library/smicallef/spiderfoot
+  newTag: master-f37b98eea99e9dc46d399089b85e5c4338bc81d9

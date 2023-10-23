@@ -1,0 +1,74 @@
+global:
+  nameOverride: spiderfoot
+
+controllers:
+  main:
+    replicas: 1
+    type: deployment
+    strategy: Recreate
+    containers:
+      main:
+        nameOverride: spiderfoot
+        image:
+          repository: spiderfoot
+          tag: replaceme
+          pullPolicy: IfNotPresent
+        ports:
+        - containerPort: &containerPort1 5001
+        probes:
+          readiness:
+            enabled: false
+          startup:
+            enabled: false
+          liveness:
+            enabled: false # Need to get this working
+            # securityContext: # Need to get this working
+            #   fsGroup: 1000
+
+service:
+  main:
+    enabled: true
+    ports:
+      http:
+        port: *containerPort1
+
+ingress:
+  main:
+    enabled: true
+    nameoverride: spiderfoot
+    className: nginx
+    annotations:
+      cert-manager.io/cluster-issuer: acme-prod
+      nginx.ingress.kubernetes.io/auth-type: basic
+      nginx.ingress.kubernetes.io/auth-secret: basic-authmap
+      nginx.ingress.kubernetes.io/auth-secret-type: auth-map
+      nginx.ingress.kubernetes.io/auth-realm: 'Authentication Required'
+    tls:
+    - secretName: spiderfoot-cert
+      hosts:
+      - &uri spiderfoot.homelab.danmanners.com
+    hosts:
+    - host: *uri
+      paths:
+      - path: /
+        service:
+          name: osint-spiderfoot
+          port: *containerPort1
+
+persistence:
+  logs:
+    enabled: false # Need to figure out what's going on with volume mount permissions
+    storageClass: ceph-rbd
+    accessMode: ReadWriteOnce
+    size: 4Gi
+    globalMounts:
+    - path: /var/lib/spiderfoot/log
+      readOnly: false
+  cache:
+    enabled: false # Need to figure out what's going on with volume mount permissions
+    storageClass: ceph-rbd
+    accessMode: ReadWriteOnce
+    size: 20Gi
+    globalMounts:
+    - path: /var/lib/spiderfoot/cache
+      readOnly: false

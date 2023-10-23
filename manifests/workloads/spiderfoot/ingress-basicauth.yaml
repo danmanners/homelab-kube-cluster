@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: basic-authmap
+type: Opaque
+stringData:
+  dan: $apr1$QHLOMISK$KVnciXqcww8PDTflRKtTZ1
+  tyler: $apr1$3vcQyUNf$.tdu5cu1uvn9biNqFlNk/.
