@@ -4,10 +4,10 @@ namespace: github-rss
 
 resources:
 # renovate: datasource=github-releases depName=actions/actions-runner-controller
-- https://raw.githubusercontent.com/actions/actions-runner-controller/v0.27.5/charts/gha-runner-scale-set-controller/crds/actions.github.com_autoscalingrunnersets.yaml
+- https://raw.githubusercontent.com/actions/actions-runner-controller/v0.27.6/charts/gha-runner-scale-set-controller/crds/actions.github.com_autoscalingrunnersets.yaml
 # renovate: datasource=github-releases depName=actions/actions-runner-controller
-- https://raw.githubusercontent.com/actions/actions-runner-controller/v0.27.5/charts/gha-runner-scale-set-controller/crds/actions.github.com_autoscalinglisteners.yaml
+- https://raw.githubusercontent.com/actions/actions-runner-controller/v0.27.6/charts/gha-runner-scale-set-controller/crds/actions.github.com_autoscalinglisteners.yaml
 # renovate: datasource=github-releases depName=actions/actions-runner-controller
-- https://raw.githubusercontent.com/actions/actions-runner-controller/v0.27.5/charts/gha-runner-scale-set-controller/crds/actions.github.com_ephemeralrunnersets.yaml
+- https://raw.githubusercontent.com/actions/actions-runner-controller/v0.27.6/charts/gha-runner-scale-set-controller/crds/actions.github.com_ephemeralrunnersets.yaml
 # renovate: datasource=github-releases depName=actions/actions-runner-controller
-- https://raw.githubusercontent.com/actions/actions-runner-controller/v0.27.5/charts/gha-runner-scale-set-controller/crds/actions.github.com_ephemeralrunners.yaml
+- https://raw.githubusercontent.com/actions/actions-runner-controller/v0.27.6/charts/gha-runner-scale-set-controller/crds/actions.github.com_ephemeralrunners.yaml
