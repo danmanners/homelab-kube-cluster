@@ -16,7 +16,7 @@ helmCharts:
   releaseName: gitea
   namespace: git
   repo: https://dl.gitea.io/charts
-  version: 9.5.0
+  version: 9.5.1
   valuesFile: values.yaml
 
 patches:
