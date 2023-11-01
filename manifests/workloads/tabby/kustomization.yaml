@@ -17,4 +17,4 @@ helmCharts:
 images:
 - name: tabby:replaceme
   newName: core.harbor.homelab.danmanners.com/docker.io/tabbyml/tabby
-  newTag: 0.3.0
+  newTag: 0.4.0
