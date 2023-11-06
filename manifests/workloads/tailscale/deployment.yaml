@@ -47,13 +47,15 @@ spec:
         - name: CLIENT_SECRET_FILE
           value: /oauth/client_secret
         - name: PROXY_IMAGE
-          value: tailscale-image:replaceme
+          value: core.harbor.homelab.danmanners.com/docker.io/tailscale/tailscale:unstable-v1.53
         - name: PROXY_TAGS
           value: tag:k8s
         - name: APISERVER_PROXY
           value: "true"
         - name: PROXY_FIREWALL_MODE
           value: auto # Leave this for now
+        - name: TS_ROUTES
+          value: 10.3.0.0/24,10.4.0.0/23
         volumeMounts:
         - name: oauth
           mountPath: /oauth
