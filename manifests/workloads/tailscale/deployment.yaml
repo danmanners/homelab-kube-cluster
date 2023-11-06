@@ -1,0 +1,62 @@
+# https://github.com/tailscale/tailscale/blob/ed1b935238a7c6cce3aa4865aa13181eb679361a/cmd/k8s-operator/deploy/chart/templates/deployment.yaml
+# Copyright (c) Tailscale Inc & AUTHORS
+# SPDX-License-Identifier: BSD-3-Clause
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: operator
+  namespace: networking
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: operator
+  template:
+    metadata:
+      labels:
+        app: operator
+    spec:
+      serviceAccountName: operator
+      securityContext: {}
+      volumes:
+      - name: oauth
+        secret:
+          secretName: operator-oauth
+      containers:
+      - name: operator
+        securityContext: {}
+        resources: {}
+        image: k8s-operator:replaceme
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: OPERATOR_HOSTNAME
+          value: tailscale-operator
+        - name: OPERATOR_SECRET
+          value: operator
+        - name: OPERATOR_LOGGING
+          value: info # warning, info, debug
+        - name: OPERATOR_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: CLIENT_ID_FILE
+          value: /oauth/client_id
+        - name: CLIENT_SECRET_FILE
+          value: /oauth/client_secret
+        - name: PROXY_IMAGE
+          value: tailscale-image:replaceme
+        - name: PROXY_TAGS
+          value: tag:k8s
+        - name: APISERVER_PROXY
+          value: "true"
+        - name: PROXY_FIREWALL_MODE
+          value: auto # Leave this for now
+        volumeMounts:
+        - name: oauth
+          mountPath: /oauth
+          readOnly: true
+      nodeSelector:
+        kubernetes.io/os: linux

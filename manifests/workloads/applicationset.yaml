@@ -48,6 +48,9 @@ spec:
       - appName: webssh
         namespace: webssh
         targetRev: main
+      - appName: tailscale
+        namespace: networking
+        targetRev: main
   template:
     metadata:
       name: '{{appName}}'
