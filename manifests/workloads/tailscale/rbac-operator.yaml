@@ -1,0 +1,58 @@
+# https://github.com/tailscale/tailscale/blob/ed1b935238a7c6cce3aa4865aa13181eb679361a/cmd/k8s-operator/deploy/chart/templates/operator-rbac.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: operator
+  namespace: networking
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: tailscale-operator
+rules:
+- apiGroups: [""]
+  resources: ["events", "services", "services/status"]
+  verbs: ["*"]
+- apiGroups: ["networking.k8s.io"]
+  resources: ["ingresses", "ingresses/status"]
+  verbs: ["*"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: tailscale-operator
+subjects:
+- kind: ServiceAccount
+  name: operator
+  namespace: networking
+roleRef:
+  kind: ClusterRole
+  name: tailscale-operator
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: operator
+  namespace: networking
+rules:
+- apiGroups: [""]
+  resources: ["secrets"]
+  verbs: ["*"]
+- apiGroups: ["apps"]
+  resources: ["statefulsets"]
+  verbs: ["*"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: operator
+  namespace: networking
+subjects:
+- kind: ServiceAccount
+  name: operator
+  namespace: networking
+roleRef:
+  kind: Role
+  name: operator
+  apiGroup: rbac.authorization.k8s.io

@@ -1,0 +1,22 @@
+# https://github.com/tailscale/tailscale/blob/ed1b935238a7c6cce3aa4865aa13181eb679361a/cmd/k8s-operator/deploy/chart/templates/apiserverproxy-rbac.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: tailscale-auth-proxy
+rules:
+- apiGroups: [""]
+  resources: ["users", "groups"]
+  verbs: ["impersonate"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: tailscale-auth-proxy
+subjects:
+- kind: ServiceAccount
+  name: operator
+  namespace: networking
+roleRef:
+  kind: ClusterRole
+  name: tailscale-auth-proxy
+  apiGroup: rbac.authorization.k8s.io
