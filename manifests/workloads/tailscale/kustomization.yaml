@@ -13,3 +13,6 @@ images:
 - name: k8s-operator:replaceme
   newName: core.harbor.homelab.danmanners.com/docker.io/tailscale/k8s-operator
   newTag: unstable-v1.53
+- name: tailscale:replaceme
+  newName: core.harbor.homelab.danmanners.com/docker.io/tailscale/tailscale
+  newTag: unstable-v1.53

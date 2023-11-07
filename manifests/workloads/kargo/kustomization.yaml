@@ -1,0 +1,10 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: kargo
+resources:
+# renovate: datasource=github-releases depName=akuity/kargo
+- https://raw.githubusercontent.com/akuity/kargo/v0.1.0/charts/kargo/crds/kargo.akuity.io_promotionpolicies.yaml
+# renovate: datasource=github-releases depName=akuity/kargo
+- https://raw.githubusercontent.com/akuity/kargo/v0.1.0/charts/kargo/crds/kargo.akuity.io_promotions.yaml
+# renovate: datasource=github-releases depName=akuity/kargo
+- https://raw.githubusercontent.com/akuity/kargo/v0.1.0/charts/kargo/crds/kargo.akuity.io_stages.yaml

@@ -1,0 +1,32 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kargo
+  namespace: argocd
+spec:
+  destination:
+    namespace: kargo
+    server: https://kubernetes.default.svc
+  project: default
+  sources:
+  # Git Repo Deployment
+  - path: manifests/workloads/kargo
+    repoURL: https://github.com/danmanners/homelab-kube-cluster.git
+    targetRevision: main
+  # Helm Repo Ref
+  - repoURL: https://github.com/danmanners/homelab-kube-cluster.git
+    targetRevision: main
+    ref: values
+    # Helm Chart Deployment
+  - chart: kargo
+    repoURL: oci://ghcr.io/akuity/kargo-charts
+    targetRevision: "0.1.0"
+    helm:
+      valueFiles:
+      - $values/manifests/workloads/kargo/values.yaml
+  syncPolicy:
+    automated:
+      prune: true
+    syncOptions:
+    - CreateNamespace=true
+    - ServerSideApply=true
