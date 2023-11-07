@@ -18,8 +18,7 @@ spec:
     targetRevision: main
     ref: values
     # Helm Chart Deployment
-  - chart: kargo
-    repoURL: oci://ghcr.io/akuity/kargo-charts
+  - repoURL: oci://ghcr.io/akuity/kargo-charts/kargo
     targetRevision: "0.1.0"
     helm:
       valueFiles:
