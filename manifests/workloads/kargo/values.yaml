@@ -8,3 +8,6 @@ api:
     tls:
       enabled: true
       selfSignedCert: true
+  adminAccount:
+    enabled: true
+    password: fakePassword
