@@ -17,7 +17,7 @@ spec:
     metadata:
       creationTimestamp: null
       labels:
-        argocd.argoproj.io/secret-type: repo-creds
+        argocd.argoproj.io/secret-type: repository
       name: helm-ghcr-kargo
       namespace: argocd
     type: Opaque

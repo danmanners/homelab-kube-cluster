@@ -10,4 +10,5 @@ api:
       selfSignedCert: true
   adminAccount:
     enabled: true
-    password: fakePassword
+    passwordHash: $2a$10$HpVEHlbGL6iHDWZjwdwkeuLYFVriLWln63aLj7hX8BUjwEXm93o3.
+    tokenSigningKey: QOng1Mgj6edrEyiSMORkaTVeHwgnCkC0zVgJfI

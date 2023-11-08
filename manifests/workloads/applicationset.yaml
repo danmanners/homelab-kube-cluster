@@ -54,9 +54,6 @@ spec:
       - appName: tailscale
         namespace: networking
         targetRev: main
-      - appName: kargo
-        namespace: kargo
-        targetRev: main
   template:
     metadata:
       name: '{{appName}}'

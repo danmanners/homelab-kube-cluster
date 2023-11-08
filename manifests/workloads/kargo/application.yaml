@@ -18,11 +18,10 @@ spec:
     targetRevision: main
     ref: values
     # Helm Chart Deployment
-  - repoURL: oci://ghcr.io
-    chatr: akuity/kargo-charts/kargo
-    targetRevision: 0.1.0
+  - chart: akuity/kargo-charts/kargo
+    repoURL: ghcr.io
+    targetRevision: 0.1.1-rc.2
     helm:
-      passCredentials: true
       valueFiles:
       - $values/manifests/workloads/kargo/values.yaml
   syncPolicy:
