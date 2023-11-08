@@ -12,7 +12,7 @@ spec:
       - appName: argo-workflows
         namespace: argo-workflows
         targetRev: main
-      - appName: argo-repo-creds
+      - appName: argocd-repo-creds
         namespace: argocd
         targetRev: main
       - appName: argo-events
