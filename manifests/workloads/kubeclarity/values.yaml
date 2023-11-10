@@ -35,30 +35,24 @@ kubeclarity:
   service:
     type: ClusterIP
     port: 8080
-    annotations: {}
 
   ingress:
-    # Be careful when using ingress. As there is no authentication on Kubeclarity yet, your instance may be accessible.
-    # Make sure the ingress remains internal if you decide to enable it.
     enabled: true
-    labels: {}
-    annotations: {}
-
-    # Optionally use ingressClassName instead of deprecated annotation.
-    # See: https://kubernetes.io/docs/concepts/services-networking/ingress/#deprecated-annotation
     ingressClassName: "nginx"
+    labels: {}
+    annotations:
+      cert-manager.io/cluster-issuer: acme-prod
+      nginx.ingress.kubernetes.io/auth-type: basic
+      nginx.ingress.kubernetes.io/auth-secret: basic-auth
+      nginx.ingress.kubernetes.io/auth-realm: 'Authentication Required'
 
     hosts:
-    # hostname you want to use
     - host: kubeclarity.homelab.danmanners.com
 
     tls:
     - secretName: kubeclarity-tls
       hosts:
       - kubeclarity.homelab.danmanners.com
-
-  ## In case of postgres refresh interval of refreshing materialized views in seconds
-  # dbViewRefreshInterval: 5
 
   resources:
     requests:
@@ -76,14 +70,6 @@ kubeclarity:
       limits:
         memory: "200Mi"
         cpu: "200m"
-
-  ## Overrides global.affinity
-  ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
-  # affinity: {}
-
-  ## Overrides global.nodeSelector
-  # nodeSelector:
-  #   key1: value1
 
 ## End of KubeClarity Values
 #######################################################################################
@@ -270,7 +256,10 @@ kubeclarity-trivy-server:
 
   ## By default disable requirement for persistent storage
   persistence:
-    enabled: false
+    enabled: true
+    storageClass: ceph-rbd
+    accessMode: ReadWriteOnce
+    size: 5Gi
 
   podSecurityContext:
     runAsUser: 1001
@@ -302,17 +291,10 @@ kubeclarity-trivy-server:
 ## KubeClarity SBOM DB Values
 
 kubeclarity-sbom-db:
-  ## Docker Image values.
-  docker:
-    ## Use to overwrite the global docker params
-    ##
-    imageName: ""
-
   ## Logging level (debug, info, warning, error, fatal, panic).
   logLevel: warning
 
   servicePort: 8080
-
   resources:
     requests:
       memory: "20Mi"
@@ -340,20 +322,16 @@ kubeclarity-postgresql:
 
 # Use kubeclarity-postgresql-external if you want to reach an already existing PostgreSQL instance
 kubeclarity-postgresql-external:
-  enabled: false
+  enabled: true
   auth:
     existingSecret: kubeclarity-postgresql-secret
     username: kubeclarity
-    host: pgsql.hostname # replace this to reach your PostgreSQL instance
+    host: primary-rw.postgres.svc.cluster.local # replace this to reach your PostgreSQL instance
     port: 5432
     database: kubeclarity
     sslMode: disable
 
 # PostgreSQL connection information
 kubeclarity-postgresql-secret:
-  # Set create to true if you want this helm chart to create a secret holding pgsql password
-  # based on global.databasePassword value
-  # If create is set to false, a secret should already exist which has PostgreSQL
-  # password under secretKey key
-  create: true
-  secretKey: "postgres-password"
+  create: false
+  secretKey: "secretKey"

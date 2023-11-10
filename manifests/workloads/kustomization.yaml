@@ -4,3 +4,4 @@ namespace: argocd
 
 resources:
 - applicationset.yaml
+- applicationset-helm.yaml

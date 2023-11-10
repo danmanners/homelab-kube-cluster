@@ -4,3 +4,5 @@ namespace: kubeclarity
 
 resources:
 - external-dns.yaml
+- postgresSecret.yaml
+- ingress-basicAuth.yaml
