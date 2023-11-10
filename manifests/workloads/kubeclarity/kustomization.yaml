@@ -3,6 +3,7 @@ kind: Kustomization
 namespace: kubeclarity
 
 resources:
+- db-root-creds.yaml
 - external-dns.yaml
-- postgresSecret.yaml
 - ingress-basicAuth.yaml
+- postgresSecret.yaml
