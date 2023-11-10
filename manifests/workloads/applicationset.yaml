@@ -54,9 +54,6 @@ spec:
       - appName: tailscale
         namespace: networking
         targetRev: main
-      - appName: kubeclarity
-        namespace: kubeclarity
-        targetRev: main
   template:
     metadata:
       name: '{{appName}}'
