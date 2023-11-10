@@ -171,7 +171,7 @@ kubeclarity-runtime-scan:
     ## Scanner config.
     scanner:
       ## Space seperated list of scanners. (grype dependency-track)
-      scannerList: "grype"
+      scannerList: "grype dependency-track trivy"
 
       grype:
         ## Enable grype scanner, if true make sure to add it to scannerList above
@@ -187,7 +187,7 @@ kubeclarity-runtime-scan:
       dependency-track:
         ## Enable dependency-track scanner, if true make sure to add it to scannerList above
         ##
-        enabled: false
+        enabled: true
         insecureSkipVerify: "true"
         disableTls: "true"
         apiserverAddress: "dependency-track-apiserver.dependency-track"
@@ -197,7 +197,7 @@ kubeclarity-runtime-scan:
         ## Enable trivy scanner, if true make sure to add it to scannerList above.
         ## To guarentee reliable scans, also ensure that the trivy analyzer is enabled.
         ##
-        enabled: false
+        enabled: true
         timeout: "300"
 
 

@@ -1,0 +1,35 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: kubeclarity-initdb
+  namespace: kubeclarity
+  labels:
+    app: kubeclarity
+spec:
+  backoffLimit: 4
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+      - name: kubeclarity-initdb
+        image: core.harbor.homelab.danmanners.com/ghcr.io/onedr0p/postgres-initdb:14.8
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: POSTGRES_HOST
+          value: "primary-rw.postgres.svc.cluster.local"
+        - name: POSTGRES_DB
+          value: kubeclarity
+        - name: POSTGRES_SUPER_PASS
+          valueFrom:
+            secretKeyRef:
+              name: postgres-superuser
+              key: password
+        - name: POSTGRES_USER
+          value: kubeclarity
+        - name: POSTGRES_PASS
+          valueFrom:
+            secretKeyRef:
+              name: kubeclarity-postgresql-secret
+              key: secretKey
+        - name: POSTGRES_PORT
+          value: "5432"
