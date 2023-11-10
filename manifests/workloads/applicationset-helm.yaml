@@ -7,7 +7,7 @@ spec:
   - list:
       elements:
       - namespace: kube-system
-        helmRepo: emberstack.github.io/helm-charts
+        helmRepo: https://emberstack.github.io/helm-charts
         appName: reflector
         helmTargetRev: 7.1.216
         valueBranch: main
@@ -18,14 +18,14 @@ spec:
       project: default
       sources:
       - repoURL: https://github.com/danmanners/homelab-kube-cluster.git
-        targetRevision: '{{targetRev}}'
+        targetRevision: '{{valueBranch}}'
         ref: values
-      - repoUrl: '{{ helmRepo }}'
-        chart: '{{ appName }}'
-        targetRevision: '{{ helmTargetRev }}'
+      - repoURL: '{{helmRepo}}'
+        chart: '{{appName}}'
+        targetRevision: '{{helmTargetRev}}'
         helm:
           valueFiles:
-          - '$values/manifests/workloads/{{ appName }}/values.yaml'
+          - '$values/manifests/workloads/{{appName}}/values.yaml'
       destination:
         server: https://kubernetes.default.svc
         namespace: '{{namespace}}'

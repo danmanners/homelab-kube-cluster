@@ -18,7 +18,7 @@ spec:
     targetRevision: main
     ref: values
     # Helm Chart Deployment
-  - repoURL: openclarity.github.io/kubeclarity
+  - repoURL: https://openclarity.github.io/kubeclarity
     chart: kubeclarity
     targetRevision: v2.22.0
     helm:
