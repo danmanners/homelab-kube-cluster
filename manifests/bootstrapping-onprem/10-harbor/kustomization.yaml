@@ -14,5 +14,5 @@ helmCharts:
   releaseName: harbor
   namespace: kube-system
   repo: https://helm.goharbor.io
-  version: 1.13.0
+  version: 1.13.1
   valuesFile: values.yaml
