@@ -7,7 +7,7 @@ helmCharts:
   releaseName: cnp
   namespace: postgres
   repo: https://cloudnative-pg.github.io/charts
-  version: 0.19.0
+  version: 0.19.1
   valuesInline:
     monitoring:
       podMonitorEnabled: true
