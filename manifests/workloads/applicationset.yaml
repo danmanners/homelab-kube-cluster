@@ -33,6 +33,9 @@ spec:
       - appName: node-feature-discovery
         namespace: kube-system
         targetRev: main
+      - appName: nvidia
+        namespace: kube-system
+        targetRev: main
       - appName: qemu-guest-agent
         namespace: kube-system
         targetRev: main
