@@ -5,6 +5,15 @@ metadata:
   namespace: node-feature-discovery
 data:
   nfd-worker.conf: |
+    tolerations:
+    - key: "node-role.kubernetes.io/master"
+      operator: "Equal"
+      value: ""
+      effect: "NoSchedule"
+    - key: "nvidia.com/gpu"
+      operator: "Equal"
+      value: "present"
+      effect: "NoSchedule"
     sources:
       pci:
         deviceClassWhitelist:
