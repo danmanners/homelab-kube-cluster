@@ -1,0 +1,60 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: bootstrappers
+  labels:
+    gitRepo: &gitRepo https://github.com/danmanners/homelab-kube-cluster.git
+spec:
+  generators:
+  - list:
+      elements:
+      - appName: cilium
+        namespace: kube-system
+        syncWave: 0
+        sources:
+        - repoURL: *gitRepo
+          targetRevision: main
+          ref: values
+      - appName: core-dns
+        namespace: kube-system
+        syncWave: 1
+      - appName: sealed-secrets
+        namespace: kube-system
+        syncWave: 1
+      - appName: ingress-nginx
+        namespace: kube-system
+        syncWave: 2
+      - appName: cert-manager
+        namespace: kube-system
+        syncWave: 3
+      - appName: external-dns
+        namespace: kube-system
+        syncWave: 3
+      - appName: harbor
+        namespace: kube-system
+        syncWave: 4
+      - appName: reflector
+        namespace: kube-system
+        syncWave: 4
+      - appName: node-feature-discovery
+        namespace: kube-system
+        syncWave: 4
+      - appName: nvidia-device-plugin
+        namespace: kube-system
+        syncWave: 4
+  template:
+    metadata:
+      name: '{{appName}}'
+      annotations:
+        argocd.argoproj.io/sync-wave: "{{syncWave}}"
+    spec:
+      project: default
+      sources: {? {sources: ''} : ''}
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: '{{namespace}}'
+      syncPolicy:
+        automated:
+          prune: true
+        syncOptions:
+        - CreateNamespace=true
