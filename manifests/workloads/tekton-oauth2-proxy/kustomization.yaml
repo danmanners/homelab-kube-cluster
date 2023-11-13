@@ -12,5 +12,5 @@ helmCharts:
     releaseName: tekton-oauth2-proxy
     namespace: tekton-pipelines
     repo: https://oauth2-proxy.github.io/manifests
-    version: 6.18.3
+    version: 6.19.0
     valuesFile: values.yaml
