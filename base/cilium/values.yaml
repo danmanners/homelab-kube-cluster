@@ -1,18 +1,12 @@
-k8sServiceHost: 10.4.0.40
-k8sServicePort: 6443
-
-debug:
-  enabled: false
-rbac:
-  create: true
-cluster:
-  name: default
-name: cilium
 rollOutCiliumPods: true
 image:
   repository: quay.io/cilium/cilium
   pullPolicy: IfNotPresent
   useDigest: true
+debug:
+  enabled: false
+rbac:
+  create: true
 
 # Necessary for Kubernetes v1.24+
 securityContext:
@@ -36,9 +30,9 @@ podDisruptionBudget:
   maxUnavailable: 2
 
 updateStrategy:
+  type: RollingUpdate
   rollingUpdate:
     maxUnavailable: 2
-  type: RollingUpdate
 
 bpf:
   clockProbe: false
@@ -116,12 +110,6 @@ identityAllocationMode: "crd"
 installIptablesRules: true
 installNoConntrackIptablesRules: false
 
-ipam:
-  mode: "cluster-pool"
-  operator:
-    clusterPoolIPv4PodCIDRList: ["10.244.0.0/16"]
-    clusterPoolIPv4MaskSize: 24
-
 ipMasqAgent:
   enabled: false
 ipv4:
@@ -144,10 +132,10 @@ pprof:
 prometheus:
   enabled: false
   port: 9090
+  metrics: ~
   serviceMonitor:
     enabled: false
     labels: {}
-  metrics: ~
 
 proxy:
   sidecarImageRegex: "cilium/istio_proxy"

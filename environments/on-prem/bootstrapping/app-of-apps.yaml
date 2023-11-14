@@ -5,51 +5,90 @@ metadata:
   labels:
     gitRepo: &gitRepo https://github.com/danmanners/homelab-kube-cluster.git
 spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
   generators:
-  - list:
-      elements:
-      - appName: cilium
-        namespace: kube-system
-        syncWave: 0
-        sources:
-        - repoURL: *gitRepo
-          targetRevision: main
-          ref: values
-      - appName: core-dns
-        namespace: kube-system
-        syncWave: 1
-      - appName: sealed-secrets
-        namespace: kube-system
-        syncWave: 1
-      - appName: ingress-nginx
-        namespace: kube-system
-        syncWave: 2
-      - appName: cert-manager
-        namespace: kube-system
-        syncWave: 3
-      - appName: external-dns
-        namespace: kube-system
-        syncWave: 3
-      - appName: harbor
-        namespace: kube-system
-        syncWave: 4
-      - appName: reflector
-        namespace: kube-system
-        syncWave: 4
-      - appName: node-feature-discovery
-        namespace: kube-system
-        syncWave: 4
-      - appName: nvidia-device-plugin
-        namespace: kube-system
-        syncWave: 4
+  - matrix:
+      generators:
+      - git:
+          repoURL: https://github.com/danmanners/homelab-kube-cluster.git
+          revision: HEAD
+          files:
+          - path: environments/on-prem/bootstrapping/**/config.json5
+            # repoURL: https://helm.cilium.io/
+            # revision: HEAD
+            # chart: cilium
+            # path: applicationset/examples/list-generator/list-elementsYaml-example.yaml
+            # helm:
+            #   valueFiles:
+            #   - $values/base/cilium/values.yaml
+            #   - $values/manifests/workloads/kubeclarity/values.yaml
+      - list:
+          elementsYaml: "{{ .components | toJson }}"
+  # - list:
+  #     elements:
+  #     - appName: cilium
+  #       namespace: kube-system
+  #       syncWave: -1
+  #       sources:
+  #       - repoURL: *gitRepo
+  #         targetRevision: main
+  #         ref: values
+  #       - repoURL: *gitRepo
+  #         targetRevision: main
+  #         path: environments/on-prem/bootstrapping/cilium
+  #       - repoURL:
+  #         chart: cilium
+  #         targetRevision: 1.14.3
+  #         helm:
+  #           valueFiles:
+  #           - $values/base/cilium/values.yaml
+  #           - $values/manifests/workloads/kubeclarity/values.yaml
+  # - appName: core-dns
+  #   namespace: kube-system
+  #   syncWave: 1
+  #   sources:
+  #   - repoURL: *gitRepo
+  #     targetRevision: main
+  #     path: values
+  # - appName: sealed-secrets
+  #   namespace: kube-system
+  #   syncWave: 1
+  # - appName: ingress-nginx
+  #   namespace: kube-system
+  #   syncWave: 2
+  # - appName: cert-manager
+  #   namespace: kube-system
+  #   syncWave: 3
+  # - appName: external-dns
+  #   namespace: kube-system
+  #   syncWave: 3
+  # - appName: harbor
+  #   namespace: kube-system
+  #   syncWave: 4
+  # - appName: reflector
+  #   namespace: kube-system
+  #   syncWave: 4
+  # - appName: node-feature-discovery
+  #   namespace: kube-system
+  #   syncWave: 4
+  # - appName: nvidia-device-plugin
+  #   namespace: kube-system
+  #   syncWave: 4
   template:
     metadata:
-      name: '{{appName}}'
+      name: '{{.appName}}'
       annotations:
-        argocd.argoproj.io/sync-wave: "{{syncWave}}"
+        argocd.argoproj.io/sync-wave: "{{.syncWave}}"
     spec:
       project: default
-      sources: {? {sources: ''} : ''}
+      sources:
+      - chart: '{{.chart}}'
+        repoUrl: '{{.repoUrl}}'
+        targetRevision: '{{.targetRevision}}'
+        helm:
+          valueFiles:
+          - '{{.valueFiles}}'
       destination:
         server: https://kubernetes.default.svc
         namespace: '{{namespace}}'
