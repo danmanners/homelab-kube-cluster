@@ -19,7 +19,7 @@ images:
 - name: sonarqube-image:replaceme
   newName: docker.io/library/sonarqube
   # newName: core.harbor.homelab.danmanners.com/docker.io/library/sonarqube
-  newTag: 10.2.1-community
+  newTag: 10.3.0-community
 - name: postgres-init-db
   newName: ghcr.io/onedr0p/postgres-initdb
   # newName: core.harbor.homelab.danmanners.com/ghcr.io/onedr0p/postgres-initdb
