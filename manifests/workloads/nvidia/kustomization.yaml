@@ -7,7 +7,7 @@ helmCharts:
   releaseName: nvidia-device-plugin
   namespace: kube-system
   repo: https://nvidia.github.io/k8s-device-plugin
-  version: 0.14.2
+  version: 0.14.3
   valuesInline:
     runtimeClassName: nvidia
     gfd:
