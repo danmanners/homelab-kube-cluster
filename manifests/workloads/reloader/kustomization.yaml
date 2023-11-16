@@ -8,4 +8,4 @@ helmCharts:
     releaseName: reloader
     namespace: kube-system
     repo: https://stakater.github.io/stakater-charts
-    version: 1.0.51
+    version: 1.0.52
