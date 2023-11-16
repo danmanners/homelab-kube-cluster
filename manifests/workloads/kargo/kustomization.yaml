@@ -5,13 +5,13 @@ namespace: kargo
 resources:
 - application.yaml
 # renovate: datasource=github-releases depName=akuity/kargo
-- https://raw.githubusercontent.com/akuity/kargo/v0.1.1-rc.2/charts/kargo/crds/kargo.akuity.io_freights.yaml
+- https://raw.githubusercontent.com/akuity/kargo/v0.2.0/charts/kargo/crds/kargo.akuity.io_freights.yaml
 # renovate: datasource=github-releases depName=akuity/kargo
-- https://raw.githubusercontent.com/akuity/kargo/v0.1.1-rc.2/charts/kargo/crds/kargo.akuity.io_promotionpolicies.yaml
+- https://raw.githubusercontent.com/akuity/kargo/v0.2.0/charts/kargo/crds/kargo.akuity.io_promotionpolicies.yaml
 # renovate: datasource=github-releases depName=akuity/kargo
-- https://raw.githubusercontent.com/akuity/kargo/v0.1.1-rc.2/charts/kargo/crds/kargo.akuity.io_promotions.yaml
+- https://raw.githubusercontent.com/akuity/kargo/v0.2.0/charts/kargo/crds/kargo.akuity.io_promotions.yaml
 # renovate: datasource=github-releases depName=akuity/kargo
-- https://raw.githubusercontent.com/akuity/kargo/v0.1.1-rc.2/charts/kargo/crds/kargo.akuity.io_stages.yaml
+- https://raw.githubusercontent.com/akuity/kargo/v0.2.0/charts/kargo/crds/kargo.akuity.io_stages.yaml
 # renovate: datasource=github-releases depName=akuity/kargo
-- https://raw.githubusercontent.com/akuity/kargo/v0.1.1-rc.2/charts/kargo/crds/kargo.akuity.io_warehouses.yaml
+- https://raw.githubusercontent.com/akuity/kargo/v0.2.0/charts/kargo/crds/kargo.akuity.io_warehouses.yaml
 
