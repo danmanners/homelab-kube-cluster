@@ -24,44 +24,42 @@ export function createInstance(
   tags?: any
 ) {
   // Create the talos Control Plane & associate the role
-  const kubeControlPlane = new aws.ec2.Instance(
-    `${nodeConfig.name}`,
-    {
-      ami: amis[region][`masters_${nodeConfig.arch}`],
-      instanceType: nodeConfig.instance_size,
+  const kubeControlPlane = new aws.ec2.Instance(`${nodeConfig.name}`, {
+    ami: amis[region][`masters_${nodeConfig.arch}`],
+    instanceType: nodeConfig.instance_size,
 
-      // Networking
-      subnetId: subnet,
-      sourceDestCheck: false,
-      privateIp: nodeConfig.privateIp,
-      vpcSecurityGroupIds: security_group_ids,
-      privateDnsNameOptions: {
-        enableResourceNameDnsARecord: true,
-        hostnameType: "resource-name",
-      },
+    // Networking
+    subnetId: subnet,
+    sourceDestCheck: false,
+    privateIp: nodeConfig.privateIp,
+    vpcSecurityGroupIds: security_group_ids,
+    privateDnsNameOptions: {
+      enableResourceNameDnsARecord: true,
+      hostnameType: "resource-name",
+    },
 
-      // Storage
-      rootBlockDevice: {
-        deleteOnTermination: true,
-        volumeType: nodeConfig.root_volume_type,
-        volumeSize: nodeConfig.root_volume_size,
-      },
+    // Storage
+    rootBlockDevice: {
+      deleteOnTermination: true,
+      volumeType: nodeConfig.root_volume_type,
+      volumeSize: nodeConfig.root_volume_size,
+    },
 
-      // IAM Instance Profile
-      iamInstanceProfile: iamInstanceProfile,
-      // Instance Metadata Options
-      metadataOptions: {
-        httpPutResponseHopLimit: 4,
-      },
+    // IAM Instance Profile
+    iamInstanceProfile: iamInstanceProfile,
+    // Instance Metadata Options
+    metadataOptions: {
+      httpPutResponseHopLimit: 4,
+      httpEndpoint: "enabled",
+    },
 
-      // Tags
-      tags: Object.assign({}, tags, { Name: nodeConfig.name }),
-      volumeTags: Object.assign({}, tags, { Name: nodeConfig.name }),
+    // Tags
+    tags: Object.assign({}, tags, { Name: nodeConfig.name }),
+    volumeTags: Object.assign({}, tags, { Name: nodeConfig.name }),
 
-      // Cloud-Init - SSH Load
-      userData: userDataEval(nodeConfig, user_data),
-    }
-  );
+    // Cloud-Init - SSH Load
+    userData: userDataEval(nodeConfig, user_data),
+  });
 
   return {
     privateIp: kubeControlPlane.privateIp,

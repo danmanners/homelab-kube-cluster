@@ -41,7 +41,7 @@ export const network = {
   // VPC Cidr Block Definition
   vpc: {
     name: "homelab-vpc",
-    cidr_block: "172.29.0.0/20",
+    cidr_block: "172.29.0.0/19",
   },
   // Subnet Definitions
   subnets: {
@@ -101,13 +101,14 @@ export const compute: {
   worker_nodes: [],
   bastion: [
     {
-      name: "kube-worker-2",
+      name: "bastion",
+      // name: "kube-worker-2",
       instance_size: "t3.micro",
       arch: "amd64",
       subnet_name: "public1a",
       root_volume_size: 40,
       root_volume_type: "gp3",
-      privateIp: "172.29.8.101",
+      privateIp: "172.29.0.101",
     },
   ],
 };

@@ -39,7 +39,7 @@ for (let k of config.compute.control_plane_nodes) {
     config.amis,
     vpc.privSubnets[k.subnet_name].id,
     [sg_talos_configuration.id],
-    iam_role.iamInstanceProfile.arn,
+    iam_role.iamInstanceProfile.name,
     null,
     config.tags
   );

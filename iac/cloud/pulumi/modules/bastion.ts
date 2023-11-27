@@ -163,6 +163,12 @@ export function createBastion(
     // Cloud-Init - SSH Load
     userData: user_data,
 
+    // Instance Metadata
+    metadataOptions: {
+      httpPutResponseHopLimit: 4,
+      httpEndpoint: "enabled", 
+    },
+
     // Tags
     tags: Object.assign({}, tags, {
       Name: nodeConfig.name,
