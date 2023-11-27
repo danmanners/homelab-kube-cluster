@@ -1,0 +1,40 @@
+name: Talos Bootstrapping Container
+run-name: ${{ github.actor }} is building and pushing to AWS ECR
+on:
+  push:
+    paths:
+      - iac/cloud/talos_bootstrapping/**
+
+jobs:
+  Container-Build:
+    # 'if=false' Disables the workflow
+    if: false
+    name: Build Bootstrapping Container
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
+      - name: Get Git Short Sha
+        id: git_sha
+        run: echo "SHORTSHA=$(echo ${{ github.sha }} | cut -c1-7)" >> $GITHUB_OUTPUT
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build and push
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./Dockerfile
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: |
+            ghcr.io/${{ github.actor }}/r53-updater:${{ steps.git_sha.outputs.SHORTSHA }},ghcr.io/${{ github.actor }}/r53-updater:latest

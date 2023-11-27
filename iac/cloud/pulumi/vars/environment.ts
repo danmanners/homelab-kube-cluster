@@ -50,7 +50,6 @@ export const network = {
         name: "public1a",
         cidr_block: "172.29.0.0/23",
         az: "a",
-        privateIP: "172.29.0.5",
       },
       {
         name: "public1b",
@@ -61,12 +60,12 @@ export const network = {
     private: [
       {
         name: "private1a",
-        cidr_block: "172.29.14.0/23",
+        cidr_block: "172.29.8.0/21",
         az: "a",
       },
       {
         name: "private1b",
-        cidr_block: "172.29.12.0/23",
+        cidr_block: "172.29.16.0/21",
         az: "b",
       },
     ],
@@ -75,22 +74,20 @@ export const network = {
 
 // Compute Values
 export const compute: {
-  control_planes: Node[];
-  workers: Node[];
+  control_plane_nodes: Node[];
+  worker_nodes: Node[];
   bastion: Node[];
 } = {
-  control_planes: [
+  control_plane_nodes: [
     {
       name: "kube-control-1",
       instance_size: "t4g.medium",
       arch: "arm64",
       subnet_name: "private1a",
-      root_volume_size: 40,
+      root_volume_size: 60,
       root_volume_type: "gp3",
-      privateIp: "172.29.14.5",
+      privateIp: "172.29.8.5",
     },
-  ],
-  workers: [
     {
       name: "kube-worker-1",
       instance_size: "t3.medium",
@@ -98,33 +95,19 @@ export const compute: {
       subnet_name: "private1a",
       root_volume_size: 60,
       root_volume_type: "gp3",
+      privateIp: "172.29.8.100",
     },
-    // {
-    //   name: "kube-worker-1",
-    //   instance_size: "t3.small",
-    //   arch: "amd64",
-    //   subnet_name: "private1a",
-    //   root_volume_size: 40,
-    //   root_volume_type: "gp3",
-    // },
-    // {
-    //   name: "kube-worker-2",
-    //   instance_size: "t3.small",
-    //   arch: "amd64",
-    //   subnet_name: "private1b",
-    //   root_volume_size: 40,
-    //   root_volume_type: "gp3",
-    // },
   ],
+  worker_nodes: [],
   bastion: [
-    // Used exclusively for troubleshooting
     {
-      name: "bastion",
+      name: "kube-worker-2",
       instance_size: "t3.micro",
       arch: "amd64",
       subnet_name: "public1a",
-      root_volume_size: 8,
+      root_volume_size: 40,
       root_volume_type: "gp3",
+      privateIp: "172.29.8.101",
     },
   ],
 };
@@ -149,21 +132,48 @@ export const amis: {
     // masters_arm64: "ami-01625be155ee390e9", // Ubuntu 22.04, Release 2023.01.15
     // workers_arm64: "ami-01625be155ee390e9", // Ubuntu 22.04, Release 2023.01.15
     // Bastion
-    bastion_amd64: "ami-005f9685cb30f234b", // Amazon Linux 2 ARM64
+    bastion_amd64: "ami-0a5f04cdf7758e9f0", // Ubuntu Linux 22.04
+    // https://cloud-images.ubuntu.com/locator/ec2/, search '22.04 us-east-1'
     // Talos AMIs; deprecated for now
-    masters_amd64: "ami-070b3dca3ff30bedf", // v1.3.2
-    workers_amd64: "ami-070b3dca3ff30bedf", // v1.3.2
+    masters_amd64: "ami-062baea4d084b34f2", // v1.3.2
+    workers_amd64: "ami-062baea4d084b34f2", // v1.3.2
     // // arm64 / 64-Bit ARM Architecture
-    masters_arm64: "ami-08f6fcc171176022b", // v1.3.2
-    workers_arm64: "ami-08f6fcc171176022b", // v1.3.2
+    masters_arm64: "ami-03d44da5afcc12821", // v1.5.5
+    workers_arm64: "ami-03d44da5afcc12821", // v1.5.5
   },
 };
 
 // Security Groups
 export const security_groups = {
-  bastion: {
-    name: "bastion_ingress",
-    description: "Inbound traffic for the Bastion",
+  talos_configuration: {
+    name: "talos_configuration",
+    description: "Security Group for Talos Configuration",
+    ingress: [
+      {
+        description: "Talos - talosctl",
+        port: 50000,
+        protocol: "tcp",
+        cidr_blocks: ["0.0.0.0/0"],
+      },
+      {
+        description: "Talos - Control plane nodes, worker nodes",
+        port: 50001,
+        protocol: "tcp",
+        cidr_blocks: ["0.0.0.0/0"],
+      },
+    ],
+    egress: [
+      {
+        description: "Talos - talosctl",
+        port: 50000,
+        protocol: "tcp",
+        cidr_blocks: ["0.0.0.0/0"],
+      },
+    ],
+  },
+  nlb_ingress: {
+    name: "nlb_inbound_traffic",
+    description: "Permitted inbound traffic",
     ingress: [
       {
         description: "ICMP Inbound",
@@ -189,13 +199,6 @@ export const security_groups = {
         protocol: "tcp",
         cidr_blocks: ["0.0.0.0/0"],
       },
-      {
-        description: "Wireguard Inbound",
-        port_start: 51821,
-        port_end: 51830,
-        protocol: "udp",
-        cidr_blocks: ["0.0.0.0/0"],
-      },
     ],
     egress: [
       {
@@ -206,8 +209,8 @@ export const security_groups = {
       },
     ],
   },
-  nlb_ingress: {
-    name: "nlb_inbound_traffic",
+  bastion: {
+    name: "bastion",
     description: "Permitted inbound traffic",
     ingress: [
       {
@@ -217,37 +220,11 @@ export const security_groups = {
         cidr_blocks: ["0.0.0.0/0"],
       },
       {
-        description: "HTTP Inbound",
-        port: 80,
+        description: "SSH Inbound",
+        port: 22,
         protocol: "tcp",
         cidr_blocks: ["0.0.0.0/0"],
       },
-      {
-        description: "HTTPS Inbound",
-        port: 443,
-        protocol: "tcp",
-        cidr_blocks: ["0.0.0.0/0"],
-      },
-      // {
-      //   description: "SSH Inbound",
-      //   port: 22,
-      //   protocol: "tcp",
-      //   cidr_blocks: ["0.0.0.0/0"],
-      // },
-      // {
-      //   description: "Netmaker Ingress",
-      //   port_start: 51821,
-      //   port_end: 51830,
-      //   protocol: "udp",
-      //   cidr_blocks: ["0.0.0.0/0"],
-      // },
-      // {
-      //   description:
-      //     "All Inbound from Internal Traffic, Wireguard, and On-Prem Networking.",
-      //   port: -1,
-      //   protocol: "all",
-      //   cidr_blocks: ["10.4.0.0/23", network.vpc.cidr_block],
-      // },
     ],
     egress: [
       {

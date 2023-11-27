@@ -1,16 +1,16 @@
 import * as aws from "@pulumi/aws";
 import * as pulumi from "@pulumi/pulumi";
 
-export function bastion(
+export function createBastion(
   nodeConfig: any,
   region: string,
-  cidr_block: string,
   amis: any,
+  cidr_block: string,
   vpc: pulumi.Output<string>,
   subnet: pulumi.Output<string>,
-  user_data: string,
   security_groups: any,
-  tags: object
+  user_data?: string,
+  tags?: object
 ) {
   // Security Groups
   const bastionSecurityGroup = new aws.ec2.SecurityGroup(
@@ -159,8 +159,6 @@ export function bastion(
 
     // IAM Instance Profile
     iamInstanceProfile: bastionIamInstanceProfile.name,
-
-
 
     // Cloud-Init - SSH Load
     userData: user_data,

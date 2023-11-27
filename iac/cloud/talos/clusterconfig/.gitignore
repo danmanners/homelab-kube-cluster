@@ -1,0 +1,4 @@
+talos-control-plane-01.cloud.danmanners.com.yaml
+talos-kube-worker-1.cloud.danmanners.com.yaml
+talos-kube-worker-2.cloud.danmanners.com.yaml
+talosconfig

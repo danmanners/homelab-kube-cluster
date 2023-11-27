@@ -1,0 +1,122 @@
+clusterName: talos
+talosVersion: v1.5.5
+kubernetesVersion: 1.28.4
+endpoint: "https://talos.cloud.danmanners.com:6443"
+
+cniConfig:
+  name: none
+
+additionalApiServerCertSans:
+- 172.29.8.10
+
+additionalMachineCertSans:
+- 172.29.8.10
+- talos.cloud.danmanners.com
+
+nodes:
+- hostname: control-plane-01.cloud.danmanners.com
+  disableSearchDomain: true
+  ipAddress: 172.29.8.5
+  controlPlane: true
+  installDisk: /dev/sda
+  nameservers:
+  - 169.254.169.253
+  networkInterfaces:
+  - interface: eth0
+    dhcp: false
+    mtu: 1500
+    addresses:
+    - 172.29.8.5/21
+    routes:
+    - network: 0.0.0.0/0
+      gateway: 10.4.0.1
+    vip:
+      ip: 172.29.8.10
+- hostname: kube-worker-1.cloud.danmanners.com
+  disableSearchDomain: true
+  ipAddress: 172.29.8.100
+  controlPlane: false
+  installDisk: /dev/sda
+  nameservers:
+  - 169.254.169.253
+  networkInterfaces:
+  - interface: eth0
+    dhcp: false
+    mtu: 1500
+    addresses:
+    - 172.29.8.100/21
+    routes:
+    - network: 0.0.0.0/0
+      gateway: 10.4.0.1
+- hostname: kube-worker-2.cloud.danmanners.com
+  disableSearchDomain: true
+  ipAddress: 172.29.8.101
+  controlPlane: false
+  installDisk: /dev/sda
+  nameservers:
+  - 169.254.169.253
+  networkInterfaces:
+  - interface: eth0
+    dhcp: false
+    mtu: 1500
+    addresses:
+    - 172.29.8.101/21
+    routes:
+    - network: 0.0.0.0/0
+      gateway: 10.4.0.1
+
+controlPlane:
+  patches:
+  - |-
+    cluster:
+      allowSchedulingOnMasters: true
+      coreDNS:
+        disabled: true
+      network:
+        podSubnets:
+          - 10.252.0.0/16
+        serviceSubnets:
+          - 10.253.0.0/16
+
+  - |-
+    - op: remove
+      path: /cluster/apiServer/admissionControl
+
+  - |-
+    machine:
+      kubelet:
+        extraArgs:
+          rotate-server-certificates: "true"
+        extraConfig:
+          maxPods: 150
+        nodeIP:
+          validSubnets:
+              - 172.29.8.0/21
+              - 172.29.16.0/21
+      network:
+        extraHostEntries:
+          - ip: 172.29.8.10
+            aliases:
+              - talos.cloud.danmanners.com
+      sysctls:
+        vm.max_map_count: "524288"
+        fs.file-max: "131072"
+        fs.inotify.max_user_watches: "1048576"
+        fs.inotify.max_user_instances: "8192"
+      time:
+        disabled: false
+        servers:
+          - 169.254.169.123
+
+worker:
+  patches:
+  - |-
+    cluster:
+      allowSchedulingOnMasters: true
+      coreDNS:
+        disabled: true
+      network:
+        podSubnets:
+          - 10.252.0.0/16
+        serviceSubnets:
+          - 10.253.0.0/16
