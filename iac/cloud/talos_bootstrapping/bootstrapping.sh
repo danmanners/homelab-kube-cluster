@@ -1,30 +1,34 @@
-# Fetch the AWS Credentials Token
-export TOKEN=$(curl -XPUT \
-    "http://169.254.169.254/latest/api/token" \
-    -H "X-aws-ec2-metadata-token-ttl-seconds: 21600")
+# # Set the URL we'll hit twice
+# export url="http://169.254.169.254/latest/meta-data/iam/security-credentials"
 
-# Use the token to fetch the AWS Credentials
-curl -vH "X-aws-ec2-metadata-token: $TOKEN" \
-    http://169.254.169.254/latest/meta-data/iam/security-credentials/sops-decrypt >/tmp/creds.json
+# # Generate the Token
+# export TOKEN=$(curl -sXPUT \
+#     "http://169.254.169.254/latest/api/token" \
+#     -H "X-aws-ec2-metadata-token-ttl-seconds: 21600")
 
-# Configure our AWS Credentials
-mkdir -p ~/.aws/
-cat <<EOF >~/.aws/config
-[default]
-aws_access_key_id=$(cat /tmp/creds.json | jq -r '.AccessKeyId')
-aws_secret_access_key=$(cat /tmp/creds.json | jq -r '.SecretAccessKey')
-region=us-east-1
-EOF
+# # Generate our AWS Credentials
+# curl -sH "X-aws-ec2-metadata-token: $TOKEN" ${url}/$(curl -s ${url}) >/tmp/creds.json
+
+# # Configure our AWS Credentials
+# mkdir -p ~/.aws/
+# cat <<EOF >~/.aws/credentials
+# [default]
+# aws_access_key_id=$(cat /tmp/creds.json | jq -r '.AccessKeyId')
+# aws_secret_access_key=$(cat /tmp/creds.json | jq -r '.SecretAccessKey')
+# region=us-east-1
+# EOF
 
 # Clone the homelab repo
 git clone \
     --depth 1 \
+    --branch feature/restructure \
     https://github.com/danmanners/homelab-kube-cluster.git \
     /tmp/homelab-kube-cluster
 
 # Change to the repo directory and Build the Talos Configs
-cd /tmp/homelab-kube-cluster/cloud/talos &&
-    talhelper genconfig
+cd /tmp/homelab-kube-cluster/iac/cloud/talos
+sops -d -i talsecret.sops.yaml
+talhelper genconfig
 
 # Check if the cluster has already been deployed
 if $(talosctl --talosconfig clusterconfig/talosconfig kubeconfig /tmp/kubeconfig); then

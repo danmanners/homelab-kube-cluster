@@ -80,26 +80,35 @@ export function createBastion(
         {
           Sid: "VisualEditor0",
           Effect: "Allow",
+          Action: "ecr:GetAuthorizationToken",
+          Resource: "*",
+        },
+        {
+          Sid: "VisualEditor1",
+          Effect: "Allow",
           Action: [
-            "kms:Encrypt",
-            "kms:Decrypt",
-            "kms:ReEncrypt*",
-            "kms:GenerateDataKey*",
-            "kms:DescribeKey",
             "ecr:ListImages",
             "ecr:BatchGetImage",
             "ecr:GetDownloadUrlForLayer",
           ],
           Resource: [
-            "arn:aws:kms:us-east-1:977656673179:key/7e829b85-6fed-4598-b675-8ebeea105c4c",
             "arn:aws:ecr:us-east-1:977656673179:repository/homelab-provisioning",
           ],
         },
         {
-          Sid: "VisualEditor1",
+          Sid: "VisualEditor2",
           Effect: "Allow",
-          Action: "ecr:GetAuthorizationToken",
-          Resource: "*",
+          Action: [
+            "kms:Encrypt",
+            "kms:Decrypt",
+            "kms:ReEncrypt*",
+            "kms:GenerateDataKey",
+            "kms:GenerateDataKeyWithoutPlaintext",
+            "kms:DescribeKey",
+          ],
+          Resource: [
+            "arn:aws:kms:us-east-1:977656673179:key/7e829b85-6fed-4598-b675-8ebeea105c4c",
+          ],
         },
       ],
     }),
@@ -166,7 +175,7 @@ export function createBastion(
     // Instance Metadata
     metadataOptions: {
       httpPutResponseHopLimit: 4,
-      httpEndpoint: "enabled", 
+      httpEndpoint: "enabled",
     },
 
     // Tags

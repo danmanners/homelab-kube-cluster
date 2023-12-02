@@ -66,6 +66,7 @@ nodes:
       gateway: 10.4.0.1
 
 controlPlane:
+  schematic: {}
   patches:
   - |-
     cluster:
@@ -109,6 +110,7 @@ controlPlane:
           - 169.254.169.123
 
 worker:
+  schematic: {}
   patches:
   - |-
     cluster:

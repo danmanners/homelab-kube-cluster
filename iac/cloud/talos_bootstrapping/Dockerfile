@@ -3,7 +3,7 @@
 # Set Args
 ARG ALPINE_VERSION=3.18
 ARG TALOS_VERSION=v1.5.5
-ARG TALHELPER_VERSION=v1.15.0
+ARG TALHELPER_VERSION=v1.16.1
 ARG SOPS_VERSION=v3.8.1
 ARG KUBECTL_VERSION=v1.28.4
 ARG KUSTOMIZE_VERSION=v5.2.1
@@ -28,7 +28,7 @@ RUN apk add --no-cache wget tar upx && \
     wget -qO /opt/init/talosctl https://github.com/siderolabs/talos/releases/download/${TALOS_VERSION}/talosctl-linux-${ARCH} && \
     chmod +x /opt/init/talosctl && \
     # Download the talhelper binary and make it executable
-    echo "Installing talhelper version ${TALOS_VERSION}" && \
+    echo "Installing talhelper version ${TALHELPER_VERSION}" && \
     wget -qO- https://github.com/budimanjojo/talhelper/releases/download/${TALHELPER_VERSION}/talhelper_linux_${ARCH}.tar.gz | \
     tar -xz -C /opt/init talhelper && \
     # Download the sops binary and make it executable
