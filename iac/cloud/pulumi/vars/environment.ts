@@ -166,8 +166,8 @@ export const security_groups = {
     egress: [
       {
         description: "Talos - talosctl",
-        port: 50000,
-        protocol: "tcp",
+        port: -1,
+        protocol: "all",
         cidr_blocks: ["0.0.0.0/0"],
       },
     ],

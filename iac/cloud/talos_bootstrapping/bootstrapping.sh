@@ -31,7 +31,7 @@ sops -d -i talsecret.sops.yaml
 talhelper genconfig
 
 # Check if the cluster has already been deployed
-if $(talosctl --talosconfig clusterconfig/talosconfig kubeconfig /tmp/kubeconfig); then
+if $(talosctl --talosconfig clusterconfig/talosconfig -n 172.29.8.5 kubeconfig /tmp/kubeconfig); then
     DEPLOYED="True"
 else
     DEPLOYED="False"

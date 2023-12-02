@@ -29,7 +29,7 @@ nodes:
     - 172.29.8.5/21
     routes:
     - network: 0.0.0.0/0
-      gateway: 10.4.0.1
+      gateway: 172.29.8.1
     vip:
       ip: 172.29.8.10
 - hostname: kube-worker-1.cloud.danmanners.com
@@ -47,7 +47,7 @@ nodes:
     - 172.29.8.100/21
     routes:
     - network: 0.0.0.0/0
-      gateway: 10.4.0.1
+      gateway: 172.29.8.1
 - hostname: kube-worker-2.cloud.danmanners.com
   disableSearchDomain: true
   ipAddress: 172.29.8.101
@@ -63,7 +63,7 @@ nodes:
     - 172.29.8.101/21
     routes:
     - network: 0.0.0.0/0
-      gateway: 10.4.0.1
+      gateway: 172.29.8.1
 
 controlPlane:
   schematic: {}
