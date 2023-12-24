@@ -392,6 +392,15 @@ export function iamCreation(config: any) {
             Service: "ec2.amazonaws.com",
           },
         },
+        {
+          Action: "sts:AssumeRole",
+          Effect: "Allow",
+          Sid: "",
+          Principal: {
+            AWS: "arn:aws:iam::977656673179:role/kubeNodeRole-f13c5d1",
+            // AWS: "arn:aws:iam::977656673179:role/kubeNodeRole-f13c5d1",
+          },
+        },
       ],
     }),
     tags: Object.assign({}, config.tags, { Name: "kube-node-role" }),

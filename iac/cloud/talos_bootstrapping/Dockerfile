@@ -2,7 +2,7 @@
 
 # Set Args
 ARG ALPINE_VERSION=3.18
-ARG TALOS_VERSION=v1.5.5
+ARG TALOS_VERSION=v1.6.0
 ARG TALHELPER_VERSION=v1.16.1
 ARG SOPS_VERSION=v3.8.1
 ARG KUBECTL_VERSION=v1.28.4
@@ -42,7 +42,6 @@ RUN apk add --no-cache wget tar upx && \
     # Install the kustomize binary and make it executable
     echo "Installing kustomize version ${KUSTOMIZE_VERSION}" && \
     wget -qO- https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2F${KUSTOMIZE_VERSION}/kustomize_${KUSTOMIZE_VERSION}_linux_${ARCH}.tar.gz | tar -xz -C /opt/init && \
-    chmod +x /opt/init/kustomize && \
     # Install the helm binary and make it executable
     echo "Installing helm version ${HELM_VERSION}" && \
     wget -qO- https://get.helm.sh/helm-${HELM_VERSION}-linux-${ARCH}.tar.gz | tar -xz -C /opt/init --strip-components=1 linux-${ARCH}/helm && \

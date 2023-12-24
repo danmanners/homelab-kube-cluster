@@ -1,5 +1,5 @@
 clusterName: talos
-talosVersion: v1.5.5
+talosVersion: v1.6.0
 kubernetesVersion: 1.28.4
 endpoint: "https://talos.cloud.danmanners.com:6443"
 
@@ -7,10 +7,10 @@ cniConfig:
   name: none
 
 additionalApiServerCertSans:
-- 172.29.8.10
+- 172.29.8.5
 
 additionalMachineCertSans:
-- 172.29.8.10
+- 172.29.8.5
 - talos.cloud.danmanners.com
 
 nodes:
@@ -18,7 +18,7 @@ nodes:
   disableSearchDomain: true
   ipAddress: 172.29.8.5
   controlPlane: true
-  installDisk: /dev/sda
+  installDisk: /dev/nvme0n1
   nameservers:
   - 169.254.169.253
   networkInterfaces:
@@ -30,8 +30,6 @@ nodes:
     routes:
     - network: 0.0.0.0/0
       gateway: 172.29.8.1
-    vip:
-      ip: 172.29.8.10
 - hostname: kube-worker-1.cloud.danmanners.com
   disableSearchDomain: true
   ipAddress: 172.29.8.100
@@ -65,12 +63,69 @@ nodes:
     - network: 0.0.0.0/0
       gateway: 172.29.8.1
 
+patches:
+# - |-
+#   - op: add
+#     path: /machine/install/image
+#     value:
+#       factory.talos.dev/installer/10e276a06c1f86b182757a962258ac00655d3425e5957f617bdc82f06894e39b:v1.6.0
+- |-
+  machine:
+    kubelet:
+      extraArgs:
+        rotate-server-certificates: "true"
+      extraConfig:
+        maxPods: 150
+      nodeIP:
+        validSubnets:
+            - 172.29.8.0/21
+            - 172.29.16.0/21
+    sysctls:
+      vm.max_map_count: "524288"
+      fs.file-max: "131072"
+      fs.inotify.max_user_watches: "1048576"
+      fs.inotify.max_user_instances: "8192"
+    time:
+      disabled: false
+      servers:
+        - 169.254.169.123
+# - |-
+#   - op: add
+#     path: /machine/kubelet
+#     value:
+#       {
+#         "machine" : {
+#           "kubelet": {
+#             "credentialProviderConfig":{
+#               "apiVersion": "kubelet.config.k8s.io/v1",
+#               "kind": "CredentialProviderConfig",
+#               "providers": [
+#                 {
+#                   "name": "ecr-credential-provider",
+#                   "apiVersion": "credentialprovider.kubelet.k8s.io/v1",
+#                   "defaultCacheDuration": "12h",
+#                   "matchImages": ["*.dkr.ecr.*.amazonaws.com"]
+#                 }
+#               ]
+#             }
+#           }
+#         }
+#       }
+
+worker:
+  schematic: {}
+
 controlPlane:
   schematic: {}
   patches:
   - |-
     cluster:
       allowSchedulingOnMasters: true
+      externalCloudProvider:
+        enabled: true
+        manifests:
+          - https://raw.githubusercontent.com/kubernetes/cloud-provider-aws/master/examples/existing-cluster/base/aws-cloud-controller-manager-daemonset.yaml
+          - https://raw.githubusercontent.com/kubernetes/cloud-provider-aws/master/examples/existing-cluster/base/cluster-role.yaml
       coreDNS:
         disabled: true
       network:
@@ -78,47 +133,6 @@ controlPlane:
           - 10.252.0.0/16
         serviceSubnets:
           - 10.253.0.0/16
-
   - |-
     - op: remove
       path: /cluster/apiServer/admissionControl
-
-  - |-
-    machine:
-      kubelet:
-        extraArgs:
-          rotate-server-certificates: "true"
-        extraConfig:
-          maxPods: 150
-        nodeIP:
-          validSubnets:
-              - 172.29.8.0/21
-              - 172.29.16.0/21
-      network:
-        extraHostEntries:
-          - ip: 172.29.8.10
-            aliases:
-              - talos.cloud.danmanners.com
-      sysctls:
-        vm.max_map_count: "524288"
-        fs.file-max: "131072"
-        fs.inotify.max_user_watches: "1048576"
-        fs.inotify.max_user_instances: "8192"
-      time:
-        disabled: false
-        servers:
-          - 169.254.169.123
-
-worker:
-  schematic: {}
-  patches:
-  - |-
-    cluster:
-      allowSchedulingOnMasters: true
-      coreDNS:
-        disabled: true
-      network:
-        podSubnets:
-          - 10.252.0.0/16
-        serviceSubnets:
-          - 10.253.0.0/16

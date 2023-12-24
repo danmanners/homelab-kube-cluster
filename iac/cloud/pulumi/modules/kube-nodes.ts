@@ -24,7 +24,7 @@ export function createInstance(
   tags?: any
 ) {
   // Create the talos Control Plane & associate the role
-  const kubeControlPlane = new aws.ec2.Instance(`${nodeConfig.name}`, {
+  const node = new aws.ec2.Instance(`${nodeConfig.name}`, {
     ami: amis[region][`masters_${nodeConfig.arch}`],
     instanceType: nodeConfig.instance_size,
 
@@ -62,6 +62,8 @@ export function createInstance(
   });
 
   return {
-    privateIp: kubeControlPlane.privateIp,
+    privateIp: node.privateIp,
+    nodeArn: node.arn,
+    nodeId: node.id,
   };
 }

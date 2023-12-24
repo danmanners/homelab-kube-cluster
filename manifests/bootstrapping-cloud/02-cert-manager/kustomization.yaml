@@ -7,8 +7,9 @@ helmCharts:
   releaseName: cert-manager
   namespace: kube-system
   repo: https://charts.jetstack.io
-  version: "v1.13.2"
+  version: "v1.13.3"
   valuesFile: values.yaml
 
 resources:
 - ClusterIssuer.yaml
+- https://github.com/cert-manager/cert-manager/releases/download/v1.13.3/cert-manager.crds.yaml

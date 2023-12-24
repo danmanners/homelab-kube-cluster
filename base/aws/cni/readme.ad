@@ -1,0 +1,5 @@
+= Instantiation
+
+The initial installation must be done via Helm because ArgoCD isn't up before the CNI!
+
+Once Argo is up, this will be managed _by_ ArgoCD.

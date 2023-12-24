@@ -27,23 +27,15 @@ controller:
     targetCPUUtilizationPercentage: 50
     targetMemoryUtilizationPercentage: 50
     behavior: {}
-    # scaleDown:
-    #   stabilizationWindowSeconds: 300
-    #   policies:
-    #   - type: Pods
-    #     value: 1
-    #     periodSeconds: 180
-    # scaleUp:
-    #   stabilizationWindowSeconds: 300
-    #   policies:
-    #   - type: Pods
-    #     value: 2
-    #     periodSeconds: 60
   service:
     enabled: true
     appProtocol: true
-    # type: NodePort
     type: LoadBalancer
+    # type: NodePort
+    nodePorts:
+      http: 32120
+      https: 32130
+    # type: LoadBalancer
     annotations:
       # # Ingress Class Name
       # kubernetes.io/ingress.class: 

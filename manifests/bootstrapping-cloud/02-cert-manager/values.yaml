@@ -1,4 +1,4 @@
-installCRDs: true
+installCRDs: false
 replicaCount: 1
 serviceAccount:
   annotations:

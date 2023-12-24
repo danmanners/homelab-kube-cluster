@@ -34,6 +34,16 @@ export const general = {
   kube_cp_hostname: "kube",
   domain_comment: "Internal DNS HostedZone for the cloud cluster",
   public_hosted_zone: "Z016942938TFLEH1J2FS1",
+  bucket_name: "cloud-homelab-oidc-auth",
+};
+
+export const dns = {
+  kubeControlPlane: {
+    kubernetes_endpoint: "talos.cloud.danmanners.com",
+    ttl: 300,
+    type: "A",
+    values: ["172.29.8.5"],
+  },
 };
 
 // VPC Setup and Networking
@@ -69,6 +79,9 @@ export const network = {
         az: "b",
       },
     ],
+  },
+  nlb: {
+    name: "talos-nlb",
   },
 };
 
@@ -136,11 +149,11 @@ export const amis: {
     bastion_amd64: "ami-0a5f04cdf7758e9f0", // Ubuntu Linux 22.04
     // https://cloud-images.ubuntu.com/locator/ec2/, search '22.04 us-east-1'
     // Talos AMIs; deprecated for now
-    masters_amd64: "ami-062baea4d084b34f2", // v1.3.2
-    workers_amd64: "ami-062baea4d084b34f2", // v1.3.2
+    masters_amd64: "ami-0fd267b9f1b72a285", // v1.6.0
+    workers_amd64: "ami-0fd267b9f1b72a285", // v1.6.0
     // // arm64 / 64-Bit ARM Architecture
-    masters_arm64: "ami-03d44da5afcc12821", // v1.5.5
-    workers_arm64: "ami-03d44da5afcc12821", // v1.5.5
+    masters_arm64: "ami-0874ca2dcfec825b4", // v1.6.0
+    workers_arm64: "ami-0874ca2dcfec825b4", // v1.6.0
   },
 };
 
@@ -159,6 +172,37 @@ export const security_groups = {
       {
         description: "Talos - Control plane nodes, worker nodes",
         port: 50001,
+        protocol: "tcp",
+        cidr_blocks: ["0.0.0.0/0"],
+      },
+      {
+        description: "Talos - Kubernetes API Server",
+        port: 6443,
+        protocol: "tcp",
+        cidr_blocks: ["0.0.0.0/0"],
+      },
+      {
+        description: "Talos - Kubernetes/Cilium Logging",
+        port: 10250,
+        protocol: "tcp",
+        cidr_blocks: ["0.0.0.0/0"],
+      },
+      {
+        description: "Talos - NodePort Services",
+        port_start: 30000,
+        port_end: 32767,
+        protocol: "tcp",
+        cidr_blocks: ["0.0.0.0/0"],
+      },
+      {
+        description: "HTTP",
+        port: 80,
+        protocol: "tcp",
+        cidr_blocks: ["0.0.0.0/0"],
+      },
+      {
+        description: "HTTPS",
+        port: 443,
         protocol: "tcp",
         cidr_blocks: ["0.0.0.0/0"],
       },
