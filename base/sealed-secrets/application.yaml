@@ -20,7 +20,7 @@ spec:
     # Helm Chart Deployment
   - chart: sealed-secrets
     repoURL: https://bitnami-labs.github.io/sealed-secrets
-    targetRevision: 2.13.1
+    targetRevision: 2.14.1
     helm:
       valueFiles:
       - $values/manifests/bootstrapping-onprem/sealed-secrets/values.yaml

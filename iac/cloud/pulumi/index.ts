@@ -65,6 +65,8 @@ for (let k of config.compute.control_plane_nodes) {
 // Create the Kubernetes Ingress Load Balancer
 const nlb = createLoadBalancer(
   config.network.nlb.name, // Name
+  config.general.public_hosted_zone, // Hosted Zone ID
+  config.general.domain, // Domain Name
   [
     // Subnets
     vpc.pubSubnets[config.network.subnets.public[0].name].id,

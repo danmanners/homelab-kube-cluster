@@ -244,6 +244,18 @@ export const security_groups = {
         protocol: "tcp",
         cidr_blocks: ["0.0.0.0/0"],
       },
+      {
+        description: "Kubernetes Webhooks - 8443",
+        port: 8443,
+        protocol: "tcp",
+        cidr_blocks: ["10.0.0.0/8","172.16.0.0/12","192.168.0.0/16"],
+      },
+      {
+        description: "Kubernetes Webhooks - 10254",
+        port: 10254,
+        protocol: "tcp",
+        cidr_blocks: ["10.0.0.0/8","172.16.0.0/12","192.168.0.0/16"],
+      },
     ],
     egress: [
       {

@@ -2,7 +2,7 @@ kubeVersion: 1.28
 namespace: kube-system
 
 image:
-  registry: core.harbor.homelab.danmanners.com/docker.io
+  registry: docker.io
 
 ingress:
   enabled: false
@@ -13,8 +13,8 @@ secretName: sealed-secrets-key
 
 metrics:
   serviceMonitor:
-    enabled: true
+    enabled: false
     namespace: monitoring
   dashboards:
-    create: true
+    create: false
     namespace: monitoring

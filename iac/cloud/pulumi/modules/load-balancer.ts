@@ -5,11 +5,15 @@ import { nodeInfo } from "../types/types";
 // Create a load balancer
 export function createLoadBalancer(
   name: string,
-  subnetIds: pulumi.Output<string>[],
-  securityGroupIds: pulumi.Output<string>[],
+  hostedZoneId: string,
+  domainName: string,
+  subnetIds: pulumi.Output<string>[] | any,
+  securityGroupIds: pulumi.Output<string>[] | any,
   nodes: nodeInfo,
   tags?: any
 ) {
+  // console.log(`SubnetID:      ${subnetIds}`)
+  // console.log(`SubnetID Type: ${typeof subnetIds}`)
   const loadBalancer = new aws.lb.LoadBalancer(name, {
     name: name,
     internal: false,
@@ -90,6 +94,20 @@ export function createLoadBalancer(
       port: 32130,
     });
   }
+
+  // Create the DNS record for the NLB for Nginx
+  const www = new aws.route53.Record("nlb-record", {
+    zoneId: hostedZoneId,
+    name: `nginx.${domainName}`,
+    type: "A",
+    aliases: [
+      {
+        name: loadBalancer.dnsName,
+        zoneId: loadBalancer.zoneId,
+        evaluateTargetHealth: true,
+      },
+    ],
+  });
 
   return loadBalancer;
 }
