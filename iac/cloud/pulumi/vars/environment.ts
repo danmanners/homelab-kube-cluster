@@ -195,6 +195,15 @@ export const security_groups = {
         cidr_blocks: ["0.0.0.0/0"],
       },
       {
+        description: "Self - Everything TCP",
+        port: -1,
+        protocol: "all",
+        // Loop through the privateIp of each node and add them to the cidr_blocks
+        cidr_blocks: compute.control_plane_nodes.map(
+          (n) => `${n.privateIp}/32`
+        ),
+      },
+      {
         description: "HTTP",
         port: 80,
         protocol: "tcp",
@@ -248,13 +257,13 @@ export const security_groups = {
         description: "Kubernetes Webhooks - 8443",
         port: 8443,
         protocol: "tcp",
-        cidr_blocks: ["10.0.0.0/8","172.16.0.0/12","192.168.0.0/16"],
+        cidr_blocks: ["10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16"],
       },
       {
         description: "Kubernetes Webhooks - 10254",
         port: 10254,
         protocol: "tcp",
-        cidr_blocks: ["10.0.0.0/8","172.16.0.0/12","192.168.0.0/16"],
+        cidr_blocks: ["10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16"],
       },
     ],
     egress: [
