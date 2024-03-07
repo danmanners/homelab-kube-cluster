@@ -11,7 +11,7 @@ helmCharts:
   releaseName: pxe
   namespace: pxe
   repo: https://bjw-s.github.io/helm-charts
-  version: 1.5.1
+  version: 2.6.0
   valuesFile: values.yaml
 
 images:
