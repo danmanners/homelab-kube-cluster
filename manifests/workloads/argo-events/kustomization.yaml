@@ -11,5 +11,5 @@ helmCharts:
   releaseName: argo-events
   namespace: argo-events
   repo: https://argoproj.github.io/argo-helm
-  version: 2.4.1
+  version: 2.4.8
   valuesFile: values.yaml
