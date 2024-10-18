@@ -12,4 +12,4 @@ helmCharts:
   valuesFile: values.yaml
 
 resources:
-- https://github.com/aws/eks-charts/stable/aws-load-balancer-controller/crds?ref=v0.0.155
+- https://github.com/aws/eks-charts/stable/aws-load-balancer-controller/crds?ref=v0.0.184
