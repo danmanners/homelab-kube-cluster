@@ -1,3 +1,10 @@
+ifdef::env-github[]
+:caution-caption: :fire:
+endif::[]
+
+
+CAUTION: This repository has been archived in favor of my [Home Enterprise LabOps, or HELO](https://github.com/GoodMannersHosting/home-enterprise-labops). Thank you to everyone who worked with me over the years to get this repository to where it is today. I hope the code can still be an educational reference for those of you here, and if you like what I'm doing in the new repository in my organization, please give it a star!
+
 = Dan Manners' Homelab
 
 ____
